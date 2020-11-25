@@ -1,0 +1,411 @@
+html{
+    height: 100%;
+}
+body{
+    margin:0;
+    padding:0;
+}
+code{
+    background-color: white;
+}
+a:visited{
+    color: blue;
+    text-decoration: none;
+}
+li{
+    margin-left: 3px;
+}
+
+#box{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+#box2, #box3,#box4 {
+    border: solid 2px black; 
+    min-width : 0px;
+    box-sizing: border-box;
+}
+
+#box2{
+    overflow: auto;
+    text-align: center;
+    flex-grow : 0;
+    width : 25%;
+    background-color: aquamarine;
+}
+
+#box3{
+    width : 50%;
+    background-color: rgb(197, 196, 196);
+}
+
+#box4{
+    flex-grow : 0;
+    width : 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+#template{
+    height: 15vw;
+    width: 20vw;
+    resize : vertical;
+    overflow: auto;
+    background-color: white;
+    text-align: left;
+    border: solid 1px black;
+    margin: 2% auto;
+    line-height: 1.2;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+#edited{
+    height:15vw;
+    width:20vw;
+    resize:none;
+    background-color: white;
+    text-align: left;
+    border: solid 1px black;
+    margin: 2% auto;
+    line-height: 1.2;
+    overflow-y : scroll;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+
+h1,h2{
+    margin: 0.2em 0;
+    text-align: center;
+}
+
+#temp_change{
+    background-color: rgb(197, 197, 197);
+    width: 5vw;
+    height: 2.5vw;
+    border-radius: 1.2vw;
+}
+#temp_change:hover{
+    background-color: rgb(230, 230, 230);
+    
+}
+#temp_change:active{
+    background-color: rgb(110, 110, 110);
+    color: white;
+}
+#messages{
+    height: 70%;
+    resize : vertical;
+    overflow:auto;
+    pointer-events: auto;
+    flex-grow: 1;
+}
+#form{
+    background-color: azure;
+    flex-grow: 1;
+    padding:2px;
+    overflow : scroll;
+    height: 30%;
+}
+#form_inp{
+    vertical-align: top;
+    font-size: 17px;
+    line-height: 22px;
+    overflow-y : scroll;
+    border: solid 1px black;
+    background-color: rgb(119, 119, 119);
+    height: 80%;
+    padding: 3px;
+    color: white;
+}
+.\$,.datgen_div {
+    display: inline-block;
+    width:10%;
+    height: 22px;
+    resize:horizontal;
+    overflow: hidden;
+    padding:0;
+    margin:1;
+    vertical-align: top;
+    color: black;
+}
+.datgen_div{
+    width:12em;
+}
+#datgen_list li{
+    width: 100%;
+}
+.\$text,.datgen_div input {
+    font-size: 17px;
+    padding:0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    box-sizing: border-box;
+    border: solid 1.5px black;
+    vertical-align: top;
+}
+.\| {
+    display: block;
+    color: black;
+    border: solid 1.5px black;
+    font-size: 16px;
+    height: 4em;
+    background-color: white;
+    resize: vertical;
+    overflow-y: scroll;
+    font-family: sans-serif;
+    margin: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.\|:empty:before{
+    color: #757575;
+    content: attr(placeholder);
+    pointer-events: none;
+}
+#mess_add{
+    display: inline;
+    margin: 0 0 0 auto;
+}
+.messagediv{
+    margin:5px;
+    background-color: rgb(241, 255, 163);
+    padding:5px;
+    padding-top: 0;
+    resize: vertical;
+    overflow-y: scroll;
+}
+.messagediv:hover{
+    filter:brightness(110%)
+}
+#datapul{
+    display: block;
+    width: 20vw;
+    border: solid 1px black;
+    font-family: sans-serif;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+.closebtndiv{
+    text-align: right;
+}
+
+.closebtn{
+    background-color: #6d6d6d;
+    color: black;
+    margin: 0;
+    text-align: center;
+    border: none;
+    vertical-align: middle;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.closebtn:hover{
+    background-color: #b3b3b3;
+    color: #505050;
+}
+.closebtn:active{
+    background-color:#505050;
+    color:#b3b3b3;
+}
+.dragover{
+    border: dashed 2px black;
+}
+.nonono :not(.messagediv){
+    pointer-events:none;
+}
+#mesandform{
+    padding-top: 3px;
+    height: 97vh;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}
+header{
+    height: 3vh;
+    background-color: #fdff9e;
+    padding: 0;
+    overflow: hidden;
+}
+.tab_item{
+    font-size: 2.5vh;
+    line-height: 2.5vh;
+    height: 3vh;
+    text-align: center;
+    background-color: #d9d9d9;
+    margin: 0;
+    box-sizing: border-box;
+    border-right: solid 1px black;
+}
+.tab_item:hover {
+    filter: brightness(1.1);
+}
+input[name="tab_item"] {
+    display: none;
+}
+header input:checked + .tab_item{
+    background-color: rgb(197, 196, 196);
+    border-bottom: none;
+}
+header input:checked + .tab_item:hover{
+    filter: none;
+}
+#tab_cont>*:not(.radised){
+    display: none;
+}
+.neko{
+    margin:5px;
+    background-color: rgb(241, 255, 163);
+    padding:5px;
+    padding-top: 0;
+}
+#dataset{
+    background-color: bisque;
+    border: solid 1px black;
+}
+#randgenbox{
+    background-color: rgb(8, 0, 124);
+    border: solid 1px black;
+    flex-grow: 1;
+    color: white;
+
+}
+#plaintext{
+    display: flex;
+    padding: 5vh;
+}
+#previewplain{
+    display: block;
+    border: solid 2px black;
+    margin: auto;
+    height: 87vh;
+    width: 60%;
+    resize: none;
+    overflow-y: scroll;
+    font-size: 1.2em;
+}
+#plainset{
+    border: solid 2px black;
+    display: block;
+    resize: none;
+    margin: auto;
+    overflow-y: scroll;
+    font-size: 1.2em;
+    height: 30vh;
+}
+#randlen,#randman{
+    width: 3em;
+}
+#randgenopt{
+    resize: none;
+    overflow-y: scroll;
+    display: block;
+    width: 20vw;
+    border: solid 1px black;
+    font-family: sans-serif;
+    margin: 0 auto;
+}
+#datbutton{
+    margin-top: 10;
+    margin-left:70%;
+}
+#datgen{
+    width: 100%;
+}
+#datgen_list{
+    width: 80%;
+    margin: 0 auto;
+    background-color: rgb(255, 193, 79);
+    border: 10px rgb(52, 177, 226) solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+#messv{
+    display: inline;
+    width: 3em;
+}
+#save_button{
+    background-color: #00AA00;
+    border: none;
+}
+#saveload{
+    padding-left: 15%;
+}
+#save_button:hover{
+    filter:brightness(120%);
+}
+#save_button:active{
+    filter:brightness(70%);
+}
+#load_button{
+    background-color: #DD0000;
+    border: none;
+}
+#load_button:hover{
+    filter:brightness(120%);
+}
+#load_button:active{
+    filter:brightness(70%);
+}
+#subsnum{
+    width: 3em;
+}
+#subssel{
+    width: 7em;
+}
+#addmesssetts{
+    float: right;
+}
+#preview{
+    display: block;
+    overflow: scroll;
+    height: 97vh;
+}
+.abssc{
+    position: absolute;
+    min-width: 30%;
+    background-color: rgb(241, 255, 163);
+    pointer-events: none;
+    visibility: hidden;
+}
+.abssneko{
+    border: solid 1px black;
+    margin: 0;
+    padding: 0;
+    pointer-events: auto;
+}
+.abssc:hover,.abssc[data-flag="true"],.abssc:hover~.abssc{
+    visibility: visible;
+}
+
+#replace button{
+    width: 50%;
+    margin-bottom: 0;
+    margin-top: auto;
+}
+#replace_list{
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: white;
+    width: 100%;
+    resize: none;
+}
+#replace_div{
+    width: 40%;
+    display: block;
+    height: 20vh;
+    resize: none;
+    margin: auto;
+    margin-top: 3vh;
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>&gt;&gt;anyget（仮）</title>
+    <link rel="stylesheet" type="text/css" href="master.css">
+</head>
+<body>
+    <div id="abss"></div>
+    <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute;"></canvas>
+    <div id="box">
+        <div id="box2">
+            <h1>テンプレートを入力</h1>
+            <textarea id="template"></textarea>
+            <button id="temp_change" type="button" onclick="changetemp()">
+                ↓変更
+            </button>
+            <div id="edited"></div>
+            <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">ReadMe</a>
+        </div>
+        <div id="box3">
+            <header>
+                <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);" checked><!--
+                --><label class="tab_item" for="radio_mesandform">レスの追加</label><!--
+                --><input type="radio" name="tab_item" id="radio_preview" onchange="radiochange(event);"><!--
+                --><label class="tab_item" for="radio_preview">プレビュー</label><!--
+                --><input type="radio" name="tab_item" id="radio_plaintext" onchange="radiochange(event);"><!--
+                --><label class="tab_item" for="radio_plaintext">プレーンテキスト</label><!--
+                --><input type="radio" name="tab_item" id="radio_datgen" onchange="radiochange(event);"><!--
+                --><label class="tab_item" for="radio_datgen">datファイル</label><!--
+                --><input type="radio" name="tab_item" id="radio_saveload" onchange="radiochange(event);"><!--
+                --><label class="tab_item" for="radio_saveload">セーブ/ロード</label><!--
+                --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);"><!--
+                --><label class="tab_item" for="radio_replace">置換</label>
+            </header>
+            <div id="tab_cont">
+                <div id="mesandform" class="radised">
+                    <div id="messages">
+
+                    </div>
+                    <div id="form">
+                        <div id="form_inp"></div>
+                        <div id="addmesssetts">
+                            <input type="number" id="messv" value="1">
+                            <button id="mess_add" type="button" onclick="addmess()">
+                                投稿を追加
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                    <div id="preview">
+                        
+                    </div>
+                    <div id="plaintext">
+                        <textarea id="previewplain"></textarea>
+                        <div>
+                            <h2>レス間文字列の設定</h2>
+                            <textarea id="plainset">
+
+</textarea>
+                        </div>
+                    </div>
+                    <div id="datgen">
+                        <h1>対応する変数/文字列を選択/入力</h1>
+                        <div id="datgen_list">
+                            <li>スレッドタイトル：
+                                <div class="datgen_div"><input type="text" id="dat_title" placeholder="プレーンテキストで入力"></div></li>
+                            <li>名前：
+                                <div class="datgen_div"><input type="text" id="dat_name" placeholder="テンプレート記法で入力"></div></li>
+                            <li>メールアドレス：
+                                <div class="datgen_div"><input type="text" id="dat_mail" placeholder="テンプレート記法で入力"></div></li>
+                            <li>日付・IDなど：
+                                <div class="datgen_div"><input type="text" id="dat_date" placeholder="テンプレート記法で入力"></div></li>
+                            <li>本文：
+                                <div class="datgen_div"><input type="text" id="dat_main" placeholder="テンプレート記法で入力"></div></li>
+                        </div>
+                            <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
+                    </div>
+                    <div id="saveload">
+                        <h1>セーブ</h1>
+                        タイトル：<input type="text" id="save_inp"> <button id="save_button" onclick="save()">セーブ</button>
+                        <h1>ロード</h1>
+                        ファイル：<input type="file" id="load_inp" accept=".json"> <button id="load_button" onclick="load()">ロード</button>
+                    </div>
+                    <div id="replace">
+                        <h1>対象変数の選択</h1>
+                        <div id="replace_div">
+                            <div id="replace_list"></div>
+                            <div><button id="replace_allselect" onclick="replace_allselect()">全選択</button><button onclick="replace_reflect()">反転</button></div>
+                            <li><input type="checkbox" id="replace_s?" checked><label for="replace_s?"><code>.</code>に改行をマッチ</label></li>
+                            <li><input type="checkbox" id="replace_m?" checked><label for="replace_m?">マルチライン</label></li>
+                            <li><input type="checkbox" id="replace_i?" checked><label for="replace_i?">大文字・小文字無視</label></li>
+                            <li><input type="checkbox" id="replace_g?" checked><label for="replace_g?">全置換</label></li>
+                            <li><input type="text" id="replace_a" placeholder="検索対象"></li>
+                            <li><input type="text" id="replace_b" placeholder="置換文字列"></li>
+                            <li><button onclick="replacing()">置換実行</button></li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div id="box4">
+            <div id="dataset">
+                <h1>変数の詳細設定</h1>
+                <select id="datapul" title="設定する変数を選択" size="5">
+                    <option hidden selected>設定変更する変数を選択</option>
+                </select>
+                <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>
+                <li title="プレビュー時のアンカーの設定（>>など）"><label for="anchor?"><input type="checkbox" id="anchor?" disabled="true" onchange="anchorcheck()">アンカー：</label><input type="text" id="anchor" disabled="true"></li>
+                <li title="固定された変数は削除や並び替えの影響を受けません"><label for="fix?"><input type="checkbox" id="fix?" disabled="true" onchange="changefix()">固定する</label></li>
+                <li title="変数の入力候補機能を有効化します。"><label for="datalist?"><input type="checkbox" id="datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
+            </div>
+            <div id="randgenbox">
+                <h1>ランダム文字列生成</h1>
+                対象文字を選択：<br>
+                <input type="checkbox" id="check_uaz"><label for="check_uaz">A-Z</label>
+                <input type="checkbox" id="check_daz"><label for="check_daz">a-z</label>
+                <input type="checkbox" id="check_num"><label for="check_num">0-9</label>
+                <input type="checkbox" id="check_sim"><label for="check_sim">記号</label>
+                <input type="checkbox" id="check_sp"><label for="check_sp">半角空白</label>
+                <input type="checkbox" id="check_inp" onchange="checkinpchange()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
+                <br><div style="text-align: right;"><input type="number" id="randlen" value="1">文字<input type="number" id="randman" value="1">個
+                <button onclick="randgen()">生成</button></div>
+                <textarea id="randgenopt" rows="6"></textarea>
+                <input type="number" id="subsnum">
+                番目以降の
+                <select id="subssel" size="1">
+                    <option hidden selected>変数を選択</option>
+                </select>
+                に
+                <button onclick="subs()">代入</button>
+            </div>
+        </div>
+    </div>
+    <div id="datalists">
+
+    </div>
+    <script type="text/javascript" src="master.js"></script>
+</body>
+
+</html>

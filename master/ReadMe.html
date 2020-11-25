@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--VSCode拡張機能のGithub Markdon Previewを使用・一部改変-->
+
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&gt;&gt;anyget（仮） ReadMe</title>
+        <style>
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<link rel="stylesheet" href="readmestyle.css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </head>
+    <body class="body light">
+        <h1 id="anyget仮-readme">&gt;&gt;anyget（仮） ReadMe</h1>
+<h2 id="このツールについて">このツールについて</h2>
+<p><a href="https://syosetu.com/">小説家になろう</a>等の小説投稿サイトにおける、いわゆる「架空掲示板」ジャンル作品の創作に対する支援ツールです。</p>
+<h3 id="架空掲示板ジャンルとは">「架空掲示板」ジャンルとは？</h3>
+<p>その名の通り、「架空の世界における匿名掲示板」を舞台として物語を展開する小説ジャンルです。
+「匿名掲示板」という一般的なファンタジーには中々出てこないような概念が前提となっていることから、どちらかと言えばSFジャンルに多いです。
+結構な人気があるジャンルですが、一方支援ツールについてはあまり見られないことから、このツールの制作を決断しました。</p>
+<h2 id="使い方">使い方</h2>
+<h3 id="3つのボックス">3つのボックス</h3>
+<p>anygetのUIは、横に並べられた3つのボックスによって構成されています。左から順に</p>
+<ul>
+<li><strong>テンプレートボックス</strong></li>
+<li><strong>メインボックス</strong></li>
+<li><strong>設定ボックス</strong></li>
+</ul>
+<p>です。</p>
+<h3 id="テンプレートボックス">テンプレートボックス</h3>
+<p>本ツールにおける重要存在である<strong>テンプレート</strong>の設定を行うボックスです。上のテキストボックスにテンプレート用の文字列を入力して「<strong>変更</strong>」ボタンをクリックして下のフォームに反映することで、テンプレートの変更が可能です。</p>
+<h4 id="テンプレートとは">テンプレートとは？</h4>
+<p>レスの雛形です。例えば簡易的な匿名掲示板のテンプレートなら、</p>
+<pre><code><code><div>(番号)：(名前)　[(メールアドレス)]
+(本文)
+</div></code></code></pre>
+<p>という風に表現できるでしょう。この場合、<code>()</code>で囲まれた内容が可変部であることが何となく想像がつくと思います。anygetではこれを厳密化して、テンプレートの<strong>構文</strong>を定義しています。</p>
+<h4 id="テンプレートの構文">テンプレートの構文</h4>
+<p>テンプレートは基本的に<strong>変数</strong>と<strong>地の文</strong>によって構成されます。変数はレスを入力する際に可変部分としてテキストボックスの形を取り、それに対し地の文は不変部分です。
+変数は<strong>名称</strong>を<strong>特殊記号</strong>で挟むことによって宣言されます。名称はそのまま、ツール内での<strong>変数名</strong>として使用されます。新しい変数を宣言することはできても、既存の変数の名称を変更することは<u>今のところは</u>できません。
+以下に構文の具体的な仕様を記します。</p>
+<hr>
+<ul>
+<li><code>$</code>特殊記号……名称を挟むことで<strong>一行変数</strong>を宣言します</li>
+<li><code>|</code>特殊記号……名称を挟むことで<strong>複数行変数</strong>を宣言します</li>
+<li><code>\</code>特殊記号……文字の前に挟むことで一切の特殊記号を<strong>エスケープ</strong>可能です。<code>\</code>そのものをエスケープしたいときは<code>\\</code>とします</li>
+</ul>
+<hr>
+<p>例えば、このようなテンプレートを設定して「変更」ボタンを押したとします：</p>
+<pre><code><code><div>$number$：$\$to\\$ (12 minutes ago)
+|\\to\$|
+</div></code></code></pre>
+<p>この時、下のボックスのテンプレートは下のように表示され、</p>
+<p><img src="..\images\57693a650e9ca0b290ae23ea9bc03aecb19cb7238194f466fe745ad3d57fa562.png" alt="picture 1"></p>
+<p>メインボックス下部の入力欄は下のように書き換えられます。</p>
+<p><img src="..\images\54f9f81e28ddd7a2c1dae0e4294fc60c560636b7a1244809bebc8ebe3e6b94b1.png" alt="picture 2"></p>
+<h4 id="テンプレートのハイライト">テンプレートのハイライト</h4>
+<p>上の例でも確認できますが、テンプレートボックスの下部には簡易なシンタックスハイライトの機能が付いています。
+変数<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>によって色が決められており、具体的には下記のようになっています。</p>
+<ul>
+<li>一行変数……<span style="color: #FF0000;">#FF0000</span></li>
+<li>複数行変数……<span style="color: #0000FF;">#0000FF</span></li>
+<li>エスケープ記号とその対象……<span style="color: #00FF00;">#00FF00</span><sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup></li>
+<li>地の文……ブラウザのデフォルトカラー</li>
+</ul>
+<h3 id="メインボックス">メインボックス</h3>
+<p>メインボックスは<strong>実際に掲示板を編集する</strong>部分です。テンプレートボックスや設定ボックスはあくまでも編集のための前段階として触る物に過ぎず、このツールの文字通りの意味での<strong>メイン</strong>はここなわけです。</p>
+<h4 id="タブ">タブ</h4>
+<p>メインボックスの上部には <s>3</s> <s>4</s> <s>5</s> <strong>6つ</strong>の<strong>タブ</strong>が存在します。この6つのタブは機能の切り替えのためのもので、選択した<strong>モード</strong>へとメインボックスをシフトさせます。
+切り替えの内訳としては『表示方式の変更（編集不能）』が二つ、『外部へのファイル出力』が二つ、『編集』が二つです。</p>
+<h5 id="レスの追加モード">「レスの追加」モード</h5>
+<p>デフォルトの状態です。6つのモードの中でレスを追加できる<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>モードは<s>この一つだけです</s>。レスの<strong>一覧</strong>、そして<strong>入力ボックス</strong>から成ります。詳しくは後述します。</p>
+<h5 id="プレビューモード">「プレビュー」モード</h5>
+<p>執筆した掲示板を閲覧（プレビュー）できます。「レスの追加」モードではレス内の変数は単なる文字列ではなくテキストボックスであることによって若干の違和感があるのに対し、このモードでは枠線をそのままに、変数を地の文と同じような外見で表示しています。また、「アンカー」設定（後述）を行うことによってアンカーを追加できます。</p>
+<h5 id="プレーンテキストモード">「プレーンテキスト」モード</h5>
+<p>媒体がHTMLのtextarea属性に変わった「プレビュー」モードです。枠線すら存在しなくなり、実際に小説投稿サイトで閲覧する際の状態に最も近いと言えるでしょう。また、文字列のコピーも容易に行えます。</p>
+<h5 id="datファイルモード">「datファイル」モード</h5>
+<p>作成した架空掲示板を、5ch専用ブラウザ等で開ける<code>.dat</code>ファイルにエクスポートするモードです。テキストボックスに<strong>テンプレートと同じ記法で</strong>パラメータを入力した後に「datファイルを生成」ボタンを押すことでダウンロードが始まります。パラメータは以下の通りです。</p>
+<ul>
+<li>スレッドタイトル……スレッドのタイトルを指定するパラメータです。省略した場合は「UNKNOWN」になります。ファイル名<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>にも使用されます。このパラメータだけは特殊で、テンプレート記法を<strong>使わず</strong>プレーンテキストとして入力します。</li>
+<li>名前……各投稿の&quot;名前&quot;に相当する部分を指定するパラメータです。トリップの処理機能は付いていません。</li>
+<li>メールアドレス……各投稿の&quot;メールアドレス&quot;に相当する部分を指定するパラメータです。主な用途はsageです。</li>
+<li>日付・IDなど……各投稿の&quot;日付&quot;、&quot;ID&quot;等に相当する部分を指定するパラメータです。</li>
+<li>本文……各投稿の&quot;本文&quot;に相当する部分を指定するパラメータです。唯一、途中で改行を挟んでもそれが無視されないパラメータです。</li>
+</ul>
+<h5 id="セーブロードモード">「セーブ/ロード」モード</h5>
+<p>&quot;内容を変更する&quot;という意味では、こちらもある意味『編集可能なモード」です。
+テキストボックスにタイトルを入力したうえで<strong>セーブボタン</strong>を押すことで<code>.json</code>ファイル形式によるセーブが可能です。
+セーブしたファイルをアップロードして<strong>ロードボタン</strong>を押すことでロードが可能です。</p>
+<h5 id="置換モード">「置換」モード</h5>
+<p>掲示板の内容を正規表現を使用して置換できます。</p>
+<h6 id="変数を選択部分">「変数を選択」部分</h6>
+<p>置換対象となる変数にチェックを入れます。『全選択』ボタンで全ての変数がチェックされ、『反転』ボタンで反転されます。</p>
+<h6 id="各種設定部分">各種設定部分</h6>
+<p>チェックボックスによる設定を行います。設定は基本的に正規表現の各種フラグと結びついており、置換結果に影響します。</p>
+<ul>
+<li>「<code>.</code>に改行をマッチ」……Javascript正規表現における<code>s</code>フラグをオンにします。</li>
+<li>「マルチライン」……Javascript正規表現における<code>m</code>フラグをオンにします。</li>
+<li>「大文字・小文字無視」……Javascript正規表現における<code>i</code>フラグをオンにします。</li>
+<li>「全置換」……Javascript正規表現における<code>g</code>フラグをオンにします。</li>
+</ul>
+<h4 id="レスの追加モードの詳細">「レスの追加」モードの詳細</h4>
+<p>唯一の編集可能モードであるが故比較的機能が多い事から、項を分けて解説していきます。</p>
+<h5 id="基本的な概念">基本的な概念</h5>
+<p>このモードにおいて、編集は名前通り「<strong>レス（投稿）の追加</strong>」という形で行われます。ボックスの下部に存在する<strong>入力欄</strong>がテンプレートに応じて変化するので、そこに投稿の内容を入力したうえで「<strong>投稿を追加</strong>」ボタンをクリックすることでレスの追加が可能です。レスは上部ブロックにボックスという形で追加・反映されます。一つ一つのレスは独立しています。
+また、「投稿を追加」ボタンの横には<strong>個数設定ボックス</strong>が存在し、レスの追加はこの中に入力した数の分だけ行われます。</p>
+<h5 id="レスの構造">レスの構造</h5>
+<p>レスに存在する部品一つ一つについて、詳細に解説していきます。</p>
+<h6 id="テキストボックス">テキストボックス</h6>
+<p>前述の一行変数・複数行変数をテンプレートとして解釈して生成される入力欄です。一行変数のテキストボックスは<strong>ワンライナー</strong>であり、複数行変数の物は<strong>テキストエリア</strong>です。
+テキストボックスに入力した文字列が、そのまま掲示板小説の内容になります。
+ワンライナーのテキストボックスには<strong>入力候補</strong>の表示機能があります。ボックスをクリックすることで、同じ変数の入力履歴から頻出の文字列が候補に選ばれます。候補は最大で5個までで、それ以上は切り捨てられます。
+入力候補機能をオフにしたい場合は、「入力候補無効化」設定（後述）を行います。</p>
+<h6 id="削除ボタン">削除ボタン</h6>
+<p>レス右上の灰色のボタンで、レスを<strong>削除</strong>します。「真ん中にあるレスを削除してしまうとレス番が飛んでしまう」などと言う場合には、「固定する」設定（後述）を行います。</p>
+<h6 id="並び替え機能">並び替え機能</h6>
+<p>&quot;部品&quot;というわけではありませんが、レスはドラッグ&amp;ドロップによる<strong>並び替え</strong>機能も有しています。
+レスをドラッグして別のレスに重ねると、重ねられた側のレスが点線で囲まれるので、そこへドロップすることで並び替えが可能です。並び替えは単純に順番を&quot;入れ替える&quot;タイプではなく、ドラッグしたレスをドロップされたレスの直前（または直後<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>）に&quot;<strong>挿入する</strong>&quot;タイプです。「並び替えるとレス番が飛んでしまう」などと言う場合には、「固定する」設定（後述）を行います。</p>
+<h3 id="設定ボックス">設定ボックス</h3>
+<p><strong>「変数の詳細設定」部分</strong>と<strong>ランダム文字列生成ツール</strong>を有するボックスです。</p>
+<h4 id="変数の詳細設定部分">「変数の詳細設定」部分</h4>
+<p>その時点で宣言されたすべての変数がリストの形で列挙されています。選択したうえで各種パラメータを弄ることで、変数についての詳細な設定を行うことができます。設定一つ一つについて詳細に解説していきます。</p>
+<h5 id="増加幅設定">「増加幅」設定</h5>
+<p>「レス番」などの変数向けの設定です。「投稿の追加」ボタンを押すたびに、設定された値が入力欄に<strong>加算</strong>されます。マイナスの値を設定すれば減算も可能です。<strong>数字</strong><sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>にしか加算は行われません。</p>
+<h5 id="アンカー設定">「アンカー」設定</h5>
+<p><s>未実装です。</s> 実装されました。
+チェックボックスをオンにしたうえでテキストボックスに文字列を入力することで<strong>アンカー</strong>を設定できます。
+これは「特定の変数の直前に置くことでリンクを作ったりプレビューを重ねたりできる」というもので、「プレビュー」モード限定で使用できます。
+例えば変数<code>number</code>のアンカーに<code>&gt;&gt;</code>を設定すればレス番呼び出し<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>が可能になりますし、変数<code>id</code>のアンカーに<code>id:</code>を設定すれば所謂「晒し上げ」のような展開を挟んだ際に具体的にどのようなレスが原因となったかを確認する<sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>ことができます。
+本文中に4096個以上存在するアンカーは弾かれます。</p>
+<h5 id="固定する設定">「固定する」設定</h5>
+<p>設定した変数は、レスの削除や並び替えの影響を受けず、その場に<strong>固定され続け</strong>ます。「ここにレスを挿入したいが、そうするトレス番がずれてしまう」という状況には、レス番に該当する変数を固定することで対処が可能です。</p>
+<h5 id="入力候補無効化設定">「入力候補無効化」設定</h5>
+<p>設定した変数のプルダウンによる入力候補機能は無効化されます。複数行変数にはそもそもプルダウンの機能が無いため、設定を行うことができません。</p>
+<h4 id="ランダム文字列生成ツール">ランダム文字列生成ツール</h4>
+<p>IDやトリップなどに使用するランダムな文字列を自動生成するツールです。チェックボックスやテキストボックスに設定値を入力したうえで、右下の「生成」ボタンをクリックすることで生成可能です。</p>
+<h5 id="生成に関する設定">生成に関する設定</h5>
+<p>色々あります。</p>
+<h6 id="a-z">「A-Z」</h6>
+<p>文字列の候補に大文字アルファベット（<code>ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>）を追加します。</p>
+<h6 id="a-z-1">「a-z」</h6>
+<p>文字列の候補に小文字アルファベット（<code>abcdefghijklmnopqrstuvwxyz</code>）を追加します。</p>
+<h6 id="0-9">「0-9」</h6>
+<p>文字列の候補に数字（<code>0123456789</code>）を追加します。</p>
+<h6 id="記号">「記号」</h6>
+<p>文字列の候補に半角記号（<code>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</code>）を追加します。</p>
+<h6 id="半角空白">「半角空白」</h6>
+<p>文字列の候補に半角空白（<code> </code>）を追加します。</p>
+<h6 id="自由入力">「自由入力」</h6>
+<p>チェックを入れた上でテキストボックスに<strong>入力した文字</strong>を文字列の候補に追加します。重複は弾かれます。</p>
+<h6 id="文字">「○文字」</h6>
+<p>生成する文字列の長さを設定します。入力が無い場合1文字になります。</p>
+<h6 id="個">「○個」</h6>
+<p>生成する文字列の個数を設定します。一つ一つは改行で区切られてテキストボックスに出力されます。入力が無い場合1個になります。</p>
+<h5 id="代入ツール">代入ツール</h5>
+<p>ランダム文字列生成ツールで生成した値をそのまま何かしらの変数に<strong>代入</strong>できます。「上から●番目以降の変数■に代入」と言ったふうに行います。重要なのが<strong>以降</strong>という部分で、代入ツールはテキストボックスから入力値を取ってきてそれを<strong>改行で分割</strong>したうえで一つずつ代入します。そのため、改行交じりの文字列は正常に代入できません。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>&quot;<strong>文字のモード</strong>&quot;と表現した方が正確か <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>他のハイライトより優先されます。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>イコール、『編集できる』 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>「○○.dat」の○○部分 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>ドラッグするレスの方がドロップされたレスより後に存在するなら直前、前に存在するなら直後 <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>より具体的に言えば、<code>\-?[0-9]+(\.[0-9]+)?</code>の正規表現にマッチする文字列 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>例：「&gt;&gt;1乙」 <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p>例：「id:he3J2sdISくん自演おつかれさま＾＾」 <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+    </body>
+    </html>
