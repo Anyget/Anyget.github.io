@@ -709,10 +709,6 @@ function subs() {
     if (num < 1) return false;
     let selecting = Object.keys(all_data)[sel.selectedIndex - 1]
     for (let i = num + 0; i - num < txts.length && i <= deal_list.length; i++) {
-        console.log(i)
-        console.log(i-num)
-        console.log(txts.length)
-        console.log(deal_list.length)
         deal_list[i - 1][selecting] = txts[i - num]
         if (conf_data.includes(selecting)) {
             document.getElementById(`message_${i}`).getElementsByClassName(selecting)[0].value = txts[i - num];
@@ -841,7 +837,6 @@ document.addEventListener("mouseover", function (e){
         })
         let pos = e.target.getBoundingClientRect()
 
-        console.log(e.target.parentNode.parentNode)
         if (e.target.parentNode.parentNode != document.getElementById("abss").firstChild && e.target.parentNode.parentNode.classList.contains("abssc")){
             document.getElementById("abss").firstChild.outerHTML = ""
         }

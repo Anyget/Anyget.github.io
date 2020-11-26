@@ -107,7 +107,7 @@ h1,h2{
     background-color: azure;
     flex-grow: 1;
     padding:2px;
-    overflow : scroll;
+    overflow : hidden;
     height: 30%;
 }
 #form_inp{
