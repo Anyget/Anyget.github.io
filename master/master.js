@@ -226,6 +226,7 @@ document.getElementById("datapul").addEventListener("change", (e) => {
         if (e.target.value.startsWith("$")) {
             document.getElementById("anchor?").disabled = false;
             document.getElementById("anchor?").checked = all_data[selecting]["anchor?"];
+            document.getElementById("anchor").disabled = !all_data[selecting]["anchor?"]
             document.getElementById("anchor").value = all_data[selecting]["anchor"];
             document.getElementById("datalist?").disabled = false;
             document.getElementById("datalist?").checked = all_data[selecting]["datalist??"];
