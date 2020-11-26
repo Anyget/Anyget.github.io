@@ -439,7 +439,6 @@ function previewanchor(s, ok) {
         let nnns = []
         Object.keys(ok).forEach(k => {
             if (sent.startsWith(ok[k])) {
-                console.log("a")
                 let ith = sent.slice(0, ok[k].length)
                 out = out.slice(0, -1)
                 sent = sent.slice(ok[k].length)
@@ -473,7 +472,6 @@ function previewanchor(s, ok) {
         })
 
     }
-    console.log(out)
     return out;
 }
 function radiochange(e) {
@@ -693,7 +691,6 @@ function load() {
         document.getElementById("datalists").innerHTML = ""
         document.getElementById("replace_list").innerHTML = ""
         Object.keys(all_data).forEach(c => {
-            console.log(c)
             document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
             document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
             document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
@@ -820,7 +817,6 @@ document.addEventListener("keydown", e => {
 })
 /*https://qiita.com/Sinraptor@github/items/1b3802db80eadf864633のパクリ*/
 function strWidth(str) {
-    console.log(str)
     let canvas = document.getElementById('canvas');
     if (canvas.getContext) {
         let context = canvas.getContext('2d');
@@ -841,6 +837,10 @@ document.addEventListener("mouseover", function (e){
         })
         let pos = e.target.getBoundingClientRect()
 
+        console.log(e.target.parentNode.parentNode)
+        if (e.target.parentNode.parentNode != document.getElementById("abss").firstChild && e.target.parentNode.parentNode.classList.contains("abssc")){
+            document.getElementById("abss").firstChild.outerHTML = ""
+        }
         document.getElementById("abss").insertAdjacentHTML("afterbegin",`<div class="abssc">${d.join("")}</div>`)
         let a = document.getElementById("abss").firstChild
         let pos_x = pos.left + strWidth(e.target.innerText + "aa")
@@ -856,7 +856,7 @@ document.addEventListener("mouseover", function (e){
     }
 })
 document.addEventListener("mouseout",function (e){
-    if (e.target.matches(".anchorspan")){
+    if (e.target.matches(".anchorspan") && document.getElementById("abss").querySelector(".abssc:hover,.abssc[data-flag='true'],.abssc:hover~.abssc")){
         document.getElementById("abss").firstChild.dataset.flag = "false"
     }
 })
@@ -875,14 +875,12 @@ function replacing(){
     for (i of document.querySelectorAll("#replace_list input:checked")){
         r_list.push(i.id.replace("replacecheck_",""))
     }
-    console.log(r_list)
     let g = document.getElementById("replace_g?").checked
     let flag = document.getElementById("replace_s?").checked ? "s" : ""
     flag += document.getElementById("replace_m?").checked ? "m" : ""
     flag += document.getElementById("replace_i?").checked ? "i" : ""
     flag += g ? "g" : ""
     let reg = new RegExp(document.getElementById("replace_a").value, flag)
-    console.log(reg)
     let n = 0;
     let rr_list = []
     for (i of deal_list){
@@ -892,7 +890,6 @@ function replacing(){
             i[r] = i[r].replace(reg,document.getElementById("replace_b").value)
             rr_list.push(r)
             to.getElementsByClassName(r)[0].value = i[r]
-            console.log(document.getElementById("replace_b").value)
             if (!g){
                 break
             }
