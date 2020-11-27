@@ -898,6 +898,7 @@ function replacing(){
         }
     }
     for (r of rr_list){
+        console.log(r)
         datalistschange(r)
     }
 }
