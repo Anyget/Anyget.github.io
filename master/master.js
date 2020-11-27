@@ -495,7 +495,7 @@ function radiochange(e) {
                 conf_data.forEach(d => {
                     sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
                 })
-                sent = previewanchor(sent, anchorok)
+                sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/,"<a href='$1'>$1</a>")
                 alll += `<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`
             })
             document.getElementById("preview").innerHTML = alll;
@@ -844,7 +844,7 @@ document.addEventListener("mouseover", function (e){
         let a = document.getElementById("abss").firstChild
         let pos_x = pos.left + strWidth(e.target.innerText + "aa")
         let pos_y = pos_x + a.clientWidth > window.innerWidth ? pos.top + e.target.clientHeight : pos.top
-        pos_x = pos_x + a.clientWidth > window.innerWidth ? 0 : pos_x
+        pos_x = pos_x + a.clientWidth > window.innerWidth ? pos.left - a.clientWidth : pos_x
         a.style.display = "block"
         a.style.top = Math.floor(pos_y) + "px"
         a.style.left = Math.floor(pos_x) + "px"
