@@ -85,7 +85,10 @@ $番号$：$名前$ [$メール$] $id$
                     </div>
                     <div id="saveload">
                         <h1>セーブ</h1>
+                        <h2>普通にセーブ</h2>
                         タイトル：<input type="text" id="save_inp"> <button id="save_button" onclick="save()">セーブ</button>
+                        <h2>テンプレートのみセーブ</h2>
+                        タイトル：<input type="text" id="tempsave_inp"> <button id="tempsave_button" onclick="tempsave()">セーブ</button>
                         <h1>ロード</h1>
                         ファイル：<input type="file" id="load_inp" accept=".json"> <button id="load_button" onclick="load()">ロード</button>
                     </div>

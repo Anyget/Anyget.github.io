@@ -336,17 +336,20 @@ header input:checked + .tab_item:hover{
     display: inline;
     width: 3em;
 }
-#save_button{
+#save_button,#tempsave_button{
     background-color: #00AA00;
     border: none;
 }
 #saveload{
     padding-left: 15%;
 }
-#save_button:hover{
+#saveload>*{
+    text-align: left;
+}
+#save_button:hover,#tempsave_button:hover{
     filter:brightness(120%);
 }
-#save_button:active{
+#save_button:active,#tempsave_button:active{
     filter:brightness(70%);
 }
 #load_button{

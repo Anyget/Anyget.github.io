@@ -652,6 +652,31 @@ function save() {
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
 }
+function tempsave() {
+    while (style_list.length < deal_list.length) {
+        style_list.push({})
+    }
+    let n = 0;
+    deal_list.forEach(d => {
+        n++;
+        conf_data.forEach(c => {
+            let cd = document.getElementById(`message_${n}`).getElementsByClassName(c)[0];
+            if (cd.classList.contains("|")) {
+                style_list[n - 1][c] = cd.style.cssText;
+            } else {
+                style_list[n - 1][c] = cd.parentNode.style.cssText;
+            }
+        })
+    })
+    let j = JSON.stringify({ "deal_list": [], "all_data": all_data, "style_list": [], "conf_data": conf_data, "template": template, "conf_htm": conf_htm, "conf_col": conf_col })
+    let name = `${document.getElementById("tempsave_inp").value != "" ? document.getElementById("tempsave_inp").value : "UNKNOWN"}.json`
+    let blob = new Blob([j], { type: "application/json" });
+    let a = document.createElement('a');
+    a.download = name;
+    a.target = '_blank';
+    a.href = window.webkitURL.createObjectURL(blob);
+    a.click();
+}
 function load() {
     if (document.getElementById("load_inp").files.length === 0) return false;
     let f = document.getElementById("load_inp").files[0];
