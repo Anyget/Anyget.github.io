@@ -229,7 +229,7 @@ h1,h2{
     height: 97vh;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow: hidden;
 }
 header{
     height: 3vh;
