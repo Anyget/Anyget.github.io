@@ -130,61 +130,62 @@ function changetemp() {
     };
     htm = htm.replace(/\n/g, "<br>");
     if (mode == "normal") {
-        if (data.length == (new Set(data)).size) {
-            let backupconfdata = conf_data;
-            document.getElementById("edited").innerHTML = col.replace(/\n/g, "<br>");
-            document.getElementById("form_inp").innerHTML = htm;
-            conf_htm = htm;
-            conf_col = col;
-            conf_data = data;
-            conf_data.forEach(i => {
-                if (!Object.keys(all_data).includes(i)) {
-                    all_data[i] = ({ "adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false });
-                    document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
-                    document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
-                    document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
-                    if (i.startsWith("liner_")) {
-                        document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
-                    };
+        let backupconfdata = conf_data;
+        document.getElementById("edited").innerHTML = col.replace(/\n/g, "<br>");
+        document.getElementById("form_inp").innerHTML = htm;
+        conf_htm = htm;
+        conf_col = col;
+        conf_data = Array.from(new Set(data))
+        conf_data.forEach(i => {
+            if (!Object.keys(all_data).includes(i)) {
+                all_data[i] = ({ "adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false });
+                document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+                document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+                document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
+                if (i.startsWith("liner_")) {
+                    document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
                 };
-            })
-            while (style_list.length < deal_list.length) {
-                style_list.push({})
-            }
-            let n = 0
-            deal_list.forEach(ii => {
-                n++;
-                let box = document.getElementById(`message_${n}`);
-                conf_data.forEach(x => {
-                    if (backupconfdata.includes(x)) {
-                        let cd = box.getElementsByClassName(x)[0];
+            };
+        })
+        while (style_list.length < deal_list.length) {
+            style_list.push({})
+        }
+        let n = 0
+        deal_list.forEach(ii => {
+            n++;
+            let box = document.getElementById(`message_${n}`);
+            conf_data.forEach(x => {
+                if (backupconfdata.includes(x)) {
+                    style_list[n-1][x] = []
+                    Array.from(box.getElementsByClassName(x)).forEach(cd=>{
                         if (cd.classList.contains("|")) {
-                            style_list[n - 1][x] = cd.style.cssText;
+                            style_list[n - 1][x].push(cd.style.cssText);
                         } else {
-                            style_list[n - 1][x] = cd.parentNode.style.cssText;
+                            style_list[n - 1][x].push(cd.parentNode.style.cssText)
                         }
-                    } else if (!Object.keys(style_list[n - 1]).includes(x)) {
-                        style_list[n - 1][x] = ""
+                    })
+                } else if (!Object.keys(style_list[n - 1]).includes(x)) {
+                    style_list[n - 1][x] = []
+                }
+            })
+            box.innerHTML = conf_htm;
+            conf_data.forEach(xx => {
+                if (typeof ii[xx] === "undefined") {
+                    ii[xx] = "";
+                };
+                let cc = 0
+                Array.from(box.getElementsByClassName(xx)).forEach(iii => {
+                    iii.value = ii[xx];
+                    if (xx.startsWith("blocker_")) {
+                        iii.style = style_list[n - 1][xx][cc]
+                    } else {
+                        iii.parentNode.style = style_list[n - 1][xx][cc]
                     }
                 })
-                box.innerHTML = conf_htm;
-                conf_data.forEach(xx => {
-                    if (typeof ii[xx] === "undefined") {
-                        ii[xx] = "";
-                    };
-                    box.getElementsByClassName(xx)[0].value = ii[xx];
-                    if (xx.startsWith("blocker_")) {
-                        box.getElementsByClassName(xx)[0].style = style_list[n - 1][xx]
-                    } else {
-                        box.getElementsByClassName(xx)[0].parentNode.style = style_list[n - 1][xx]
-                    }
-                });
+                cc++
             });
-            template = temp + "";
-
-        } else {
-            alert("Error:変数名の重複");
-        };
+        });
+        template = temp + "";
     } else {
         alert("Error:不正な構文");
     };
@@ -195,26 +196,37 @@ function addmess() {
         document.getElementById("messages").insertAdjacentHTML("beforeend",
             '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">'
             + conf_htm + "</div></div>");
-        let boxes = document.querySelectorAll("div#cd .\\|,div#cd .\\$");
         let formi_c = document.getElementById("form_inp")
         let now = document.getElementById("cd")
         let num = deal_list.length
         now.id = "message_" + (num + 1)
         deal_list.push({})
-        for (let i = 0; i < boxes.length; i++) {
-            boxes[i].style = formi_c.querySelectorAll(".\\|,.\\$")[i].style.cssText;
-            if (conf_data[i].startsWith("blocker_")) {
-                deal_list[num][conf_data[i]] = boxes[i].value = formi_c.getElementsByClassName(conf_data[i])[0].value
-            } else {
-                deal_list[num][conf_data[i]] = boxes[i].children[0].value = formi_c.getElementsByClassName(conf_data[i])[0].value;
-                datalistschange(conf_data[i])
-            };
-        };
+        conf_data.forEach(i=>{
+            let m = 0
+            Array.from(now.getElementsByClassName(i)).forEach(o=>{
+                o.style = formi_c.getElementsByClassName(i)[m].style.cssText;
+                if (i.startsWith("blocker_")) {
+                    Array.from(formi_c.getElementsByClassName(i)).forEach(nnnnn => {
+                        deal_list[num][i] = o.value = nnnnn.value
+                    })
+                } else {
+                    Array.from(formi_c.getElementsByClassName(i)).forEach(nnnnn => {
+                        deal_list[num][i] = o.value = nnnnn.value
+                    });
+                    datalistschange(i)
+                };
+                m++
+            })
+        })
         conf_data.forEach(k => {
-            let i = document.getElementById("form_inp").getElementsByClassName(k)[0];
-            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(i.value) && all_data[k]["adder"] != 0) {
-                i.value = Number(i.value) + Number(all_data[k]["adder"]);
+            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && all_data[k]["adder"] != 0) {
+                added = Number(added) + Number(all_data[k]["adder"])
+                console.log(added)
             }
+            Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i=>{
+                i.value = String(added)
+            })
         });
     }
     let obj = document.getElementById("messages");
@@ -267,7 +279,16 @@ document.addEventListener("input", (e) => {
             datalistschange(target.classList[1])
         };
     };
+    if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
+        taras(target)
+    }
 });
+function taras(target){
+    let tp = target.matches("textarea") ? target.parentNode : target.parentNode.parentNode
+    Array.from(tp.getElementsByClassName(target.classList[1])).filter(n => n !== target).forEach(k => {
+        k.value = target.value
+    })
+}
 document.addEventListener("click", (e) => {
     let target = e.target;
     if (target.className === "closebtn") {
@@ -276,14 +297,17 @@ document.addEventListener("click", (e) => {
             let to = document.getElementById(`message_${i}`);
             let from = document.getElementById(`message_${i + 1}`);
             conf_data.forEach(d => {
-                let toc = to.getElementsByClassName(d)[0];
-                let fromc = from.getElementsByClassName(d)[0];
-                if (!all_data[d]["fix?"]) {
-                    toc.style = fromc.style.cssText;
-                    toc.parentNode.style = fromc.parentNode.style.cssText;
-                    toc.value = fromc.value;
-                    deal_list[i - 1][d] = deal_list[i][d];
-                };
+                let nnn = 0
+                Array.from(to.getElementsByClassName(d)).forEach(toc=>{
+                    let fromc = from.getElementsByClassName(d)[nnn];
+                    if (!all_data[d]["fix?"]) {
+                        toc.style = fromc.style.cssText;
+                        toc.parentNode.style = fromc.parentNode.style.cssText;
+                        toc.value = fromc.value;
+                        deal_list[i - 1][d] = deal_list[i][d];
+                    };
+                    nnn++
+                })
             });
         };
         deal_list.pop();
@@ -330,84 +354,106 @@ function drop(e) {
 
     if (target_num != dragging_num) {
         if (target_num > dragging_num) {
+            console.log("a")
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {};
             conf_data.forEach(d => {
-                let toc = itiho.getElementsByClassName(d)[0];
-                let fromc = dragmes.getElementsByClassName(d)[0];
-                if (!all_data[d]["fix?"]) {
-                    toc.style = fromc.style.cssText;
-                    toc.parentNode.style = fromc.parentNode.style.cssText;
-                    toc.value = fromc.value;
-                    itihoarr[d] = deal_list[dragging_num - 1][d]
-                };
+                let nnn = 0
+                Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
+                    let fromc = dragmes.getElementsByClassName(d)[nnn];
+                    if (!all_data[d]["fix?"]) {
+                        toc.style = fromc.style.cssText;
+                        toc.parentNode.style = fromc.parentNode.style.cssText;
+                        toc.value = fromc.value;
+                        itihoarr[d] = deal_list[dragging_num - 1][d]
+                    };
+                    nnn++
+                })
             })
             for (let i = dragging_num; i < target_num; i++) {
                 let to = document.getElementById(`message_${i}`);
                 let from = document.getElementById(`message_${i + 1}`);
                 conf_data.forEach(d => {
-                    let toc = to.getElementsByClassName(d)[0];
-                    let fromc = from.getElementsByClassName(d)[0];
-                    if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
-                        deal_list[i - 1][d] = deal_list[i][d];
-                    };
+                    let nnn = 0
+                    Array.from(to.getElementsByClassName(d)).forEach(toc => {
+                        let fromc = from.getElementsByClassName(d)[nnn];
+                        if (!all_data[d]["fix?"]) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                            deal_list[i - 1][d] = deal_list[i][d];
+                        };
+                        nnn++
+                    })
                 });
             };
+            console.log(conf_data)
             conf_data.forEach(d => {
-                let toc = target.getElementsByClassName(d)[0]
-                let fromc = itiho.getElementsByClassName(d)[0]
-                if (!all_data[d]["fix?"]) {
+                let nnn = 0
+                Array.from(target.getElementsByClassName(d)).forEach(toc => {
+                    let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
-                        deal_list[target_num - 1][d] = itihoarr[d]
+                        if (!all_data[d]["fix?"]) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                            deal_list[target_num - 1][d] = itihoarr[d]
+                        };
                     };
-                };
+                    nnn++
+                })
             });
         } else {
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {}
             conf_data.forEach(d => {
-                let toc = itiho.getElementsByClassName(d)[0];
-                let fromc = dragmes.getElementsByClassName(d)[0];
-                if (!all_data[d]["fix?"]) {
-                    toc.style = fromc.style.cssText;
-                    toc.parentNode.style = fromc.parentNode.style.cssText;
-                    toc.value = fromc.value;
-                    itihoarr[d] = deal_list[dragging_num - 1][d]
-                };
+                let nnn = 0
+                Array.from(dragmes.getElementsByClassName(d)).forEach(toc => {
+                    let fromc = itiho.getElementsByClassName(d)[nnn];
+                    if (!all_data[d]["fix?"]) {
+                        toc.style = fromc.style.cssText;
+                        toc.parentNode.style = fromc.parentNode.style.cssText;
+                        toc.value = fromc.value;
+                        itihoarr[d] = deal_list[dragging_num - 1][d]
+                    };
+                    nnn++
+                })
             })
             for (let i = dragging_num; i > target_num; i--) {
                 let to = document.getElementById(`message_${i}`);
                 let from = document.getElementById(`message_${i - 1}`);
                 conf_data.forEach(d => {
-                    let toc = to.getElementsByClassName(d)[0];
-                    let fromc = from.getElementsByClassName(d)[0];
-                    if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
-                        deal_list[i - 1][d] = deal_list[i - 2][d];
-                    };
+                    let nnn = 0
+                    Array.from(to.getElementsByClassName(d)).forEach(toc => {
+                        let fromc = from.getElementsByClassName(d)[nnn];
+                        if (!all_data[d]["fix?"]) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                            deal_list[i - 1][d] = deal_list[i - 2][d];
+                        };
+                        nnn++
+                    })
+                    
                 });
             };
             conf_data.forEach(d => {
-                let toc = target.getElementsByClassName(d)[0]
-                let fromc = itiho.getElementsByClassName(d)[0]
-                if (!all_data[d]["fix?"]) {
+                let nnn = 0
+                Array.from(target.getElementsByClassName(d)).forEach(toc => {
+                    let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
-                        deal_list[target_num - 1][d] = itihoarr[d];
+                        if (!all_data[d]["fix?"]) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                            deal_list[target_num - 1][d] = itihoarr[d];
+                        };
                     };
-                };
+                    nnn++
+                })
+                
             });
         }
     };
@@ -428,7 +474,9 @@ function plainreload() {
     deal_list.forEach(i => {
         let sent = conf_col;
         conf_data.forEach(d => {
-            sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
+            Array.from(document.getElementsByClassName("messagediv")[0].getElementsByClassName(d)).forEach(s=>{
+                sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
+            })
         })
         alll.push(sent)
     })
@@ -498,7 +546,9 @@ function radiochange(e) {
                 s++;
                 let sent = conf_col;
                 conf_data.forEach(d => {
-                    sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
+                    Array.from(document.getElementsByClassName("messagediv")[0].getElementsByClassName(d)).forEach(s => {
+                        sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
+                    })
                 })
                 sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/,"<a href='$1'>$1</a>")
                 alll += `<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`
@@ -640,12 +690,14 @@ function save() {
     deal_list.forEach(d => {
         n++;
         conf_data.forEach(c => {
-            let cd = document.getElementById(`message_${n}`).getElementsByClassName(c)[0];
-            if (cd.classList.contains("|")) {
-                style_list[n - 1][c] = cd.style.cssText;
-            } else {
-                style_list[n - 1][c] = cd.parentNode.style.cssText;
-            }
+            style_list[n-1][c] = []
+            Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
+                if (cd.classList.contains("|")) {
+                    style_list[n - 1][c].push(cd.style.cssText);
+                } else {
+                    style_list[n - 1][c].push(cd.parentNode.style.cssText);
+                }
+            })
         })
     })
     let j = JSON.stringify({ "deal_list": deal_list, "all_data": all_data, "style_list": style_list, "conf_data": conf_data, "template": template, "conf_htm": conf_htm, "conf_col": conf_col })
@@ -665,12 +717,15 @@ function tempsave() {
     deal_list.forEach(d => {
         n++;
         conf_data.forEach(c => {
-            let cd = document.getElementById(`message_${n}`).getElementsByClassName(c)[0];
-            if (cd.classList.contains("|")) {
-                style_list[n - 1][c] = cd.style.cssText;
-            } else {
-                style_list[n - 1][c] = cd.parentNode.style.cssText;
-            }
+            style_list[n-1][c] = []
+            Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
+                nn++
+                if (cd.classList.contains("|")) {
+                    style_list.push(cd.style.cssText)
+                } else {
+                    style_list.push(cd.parentNode.style.cssText)
+                }
+            })
         })
     })
     let j = JSON.stringify({ "deal_list": [], "all_data": all_data, "style_list": [], "conf_data": conf_data, "template": template, "conf_htm": conf_htm, "conf_col": conf_col })
@@ -703,16 +758,19 @@ function load() {
                 `<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="message_${x}">`
                 + conf_htm + "</div></div>")
             let now = document.getElementById(`message_${x}`)
-            s = 0;
-            for (c of now.querySelectorAll(".\\|,\\$")) {
-                s++;
-                c.style = style_list[x - 1][conf_data[s - 1]]
-                if (c.classList.contains("|")) {
-                    c.value = d[conf_data[s - 1]]
-                } else {
-                    c.firstChild.value = d[conf_data[s - 1]]
-                }
-            }
+            conf_data.forEach(c=>{
+                let z = 0
+                Array.from(now.getElementsByClassName(c)).forEach(m=>{
+
+                    m.value = d[c]
+                    if (m.classList.contains("|")) {
+                        m.style = style_list[x - 1][c][z]
+                    } else {
+                        m.parentNode.style = style_list[x - 1][c][z]
+                    }
+                    z++
+                })
+            })
         })
         document.getElementById("template").value = template
         changetemp()
@@ -919,6 +977,7 @@ function replacing(){
             i[r] = i[r].replace(reg,document.getElementById("replace_b").value)
             rr_list.push(r)
             to.getElementsByClassName(r)[0].value = i[r]
+            taras(to.getElementsByClassName(r)[0])
             if (!g){
                 break
             }
