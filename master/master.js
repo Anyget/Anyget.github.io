@@ -8,7 +8,10 @@ window.onload = function () {
     conf_htm = "";
     conf_col = "";
 };
-
+window.addEventListener('beforeunload', function (event) {
+    event.preventDefault()
+    event.returnValue = ''
+})
 document.addEventListener("paste", function (e) {
     let target = e.target
     if (target.matches("div[contenteditable='true']")) {
@@ -214,6 +217,8 @@ function addmess() {
             }
         });
     }
+    let obj = document.getElementById("messages");
+    obj.scrollTop = obj.scrollHeight;
 };
 
 document.getElementById("datapul").addEventListener("change", (e) => {
