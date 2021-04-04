@@ -204,13 +204,15 @@ function addmess() {
         conf_data.forEach(i=>{
             let m = 0
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
-                o.style = formi_c.getElementsByClassName(i)[m].style.cssText;
+                
                 if (i.startsWith("blocker_")) {
                     Array.from(formi_c.getElementsByClassName(i)).forEach(nnnnn => {
+                        o.style = formi_c.getElementsByClassName(i)[m].style.cssText;
                         deal_list[num][i] = o.value = nnnnn.value
                     })
                 } else {
                     Array.from(formi_c.getElementsByClassName(i)).forEach(nnnnn => {
+                        o.parentNode.style = formi_c.getElementsByClassName(i)[m].parentNode.style.cssText;
                         deal_list[num][i] = o.value = nnnnn.value
                     });
                     datalistschange(i)
@@ -246,7 +248,7 @@ document.getElementById("datapul").addEventListener("change", (e) => {
             document.getElementById("anchor").disabled = !all_data[selecting]["anchor?"]
             document.getElementById("anchor").value = all_data[selecting]["anchor"];
             document.getElementById("datalist?").disabled = false;
-            document.getElementById("datalist?").checked = all_data[selecting]["datalist??"];
+            document.getElementById("datalist?").checked = all_data[selecting]["datalist?"];
         } else {
             document.getElementById("anchor?").disabled = true;
             document.getElementById("anchor?").checked = false;
@@ -469,18 +471,31 @@ function anchorcheck() {
 document.getElementById("anchor").addEventListener("change", (e) => {
     all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["anchor"] = e.target.value;
 });
+function unescapeHtml(str) {
+    let doc = new DOMParser().parseFromString(str, 'text/html');
+    return doc.documentElement.textContent;
+}
 function plainreload() {
     let alll = []
     deal_list.forEach(i => {
-        let sent = conf_col;
+        let sent = conf_col.replace(/<[^<>]*>/g,"");
         conf_data.forEach(d => {
-            Array.from(document.getElementsByClassName("messagediv")[0].getElementsByClassName(d)).forEach(s=>{
-                sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
-            })
+            let dd = d.startsWith("liner_")?`$${d.replace("liner_","")
+            .replace(/\\/g,"\\\\")
+            .replace(/\$/g,"\\$")
+            .replace(/\|/g,"\\|")
+            }$`:`|${d.replace("blocker_","")
+            .replace(/\\/g,"\\\\")
+            .replace(/\$/g,"\\$")
+            .replace(/\|/g,"\\|")}|`
+            dd = escapeHtml(dd)
+            console.log(dd)
+            sent = sent.split(dd).join(i[d]);
         })
         alll.push(sent)
     })
-    document.getElementById("previewplain").value = alll.join(document.getElementById("plainset").value)
+    document.getElementById("previewplain").value = unescapeHtml(alll.join(document.getElementById("plainset").value))
+    document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
     let out = ""
@@ -544,11 +559,18 @@ function radiochange(e) {
             let s = 0;
             deal_list.forEach(i => {
                 s++;
-                let sent = conf_col;
+                let sent = conf_col.replace(/<[^<>]*>/g, "");
                 conf_data.forEach(d => {
-                    Array.from(document.getElementsByClassName("messagediv")[0].getElementsByClassName(d)).forEach(s => {
-                        sent = sent.replace(/<[^<>]*>[^<>]*<[^<>]*>/, i[d]);
-                    })
+                    let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
+                        .replace(/\\/g, "\\\\")
+                        .replace(/\$/g, "\\$")
+                        .replace(/\|/g, "\\|")
+                        }$` : `|${d.replace("blocker_", "")
+                            .replace(/\\/g, "\\\\")
+                            .replace(/\$/g, "\\$")
+                            .replace(/\|/g, "\\|")}|`
+                    dd = escapeHtml(dd)
+                    sent = sent.split(dd).join(i[d]);
                 })
                 sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/,"<a href='$1'>$1</a>")
                 alll += `<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`
@@ -562,6 +584,9 @@ function radiochange(e) {
 }
 document.getElementById("plainset").addEventListener("input", function (e) {
     plainreload();
+})
+document.getElementById("previewplain").addEventListener("input",function (e){
+    document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 })
 function randgen() {
     let str = ""
@@ -719,7 +744,6 @@ function tempsave() {
         conf_data.forEach(c => {
             style_list[n-1][c] = []
             Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
-                nn++
                 if (cd.classList.contains("|")) {
                     style_list.push(cd.style.cssText)
                 } else {

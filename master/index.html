@@ -45,10 +45,12 @@ $番号$：$名前$ [$メール$] $id$
                     <div id="messages">
 
                     </div>
-                    <div id="form">
-                        <div id="form_inp"></div>
-                        <div id="addmesssetts">
+                    <div id="form_inp"></div>
+                    <div id="addmesssetts">
+                        <div id="messvdiv">
                             <input type="number" id="messv" value="1">
+                        </div>
+                        <div id="mess_adddiv">
                             <button id="mess_add" type="button" onclick="addmess()">
                                 投稿を追加
                             </button>
@@ -61,10 +63,13 @@ $番号$：$名前$ [$メール$] $id$
                     <div id="plaintext">
                         <textarea id="previewplain"></textarea>
                         <div>
-                            <h2>レス間文字列の設定</h2>
+                            <h3>レス間文字列の設定</h3>
                             <textarea id="plainset">
 
 </textarea>
+                        <div style="text-align: right;">
+                            <span id="plainsize">0</span>文字
+                        </div>
                         </div>
                     </div>
                     <div id="datgen">

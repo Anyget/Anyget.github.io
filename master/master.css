@@ -104,21 +104,15 @@ h1,h2{
     pointer-events: auto;
     flex-grow: 1;
 }
-#form{
-    background-color: azure;
-    flex-grow: 1;
-    padding:2px;
-    overflow : hidden;
-    height: 30%;
-}
 #form_inp{
+    flex-grow: 1;
     vertical-align: top;
     font-size: 17px;
     line-height: 22px;
     overflow-y : scroll;
     border: solid 1px black;
     background-color: rgb(119, 119, 119);
-    height: 80%;
+    height: calc(30% - 2ex - 8px);
     padding: 3px;
     color: white;
 }
@@ -169,10 +163,6 @@ h1,h2{
     content: attr(placeholder);
     pointer-events: none;
 }
-#mess_add{
-    display: inline;
-    margin: 0 0 0 auto;
-}
 .messagediv{
     margin:5px;
     background-color: rgb(241, 255, 163);
@@ -185,6 +175,7 @@ h1,h2{
     filter:brightness(110%)
 }
 #datapul{
+    box-sizing: content-box;
     display: block;
     width: 20vw;
     border: solid 1px black;
@@ -291,7 +282,7 @@ header input:checked + .tab_item:hover{
     border: solid 2px black;
     margin: auto;
     height: 87vh;
-    width: 60%;
+    width: 65%;
     resize: none;
     overflow-y: scroll;
     font-size: 1.2em;
@@ -332,10 +323,6 @@ header input:checked + .tab_item:hover{
     border-radius: 5px;
     padding: 5px;
 }
-#messv{
-    display: inline;
-    width: 3em;
-}
 #save_button,#tempsave_button{
     background-color: #00AA00;
     border: none;
@@ -368,12 +355,9 @@ header input:checked + .tab_item:hover{
 #subssel{
     width: 7em;
 }
-#addmesssetts{
-    float: right;
-}
 #preview{
     display: block;
-    overflow: scroll;
+    overflow-y: scroll;
     height: 97vh;
 }
 .abssc{
@@ -415,4 +399,41 @@ header input:checked + .tab_item:hover{
     resize: none;
     margin: auto;
     margin-top: 3vh;
+}
+header{
+    overflow-y: hidden;
+    overflow-x:auto;
+}
+#messv{
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    line-height: calc(2ex + 2px);
+    box-sizing: border-box;
+}
+#mess_add{
+    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 2px;
+}
+#addmesssetts{
+    background-color: azure;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    min-height: calc(2ex + 8px);
+    height: calc(2ex + 8px);
+    padding: 2px;
+}
+#messvdiv{
+    margin-right: 5px;
+    width: 3em;
+    height: calc(2ex + 4px);
+}
+#mess_adddiv{
+    height: calc(2ex + 4px);
 }
