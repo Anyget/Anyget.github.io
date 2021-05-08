@@ -48,7 +48,7 @@ $番号$：$名前$ [$メール$] $id$
                     <div id="form_inp"></div>
                     <div id="addmesssetts">
                         <div id="messvdiv">
-                            <input type="number" id="messv" value="1">
+                            <input type="number" id="messv" value="1" min="1">
                         </div>
                         <div id="mess_adddiv">
                             <button id="mess_add" type="button" onclick="addmess()">
@@ -133,10 +133,10 @@ $番号$：$名前$ [$メール$] $id$
                 <input type="checkbox" id="check_sim"><label for="check_sim">記号</label>
                 <input type="checkbox" id="check_sp"><label for="check_sp">半角空白</label>
                 <input type="checkbox" id="check_inp" onchange="checkinpchange()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
-                <br><div style="text-align: right;"><input type="number" id="randlen" value="1">文字<input type="number" id="randman" value="1">個
+                <br><div style="text-align: right;"><input type="number" id="randlen" value="1" min="1">文字<input type="number" id="randman" value="1" min="1">個
                 <button onclick="randgen()">生成</button></div>
                 <textarea id="randgenopt" rows="6"></textarea>
-                <input type="number" id="subsnum" value="1">
+                <input type="number" id="subsnum" value="1" min="1">
                 番目以降の
                 <select id="subssel" size="1">
                     <option hidden selected>変数を選択</option>
