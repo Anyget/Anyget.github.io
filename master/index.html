@@ -23,6 +23,14 @@ $番号$：$名前$ [$メール$] $id$
                 ↓変更
             </button>
             <div id="edited"></div>
+            <div id="temp_select">
+                <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
+                <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
+                <input type="number" id="temp_select_number" class="no-spin" value="1" min="1" onchange="temp_number_change()">
+                <button id="temp_select_next" onclick="temp_select_next_click()">&gt;</button>
+                <button id="temp_select_end" onclick="temp_select_end_click()">≫</button>
+            </div>
+            <br>
             <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">ReadMe</a>
         </div>
         <div id="box3">

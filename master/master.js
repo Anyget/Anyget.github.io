@@ -4,9 +4,18 @@ window.onload = function () {
     dragging = null;
     style_list = [];
     conf_data = [];
+    templates = [
+        {
+            "template" : "",
+            "conf_htm" : "",
+            "conf_col" : "",
+            "conf_data" : []
+        },
+    ]
     template = "";
     conf_htm = "";
     conf_col = "";
+    now_temp = 0
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -130,13 +139,13 @@ function changetemp() {
     };
     htm = htm.replace(/\n/g, "<br>");
     if (mode == "normal") {
-        let backupconfdata = conf_data;
+        let backupconfdata = templates[now_temp]["conf_data"];
         document.getElementById("edited").innerHTML = col.replace(/\n/g, "<br>");
         document.getElementById("form_inp").innerHTML = htm;
-        conf_htm = htm;
-        conf_col = col;
-        conf_data = Array.from(new Set(data))
-        conf_data.forEach(i => {
+        templates[now_temp]["conf_htm"] = htm;
+        templates[now_temp]["conf_col"] = col;
+        templates[now_temp]["conf_data"] = Array.from(new Set(data))
+        templates[now_temp]["conf_data"].forEach(i => {
             if (!Object.keys(all_data).includes(i)) {
                 all_data[i] = ({ "adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false });
                 document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
@@ -154,7 +163,7 @@ function changetemp() {
         deal_list.forEach(ii => {
             n++;
             let box = document.getElementById(`message_${n}`);
-            conf_data.forEach(x => {
+            templates[now_temp]["conf_data"].forEach(x => {
                 if (backupconfdata.includes(x)) {
                     style_list[n-1][x] = []
                     Array.from(box.getElementsByClassName(x)).forEach(cd=>{
@@ -168,8 +177,8 @@ function changetemp() {
                     style_list[n - 1][x] = []
                 }
             })
-            box.innerHTML = conf_htm;
-            conf_data.forEach(xx => {
+            box.innerHTML = templates[now_temp]["conf_htm"];
+            templates[now_temp]["conf_data"].forEach(xx => {
                 if (typeof ii[xx] === "undefined") {
                     ii[xx] = "";
                 };
@@ -185,7 +194,7 @@ function changetemp() {
                 cc++
             });
         });
-        template = temp + "";
+        templates[now_temp] = temp + "";
     } else {
         alert("Error:不正な構文");
     };
@@ -195,13 +204,13 @@ function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
         document.getElementById("messages").insertAdjacentHTML("beforeend",
             '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">'
-            + conf_htm + "</div></div>");
+            + templates[now_temp]["conf_htm"] + "</div></div>");
         let formi_c = document.getElementById("form_inp")
         let now = document.getElementById("cd")
         let num = deal_list.length
         now.id = "message_" + (num + 1)
         deal_list.push({})
-        conf_data.forEach(i=>{
+        templates[now_temp]["conf_data"].forEach(i=>{
             let m = 0
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
                 
@@ -220,11 +229,10 @@ function addmess() {
                 m++
             })
         })
-        conf_data.forEach(k => {
+        templates[now_temp]["conf_data"].forEach(k => {
             let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
             if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && all_data[k]["adder"] != 0) {
                 added = Number(added) + Number(all_data[k]["adder"])
-                console.log(added)
             }
             Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i=>{
                 i.value = String(added)
@@ -298,7 +306,7 @@ document.addEventListener("click", (e) => {
         for (let i = num; i < deal_list.length; i++) {
             let to = document.getElementById(`message_${i}`);
             let from = document.getElementById(`message_${i + 1}`);
-            conf_data.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(d => {
                 let nnn = 0
                 Array.from(to.getElementsByClassName(d)).forEach(toc=>{
                     let fromc = from.getElementsByClassName(d)[nnn];
@@ -356,11 +364,10 @@ function drop(e) {
 
     if (target_num != dragging_num) {
         if (target_num > dragging_num) {
-            console.log("a")
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {};
-            conf_data.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(d => {
                 let nnn = 0
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
@@ -376,7 +383,7 @@ function drop(e) {
             for (let i = dragging_num; i < target_num; i++) {
                 let to = document.getElementById(`message_${i}`);
                 let from = document.getElementById(`message_${i + 1}`);
-                conf_data.forEach(d => {
+                templates[now_temp]["conf_data"].forEach(d => {
                     let nnn = 0
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
@@ -390,8 +397,7 @@ function drop(e) {
                     })
                 });
             };
-            console.log(conf_data)
-            conf_data.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(d => {
                 let nnn = 0
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
@@ -410,7 +416,7 @@ function drop(e) {
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {}
-            conf_data.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(d => {
                 let nnn = 0
                 Array.from(dragmes.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
@@ -426,7 +432,7 @@ function drop(e) {
             for (let i = dragging_num; i > target_num; i--) {
                 let to = document.getElementById(`message_${i}`);
                 let from = document.getElementById(`message_${i - 1}`);
-                conf_data.forEach(d => {
+                templates[now_temp]["conf_data"].forEach(d => {
                     let nnn = 0
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
@@ -441,7 +447,7 @@ function drop(e) {
                     
                 });
             };
-            conf_data.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(d => {
                 let nnn = 0
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
@@ -478,8 +484,8 @@ function unescapeHtml(str) {
 function plainreload() {
     let alll = []
     deal_list.forEach(i => {
-        let sent = conf_col.replace(/<[^<>]*>/g,"");
-        conf_data.forEach(d => {
+        let sent = templates[now_temp]["conf_col"].replace(/<[^<>]*>/g,"");
+        templates[now_temp]["conf_data"].forEach(d => {
             let dd = d.startsWith("liner_")?`$${d.replace("liner_","")
             .replace(/\\/g,"\\\\")
             .replace(/\$/g,"\\$")
@@ -489,7 +495,6 @@ function plainreload() {
             .replace(/\$/g,"\\$")
             .replace(/\|/g,"\\|")}|`
             dd = escapeHtml(dd)
-            console.log(dd)
             sent = sent.split(dd).join(i[d]);
         })
         alll.push(sent)
@@ -548,7 +553,7 @@ function radiochange(e) {
     switch (e.target.id) {
         case ("radio_preview"):
             let anchorok = {}
-            conf_data.forEach(a => {
+            templates[now_temp]["conf_data"].forEach(a => {
                 if (!all_data[a]["anchor?"]) { return };
                 if (all_data[a]["anchor"] === "") { return };
                 if (deal_list.map(xx => Object.values(xx).join("")).join("").split(all_data[a]["anchor"]).length - 1 > 10000 || deal_list.map(xx => Object.values(xx).join("")).join("").split(all_data[a]["anchor"]).length - 1 < 1) { return };
@@ -559,8 +564,8 @@ function radiochange(e) {
             let s = 0;
             deal_list.forEach(i => {
                 s++;
-                let sent = conf_col.replace(/<[^<>]*>/g, "");
-                conf_data.forEach(d => {
+                let sent = templates[now_temp]["conf_col"].replace(/<[^<>]*>/g, "");
+                templates[now_temp]["conf_data"].forEach(d => {
                     let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
                         .replace(/\\/g, "\\\\")
                         .replace(/\$/g, "\\$")
@@ -714,7 +719,7 @@ function save() {
     let n = 0;
     deal_list.forEach(d => {
         n++;
-        conf_data.forEach(c => {
+        templates[now_temp]["conf_data"].forEach(c => {
             style_list[n-1][c] = []
             Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
                 if (cd.classList.contains("|")) {
@@ -725,7 +730,16 @@ function save() {
             })
         })
     })
-    let j = JSON.stringify({ "deal_list": deal_list, "all_data": all_data, "style_list": style_list, "conf_data": conf_data, "template": template, "conf_htm": conf_htm, "conf_col": conf_col })
+    let j = JSON.stringify(
+        { "deal_list": deal_list, 
+        "all_data": all_data, 
+        "style_list": style_list,
+        "conf_data": conf_data, 
+        "template": template, 
+        "conf_htm": conf_htm, 
+        "conf_col": conf_col ,
+        "templates": templates,
+        "now_temp":now_temp})
     let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "UNKNOWN"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
@@ -741,7 +755,7 @@ function tempsave() {
     let n = 0;
     deal_list.forEach(d => {
         n++;
-        conf_data.forEach(c => {
+        templates[now_temp]["conf_data"].forEach(c => {
             style_list[n-1][c] = []
             Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
                 if (cd.classList.contains("|")) {
@@ -772,6 +786,8 @@ function load() {
         deal_list = n["deal_list"];
         style_list = n["style_list"];
         template = n["template"];
+        templates = n["templates"];
+        now_temp=n["now_temp"]
         conf_htm = n["conf_htm"];
         conf_data = n["conf_data"];
         document.getElementById("messages").innerHTML = "";
@@ -780,9 +796,9 @@ function load() {
             x++;
             document.getElementById("messages").insertAdjacentHTML("beforeend",
                 `<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="message_${x}">`
-                + conf_htm + "</div></div>")
+                + templates[now_temp]["conf_htm"] + "</div></div>")
             let now = document.getElementById(`message_${x}`)
-            conf_data.forEach(c=>{
+            templates[now_temp]["conf_data"].forEach(c=>{
                 let z = 0
                 Array.from(now.getElementsByClassName(c)).forEach(m=>{
 
@@ -796,7 +812,7 @@ function load() {
                 })
             })
         })
-        document.getElementById("template").value = template
+        document.getElementById("template").value = templates[now_temp]
         changetemp()
         document.getElementById("datapul").innerHTML = "<option hidden selected>設定変更する変数を選択</option>"
         document.getElementById("subssel").innerHTML = "<option hidden selected>変数を選択</option>"
@@ -822,7 +838,7 @@ function subs() {
     let selecting = Object.keys(all_data)[sel.selectedIndex - 1]
     for (let i = num + 0; i - num < txts.length && i <= deal_list.length; i++) {
         deal_list[i - 1][selecting] = txts[i - num]
-        if (conf_data.includes(selecting)) {
+        if (templates[now_temp]["conf_data"].includes(selecting)) {
             document.getElementById(`message_${i}`).getElementsByClassName(selecting)[0].value = txts[i - num];
         }
     }
@@ -1011,7 +1027,6 @@ function replacing(){
         }
     }
     for (r of rr_list){
-        console.log(r)
         datalistschange(r)
     }
 }
@@ -1023,4 +1038,38 @@ function plainreplace(){
         document.getElementById("previewplain").value = document.getElementById("previewplain").value.split(document.getElementById("plainsearch").value).join(document.getElementById("plainreplace").value)
     }
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
+}
+function temp_number_change(){
+    t = document.getElementById("temp_select_number")
+    t.value = Math.floor(Number(t.value))
+    n = Number(t.value)
+    if (n < 1){
+        t.value = 1
+    }
+    if (templates.length<t.value){
+        t.value = templates.length+1
+        templates.push({
+            "template" : "",
+            "conf_htm" : "",
+            "conf_col" : "",
+            "conf_data" :[]
+        })
+    }
+    now_temp = Number(t.value)
+}
+function temp_select_start_click(){
+    document.getElementById("temp_select_number").value = 1
+    temp_number_change()
+}
+function temp_select_prev_click(){
+    document.getElementById("temp_select_number").value = Number(document.getElementById("temp_select_number").value)-1
+    temp_number_change()
+}
+function temp_select_next_click() {
+    document.getElementById("temp_select_number").value = Number(document.getElementById("temp_select_number").value)+1
+    temp_number_change()
+}
+function temp_select_end_click() {
+    document.getElementById("temp_select_number").value = templates.length
+    temp_number_change()
 }
