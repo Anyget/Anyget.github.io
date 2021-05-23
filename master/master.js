@@ -10,12 +10,13 @@ window.onload = function () {
             "conf_htm" : "",
             "conf_col" : "",
             "conf_data" : []
-        },
+        }
     ]
     template = "";
     conf_htm = "";
     conf_col = "";
     now_temp = 0
+    deal_sets = []
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -147,7 +148,7 @@ function changetemp() {
         templates[now_temp]["conf_data"] = Array.from(new Set(data))
         templates[now_temp]["conf_data"].forEach(i => {
             if (!Object.keys(all_data).includes(i)) {
-                all_data[i] = ({ "adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false });
+                all_data[i] = ({"adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false});
                 document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
                 document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
                 document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
@@ -163,10 +164,11 @@ function changetemp() {
         deal_list.forEach(ii => {
             n++;
             let box = document.getElementById(`message_${n}`);
-            templates[now_temp]["conf_data"].forEach(x => {
+            let t = deal_sets[n-1]["use_temp"]
+            templates[t]["conf_data"].forEach(x => {
                 if (backupconfdata.includes(x)) {
-                    style_list[n-1][x] = []
-                    Array.from(box.getElementsByClassName(x)).forEach(cd=>{
+                    style_list[n - 1][x] = []
+                    Array.from(box.getElementsByClassName(x)).forEach(cd => {
                         if (cd.classList.contains("|")) {
                             style_list[n - 1][x].push(cd.style.cssText);
                         } else {
@@ -177,29 +179,38 @@ function changetemp() {
                     style_list[n - 1][x] = []
                 }
             })
-            box.innerHTML = templates[now_temp]["conf_htm"];
-            templates[now_temp]["conf_data"].forEach(xx => {
-                if (typeof ii[xx] === "undefined") {
-                    ii[xx] = "";
-                };
-                let cc = 0
-                Array.from(box.getElementsByClassName(xx)).forEach(iii => {
-                    iii.value = ii[xx];
-                    if (xx.startsWith("blocker_")) {
-                        iii.style = style_list[n - 1][xx][cc]
-                    } else {
-                        iii.parentNode.style = style_list[n - 1][xx][cc]
-                    }
-                })
-                cc++
-            });
-        });
-        templates[now_temp] = temp + "";
+        })
+        messagereload()
+        templates[now_temp]["template"] = temp + "";
     } else {
         alert("Error:不正な構文");
     };
 };
-
+function messagereload(){
+    n = 0
+    deal_list.forEach(ii => {
+        n++;
+        let box = document.getElementById(`message_${n}`);
+        let t = deal_sets[n-1]["use_temp"]
+        
+        box.innerHTML = templates[t]["conf_htm"];
+        templates[t]["conf_data"].forEach(xx => {
+            if (typeof ii[xx] === "undefined") {
+                ii[xx] = "";
+            };
+            let cc = 0
+            Array.from(box.getElementsByClassName(xx)).forEach(iii => {
+                iii.value = ii[xx];
+                if (xx.startsWith("blocker_")) {
+                    iii.style = style_list[n - 1][xx][cc]
+                } else {
+                    iii.parentNode.style = style_list[n - 1][xx][cc]
+                }
+            })
+            cc++
+        });
+    });
+}
 function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
         document.getElementById("messages").insertAdjacentHTML("beforeend",
@@ -210,6 +221,10 @@ function addmess() {
         let num = deal_list.length
         now.id = "message_" + (num + 1)
         deal_list.push({})
+        deal_sets.push({
+            "use_temp":now_temp+0
+        })
+        console.log(deal_sets)
         templates[now_temp]["conf_data"].forEach(i=>{
             let m = 0
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
@@ -321,6 +336,7 @@ document.addEventListener("click", (e) => {
             });
         };
         deal_list.pop();
+        deal_sets.splice(num-1,1)
         document.getElementById("messages").lastChild.outerHTML = "";
     };
 });
@@ -364,17 +380,21 @@ function drop(e) {
 
     if (target_num != dragging_num) {
         if (target_num > dragging_num) {
+            deal_sets.splice(target_num-1,0,deal_sets[dragging_num-1])
+            deal_sets.splice(dragging_num-1,1)
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {};
-            templates[now_temp]["conf_data"].forEach(d => {
+            Object.keys(all_data).forEach(d => {
                 let nnn = 0
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
+                        if (fromc) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                        }
                         itihoarr[d] = deal_list[dragging_num - 1][d]
                     };
                     nnn++
@@ -382,30 +402,37 @@ function drop(e) {
             })
             for (let i = dragging_num; i < target_num; i++) {
                 let to = document.getElementById(`message_${i}`);
+                to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
                 let from = document.getElementById(`message_${i + 1}`);
-                templates[now_temp]["conf_data"].forEach(d => {
+                console.log(confdep(i,i-1))
+                Object.keys(all_data).forEach(d => {
                     let nnn = 0
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
                         if (!all_data[d]["fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
+                            if (fromc) {
+                                toc.style = fromc.style.cssText;
+                                toc.parentNode.style = fromc.parentNode.style.cssText;
+                                toc.value = fromc.value;
+                            }
                             deal_list[i - 1][d] = deal_list[i][d];
                         };
                         nnn++
                     })
                 });
             };
-            templates[now_temp]["conf_data"].forEach(d => {
+            console.log(confdep(dragging_num - 1, target_num - 1))
+            Object.keys(all_data).forEach(d => {
                 let nnn = 0
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
                         if (!all_data[d]["fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
+                            if (fromc) {
+                                toc.style = fromc.style.cssText;
+                                toc.parentNode.style = fromc.parentNode.style.cssText;
+                                toc.value = fromc.value;
+                            }
                             deal_list[target_num - 1][d] = itihoarr[d]
                         };
                     };
@@ -413,17 +440,21 @@ function drop(e) {
                 })
             });
         } else {
+            deal_sets.splice(target_num-1,0,deal_sets[dragging_num-1])
+            deal_sets.splice(dragging_num,1)
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {}
-            templates[now_temp]["conf_data"].forEach(d => {
+            Object.keys(all_data).forEach(d => {
                 let nnn = 0
                 Array.from(dragmes.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
+                        if (fromc) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                        }
                         itihoarr[d] = deal_list[dragging_num - 1][d]
                     };
                     nnn++
@@ -431,37 +462,38 @@ function drop(e) {
             })
             for (let i = dragging_num; i > target_num; i--) {
                 let to = document.getElementById(`message_${i}`);
+                to.innerHTML = templates[deal_sets[i-2]["use_temp"]]["conf_htm"]
                 let from = document.getElementById(`message_${i - 1}`);
-                templates[now_temp]["conf_data"].forEach(d => {
+                Object.keys(all_data).forEach(d => {
                     let nnn = 0
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
                         if (!all_data[d]["fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
+                            if (fromc) {
+                                toc.style = fromc.style.cssText;
+                                toc.parentNode.style = fromc.parentNode.style.cssText;
+                                toc.value = fromc.value;
+                            }
                             deal_list[i - 1][d] = deal_list[i - 2][d];
                         };
                         nnn++
                     })
-                    
                 });
             };
-            templates[now_temp]["conf_data"].forEach(d => {
+            Object.keys(all_data).forEach(d => {
                 let nnn = 0
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
-                        if (!all_data[d]["fix?"]) {
+                        if (fromc) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
-                            deal_list[target_num - 1][d] = itihoarr[d];
                         };
+                        deal_list[target_num - 1][d] = itihoarr[d];
                     };
                     nnn++
                 })
-                
             });
         }
     };
@@ -483,9 +515,11 @@ function unescapeHtml(str) {
 }
 function plainreload() {
     let alll = []
+    c = 0
     deal_list.forEach(i => {
-        let sent = templates[now_temp]["conf_col"].replace(/<[^<>]*>/g,"");
-        templates[now_temp]["conf_data"].forEach(d => {
+        c++
+        let sent = templates[deal_sets[c-1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g,"");
+        templates[deal_sets[c-1]["use_temp"]]["conf_data"].forEach(d => {
             let dd = d.startsWith("liner_")?`$${d.replace("liner_","")
             .replace(/\\/g,"\\\\")
             .replace(/\$/g,"\\$")
@@ -564,8 +598,8 @@ function radiochange(e) {
             let s = 0;
             deal_list.forEach(i => {
                 s++;
-                let sent = templates[now_temp]["conf_col"].replace(/<[^<>]*>/g, "");
-                templates[now_temp]["conf_data"].forEach(d => {
+                let sent = templates[deal_sets[s-1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
+                templates[deal_sets[s-1]["use_temp"]]["conf_data"].forEach(d => {
                     let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
                         .replace(/\\/g, "\\\\")
                         .replace(/\$/g, "\\$")
@@ -1040,9 +1074,9 @@ function plainreplace(){
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function temp_number_change(){
-    t = document.getElementById("temp_select_number")
+    let t = document.getElementById("temp_select_number")
     t.value = Math.floor(Number(t.value))
-    n = Number(t.value)
+    let n = Number(t.value)
     if (n < 1){
         t.value = 1
     }
@@ -1055,7 +1089,10 @@ function temp_number_change(){
             "conf_data" :[]
         })
     }
-    now_temp = Number(t.value)
+    now_temp = Number(t.value)-1
+    document.getElementById("template").value = templates[now_temp]["template"]
+    console.log(templates[0])
+    changetemp()
 }
 function temp_select_start_click(){
     document.getElementById("temp_select_number").value = 1
@@ -1072,4 +1109,15 @@ function temp_select_next_click() {
 function temp_select_end_click() {
     document.getElementById("temp_select_number").value = templates.length
     temp_number_change()
+}
+
+function deparr(arr1,arr2){
+    let arr1arr2 = [...arr1, ...arr2]
+    dep = arr1arr2.filter(
+        item => arr1.includes(item) && arr2.includes(item)
+    )
+    return [...new Set(dep)]
+}
+function confdep(n1,n2){
+    return deparr(templates[deal_sets[n1]["use_temp"]]["conf_data"], templates[deal_sets[n2]["use_temp"]]["conf_data"])
 }
