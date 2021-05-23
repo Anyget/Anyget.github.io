@@ -1015,3 +1015,12 @@ function replacing(){
         datalistschange(r)
     }
 }
+function plainreplace(){
+    if (document.getElementById("ps_reg_cb").checked){
+        let reg = new RegExp(document.getElementById("plainsearch").value, "gi")
+        document.getElementById("previewplain").value = document.getElementById("previewplain").value.replace(reg,document.getElementById("plainreplace").value)
+    }else{
+        document.getElementById("previewplain").value = document.getElementById("previewplain").value.split(document.getElementById("plainsearch").value).join(document.getElementById("plainreplace").value)
+    }
+    document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
+}

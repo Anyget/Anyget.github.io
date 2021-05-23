@@ -2,6 +2,7 @@ html{
     height: 100%;
     overflow: hidden;
     color: black;
+    font-family: sans-serif;
 }
 body{
     margin:0;
@@ -128,12 +129,13 @@ h1,h2{
     color: black;
 }
 .datgen_div{
-    width:12em;
+    width:12rem;
 }
 #datgen_list li{
     width: 100%;
 }
 .\$text,.datgen_div input {
+    font-family: sans-serif;
     font-size: 17px;
     padding:0;
     height: 100%;
@@ -148,7 +150,7 @@ h1,h2{
     color: black;
     border: solid 1.5px black;
     font-size: 16px;
-    height: 4em;
+    height: 4rem;
     background-color: white;
     resize: vertical;
     overflow-y: scroll;
@@ -257,6 +259,7 @@ header input:checked + .tab_item:hover{
     display: none;
 }
 .neko{
+    border: black 1px solid;
     margin:5px;
     background-color: rgb(241, 255, 163);
     padding:5px;
@@ -277,27 +280,36 @@ header input:checked + .tab_item:hover{
     display: flex;
     padding: 5vh;
 }
+#plainsidemenu{
+    padding-left: 10px;
+    width:35%
+}
+#previewplaindiv{
+    width: 65%;
+    font-size: 1.2rem;
+}
 #previewplain{
+    box-sizing: border-box;
     display: block;
     border: solid 2px black;
     margin: auto;
     height: 87vh;
-    width: 65%;
+    width: 100%;
     resize: none;
     overflow-y: scroll;
-    font-size: 1.2em;
 }
 #plainset{
     border: solid 2px black;
     display: block;
     resize: none;
-    margin: auto;
     overflow-y: scroll;
-    font-size: 1.2em;
+    font-size: 1.2rem;
     height: 30vh;
+    width: 100%;
+    box-sizing: border-box;
 }
 #randlen,#randman{
-    width: 3em;
+    width: 3rem;
 }
 #randgenopt{
     resize: none;
@@ -350,10 +362,10 @@ header input:checked + .tab_item:hover{
     filter:brightness(70%);
 }
 #subsnum{
-    width: 3em;
+    width: 3rem;
 }
 #subssel{
-    width: 7em;
+    width: 7rem;
 }
 #preview{
     display: block;
@@ -431,9 +443,61 @@ header{
 }
 #messvdiv{
     margin-right: 5px;
-    width: 3em;
+    width: 3rem;
     height: calc(2ex + 4px);
 }
 #mess_adddiv{
     height: calc(2ex + 4px);
+}
+#plainsearchdiv,#plainreplacediv{
+    display: flex;
+    height: calc(1.2rem + 4px);
+}
+#ps_reg,#plainsearch,#plainreplace{
+    border: solid 2px black;
+    font-size: 1.2rem;
+    overflow: hidden;
+    line-height: 1.2rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+.indent{
+    height: 1.2rem;
+    width: 1.2rem;
+    overflow: hidden;
+}
+#ps_reg{
+    width:1.2rem;
+}
+#ps_reg_label{
+    background-color: #494949;
+    color: #a7a7a7;
+    cursor: pointer;
+    user-select: none;
+}
+#ps_reg_cb:checked+#ps_reg_label{
+    background-color: #6e6e6e;
+    color: #ffee00;
+}
+#ps_reg_label:hover:not(#ps_reg_cb:checked+#ps_reg_label){
+    filter: brightness(1.2);
+}
+#ps_reg_cb{
+    display: none;
+}
+#plainsearch,#plainreplace{
+    display: block;
+    resize: none;
+    width: calc(100% - 2.4rem);
+    overflow-y: scroll;
+}
+#plainreplace{
+    width: calc(100% - 3.6rem)
+}
+#plainreplacebutton{
+    margin: 0;
+    padding: 1px;
+    width: 2.4rem;
+    font-size: 1rem;
+    line-height: 1.2rem;
 }

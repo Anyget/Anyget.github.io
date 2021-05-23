@@ -61,15 +61,30 @@ $番号$：$名前$ [$メール$] $id$
                         
                     </div>
                     <div id="plaintext">
-                        <textarea id="previewplain"></textarea>
-                        <div>
+                        <div id="previewplaindiv"><textarea id="previewplain"></textarea></div>
+                        <div id="plainsidemenu">
                             <h3>レス間文字列の設定</h3>
                             <textarea id="plainset">
 
 </textarea>
-                        <div style="text-align: right;">
-                            <span id="plainsize">0</span>文字
-                        </div>
+                            <div style="text-align: right;">
+                                <span id="plainsize">0</span>文字
+                            </div>
+                            <div>
+                                <h3>置換</h3>
+                                <div id="plainsearchdiv"><div class="indent"></div>
+                                    <input type="text" id="plainsearch" placeholder="from">
+                                    <div id="ps_reg"><input type="checkbox" id="ps_reg_cb">
+                                    <label id="ps_reg_label" for="ps_reg_cb">.*</label></div>
+                                </div>
+                                <div style="width:100%;display:flex">
+                                    <div id="plainreplacediv">
+                                        <div class="indent">→</div>
+                                        <input type="text" id="plainreplace" placeholder="to">
+                                        <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="datgen">
