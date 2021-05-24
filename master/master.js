@@ -3,7 +3,6 @@ window.onload = function () {
     all_data = {};
     dragging = null;
     style_list = [];
-    conf_data = [];
     templates = [
         {
             "template" : "",
@@ -12,9 +11,6 @@ window.onload = function () {
             "conf_data" : []
         }
     ]
-    template = "";
-    conf_htm = "";
-    conf_col = "";
     now_temp = 0
     deal_sets = []
 };
@@ -147,46 +143,47 @@ function changetemp() {
         templates[now_temp]["conf_col"] = col;
         templates[now_temp]["conf_data"] = Array.from(new Set(data))
         templates[now_temp]["conf_data"].forEach(i => {
-            if (!Object.keys(all_data).includes(i)) {
-                all_data[i] = ({"adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false});
-                document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
-                document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
-                document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
-                if (i.startsWith("liner_")) {
-                    document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
-                };
+        if (!Object.keys(all_data).includes(i)) {
+            all_data[i] = ({"adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false});
+            document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+            document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+            document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
+            if (i.startsWith("liner_")) {
+                document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
             };
+        };
+    })
+    while (style_list.length < deal_list.length) {
+        style_list.push({})
+    }
+    let n = 0
+    deal_list.forEach(ii => {
+        n++;
+        let box = document.getElementById(`message_${n}`);
+        let t = deal_sets[n-1]["use_temp"]
+        templates[t]["conf_data"].forEach(x => {
+            if (backupconfdata.includes(x) || now_temp != t) {
+                style_list[n - 1][x] = []
+                Array.from(box.getElementsByClassName(x)).forEach(cd => {
+                    if (cd.classList.contains("|")) {
+                        style_list[n - 1][x].push(cd.style.cssText);
+                    } else {
+                        style_list[n - 1][x].push(cd.parentNode.style.cssText)
+                    }
+                })
+            } else if (!Object.keys(style_list[n - 1]).includes(x)) {
+                style_list[n - 1][x] = []
+            }
         })
-        while (style_list.length < deal_list.length) {
-            style_list.push({})
-        }
-        let n = 0
-        deal_list.forEach(ii => {
-            n++;
-            let box = document.getElementById(`message_${n}`);
-            let t = deal_sets[n-1]["use_temp"]
-            templates[t]["conf_data"].forEach(x => {
-                if (backupconfdata.includes(x)) {
-                    style_list[n - 1][x] = []
-                    Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                        if (cd.classList.contains("|")) {
-                            style_list[n - 1][x].push(cd.style.cssText);
-                        } else {
-                            style_list[n - 1][x].push(cd.parentNode.style.cssText)
-                        }
-                    })
-                } else if (!Object.keys(style_list[n - 1]).includes(x)) {
-                    style_list[n - 1][x] = []
-                }
-            })
-        })
-        messagereload()
-        templates[now_temp]["template"] = temp + "";
+    })
+    messagereload()
+    templates[now_temp]["template"] = temp + "";
     } else {
         alert("Error:不正な構文");
     };
 };
 function messagereload(){
+    console.log(style_list)
     n = 0
     deal_list.forEach(ii => {
         n++;
@@ -194,7 +191,7 @@ function messagereload(){
         let t = deal_sets[n-1]["use_temp"]
         
         box.innerHTML = templates[t]["conf_htm"];
-        templates[t]["conf_data"].forEach(xx => {
+        Object.keys(all_data).forEach(xx => {
             if (typeof ii[xx] === "undefined") {
                 ii[xx] = "";
             };
@@ -206,8 +203,8 @@ function messagereload(){
                 } else {
                     iii.parentNode.style = style_list[n - 1][xx][cc]
                 }
+                cc++
             })
-            cc++
         });
     });
 }
@@ -224,7 +221,6 @@ function addmess() {
         deal_sets.push({
             "use_temp":now_temp+0
         })
-        console.log(deal_sets)
         templates[now_temp]["conf_data"].forEach(i=>{
             let m = 0
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
@@ -320,16 +316,21 @@ document.addEventListener("click", (e) => {
         let num = Number(target.parentNode.nextElementSibling.id.replace("message_", ""));
         for (let i = num; i < deal_list.length; i++) {
             let to = document.getElementById(`message_${i}`);
+            to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
             let from = document.getElementById(`message_${i + 1}`);
-            templates[now_temp]["conf_data"].forEach(d => {
+            Object.keys(all_data).forEach(d => {
                 let nnn = 0
+                if (!all_data[d]["fix?"]) {
+                    deal_list[i - 1][d] = deal_list[i][d];
+                };
                 Array.from(to.getElementsByClassName(d)).forEach(toc=>{
                     let fromc = from.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
-                        toc.style = fromc.style.cssText;
-                        toc.parentNode.style = fromc.parentNode.style.cssText;
-                        toc.value = fromc.value;
-                        deal_list[i - 1][d] = deal_list[i][d];
+                        if (fromc) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                        }
                     };
                     nnn++
                 })
@@ -368,6 +369,8 @@ function dragleave(e) {
     e.target.classList.remove("dragover");
 }
 function drop(e) {
+    console.log(deal_list)
+    console.log(deal_sets)
     let target = e.target
     if (!(target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) {
         return false;
@@ -380,13 +383,15 @@ function drop(e) {
 
     if (target_num != dragging_num) {
         if (target_num > dragging_num) {
-            deal_sets.splice(target_num-1,0,deal_sets[dragging_num-1])
-            deal_sets.splice(dragging_num-1,1)
             let dragmes = dragging.children[1];
             let itiho = dragmes.cloneNode(true);
             let itihoarr = {};
+            let itihods = deal_sets[dragging_num - 1]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
+                if (!all_data[d]["fix?"]) {
+                    itihoarr[d] = deal_list[dragging_num - 1][d]
+                }
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
@@ -395,7 +400,6 @@ function drop(e) {
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
                         }
-                        itihoarr[d] = deal_list[dragging_num - 1][d]
                     };
                     nnn++
                 })
@@ -404,9 +408,11 @@ function drop(e) {
                 let to = document.getElementById(`message_${i}`);
                 to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
                 let from = document.getElementById(`message_${i + 1}`);
-                console.log(confdep(i,i-1))
                 Object.keys(all_data).forEach(d => {
                     let nnn = 0
+                    if (!all_data[d]["fix?"]) {
+                        deal_list[i - 1][d] = deal_list[i][d];
+                    }
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
                         if (!all_data[d]["fix?"]) {
@@ -415,39 +421,20 @@ function drop(e) {
                                 toc.parentNode.style = fromc.parentNode.style.cssText;
                                 toc.value = fromc.value;
                             }
-                            deal_list[i - 1][d] = deal_list[i][d];
                         };
                         nnn++
                     })
                 });
+                deal_sets[i-1] = deal_sets[i]
             };
-            console.log(confdep(dragging_num - 1, target_num - 1))
+            deal_sets[target_num-1] = itihods
+            target.children[1].innerHTML = templates[deal_sets[target_num-1]["use_temp"]]["conf_htm"]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
+                if (!all_data[d]["fix?"]) {
+                    deal_list[target_num - 1][d] = itihoarr[d];
+                }
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
-                    let fromc = itiho.getElementsByClassName(d)[nnn];
-                    if (!all_data[d]["fix?"]) {
-                        if (!all_data[d]["fix?"]) {
-                            if (fromc) {
-                                toc.style = fromc.style.cssText;
-                                toc.parentNode.style = fromc.parentNode.style.cssText;
-                                toc.value = fromc.value;
-                            }
-                            deal_list[target_num - 1][d] = itihoarr[d]
-                        };
-                    };
-                    nnn++
-                })
-            });
-        } else {
-            deal_sets.splice(target_num-1,0,deal_sets[dragging_num-1])
-            deal_sets.splice(dragging_num,1)
-            let dragmes = dragging.children[1];
-            let itiho = dragmes.cloneNode(true);
-            let itihoarr = {}
-            Object.keys(all_data).forEach(d => {
-                let nnn = 0
-                Array.from(dragmes.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
                         if (fromc) {
@@ -455,17 +442,42 @@ function drop(e) {
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
                         }
-                        itihoarr[d] = deal_list[dragging_num - 1][d]
+                    };
+                    nnn++
+                })
+            });
+        } else {
+            let dragmes = dragging.children[1];
+            let itiho = dragmes.cloneNode(true);
+            let itihoarr = {}
+            let itihods = deal_sets[dragging_num - 1]
+            Object.keys(all_data).forEach(d => {
+                let nnn = 0
+                if (!all_data[d]["fix?"]) {
+                    itihoarr[d] = deal_list[dragging_num - 1][d]
+                }
+                Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
+                    let fromc = dragmes.getElementsByClassName(d)[nnn];
+                    if (!all_data[d]["fix?"]) {
+                        if (fromc) {
+                            toc.style = fromc.style.cssText;
+                            toc.parentNode.style = fromc.parentNode.style.cssText;
+                            toc.value = fromc.value;
+                        }
                     };
                     nnn++
                 })
             })
             for (let i = dragging_num; i > target_num; i--) {
+                deal_sets[i - 1] = deal_sets[i - 2]
                 let to = document.getElementById(`message_${i}`);
                 to.innerHTML = templates[deal_sets[i-2]["use_temp"]]["conf_htm"]
                 let from = document.getElementById(`message_${i - 1}`);
                 Object.keys(all_data).forEach(d => {
                     let nnn = 0
+                    if (!all_data[d]["fix?"]) {
+                        deal_list[i - 1][d] = deal_list[i-2][d];
+                    }
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
                         if (!all_data[d]["fix?"]) {
@@ -474,14 +486,18 @@ function drop(e) {
                                 toc.parentNode.style = fromc.parentNode.style.cssText;
                                 toc.value = fromc.value;
                             }
-                            deal_list[i - 1][d] = deal_list[i - 2][d];
                         };
                         nnn++
                     })
                 });
             };
+            deal_sets[target_num-1] = itihods
+            target.children[1].innerHTML = templates[deal_sets[target_num-1]["use_temp"]]["conf_htm"]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
+                if (!all_data[d]["fix?"]) {
+                    deal_list[target_num - 1][d] = itihoarr[d];
+                }
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (!all_data[d]["fix?"]) {
@@ -490,7 +506,6 @@ function drop(e) {
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
                         };
-                        deal_list[target_num - 1][d] = itihoarr[d];
                     };
                     nnn++
                 })
@@ -766,12 +781,9 @@ function save() {
     })
     let j = JSON.stringify(
         { "deal_list": deal_list, 
+        "deal_sets": deal_sets,
         "all_data": all_data, 
         "style_list": style_list,
-        "conf_data": conf_data, 
-        "template": template, 
-        "conf_htm": conf_htm, 
-        "conf_col": conf_col ,
         "templates": templates,
         "now_temp":now_temp})
     let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "UNKNOWN"}.json`
@@ -789,7 +801,7 @@ function tempsave() {
     let n = 0;
     deal_list.forEach(d => {
         n++;
-        templates[now_temp]["conf_data"].forEach(c => {
+        templates[deal_sets[n-1]["use_temp"]]["conf_data"].forEach(c => {
             style_list[n-1][c] = []
             Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
                 if (cd.classList.contains("|")) {
@@ -800,7 +812,16 @@ function tempsave() {
             })
         })
     })
-    let j = JSON.stringify({ "deal_list": [], "all_data": all_data, "style_list": [], "conf_data": conf_data, "template": template, "conf_htm": conf_htm, "conf_col": conf_col })
+    let j = JSON.stringify(
+        { 
+            "deal_list": [],
+            "deal_sets":[],
+            "all_data": all_data, 
+            "style_list": [], 
+            "templates": templates,
+            "now_temp":now_temp
+        }
+    )
     let name = `${document.getElementById("tempsave_inp").value != "" ? document.getElementById("tempsave_inp").value : "UNKNOWN"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
@@ -818,12 +839,10 @@ function load() {
         n = JSON.parse(t);
         all_data = n["all_data"];
         deal_list = n["deal_list"];
+        deal_sets=n["deal_sets"];
         style_list = n["style_list"];
-        template = n["template"];
         templates = n["templates"];
         now_temp=n["now_temp"]
-        conf_htm = n["conf_htm"];
-        conf_data = n["conf_data"];
         document.getElementById("messages").innerHTML = "";
         let x = 0;
         deal_list.forEach(d => {
@@ -832,7 +851,7 @@ function load() {
                 `<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="message_${x}">`
                 + templates[now_temp]["conf_htm"] + "</div></div>")
             let now = document.getElementById(`message_${x}`)
-            templates[now_temp]["conf_data"].forEach(c=>{
+            templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
                 let z = 0
                 Array.from(now.getElementsByClassName(c)).forEach(m=>{
 
@@ -872,7 +891,7 @@ function subs() {
     let selecting = Object.keys(all_data)[sel.selectedIndex - 1]
     for (let i = num + 0; i - num < txts.length && i <= deal_list.length; i++) {
         deal_list[i - 1][selecting] = txts[i - num]
-        if (templates[now_temp]["conf_data"].includes(selecting)) {
+        if (templates[deal_sets[i-1]["use_temp"]]["conf_data"].includes(selecting)) {
             document.getElementById(`message_${i}`).getElementsByClassName(selecting)[0].value = txts[i - num];
         }
     }
