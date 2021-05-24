@@ -190,7 +190,7 @@ function messagereload(){
         let t = deal_sets[n-1]["use_temp"]
         box.innerHTML = templates[t]["conf_htm"];
         Object.keys(all_data).forEach(xx => {
-            if (typeof ii[xx] === "undefined" || !Object.keys(ii).includes(xx)) {
+            if (typeof ii[xx] === "undefined") {
                 ii[xx] = "";
             };
             let cc = 0
@@ -204,7 +204,6 @@ function messagereload(){
                 cc++
             })
         });
-        console.log(ii)
     });
 }
 function addmess() {
@@ -371,8 +370,6 @@ function dragleave(e) {
     e.target.classList.remove("dragover");
 }
 function drop(e) {
-    console.log(deal_list)
-    console.log(deal_sets)
     let target = e.target
     if (!(target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) {
         return false;
@@ -1066,7 +1063,6 @@ function replacing(){
     let n = 0;
     let rr_list = []
     for (i of deal_list){
-        console.log(i)
         n++;
         let to = document.getElementById(`message_${n}`)
         for (r of r_list){
@@ -1115,7 +1111,6 @@ function temp_number_change(){
     }
     now_temp = Number(t.value)-1
     document.getElementById("template").value = templates[now_temp]["template"]
-    console.log(templates[0])
     changetemp()
 }
 function temp_select_start_click(){
