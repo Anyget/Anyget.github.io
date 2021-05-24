@@ -8,11 +8,12 @@ window.onload = function () {
             "template" : "",
             "conf_htm" : "",
             "conf_col" : "",
-            "conf_data" : []
+            "conf_data" : [],
         }
     ]
     now_temp = 0
     deal_sets = []
+    inputing = {}
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -152,6 +153,14 @@ function changetemp() {
                 document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
             };
         };
+        if (!Object.keys(inputing).includes(i)){
+            inputing[i] = ""
+        }
+    })
+    deparr(Object.keys(inputing),templates[now_temp]["conf_data"]).forEach(i=>{
+        let t = document.getElementById("form_inp").getElementsByClassName(i)[0]
+        t.value = inputing[i]
+        taras(t)
     })
     while (style_list.length < deal_list.length) {
         style_list.push({})
@@ -303,6 +312,7 @@ document.addEventListener("input", (e) => {
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
         taras(target)
+        inputing[target.classList[1]] = target.value
     }
 });
 function taras(target){
@@ -784,6 +794,7 @@ function save() {
         "all_data": all_data, 
         "style_list": style_list,
         "templates": templates,
+        "inputing": inputing,
         "now_temp":now_temp})
     let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "UNKNOWN"}.json`
     let blob = new Blob([j], { type: "application/json" });
@@ -818,6 +829,7 @@ function tempsave() {
             "all_data": all_data, 
             "style_list": [], 
             "templates": templates,
+            "inputing":inputing,
             "now_temp":now_temp
         }
     )
@@ -841,6 +853,7 @@ function load() {
         deal_sets=n["deal_sets"];
         style_list = n["style_list"];
         templates = n["templates"];
+        inputing = n["inputing"]
         now_temp=n["now_temp"]
         document.getElementById("messages").innerHTML = "";
         let x = 0;
