@@ -176,23 +176,21 @@ function changetemp() {
             }
         })
     })
-    messagereload()
     templates[now_temp]["template"] = temp + "";
+    messagereload()
     } else {
         alert("Error:不正な構文");
     };
 };
 function messagereload(){
-    console.log(style_list)
     n = 0
     deal_list.forEach(ii => {
         n++;
         let box = document.getElementById(`message_${n}`);
         let t = deal_sets[n-1]["use_temp"]
-        
         box.innerHTML = templates[t]["conf_htm"];
         Object.keys(all_data).forEach(xx => {
-            if (typeof ii[xx] === "undefined") {
+            if (typeof ii[xx] === "undefined" || !Object.keys(ii).includes(xx)) {
                 ii[xx] = "";
             };
             let cc = 0
@@ -206,6 +204,7 @@ function messagereload(){
                 cc++
             })
         });
+        console.log(ii)
     });
 }
 function addmess() {
@@ -218,6 +217,9 @@ function addmess() {
         let num = deal_list.length
         now.id = "message_" + (num + 1)
         deal_list.push({})
+        Object.keys(all_data).forEach(k=>{
+            deal_list[num][k] = ""
+        })
         deal_sets.push({
             "use_temp":now_temp+0
         })
@@ -306,7 +308,7 @@ document.addEventListener("input", (e) => {
 });
 function taras(target){
     let tp = target.matches("textarea") ? target.parentNode : target.parentNode.parentNode
-    Array.from(tp.getElementsByClassName(target.classList[1])).filter(n => n !== target).forEach(k => {
+    Array.from(tp.getElementsByClassName(target.classList[1])).filter(n => n != target).forEach(k => {
         k.value = target.value
     })
 }
@@ -865,7 +867,7 @@ function load() {
                 })
             })
         })
-        document.getElementById("template").value = templates[now_temp]
+        document.getElementById("template").value = templates[now_temp]["template"]
         changetemp()
         document.getElementById("datapul").innerHTML = "<option hidden selected>設定変更する変数を選択</option>"
         document.getElementById("subssel").innerHTML = "<option hidden selected>変数を選択</option>"
@@ -1064,13 +1066,16 @@ function replacing(){
     let n = 0;
     let rr_list = []
     for (i of deal_list){
+        console.log(i)
         n++;
         let to = document.getElementById(`message_${n}`)
         for (r of r_list){
             i[r] = i[r].replace(reg,document.getElementById("replace_b").value)
             rr_list.push(r)
-            to.getElementsByClassName(r)[0].value = i[r]
-            taras(to.getElementsByClassName(r)[0])
+            if (templates[deal_sets[n-1]["use_temp"]]["conf_data"].includes(r)){
+                to.getElementsByClassName(r)[0].value = i[r]
+                taras(to.getElementsByClassName(r)[0])
+            }
             if (!g){
                 break
             }
