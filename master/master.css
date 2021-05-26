@@ -1,3 +1,11 @@
+:root{
+    --box2_color:#659C8A;
+    --box3_color:#c9c9c9;
+    --dataset_color:#2668C9;
+    --randgen_color:#320959;
+    --message_color:#fefefe;
+    --forminp_color:#1D8262;
+}
 html{
     height: 100%;
     overflow: hidden;
@@ -36,12 +44,12 @@ li{
     text-align: center;
     flex-grow : 0;
     width : 25%;
-    background-color: aquamarine;
+    background-color: var(--box2_color);
 }
 
 #box3{
     width : 50%;
-    background-color: rgb(197, 196, 196);
+    background-color: var(--box3_color);
 }
 
 #box4{
@@ -112,7 +120,7 @@ h1,h2{
     line-height: 22px;
     overflow-y : scroll;
     border: solid 1px black;
-    background-color: rgb(119, 119, 119);
+    background-color: var(--forminp_color);
     height: calc(30% - 2ex - 8px);
     padding: 3px;
     color: white;
@@ -166,15 +174,19 @@ h1,h2{
     pointer-events: none;
 }
 .messagediv{
+    border: solid black 1px;
     margin:5px;
-    background-color: rgb(241, 255, 163);
-    padding:5px;
+    background-color: var(--message_color);
+    padding:5px 0;
     padding-top: 0;
     resize: vertical;
     overflow-y: scroll;
 }
 .messagediv:hover{
     filter:brightness(110%)
+}
+.message{
+    padding: 0 5px;
 }
 #datapul{
     box-sizing: content-box;
@@ -185,17 +197,23 @@ h1,h2{
     margin: 0 auto;
     margin-bottom: 10px;
 }
-.closebtndiv{
-    text-align: right;
+.messagehead{
+    background-color: var(--message_color);
+    filter: brightness(0.95);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .closebtn{
+    margin: 0;
+    margin-top: 0.1rem;
+    margin-left: 30px;
+    display: block;
     background-color: #6d6d6d;
     color: black;
-    margin: 0;
     text-align: center;
     border: none;
-    vertical-align: middle;
     padding: 0;
     width: 20px;
     height: 20px;
@@ -224,17 +242,50 @@ h1,h2{
     flex-direction: column;
     overflow: hidden;
 }
-header{
+#tab{
     height: 3vh;
-    background-color: #000000;
+    display: flex;
+}
+#tab_header{
+    height: 100%;
+    width: calc(100% - 4rem);
     padding: 0;
     overflow: hidden;
 }
+#tab_header_in{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: -3vh;
+}
+#tab_prev,#tab_next,#tab_start,#tab_end{
+    user-select: none;
+    box-sizing: border-box;
+    border: rgb(48, 48, 48) solid 1px;
+    height: 3vh;
+    width: 1rem;
+    color: white;
+    line-height: 3vh;
+    background-color: #797979;
+}
+#tab_prev:hover,#tab_next:hover,#tab_start:hover,#tab_end:hover{
+    filter:brightness(1.2)
+}
+#tab_prev:active,#tab_next:active,#tab_start:active,#tab_end:active{
+    filter:brightness(0.7)
+}
+.disabled_tab{
+    pointer-events: none;
+    color: #797979 !important;
+    background-color: #000000 !important;
+}
 .tab_item{
+    flex-grow: 1;
+    display: block;
     padding: 1px;
     padding-top: 0;
     font-size: 2.5vh;
-    line-height: 2.5vh;
+    line-height: 3vh;
     height: 3vh;
     text-align: center;
     background-color: #d9d9d9;
@@ -248,11 +299,11 @@ header{
 input[name="tab_item"] {
     display: none;
 }
-header input:checked + .tab_item{
-    background-color: rgb(197, 196, 196);
+#tab_header_in input:checked + .tab_item{
+    background-color: var(--box3_color);
     border-bottom: none;
 }
-header input:checked + .tab_item:hover{
+#tab_header_in input:checked + .tab_item:hover{
     filter: none;
 }
 #tab_cont>*:not(.radised){
@@ -261,16 +312,16 @@ header input:checked + .tab_item:hover{
 .neko{
     border: black 1px solid;
     margin:5px;
-    background-color: rgb(241, 255, 163);
+    background-color: var(--message_color);
     padding:5px;
     padding-top: 0;
 }
 #dataset{
-    background-color: bisque;
+    background-color: var(--dataset_color);
     border: solid 1px black;
 }
 #randgenbox{
-    background-color: rgb(8, 0, 124);
+    background-color: var(--randgen_color);
     border: solid 1px black;
     flex-grow: 1;
     color: white;
@@ -515,4 +566,12 @@ header{
     -webkit-appearance: none;
     margin: 0;
     -moz-appearance:textfield;
+}
+.tempselectdiv{
+    margin: 0
+
+}
+.tempselect{
+    display: inline-block;
+    width: 2rem;
 }

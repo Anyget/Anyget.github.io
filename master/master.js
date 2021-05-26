@@ -218,7 +218,9 @@ function messagereload(){
 function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
         document.getElementById("messages").insertAdjacentHTML("beforeend",
-            '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">'
+            '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
+            +'<div class="messagehead"><div class="tempselectdiv"><input type="number" class="tempselect no-spin" min="1" value="'
+            + (Number(now_temp)+1) + '" onchange="tempselected(event)"></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">'
             + templates[now_temp]["conf_htm"] + "</div></div>");
         let formi_c = document.getElementById("form_inp")
         let now = document.getElementById("cd")
@@ -312,6 +314,8 @@ document.addEventListener("input", (e) => {
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
         taras(target)
+    }
+    if (target.matches("#form_inp textarea,#form_inp input")){
         inputing[target.classList[1]] = target.value
     }
 });
@@ -860,8 +864,10 @@ function load() {
         deal_list.forEach(d => {
             x++;
             document.getElementById("messages").insertAdjacentHTML("beforeend",
-                `<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="closebtndiv"><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="message_${x}">`
-                + templates[now_temp]["conf_htm"] + "</div></div>")
+            '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
+            +'<div class="messagehead"><div class="tempselectdiv"><input type="number" class="tempselect no-spin" min="1" value="'
+            + String(deal_sets[x-1]["use_temp"]+1) + `" onchange="tempselected(event)"></div><button class="closebtn" title="レスの削除">×</button></div><div id="message_${x}" class="message">`
+            + templates[deal_sets[x-1]["use_temp"]]["conf_htm"] + "</div></div>")
             let now = document.getElementById(`message_${x}`)
             templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
                 let z = 0
@@ -1152,4 +1158,25 @@ function deparr(arr1,arr2){
 }
 function confdep(n1,n2){
     return deparr(templates[deal_sets[n1]["use_temp"]]["conf_data"], templates[deal_sets[n2]["use_temp"]]["conf_data"])
+}
+
+function tempselected(e){
+    let t = e.target
+    let el = t.parentNode.parentNode.nextElementSibling
+    let s = Number(el.id.replace(/[^_]*_/, ""))-1
+    t.value = Math.floor(Number(t.value))
+    let n = Number(t.value)
+    if (n < 1) {
+        t.value = 1
+    }
+    if (templates.length < t.value) {
+        t.value = templates.length
+    }
+    deal_sets[s]["use_temp"] = t.value-1
+    el.innerHTML = templates[t.value-1]["conf_htm"]
+    templates[t.value-1]["conf_data"].forEach(d=>{
+        Array.from(el.getElementsByClassName(d)).forEach(b=>{
+            b.value = deal_list[s][d]
+        })
+    })
 }

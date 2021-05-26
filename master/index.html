@@ -34,20 +34,30 @@ $番号$：$名前$ [$メール$] $id$
             <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">ReadMe</a>
         </div>
         <div id="box3">
-            <header>
-                <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);" checked><!--
-                --><label class="tab_item" for="radio_mesandform">レスの追加</label><!--
-                --><input type="radio" name="tab_item" id="radio_preview" onchange="radiochange(event);"><!--
-                --><label class="tab_item" for="radio_preview">プレビュー</label><!--
-                --><input type="radio" name="tab_item" id="radio_plaintext" onchange="radiochange(event);"><!--
-                --><label class="tab_item" for="radio_plaintext">プレーンテキスト</label><!--
-                --><input type="radio" name="tab_item" id="radio_datgen" onchange="radiochange(event);"><!--
-                --><label class="tab_item" for="radio_datgen">datファイル</label><!--
-                --><input type="radio" name="tab_item" id="radio_saveload" onchange="radiochange(event);"><!--
-                --><label class="tab_item" for="radio_saveload">セーブ/ロード</label><!--
-                --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);"><!--
-                --><label class="tab_item" for="radio_replace">置換する</label>
-            </header>
+            <div id="tab">
+                <div id="tab_start" class="disabled_tab">≪</div>
+                <div id="tab_prev" class="disabled_tab">&lt;</div>
+                <div id="tab_header">
+                    <div id="tab_header_in">
+                        <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);" checked><!--
+                        --><label class="tab_item" for="radio_mesandform">レスの追加</label><!--
+                        --><input type="radio" name="tab_item" id="radio_preview" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_preview">プレビュー</label><!--
+                        --><input type="radio" name="tab_item" id="radio_plaintext" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_plaintext">プレーンテキスト</label><!--
+                        --><input type="radio" name="tab_item" id="radio_datgen" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_datgen">datファイル</label><!--
+                        --><input type="radio" name="tab_item" id="radio_saveload" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_saveload">セーブ/ロード</label><!--
+                        --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_replace">置換する</label><!--
+                        --><input type="radio" name="tab_item" id="radio_dammy1" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_dammy">ああああああああああああああ</label>
+                </div>
+                </div>
+                <div id="tab_next">&gt;</div>
+                <div id="tab_end">≫</div>
+            </div>
             <div id="tab_cont">
                 <div id="mesandform" class="radised">
                     <div id="messages">
