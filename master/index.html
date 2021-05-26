@@ -35,10 +35,10 @@ $番号$：$名前$ [$メール$] $id$
         </div>
         <div id="box3">
             <div id="tab">
-                <div id="tab_start" class="disabled_tab">≪</div>
-                <div id="tab_prev" class="disabled_tab">&lt;</div>
+                <div id="tab_start" onclick="tab_start_scroll()">≪</div>
+                <div id="tab_prev" onclick="tab_prev_scroll()">&lt;</div>
                 <div id="tab_header">
-                    <div id="tab_header_in">
+                    <div id="tab_header_in" data-martop="0">
                         <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);" checked><!--
                         --><label class="tab_item" for="radio_mesandform">レスの追加</label><!--
                         --><input type="radio" name="tab_item" id="radio_preview" onchange="radiochange(event);"><!--
@@ -52,11 +52,11 @@ $番号$：$名前$ [$メール$] $id$
                         --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);"><!--
                         --><label class="tab_item" for="radio_replace">置換する</label><!--
                         --><input type="radio" name="tab_item" id="radio_dammy1" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_dammy">ああああああああああああああ</label>
+                        --><label class="tab_item" for="radio_dammy1">ああああああああああああああ</label>
                 </div>
                 </div>
-                <div id="tab_next">&gt;</div>
-                <div id="tab_end">≫</div>
+                <div id="tab_next" onclick="tab_next_scroll()">&gt;</div>
+                <div id="tab_end" onclick="tab_end_scroll()">≫</div>
             </div>
             <div id="tab_cont">
                 <div id="mesandform" class="radised">
@@ -102,6 +102,11 @@ $番号$：$名前$ [$メール$] $id$
                                         <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
                                     </div>
                                 </div>
+                                <div>
+                                    <button onclick="plaincopy()">
+                                        コピー
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -143,6 +148,10 @@ $番号$：$名前$ [$メール$] $id$
                             <li><input type="text" id="replace_b" placeholder="置換文字列"></li>
                             <li><button onclick="replacing()">置換実行</button></li>
                         </div>
+                    </div>
+                    <div id="dammy1">
+                        だみーです
+                        なにもないよ
                     </div>
                 </div>
             </div>
