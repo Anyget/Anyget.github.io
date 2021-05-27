@@ -1,10 +1,35 @@
 :root{
+    --outline_color:#007acc;
+    --textinput_color:#3c3c3c;
+    --textinput_font_color:#cccccc;
+    --caret_color:#c9c9c9;
+    --selection_color:#264678;
+    --textinput_placeholder_color:#848484;
     --box2_color:#252526;
-    --box3_color:#c9c9c9;
-    --dataset_color:#c9c9c9;
-    --randgen_color:#c9c9c9;
-    --message_color:#fefefe;
-    --forminp_color:#c9c9c9;
+    --box2_font_color:#ccccc2;
+    --box3_color:#1e1e1e;
+    --box3_font_color:#bbbbbb;
+    --dataset_color:#1e1e1e;
+    --randgen_color:#1e1e1e;
+    --messages_color:#1e1e1e;
+    --message_color:#333333;
+    --message_border_color:#414141;
+    --message_font_color:#cccccc;
+    --forminp_color:#1e1e1e;
+    --border_color:#414141;
+    --edited_color:#3c3c3c;
+    --edited_font_color:#cccccc;
+    --closebtn_color:#cf286a;
+    --unselected_tab_color: #2d2d2d;
+    --selected_tab_font_color:#ffffff;
+}
+*:focus{
+    outline: var(--outline_color) solid 1px;
+    outline-offset: -1px;
+}
+::selection{
+    background: var(--selection_color);
+    caret-color: var(--caret_color);
 }
 html{
     height: 100%;
@@ -35,7 +60,7 @@ li{
 
 #box2, #box3,#box4 {
     color:white;
-    border: solid 2px black; 
+    border: solid 1px var(--border_color); 
     min-width : 0px;
     box-sizing: border-box;
 }
@@ -46,11 +71,13 @@ li{
     flex-grow : 0;
     width : 25%;
     background-color: var(--box2_color);
+    color: var(--box2_font_color);
 }
 
 #box3{
     width : 50%;
     background-color: var(--box3_color);
+    color: var(--box3_font_color);
 }
 
 #box4{
@@ -67,7 +94,7 @@ li{
     overflow: auto;
     background-color: white;
     text-align: left;
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     margin: 2% auto;
     line-height: 1.2;
     font-family: sans-serif;
@@ -75,16 +102,16 @@ li{
 }
 
 #edited{
-    color: black;
+    color: var(--edited_font_color);
     height:15vw;
     width:20vw;
     resize:none;
-    background-color: white;
+    background-color: var(--edited_color);
     text-align: left;
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     margin: 2% auto;
     line-height: 1.2;
-    overflow-y : scroll;
+    overflow : auto;
     font-family: sans-serif;
     font-size: 16px;
 }
@@ -109,6 +136,7 @@ h1,h2{
     color: white;
 }
 #messages{
+    background-color: var(--messages_color);
     height: 70%;
     resize : vertical;
     overflow:auto;
@@ -121,13 +149,14 @@ h1,h2{
     font-size: 17px;
     line-height: 22px;
     overflow-y : scroll;
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     background-color: var(--forminp_color);
     height: calc(30% - 2ex - 8px);
     padding: 3px;
     color: white;
 }
 .\$,.datgen_div {
+    margin: 1px;
     display: inline-block;
     width:10%;
     height: 22px;
@@ -152,31 +181,34 @@ h1,h2{
     width: 100%;
     background-color: white;
     box-sizing: border-box;
-    border: solid 1.5px black;
+    border: solid 1.5px var(--border_color);
     vertical-align: top;
 }
 .\| {
     display: block;
-    color: black;
-    border: solid 1.5px black;
     font-size: 16px;
     height: 4rem;
     background-color: white;
     resize: vertical;
     overflow-y: scroll;
     font-family: sans-serif;
-    margin: 1;
+    margin: 1px;
     width: 100%;
     box-sizing: border-box;
 }
 
 .\|:empty:before{
-    color: #757575;
+    color: var(--textinput_placeholder_color);
     content: attr(placeholder);
     pointer-events: none;
 }
+::placeholder{
+    color: var(--textinput_placeholder_color);
+}
 .messagediv{
-    border: solid black 1px;
+    color: var(--message_font_color);
+    border: solid var(--message_border_color) 1px;
+    border-left-width: 5px;
     margin:5px;
     background-color: var(--message_color);
     padding:5px 0;
@@ -194,7 +226,7 @@ h1,h2{
     box-sizing: content-box;
     display: block;
     width: 20vw;
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     font-family: sans-serif;
     margin: 0 auto;
     margin-bottom: 10px;
@@ -212,7 +244,7 @@ h1,h2{
     margin-top: 0.1rem;
     margin-left: 30px;
     display: block;
-    background-color: #6d6d6d;
+    background-color: var(--closebtn_color);
     color: black;
     text-align: center;
     border: none;
@@ -224,12 +256,10 @@ h1,h2{
 }
 
 .closebtn:hover{
-    background-color: #b3b3b3;
-    color: #505050;
+    filter: brightness(1.2);
 }
 .closebtn:active{
-    background-color:#505050;
-    color:#b3b3b3;
+    filter: brightness(0.7);
 }
 .dragover{
     border: dashed 2px black;
@@ -263,7 +293,7 @@ h1,h2{
 #tab_prev,#tab_next,#tab_start,#tab_end{
     user-select: none;
     box-sizing: border-box;
-    border: rgb(48, 48, 48) solid 1px;
+    border: var(--unselected_tab_color) solid 1px;
     height: 3vh;
     width: 1rem;
     color: white;
@@ -286,11 +316,11 @@ h1,h2{
     line-height: 3vh;
     height: 3vh;
     text-align: center;
-    background-color: #d9d9d9;
+    background-color: var(--unselected_tab_color);
     margin: 0;
     margin-bottom: 1vh;
     box-sizing: border-box;
-    border-right: solid 1px black;
+    border-right: solid 1px var(--border_color);
 }
 .tab_item:hover {
     filter: brightness(1.1);
@@ -300,6 +330,7 @@ input[name="tab_item"] {
 }
 #tab_header_in input:checked + .tab_item{
     background-color: var(--box3_color);
+    color: var(--selected_tab_font_color);
     border-bottom: none;
 }
 #tab_header_in input:checked + .tab_item:hover{
@@ -309,7 +340,7 @@ input[name="tab_item"] {
     display: none;
 }
 .neko{
-    border: black 1px solid;
+    border: var(--border_color) 1px solid;
     margin:5px;
     background-color: var(--message_color);
     padding:5px;
@@ -317,11 +348,11 @@ input[name="tab_item"] {
 }
 #dataset{
     background-color: var(--dataset_color);
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
 }
 #randgenbox{
     background-color: var(--randgen_color);
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     flex-grow: 1;
     color: white;
 
@@ -368,7 +399,7 @@ input[name="tab_item"] {
     overflow-y: scroll;
     display: block;
     width: 20vw;
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     font-family: sans-serif;
     margin: 0 auto;
 }
@@ -432,7 +463,7 @@ input[name="tab_item"] {
     visibility: hidden;
 }
 .abssneko{
-    border: solid 1px black;
+    border: solid 1px var(--border_color);
     margin: 0;
     padding: 0;
     pointer-events: auto;
@@ -575,4 +606,9 @@ header{
 .tempselect{
     display: inline-block;
     width: 2rem;
+}
+textarea,input[type="text"],input[type="number"]{
+    background-color: var(--textinput_color) !important;
+    color: var(--textinput_font_color) !important;
+    border: none;
 }
