@@ -135,6 +135,7 @@ function changetemp() {
             };
         };
     };
+    htm = htm.replace(/\<\/textarea\>\n/g,"</textarea>")
     htm = htm.replace(/\n/g, "<br>");
     if (mode == "normal") {
         let backupconfdata = templates[now_temp]["conf_data"];
