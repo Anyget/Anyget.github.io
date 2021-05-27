@@ -1181,7 +1181,7 @@ function tempselected(e){
     })
 }
 function tab_next_scroll(){
-    let basevh = document.getElementById("tab_header").getBoundingClientRect().height
+    let basevh = document.getElementById("tab_header").getBoundingClientRect().height*4/3
     let t = document.getElementById("tab_header_in")
     let inh = t.getBoundingClientRect().height
     if (Math.floor((Number(t.dataset.martop) - 1) * basevh) < Math.floor(inh) * -1) { return false }
@@ -1189,7 +1189,7 @@ function tab_next_scroll(){
     t.style.marginTop = `${Number(t.dataset.martop)*4}vh`
 }
 function tab_end_scroll(){
-    let basevh = document.getElementById("tab_header").getBoundingClientRect().height
+    let basevh = document.getElementById("tab_header").getBoundingClientRect().height*4/3
     let t = document.getElementById("tab_header_in")
     let inh = t.getBoundingClientRect().height
     console.log(inh)

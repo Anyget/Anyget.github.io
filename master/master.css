@@ -1,10 +1,10 @@
 :root{
-    --box2_color:#659C8A;
+    --box2_color:#252526;
     --box3_color:#c9c9c9;
-    --dataset_color:#2668C9;
-    --randgen_color:#320959;
+    --dataset_color:#c9c9c9;
+    --randgen_color:#c9c9c9;
     --message_color:#fefefe;
-    --forminp_color:#1D8262;
+    --forminp_color:#c9c9c9;
 }
 html{
     height: 100%;
@@ -34,6 +34,7 @@ li{
 }
 
 #box2, #box3,#box4 {
+    color:white;
     border: solid 2px black; 
     min-width : 0px;
     box-sizing: border-box;
@@ -74,6 +75,7 @@ li{
 }
 
 #edited{
+    color: black;
     height:15vw;
     width:20vw;
     resize:none;
