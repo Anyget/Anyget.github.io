@@ -19,7 +19,7 @@
 例：
 $番号$：$名前$ [$メール$] $id$
 |本文|"></textarea>
-            <button id="temp_change" type="button" onclick="changetemp()">
+            <button id="temp_change" onclick="changetemp()">
                 ↓変更
             </button>
             <div id="edited"></div>
@@ -159,7 +159,7 @@ $番号$：$名前$ [$メール$] $id$
             <div id="dataset">
                 <h1>変数の詳細設定</h1>
                 <select id="datapul" title="設定する変数を選択" size="5">
-                    <option hidden selected>設定変更する変数を選択</option>
+                    <option hidden selected="true">設定変更する変数を選択</option>
                 </select>
                 <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>
                 <li title="プレビュー時のアンカーの設定（>>など）"><label for="anchor?"><input type="checkbox" id="anchor?" disabled="true" onchange="anchorcheck()">アンカー：</label><input type="text" id="anchor" disabled="true"></li>

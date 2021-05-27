@@ -1044,7 +1044,12 @@ document.addEventListener("mouseover", function (e){
         let a = document.getElementById("abss").firstChild
         let pos_x = pos.left + strWidth(e.target.innerText + "aa")
         let pos_y = pos_x + a.clientWidth > window.innerWidth ? pos.top + e.target.clientHeight : pos.top
-        pos_x = pos_x + a.clientWidth > window.innerWidth ? pos.left - a.clientWidth : pos_x
+        if (pos_x > window.innerWidth*0.8){
+            a.style.maxWidth = String(pos.left - strWidth(e.target.innerText + "aa")) + "px"
+            pos_x = pos.left - a.clientWidth
+        }else{
+            a.style.maxWidth = String(window.innerWidth-pos_x) + "px"
+        }
         a.style.display = "block"
         a.style.top = Math.floor(pos_y) + "px"
         a.style.left = Math.floor(pos_x) + "px"

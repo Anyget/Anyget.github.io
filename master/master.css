@@ -1,5 +1,6 @@
 :root{
     --outline_color:#007acc;
+    --footer_color:#007acc;
     --textinput_color:#3c3c3c;
     --textinput_font_color:#cccccc;
     --caret_color:#c9c9c9;
@@ -9,10 +10,12 @@
     --box2_font_color:#ccccc2;
     --box3_color:#1e1e1e;
     --box3_font_color:#bbbbbb;
+    --box4_color:#1e1e1e;
+    --box4_font_color:#bbbbbb;
     --dataset_color:#1e1e1e;
     --randgen_color:#1e1e1e;
     --messages_color:#1e1e1e;
-    --message_color:#333333;
+    --message_color:#252526;
     --message_border_color:#414141;
     --message_font_color:#cccccc;
     --forminp_color:#1e1e1e;
@@ -22,6 +25,28 @@
     --closebtn_color:#cf286a;
     --unselected_tab_color: #2d2d2d;
     --selected_tab_font_color:#ffffff;
+    --tabbutton_font_color:#dddddd;
+    --tabbutton_color:#909090;
+    --datapul_color:#252526;
+    --datapul_selected_color:#37373d;
+    --replace_list_color:#3c3c3c;
+    --checked_color:#ffff00;
+    --button_color:#1e1e1e;
+    --button_border_color:#414141;
+    --button_font_color:#cccccc;
+    --datgen_border_color:#3c3c3c;
+    --datgen_color:#1e1e1e;
+}
+button{
+    color: var(--button_font_color);
+    background-color: var(--button_color);
+    border: 1px solid var(--button_border_color);
+}
+button:hover{
+    filter: brightness(1.2);
+}
+button:active{
+    filter: brightness(0.7);
 }
 *:focus{
     outline: var(--outline_color) solid 1px;
@@ -34,7 +59,6 @@
 html{
     height: 100%;
     overflow: hidden;
-    color: black;
     font-family: sans-serif;
 }
 body{
@@ -81,6 +105,8 @@ li{
 }
 
 #box4{
+    background-color: var(--box4_color);
+    color: var(--box4_font_color);
     flex-grow : 0;
     width : 25%;
     display: flex;
@@ -122,18 +148,9 @@ h1,h2{
 }
 
 #temp_change{
-    background-color: rgb(197, 197, 197);
     width: 5vw;
     height: 2.5vw;
     border-radius: 1.2vw;
-}
-#temp_change:hover{
-    background-color: rgb(230, 230, 230);
-    
-}
-#temp_change:active{
-    background-color: rgb(110, 110, 110);
-    color: white;
 }
 #messages{
     background-color: var(--messages_color);
@@ -188,7 +205,6 @@ h1,h2{
     display: block;
     font-size: 16px;
     height: 4rem;
-    background-color: white;
     resize: vertical;
     overflow-y: scroll;
     font-family: sans-serif;
@@ -227,9 +243,17 @@ h1,h2{
     display: block;
     width: 20vw;
     border: solid 1px var(--border_color);
+    background-color: var(--datapul_color);
+    color: var(--box4_font_color);
     font-family: sans-serif;
     margin: 0 auto;
     margin-bottom: 10px;
+}
+#datapul option[selected]{
+    background-color: var(--datapul_selected_color);
+}
+#datapul option:checked{
+    background-color: var(--datapul_selected_color) !important;
 }
 .messagehead{
     background-color: var(--message_color);
@@ -255,14 +279,8 @@ h1,h2{
     border-radius: 10px;
 }
 
-.closebtn:hover{
-    filter: brightness(1.2);
-}
-.closebtn:active{
-    filter: brightness(0.7);
-}
 .dragover{
-    border: dashed 2px black;
+    border: dashed 2px var(--border_color);
 }
 .nonono :not(.messagediv){
     pointer-events:none;
@@ -293,18 +311,12 @@ h1,h2{
 #tab_prev,#tab_next,#tab_start,#tab_end{
     user-select: none;
     box-sizing: border-box;
-    border: var(--unselected_tab_color) solid 1px;
+    border: var(--border_color) solid 1px;
     height: 3vh;
     width: 1rem;
-    color: white;
+    color: var(--tabbutton_font_color);
     line-height: 3vh;
-    background-color: #797979;
-}
-#tab_prev:hover,#tab_next:hover,#tab_start:hover,#tab_end:hover{
-    filter:brightness(1.2)
-}
-#tab_prev:active,#tab_next:active,#tab_start:active,#tab_end:active{
-    filter:brightness(0.7)
+    background-color: var(--tabbutton_color);
 }
 .tab_item{
     user-select: none;
@@ -347,14 +359,11 @@ input[name="tab_item"] {
     padding-top: 0;
 }
 #dataset{
-    background-color: var(--dataset_color);
     border: solid 1px var(--border_color);
 }
 #randgenbox{
-    background-color: var(--randgen_color);
     border: solid 1px var(--border_color);
     flex-grow: 1;
-    color: white;
 
 }
 #plaintext{
@@ -374,7 +383,7 @@ input[name="tab_item"] {
 #previewplain{
     box-sizing: border-box;
     display: block;
-    border: solid 2px black;
+    border: solid 2px var(--border_color);
     margin: auto;
     height: 87vh;
     width: 100%;
@@ -382,7 +391,7 @@ input[name="tab_item"] {
     overflow-y: scroll;
 }
 #plainset{
-    border: solid 2px black;
+    border: solid 2px var(--border_color);
     display: block;
     resize: none;
     overflow-y: scroll;
@@ -413,8 +422,8 @@ input[name="tab_item"] {
 #datgen_list{
     width: 80%;
     margin: 0 auto;
-    background-color: rgb(255, 193, 79);
-    border: 10px rgb(52, 177, 226) solid;
+    background-color: var(--datgen_color);
+    border: 10px var(--datgen_border_color) solid;
     border-radius: 5px;
     padding: 5px;
 }
@@ -428,21 +437,9 @@ input[name="tab_item"] {
 #saveload>*{
     text-align: left;
 }
-#save_button:hover,#tempsave_button:hover{
-    filter:brightness(120%);
-}
-#save_button:active,#tempsave_button:active{
-    filter:brightness(70%);
-}
 #load_button{
     background-color: #DD0000;
     border: none;
-}
-#load_button:hover{
-    filter:brightness(120%);
-}
-#load_button:active{
-    filter:brightness(70%);
 }
 #subsnum{
     width: 3rem;
@@ -451,22 +448,30 @@ input[name="tab_item"] {
     width: 7rem;
 }
 #preview{
+    color: var(--box2_font_color);
     display: block;
     overflow-y: scroll;
     height: 97vh;
 }
+#abss{
+    position: relative;
+}
 .abssc{
+    color: var(--box2_font_color);
     position: absolute;
     min-width: 30%;
-    background-color: rgb(241, 255, 163);
+    background-color: var(--message_color);
     pointer-events: none;
     visibility: hidden;
+    width: auto;
 }
 .abssneko{
+    width: 100%;
     border: solid 1px var(--border_color);
     margin: 0;
     padding: 0;
     pointer-events: auto;
+    overflow-wrap : break-word;
 }
 .abssc:hover,.abssc[data-flag="true"],.abssc:hover~.abssc{
     visibility: visible;
@@ -478,12 +483,12 @@ input[name="tab_item"] {
     margin-top: auto;
 }
 #replace_list{
+    background-color: var(--replace_list_color);
     display: block;
     margin-top: 0;
     margin-bottom: 0;
     height: 100%;
     overflow-y: scroll;
-    background-color: white;
     width: 100%;
     resize: none;
 }
@@ -516,7 +521,7 @@ header{
     padding: 2px;
 }
 #addmesssetts{
-    background-color: azure;
+    background-color: var(--footer_color);
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
@@ -537,7 +542,7 @@ header{
     height: calc(1.2rem + 4px);
 }
 #ps_reg,#plainsearch,#plainreplace{
-    border: solid 2px black;
+    border: solid 2px var(--border_color);
     font-size: 1.2rem;
     overflow: hidden;
     line-height: 1.2rem;
@@ -553,14 +558,13 @@ header{
     width:1.2rem;
 }
 #ps_reg_label{
-    background-color: #494949;
-    color: #a7a7a7;
+    background-color: var(--tabbutton_color);
+    color: var(--textinput_font_color);
     cursor: pointer;
     user-select: none;
 }
 #ps_reg_cb:checked+#ps_reg_label{
-    background-color: #6e6e6e;
-    color: #ffee00;
+    color: var(--checked_color);
 }
 #ps_reg_label:hover:not(#ps_reg_cb:checked+#ps_reg_label){
     filter: brightness(1.2);
