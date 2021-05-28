@@ -341,13 +341,15 @@ document.addEventListener("click", (e) => {
                 };
                 Array.from(to.getElementsByClassName(d)).forEach(toc=>{
                     let fromc = from.getElementsByClassName(d)[nnn];
-                    if (!all_data[d]["fix?"]) {
-                        if (fromc) {
+                    if (fromc) {
+                        if (!all_data[d]["fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
+                        }else{
+                            toc.value = deal_list[i-1][d]
                         }
-                    };
+                    }
                     nnn++
                 })
             });
@@ -408,13 +410,15 @@ function drop(e) {
                 }
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
-                    if (!all_data[d]["fix?"]) {
-                        if (fromc) {
+                    if (fromc) {
+                        if (!all_data[d]["fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
+                        }else{
+                            toc.value = deal_list[target_num-1][d]
                         }
-                    };
+                    }
                     nnn++
                 })
             })
@@ -429,13 +433,15 @@ function drop(e) {
                     }
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
-                        if (!all_data[d]["fix?"]) {
-                            if (fromc) {
+                        if (fromc) {
+                            if (!all_data[d]["fix?"]) {
                                 toc.style = fromc.style.cssText;
                                 toc.parentNode.style = fromc.parentNode.style.cssText;
                                 toc.value = fromc.value;
+                            } else {
+                                toc.value = deal_list[i - 1][d]
                             }
-                        };
+                        }
                         nnn++
                     })
                 });
@@ -450,13 +456,15 @@ function drop(e) {
                 }
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
-                    if (!all_data[d]["fix?"]) {
-                        if (fromc) {
+                    if (fromc) {
+                        if (!all_data[d]["fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
+                        }else{
+                            toc.value = deal_list[target_num-1][d]
                         }
-                    };
+                    }
                     nnn++
                 })
             });
@@ -472,13 +480,15 @@ function drop(e) {
                 }
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
-                    if (!all_data[d]["fix?"]) {
-                        if (fromc) {
+                    if (fromc) {
+                        if (!all_data[d]["fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
+                        }else{
+                            toc.value = deal_list[target_num-1][d]
                         }
-                    };
+                    }
                     nnn++
                 })
             })
@@ -494,13 +504,15 @@ function drop(e) {
                     }
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
-                        if (!all_data[d]["fix?"]) {
-                            if (fromc) {
+                        if (fromc) {
+                            if (!all_data[d]["fix?"]) {
                                 toc.style = fromc.style.cssText;
                                 toc.parentNode.style = fromc.parentNode.style.cssText;
                                 toc.value = fromc.value;
+                            } else {
+                                toc.value = deal_list[i-1][d]
                             }
-                        };
+                        }
                         nnn++
                     })
                 });
@@ -514,14 +526,15 @@ function drop(e) {
                 }
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
-                    if (!all_data[d]["fix?"]) {
-                        if (fromc) {
+                    if (fromc) {
+                        if (!all_data[d]["fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
-                        };
-                    };
-                    nnn++
+                        } else {
+                            toc.value = deal_list[target_num - 1][d]
+                        }
+                    }
                 })
             });
         }
@@ -562,7 +575,7 @@ function plainreload() {
         })
         alll.push(sent)
     })
-    document.getElementById("previewplain").value = unescapeHtml(alll.join(document.getElementById("plainset").value))
+    document.getElementById("previewplain").value = alll.join(document.getElementById("plainset").value)
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
