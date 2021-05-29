@@ -1,0 +1,54 @@
+:root{
+    --color_1:#007acc;
+    --color_2:#ffffff;
+    --color_3:#424242;
+    --color_4:#264f78;
+    --color_5:#f3f3f3;
+    --color_6:#ffffff;
+    --color_7:#767676;
+    --color_8:#e5e5e5;
+
+
+
+}
+:root{
+    --outline_color:var(--color_1);
+    --footer_color:var(--color_1);
+    --textinput_color:var(--color_2);
+    --textinput_font_color:var(--color_3);
+    --caret_color:var(--color_3);
+    --selection_color:var(--color_4);
+    --textinput_placeholder_color:var(--color_7);
+    --box2_color:var(--color_5);
+    --box2_font_color:var(--color_3);
+    --box3_color:var(--color_5);
+    --box3_font_color:var(--color_3);
+    --box4_color:var(--color_5);
+    --box4_font_color:var(--color_3);
+    --dataset_color:var(--color_6);
+    --randgen_color:var(--color_6);
+    --messages_color:var(--color_6);
+    --message_color:var(--color_5);
+    --message_border_color:var(--color_8);
+    --message_font_color:var(--color_3);
+    --forminp_color:var(--color_5);
+    --forminp_font_color:var(--color_3);
+    --border_color:var(--color_8);
+    --edited_color:var(--color_2);
+    --edited_font_color:var(--color_3);
+    --closebtn_color:#cf286a;
+    --unselected_tab_color: #ececec;
+    --selected_tab_font_color:#000000;
+    --tabbutton_font_color:var(--color_3);
+    --tabbutton_color:var(--color_8);
+    --datapul_color:var(--color_2);
+    --datapul_selected_color:#37373d;
+    --replace_list_color:var(--color_2);
+    --checked_color:#ffff00;
+    --button_color:var(--color_6);
+    --button_border_color:var(--color_8);
+    --button_font_color:var(--color_3);
+    --datgen_border_color:var(--color_8);
+    --datgen_color:var(--color_6);
+    --addmess_font_color:#ffffff;
+}

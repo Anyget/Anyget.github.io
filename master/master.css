@@ -1,52 +1,8 @@
-:root{
-    --outline_color:#007acc;
-    --footer_color:#007acc;
-    --textinput_color:#3c3c3c;
-    --textinput_font_color:#cccccc;
-    --caret_color:#c9c9c9;
-    --selection_color:#264678;
-    --textinput_placeholder_color:#848484;
-    --box2_color:#252526;
-    --box2_font_color:#ccccc2;
-    --box3_color:#1e1e1e;
-    --box3_font_color:#bbbbbb;
-    --box4_color:#1e1e1e;
-    --box4_font_color:#bbbbbb;
-    --dataset_color:#1e1e1e;
-    --randgen_color:#1e1e1e;
-    --messages_color:#1e1e1e;
-    --message_color:#252526;
-    --message_border_color:#414141;
-    --message_font_color:#cccccc;
-    --forminp_color:#1e1e1e;
-    --border_color:#414141;
-    --edited_color:#3c3c3c;
-    --edited_font_color:#cccccc;
-    --closebtn_color:#cf286a;
-    --unselected_tab_color: #2d2d2d;
-    --selected_tab_font_color:#ffffff;
-    --tabbutton_font_color:#dddddd;
-    --tabbutton_color:#909090;
-    --datapul_color:#252526;
-    --datapul_selected_color:#37373d;
-    --replace_list_color:#3c3c3c;
-    --checked_color:#ffff00;
-    --button_color:#1e1e1e;
-    --button_border_color:#414141;
-    --button_font_color:#cccccc;
-    --datgen_border_color:#3c3c3c;
-    --datgen_color:#1e1e1e;
-}
+@import url(themes/01.css);
 button{
     color: var(--button_font_color);
     background-color: var(--button_color);
     border: 1px solid var(--button_border_color);
-}
-button:hover{
-    filter: brightness(1.2);
-}
-button:active{
-    filter: brightness(0.7);
 }
 *:focus{
     outline: var(--outline_color) solid 1px;
@@ -170,7 +126,7 @@ h1,h2{
     background-color: var(--forminp_color);
     height: calc(30% - 2ex - 8px);
     padding: 3px;
-    color: white;
+    color: var(--forminp_font_color);
 }
 .\$,.datgen_div {
     margin: 1px;
@@ -318,6 +274,12 @@ h1,h2{
     line-height: 3vh;
     background-color: var(--tabbutton_color);
 }
+#tab_prev:hover,#tab_next:hover,#tab_start:hover,#tab_end:hover{
+    filter: brightness(1.2);
+}
+#tab_prev:active,#tab_next:active,#tab_start:active,#tab_end:active{
+    filter: brightness(0.7);
+}
 .tab_item{
     user-select: none;
     flex-grow: 1;
@@ -335,7 +297,7 @@ h1,h2{
     border-right: solid 1px var(--border_color);
 }
 .tab_item:hover {
-    filter: brightness(1.1);
+    filter: brightness(1.2);
 }
 input[name="tab_item"] {
     display: none;
@@ -514,6 +476,8 @@ header{
     box-sizing: border-box;
 }
 #mess_add{
+    color: var(--addmess_font_color);
+    background-color: var(--footer_color);
     box-sizing: border-box;
     display: block;
     height: 100%;
@@ -615,4 +579,10 @@ textarea,input[type="text"],input[type="number"]{
     background-color: var(--textinput_color) !important;
     color: var(--textinput_font_color) !important;
     border: none;
+}
+button:hover{
+    filter: brightness(1.2);
+}
+button:active{
+    filter: brightness(0.7);
 }

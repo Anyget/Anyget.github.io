@@ -14,6 +14,21 @@ window.onload = function () {
     now_temp = 0
     deal_sets = []
     inputing = {}
+    now_theme = 0
+    THEME_LIST = [
+        {
+            "name":"VSCode_Dark",
+            "highlight":true
+        },
+        {
+            "name":"VSCode_Light",
+            "highlight":false
+        },
+        {
+            "name":"000000",
+            "highlight":true
+        }
+    ]
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
