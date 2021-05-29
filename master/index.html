@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>&gt;&gt;anyget（仮）</title>
     <link rel="icon" href="images/Anyget_Logo2_output.svg" type="image/svg+xml">
+    <style>@import url(themes/01.css);@import url(themes/fontcolors/01.css);</style>
     <link rel="stylesheet" type="text/css" href="master.css">
 </head>
 <body>
@@ -45,14 +46,14 @@ $番号$：$名前$ [$メール$] $id$
                         --><label class="tab_item" for="radio_preview">プレビュー</label><!--
                         --><input type="radio" name="tab_item" id="radio_plaintext" onchange="radiochange(event);"><!--
                         --><label class="tab_item" for="radio_plaintext">プレーンテキスト</label><!--
-                        --><input type="radio" name="tab_item" id="radio_datgen" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_datgen">datファイル</label><!--
                         --><input type="radio" name="tab_item" id="radio_saveload" onchange="radiochange(event);"><!--
                         --><label class="tab_item" for="radio_saveload">セーブ/ロード</label><!--
+                        --><input type="radio" name="tab_item" id="radio_settings" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_settings">設定</label><!--
                         --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);"><!--
                         --><label class="tab_item" for="radio_replace">置換する</label><!--
-                        --><input type="radio" name="tab_item" id="radio_dammy1" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_dammy1">ああああああああああああああ</label>
+                        --><input type="radio" name="tab_item" id="radio_datgen" onchange="radiochange(event);"><!--
+                        --><label class="tab_item" for="radio_datgen">datファイル</label>
                 </div>
                 </div>
                 <div id="tab_next" onclick="tab_next_scroll()">&gt;</div>
@@ -75,86 +76,101 @@ $番号$：$名前$ [$メール$] $id$
                         </div>
                     </div>
                 </div>
-                    <div id="preview">
-                        
-                    </div>
-                    <div id="plaintext">
-                        <div id="previewplaindiv"><textarea id="previewplain"></textarea></div>
-                        <div id="plainsidemenu">
-                            <h3>レス間文字列の設定</h3>
-                            <textarea id="plainset">
+                <div id="preview">
+                    
+                </div>
+                <div id="plaintext">
+                    <div id="previewplaindiv"><textarea id="previewplain"></textarea></div>
+                    <div id="plainsidemenu">
+                        <h3>レス間文字列の設定</h3>
+                        <textarea id="plainset">
 
 </textarea>
-                            <div style="text-align: right;">
-                                <span id="plainsize">0</span>文字
+                        <div style="text-align: right;">
+                            <span id="plainsize">0</span>文字
+                        </div>
+                        <div>
+                            <h3>置換</h3>
+                            <div id="plainsearchdiv"><div class="indent"></div>
+                                <input type="text" id="plainsearch" placeholder="from">
+                                <div id="ps_reg"><input type="checkbox" id="ps_reg_cb">
+                                <label id="ps_reg_label" for="ps_reg_cb">.*</label></div>
+                            </div>
+                            <div style="width:100%;display:flex">
+                                <div id="plainreplacediv">
+                                    <div class="indent">→</div>
+                                    <input type="text" id="plainreplace" placeholder="to">
+                                    <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
+                                </div>
                             </div>
                             <div>
-                                <h3>置換</h3>
-                                <div id="plainsearchdiv"><div class="indent"></div>
-                                    <input type="text" id="plainsearch" placeholder="from">
-                                    <div id="ps_reg"><input type="checkbox" id="ps_reg_cb">
-                                    <label id="ps_reg_label" for="ps_reg_cb">.*</label></div>
-                                </div>
-                                <div style="width:100%;display:flex">
-                                    <div id="plainreplacediv">
-                                        <div class="indent">→</div>
-                                        <input type="text" id="plainreplace" placeholder="to">
-                                        <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button onclick="plaincopy()">
-                                        コピー
-                                    </button>
-                                </div>
+                                <button onclick="plaincopy()">
+                                    コピー
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div id="datgen">
-                        <h1>対応する変数/文字列を選択/入力</h1>
-                        <div id="datgen_list">
-                            <li>スレッドタイトル：
-                                <div class="datgen_div"><input type="text" id="dat_title" placeholder="プレーンテキストで入力"></div></li>
-                            <li>名前：
-                                <div class="datgen_div"><input type="text" id="dat_name" placeholder="テンプレート記法で入力"></div></li>
-                            <li>メールアドレス：
-                                <div class="datgen_div"><input type="text" id="dat_mail" placeholder="テンプレート記法で入力"></div></li>
-                            <li>日付・IDなど：
-                                <div class="datgen_div"><input type="text" id="dat_date" placeholder="テンプレート記法で入力"></div></li>
-                            <li>本文：
-                                <div class="datgen_div"><input type="text" id="dat_main" placeholder="テンプレート記法で入力"></div></li>
+                </div>
+                <div id="datgen">
+                    <h1>対応する変数/文字列を選択/入力</h1>
+                    <div id="datgen_list">
+                        <li>スレッドタイトル：
+                            <div class="datgen_div"><input type="text" id="dat_title" placeholder="プレーンテキストで入力"></div></li>
+                        <li>名前：
+                            <div class="datgen_div"><input type="text" id="dat_name" placeholder="テンプレート記法で入力"></div></li>
+                        <li>メールアドレス：
+                            <div class="datgen_div"><input type="text" id="dat_mail" placeholder="テンプレート記法で入力"></div></li>
+                        <li>日付・IDなど：
+                            <div class="datgen_div"><input type="text" id="dat_date" placeholder="テンプレート記法で入力"></div></li>
+                        <li>本文：
+                            <div class="datgen_div"><input type="text" id="dat_main" placeholder="テンプレート記法で入力"></div></li>
+                    </div>
+                        <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
+                </div>
+                <div id="saveload">
+                    <h1>セーブ</h1>
+                    <h2>普通にセーブ</h2>
+                    タイトル：<input type="text" id="save_inp"> <button id="save_button" onclick="save()">セーブ</button>
+                    <h2>テンプレートのみセーブ</h2>
+                    タイトル：<input type="text" id="tempsave_inp"> <button id="tempsave_button" onclick="tempsave()">セーブ</button>
+                    <h1>ロード</h1>
+                    ファイル：<input type="file" id="load_inp" accept=".json"> <button id="load_button" onclick="load()">ロード</button>
+                </div>
+                <div id="replace">
+                    <h1>対象変数の選択</h1>
+                    <div id="replace_div">
+                        <div id="replace_list"></div>
+                        <div><button id="replace_allselect" onclick="replace_allselect()">全選択</button><button onclick="replace_reflect()">反転</button></div>
+                        <li><input type="checkbox" id="replace_s?" checked><label for="replace_s?"><code>.</code>に改行をマッチ</label></li>
+                        <li><input type="checkbox" id="replace_m?" checked><label for="replace_m?">マルチライン</label></li>
+                        <li><input type="checkbox" id="replace_i?" checked><label for="replace_i?">大文字・小文字無視</label></li>
+                        <li><input type="checkbox" id="replace_g?" checked><label for="replace_g?">全置換</label></li>
+                        <li><input type="text" id="replace_a" placeholder="検索対象"></li>
+                        <li><input type="text" id="replace_b" placeholder="置換文字列"></li>
+                        <li><button onclick="replacing()">置換実行</button></li>
+                    </div>
+                </div>
+                <div id="settings">
+                    <input type="search" id="settingsearch" placeholder="設定の検索">
+                    <div id="settingflex">
+                        <div id="settingtab">
+                            <input type="radio" name="setting_tab_item" id="setradio_set_views" checked><!--
+                            --><label for="setradio_set_views" onchange="setradiochange(event)">表示</label><!--
+                            -->
                         </div>
-                            <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
-                    </div>
-                    <div id="saveload">
-                        <h1>セーブ</h1>
-                        <h2>普通にセーブ</h2>
-                        タイトル：<input type="text" id="save_inp"> <button id="save_button" onclick="save()">セーブ</button>
-                        <h2>テンプレートのみセーブ</h2>
-                        タイトル：<input type="text" id="tempsave_inp"> <button id="tempsave_button" onclick="tempsave()">セーブ</button>
-                        <h1>ロード</h1>
-                        ファイル：<input type="file" id="load_inp" accept=".json"> <button id="load_button" onclick="load()">ロード</button>
-                    </div>
-                    <div id="replace">
-                        <h1>対象変数の選択</h1>
-                        <div id="replace_div">
-                            <div id="replace_list"></div>
-                            <div><button id="replace_allselect" onclick="replace_allselect()">全選択</button><button onclick="replace_reflect()">反転</button></div>
-                            <li><input type="checkbox" id="replace_s?" checked><label for="replace_s?"><code>.</code>に改行をマッチ</label></li>
-                            <li><input type="checkbox" id="replace_m?" checked><label for="replace_m?">マルチライン</label></li>
-                            <li><input type="checkbox" id="replace_i?" checked><label for="replace_i?">大文字・小文字無視</label></li>
-                            <li><input type="checkbox" id="replace_g?" checked><label for="replace_g?">全置換</label></li>
-                            <li><input type="text" id="replace_a" placeholder="検索対象"></li>
-                            <li><input type="text" id="replace_b" placeholder="置換文字列"></li>
-                            <li><button onclick="replacing()">置換実行</button></li>
+                        <div id="settinginput">
+                            <div class="setradised" id="set_views">
+                                <h4>テーマ<select id="themeselect"></select></h4>
+                                <h4>変数に色を付ける<input type="checkbox" id="highlight"></h4>
+                            </div>
+                            <div id="set_editor">
+
+                            </div>
                         </div>
-                    </div>
-                    <div id="dammy1">
-                        だみーです
-                        なにもないよ
                     </div>
                 </div>
             </div>
+        </div>
         <div id="box4">
             <div id="dataset">
                 <h1>変数の詳細設定</h1>

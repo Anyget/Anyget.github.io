@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="793.70081"
+   height="1122.5197"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <path
+       id="rect841"
+       style="fill:#dac55e;stroke-width:5.00031;stroke-linecap:square;paint-order:fill markers stroke"
+       d="m 0,561.25977 v 264.27539 c 0,164.52958 132.45477,296.98434 296.98438,296.98434 h 50.25976 V 927.80859 a 99.212598,99.212598 0 0 1 -49.60547,-85.91797 99.212598,99.212598 0 0 1 99.21094,-99.21289 99.212598,99.212598 0 0 1 99.21289,99.21289 99.212598,99.212598 0 0 1 -49.60547,85.91993 v 194.70895 h 50.25977 c 164.52958,0 296.98437,-132.45476 296.98437,-296.98434 V 561.25977 Z"
+       transform="scale(0.26458333)" />
+    <rect
+       style="fill:#dac55e;stroke-width:1.323;stroke-linecap:square;paint-order:fill markers stroke"
+       id="rect926"
+       width="26.250015"
+       height="74.250023"
+       x="26.249996"
+       y="74.249954" />
+    <rect
+       style="fill:#dac55e;stroke-width:1.323;stroke-linecap:square;paint-order:fill markers stroke"
+       id="rect928"
+       width="26.249969"
+       height="74.250023"
+       x="157.50002"
+       y="74.249954" />
+    <rect
+       style="fill:#dac55e;stroke-width:1.323;stroke-linecap:square;paint-order:fill markers stroke"
+       id="rect963"
+       width="157.49998"
+       height="37.124973"
+       x="26.24999"
+       y="55.267838"
+       rx="26.249975"
+       ry="18.562487" />
+  </g>
+</svg>

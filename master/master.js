@@ -1,9 +1,13 @@
-window.onload = function () {
-    deal_list = [];
-    all_data = {};
-    dragging = null;
-    style_list = [];
-    templates = [
+const theme_list = [
+    "VSCode_Dark",
+    "VSCode_Light",
+    "HighDark",
+]
+let deal_list = [];
+let all_data = {};
+let dragging = null;
+let style_list = [];
+let templates = [
         {
             "template" : "",
             "conf_htm" : "",
@@ -11,24 +15,18 @@ window.onload = function () {
             "conf_data" : [],
         }
     ]
-    now_temp = 0
-    deal_sets = []
-    inputing = {}
-    now_theme = 0
-    THEME_LIST = [
-        {
-            "name":"VSCode_Dark",
-            "highlight":true
-        },
-        {
-            "name":"VSCode_Light",
-            "highlight":false
-        },
-        {
-            "name":"000000",
-            "highlight":true
-        }
-    ]
+let now_temp = 0
+let deal_sets = []
+let inputing = {}
+let now_theme = 0
+window.onload = function () {
+    let l = document.getElementById("themeselect")
+    let c = 0
+    theme_list.forEach(t=>{
+        c++
+        l.insertAdjacentHTML("beforeend",`<option value=${c}>${t}</option>`)
+    })
+    l.firstChild.selected = true
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -234,8 +232,8 @@ function messagereload(){
 function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
         document.getElementById("messages").insertAdjacentHTML("beforeend",
-            '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
-            +'<div class="messagehead"><div class="tempselectdiv"><input type="number" class="tempselect no-spin" min="1" value="'
+            '<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
+            +'<div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><input type="number" class="tempselect no-spin" min="1" value="'
             + (Number(now_temp)+1) + '" onchange="tempselected(event)"></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">'
             + templates[now_temp]["conf_htm"] + "</div></div>");
         let formi_c = document.getElementById("form_inp")
@@ -247,7 +245,8 @@ function addmess() {
             deal_list[num][k] = ""
         })
         deal_sets.push({
-            "use_temp":now_temp+0
+            "use_temp":now_temp+0,
+            "locked":false
         })
         templates[now_temp]["conf_data"].forEach(i=>{
             let m = 0
@@ -371,7 +370,9 @@ document.addEventListener("click", (e) => {
         };
         deal_list.pop();
         deal_sets.splice(num-1,1)
+        console.log(deal_sets)
         document.getElementById("messages").lastChild.outerHTML = "";
+        lockreload()
     };
 });
 function changefix() {
@@ -554,6 +555,7 @@ function drop(e) {
             });
         }
     };
+    lockreload()
 };
 function dragend(e) {
     document.querySelector("body").classList.remove("nonono");
@@ -572,7 +574,7 @@ function unescapeHtml(str) {
 }
 function plainreload() {
     let alll = []
-    c = 0
+    let c = 0
     deal_list.forEach(i => {
         c++
         let sent = templates[deal_sets[c-1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g,"");
@@ -894,7 +896,7 @@ function load() {
             x++;
             document.getElementById("messages").insertAdjacentHTML("beforeend",
             '<div class="messagediv"  draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
-            +'<div class="messagehead"><div class="tempselectdiv"><input type="number" class="tempselect no-spin" min="1" value="'
+            +'<div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><input type="number" class="tempselect no-spin" min="1" value="'
             + String(deal_sets[x-1]["use_temp"]+1) + `" onchange="tempselected(event)"></div><button class="closebtn" title="レスの削除">×</button></div><div id="message_${x}" class="message">`
             + templates[deal_sets[x-1]["use_temp"]]["conf_htm"] + "</div></div>")
             let now = document.getElementById(`message_${x}`)
@@ -1244,4 +1246,32 @@ function tab_start_scroll(){
 }
 function plaincopy(){
     navigator.clipboard.writeText(document.getElementById("previewplain").value)
+}
+function setradiochange(e) {
+    document.getElementsByClassName("setradised")[0].classList.remove("setradised");
+    document.getElementById(e.target.id.replace("setradio_","")).classList.add("setradised");
+}
+
+function lockmes(e){
+    if (e.target.checked){
+        e.target.parentNode.parentNode.parentNode.parentNode.classList.add("locked_mess")
+        deal_sets[Number(e.target.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = true
+    }else{
+        e.target.parentNode.parentNode.parentNode.parentNode.classList.remove("locked_mess")
+        deal_sets[Number(e.target.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = false
+    }
+}
+
+function lockreload(){
+    let c = 0
+    deal_sets.forEach(s => {
+        c++
+        let m = document.getElementById(`message_${c}`).parentNode
+        console.log(m)
+        m.getElementsByClassName("meslockcheck")[0].checked = s["locked"]
+        m.classList.remove("locked_mess")
+        if (s["locked"]) {
+            m.classList.add("locked_mess")
+        }
+    })
 }

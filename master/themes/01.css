@@ -50,5 +50,7 @@
     --button_font_color:var(--color_3);
     --datgen_border_color:var(--color_2);
     --datgen_color:var(--color_6);
-    --addmess_font_color:#ffffff
+    --addmess_font_color:#ffffff;
+    --liner_font_color:var(--color_3);
+    --blocker_font_color:var(--color_3);
 }

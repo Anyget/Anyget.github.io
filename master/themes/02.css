@@ -51,4 +51,6 @@
     --datgen_border_color:var(--color_8);
     --datgen_color:var(--color_6);
     --addmess_font_color:#ffffff;
+    --liner_font_color:var(--color_3);
+    --blocker_font_color:var(--color_3);
 }
