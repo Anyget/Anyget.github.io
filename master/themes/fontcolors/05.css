@@ -1,0 +1,7 @@
+:root{
+    --liner_font_color:#117743;
+    --blocker_font_color:#cc1105;
+}
+.\$text{
+    font-weight: 550;
+}

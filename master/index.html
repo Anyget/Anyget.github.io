@@ -24,7 +24,7 @@ $番号$：$名前$ [$メール$] $id$
             <button id="temp_change" onclick="changetemp()">
                 ↓変更
             </button>
-            <div id="edited"></div>
+            <div id="edited" class="textbox_like"></div>
             <div id="temp_select">
                 <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
                 <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
@@ -140,7 +140,7 @@ $番号$：$名前$ [$メール$] $id$
                 <div id="replace">
                     <h1>対象変数の選択</h1>
                     <div id="replace_div">
-                        <div id="replace_list"></div>
+                        <div id="replace_list" class="textbox_like"></div>
                         <div><button id="replace_allselect" onclick="replace_allselect()">全選択</button><button onclick="replace_reflect()">反転</button></div>
                         <li><input type="checkbox" id="replace_s?" checked><label for="replace_s?"><code>.</code>に改行をマッチ</label></li>
                         <li><input type="checkbox" id="replace_m?" checked><label for="replace_m?">マルチライン</label></li>
@@ -175,7 +175,7 @@ $番号$：$名前$ [$メール$] $id$
         <div id="box4">
             <div id="dataset">
                 <h1>変数の詳細設定</h1>
-                <select id="datapul" title="設定する変数を選択" size="5">
+                <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like">
                     <option hidden selected="true">設定変更する変数を選択</option>
                 </select>
                 <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>

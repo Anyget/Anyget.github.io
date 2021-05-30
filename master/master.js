@@ -2,6 +2,10 @@ const theme_list = [
     "VSCode_Dark",
     "VSCode_Light",
     "HighDark",
+    "5ch",
+    "futaba",
+    "Twitter",
+    "Discord"
 ]
 let deal_list = [];
 let all_data = {};

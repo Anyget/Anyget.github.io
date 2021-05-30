@@ -207,15 +207,8 @@ h1,h2{
     margin: 0 auto;
     margin-bottom: 10px;
 }
-#datapul option[selected]{
-    background-color: var(--datapul_selected_color);
-}
-#datapul option:checked{
-    background-color: var(--datapul_selected_color) !important;
-}
 .messagehead{
     background-color: var(--message_color);
-    filter: brightness(0.95);
     display: flex;
 }
 

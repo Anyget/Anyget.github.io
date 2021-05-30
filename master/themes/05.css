@@ -1,0 +1,61 @@
+:root{
+    --color_1:#e04000;
+    --color_2:#ffffff;
+    --color_3:#800000;
+    --color_4:#eeaa88;
+    --color_5:#f0e0d6;
+    --color_6:#ffffee;
+    --color_7:#99999f;
+    --color_8:#e5e5e5;
+
+
+
+}
+:root{
+    --outline_color:#000000;
+    --footer_color:var(--color_1);
+    --textinput_color:var(--color_2);
+    --textinput_font_color:var(--color_3);
+    --caret_color:var(--color_3);
+    --selection_color:#3390ff;
+    --textinput_placeholder_color:var(--color_7);
+    --box2_color:var(--color_5);
+    --box2_font_color:var(--color_3);
+    --box3_color:var(--color_6);
+    --box3_font_color:var(--color_3);
+    --box4_color:var(--color_5);
+    --box4_font_color:var(--color_3);
+    --dataset_color:var(--color_6);
+    --randgen_color:var(--color_6);
+    --messages_color:var(--color_6);
+    --message_color:var(--color_5);
+    --message_border_color:var(--color_2);
+    --message_font_color:var(--color_3);
+    --forminp_color:var(--color_4);
+    --forminp_font_color:var(--color_3);
+    --border_color:var(--color_2);
+    --edited_color:var(--color_2);
+    --edited_font_color:var(--color_3);
+    --closebtn_color:#cf286a;
+    --unselected_tab_color: #ebebeb;
+    --selected_tab_font_color:#3b4357;
+    --tabbutton_font_color:#000000;
+    --tabbutton_color:var(--color_8);
+    --datapul_color:var(--color_2);
+    --datapul_selected_color:#37373d;
+    --replace_list_color:var(--color_2);
+    --checked_color:#ffff00;
+    --button_color:var(--color_8);
+    --button_border_color:var(--color_2);
+    --button_font_color:#000000;
+    --datgen_border_color:var(--color_2);
+    --datgen_color:var(--color_6);
+    --addmess_font_color:#000000;
+    --liner_font_color:var(--color_3);
+    --blocker_font_color:var(--color_3);
+}
+textarea,input[type="text"],input[type="number"],input[type="search"],.textbox_like{
+    background-color: var(--textinput_color) !important;
+    color: var(--textinput_font_color);
+    border: #000000 solid 1px !important;
+}
