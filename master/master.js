@@ -274,6 +274,7 @@ function addmess() {
             }
             Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i=>{
                 i.value = String(added)
+                inputing[k] = i.value
             })
         });
     }
@@ -1282,8 +1283,19 @@ function themechange(){
     let t = document.getElementById("themeselect")
     let n = t.options[t.selectedIndex].value
     let s = `@import url(themes/${n}.css);`
+    let ss = ""
     if (document.getElementById("highlightcheck").checked){
-        s += `@import url(themes/fontcolors/${n}.css);`
+        ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[0].innerText = s
+    document.getElementsByTagName("style")[1].innerText = ss
+}
+function highlightchange(){
+    let t = document.getElementById("themeselect")
+    let n = t.options[t.selectedIndex].value
+    let ss = ""
+    if (document.getElementById("highlightcheck").checked) {
+        ss = `@import url(themes/fontcolors/${n}.css);`
+    }
+    document.getElementsByTagName("style")[1].innerText = ss
 }

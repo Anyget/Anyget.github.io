@@ -59,8 +59,24 @@ style: |
 
 <span>４ ： <b>大分類</b>：2021/05/29(土) 10:57</span>
 <ind><anchor>&gt;&gt;3</anchor>
-単純に推しです　できれば読んでください</ind>
+できれば読んでください</ind>
 
+</div>
+
+---
+<!--
+_backgroundColor: #ffedbd
+-->
+### 作品例
+<div style="display:flex;height:90%;width:%;">
+    <div style="width:50%;">
+        <h4 style="font-size:0.65em;margin:0;">『【VR】ブレイブファンタジー【神ゲー確実】』より抜粋</h4>
+        <img src="images/9f88b1b3c3cfebf75f23309ff5c6e9dba6acebd63612c0a9e8971dc2d9746504.png" style="transform:scale(0.8);margin:auto;display:block;">
+    </div>
+    <div style="width:50%;">
+        <h4 style="font-size:0.65em;margin:0;">『シャングリラ・フロンティア〜クソゲーハンター、神ゲーに挑まんとす〜』より抜粋</h4>
+        <img src="images/3752bc9c50d8688a81fd5dbde0bec829dffc3f2550306195577d3cf7df536df9.png" style="transform:scale(0.8);margin:auto;display:block;">
+    </div>
 </div>
 
 ---
@@ -92,25 +108,25 @@ style: |
 <span style="color:red; text-algin:left;font-size:1.4em;">掲示板小説の分類</span>
 
 <span>9 ： <b style="color:green;">小分類</b>：2021/05/29(土) 12:08</span>
-<ind>雑談スレ</ind>
+<ind>・雑談スレ</ind>
 
 <span>10 ： <b>小分類</b>：2021/05/29(土) 12:10</span>
-<ind>攻略スレ</ind>
+<ind>・攻略スレ</ind>
 
 <span>11 ： <b>小分類</b>：2021/05/29(土) 12:10</span>
-<ind>攻略スレのはずがいつの間にか雑談スレになっちゃったスレ</ind>
+<ind>・攻略スレのはずがいつの間にか雑談スレになっちゃったスレ</ind>
 
 <span>12 ： <b>小分類</b>：2021/05/29(土) 12:11</span>
-<ind>雑談スレのはずがいつの間にか攻略スレになっちゃったスレ</ind>
+<ind>・雑談スレのはずがいつの間にか攻略スレになっちゃったスレ</ind>
 
 <span>13 ： <b style="color:green;">小分類</b>：2021/05/29(土) 12:12</span>
-<ind>釣りスレ</ind>
+<ind>・釣りスレ</ind>
 
 <span>14 ： <b style="color:green;">小分類</b>：2021/05/29(土) 12:12</span>
-<ind>実況スレ</ind>
+<ind>・実況スレ</ind>
 
 <span>15 ： <b>小分類</b>：2021/05/29(土) 12:13</span>
-<ind>ゲーム内掲示板</ind>
+<ind>・ゲーム内掲示板</ind>
 </div>
 
 ---
@@ -119,10 +135,9 @@ style: |
 ## キャラを使い捨てられる
 - 登場する全キャラクターが匿名であるため、詳細な設定を練らずとも**即興で登場させて即興で退場**させる事が可能
 - もちろん、『使い捨てない選択肢』をあえて選び取ることもできる
-	- 『使い捨てない選択肢』の例：
-		- 『ゲーム内掲示板』モデルにおける**プレイヤーネーム**
-		- **ID**を付ける
-		- **口調**でキャラ付けする
+	- 『ゲーム内掲示板』モデルにおける**プレイヤーネーム**
+	- **ID**を付ける
+	- **口調**でキャラ付けする
 
 ---
 
@@ -140,9 +155,18 @@ style: |
 ## ツールとの相性がいい
 - 本質的に『テンプレートの連続』であるため、適切なツールを使うことで効率的に執筆できる
 	- <mark>IDの生成を自動化</mark>するとか
-	- レスの<mark>並び替え</mark>に対応するとか
-    	- 特定の値だけ並び替えの影響を受けないようにするとか
-	- <mark>セーブ&ロード</mark>をつけるとか
+	- <mark>並び替え</mark>に対応するとか
 ### しかし
 - 現状Webに公開されている掲示板小説執筆支援ツールは若干<span style="color:red;">かゆいところに手が届かない</span>物ばかり
 	- →だったら、**自分でツールを作ればいい**！！
+
+---
+
+# >>Anyget（仮）
+- 強力掲示板小説執筆支援ツール
+- **>>2get**というネットスラングから名前（仮）を取った
+![picture 1](images/3b54563f27d06b29157eb99ebabb6daff745ba286881e0076706ab0f34dacd80.png)  
+
+---
+
+# 今ある機能
