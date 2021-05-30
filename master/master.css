@@ -477,6 +477,7 @@ header{
     box-sizing: border-box;
 }
 #mess_add{
+    border: var(--border_color) 1px solid;
     color: var(--addmess_font_color);
     background-color: var(--footer_color);
     box-sizing: border-box;
@@ -578,7 +579,10 @@ header{
     visibility: hidden;
     width: 2rem;
 }
-.messagediv:hover .tempselect,.tempselect:focus{
+.tempselect option{
+    visibility: hidden;
+}
+.messagediv:hover .tempselect,.tempselect:focus.messagediv:hover .tempselect option,.tempselect:focus option{
     visibility: visible;
 }
 textarea,input[type="text"],input[type="number"],input[type="search"]{

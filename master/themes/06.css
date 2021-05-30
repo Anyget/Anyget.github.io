@@ -38,7 +38,7 @@
     --edited_font_color:var(--color_3);
     --closebtn_color:#cf286a;
     --unselected_tab_color: #ebebeb;
-    --selected_tab_font_color:#ebebeb;
+    --selected_tab_font_color:var(--color_3);
     --tabbutton_font_color:#ebebeb;
     --tabbutton_color:var(--color_8);
     --datapul_color:var(--color_2);
@@ -55,5 +55,5 @@
     --blocker_font_color:var(--color_3);
 }
 .messagediv{
-    border: var(--color_2) 1px solid !important;
+    border: var(--color_2) 2px solid !important;
 }
