@@ -24,7 +24,7 @@ window.onload = function () {
     let c = 0
     theme_list.forEach(t=>{
         c++
-        l.insertAdjacentHTML("beforeend",`<option value=${c}>${t}</option>`)
+        l.insertAdjacentHTML("beforeend", `<option value=${("0" + c).slice(-2)}>${t}</option>`)
     })
     l.firstChild.selected = true
 };
@@ -569,8 +569,13 @@ document.getElementById("anchor").addEventListener("change", (e) => {
     all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["anchor"] = e.target.value;
 });
 function unescapeHtml(str) {
-    let doc = new DOMParser().parseFromString(str, 'text/html');
-    return doc.documentElement.textContent;
+    let div = document.createElement("div");
+    div.innerHTML = str.replace(/</g,"&lt;")
+                        .replace(/>/g,"&gt;")
+                        .replace(/ /g, "&nbsp;")
+                        .replace(/\r/g, "&#13;")
+                        .replace(/\n/g, "&#10;");
+    return div.textContent || div.innerText;
 }
 function plainreload() {
     let alll = []
@@ -587,12 +592,11 @@ function plainreload() {
             .replace(/\\/g,"\\\\")
             .replace(/\$/g,"\\$")
             .replace(/\|/g,"\\|")}|`
-            dd = escapeHtml(dd)
-            sent = sent.split(dd).join(i[d]);
+            sent = sent.split(dd).join(escapeHtml(i[d]));
         })
         alll.push(sent)
     })
-    document.getElementById("previewplain").value = alll.join(document.getElementById("plainset").value)
+    document.getElementById("previewplain").value = unescapeHtml(alll.join(document.getElementById("plainset").value))
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
@@ -667,8 +671,7 @@ function radiochange(e) {
                             .replace(/\\/g, "\\\\")
                             .replace(/\$/g, "\\$")
                             .replace(/\|/g, "\\|")}|`
-                    dd = escapeHtml(dd)
-                    sent = sent.split(dd).join(i[d]);
+                    sent = sent.split(dd).join(escapeHtml(i[d]));
                 })
                 sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/,"<a href='$1'>$1</a>")
                 alll += `<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`
@@ -1274,4 +1277,13 @@ function lockreload(){
             m.classList.add("locked_mess")
         }
     })
+}
+function themechange(){
+    let t = document.getElementById("themeselect")
+    let n = t.options[t.selectedIndex].value
+    let s = `@import url(themes/${n}.css);`
+    if (document.getElementById("highlightcheck").checked){
+        s += `@import url(themes/fontcolors/${n}.css);`
+    }
+    document.getElementsByTagName("style")[0].innerText = s
 }

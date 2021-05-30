@@ -4,7 +4,7 @@
     --color_3:#ffffff;
     --color_4:#2c2c2e;
     --color_5:#000000;
-    --color_6:#000000;
+    --color_6:#1c1c1e;
     --color_7:#cccccc;
     --color_8:#1f1f13;
 
@@ -25,13 +25,13 @@
     --box3_font_color:var(--color_3);
     --box4_color:var(--color_5);
     --box4_font_color:var(--color_3);
-    --dataset_color:var(--color_6);
-    --randgen_color:var(--color_6);
-    --messages_color:var(--color_6);
-    --message_color:var(--color_5);
+    --dataset_color:var(--color_5);
+    --randgen_color:var(--color_5);
+    --messages_color:var(--color_5);
+    --message_color:var(--color_6);
     --message_border_color:var(--color_8);
     --message_font_color:var(--color_3);
-    --forminp_color:var(--color_6);
+    --forminp_color:var(--color_5);
     --forminp_font_color:var(--color_3);
     --border_color:var(--color_8);
     --edited_color:var(--color_2);
@@ -49,7 +49,7 @@
     --button_border_color:var(--color_2);
     --button_font_color:#000000;
     --datgen_border_color:var(--color_2);
-    --datgen_color:var(--color_6);
+    --datgen_color:var(--color_5);
     --addmess_font_color:#ffffff;
     --liner_font_color:var(--color_3);
     --blocker_font_color:var(--color_3);
