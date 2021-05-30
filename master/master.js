@@ -380,7 +380,6 @@ document.addEventListener("click", (e) => {
         };
         deal_list.pop();
         deal_sets.splice(num-1,1)
-        console.log(deal_sets)
         document.getElementById("messages").lastChild.outerHTML = "";
         lockreload()
     };
@@ -916,7 +915,7 @@ function load() {
                 + '" selected">'
                 + String(deal_sets[x - 1]["use_temp"] + 1)
                 + '</option></select></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="message_'
-                + x + '"'
+                + x + '">'
                 + templates[deal_sets[x - 1]["use_temp"]]["conf_htm"] + "</div></div>")
             let now = document.getElementById(`message_${x}`)
             templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
@@ -1257,8 +1256,6 @@ function tab_end_scroll(){
     let basevh = document.getElementById("tab_header").getBoundingClientRect().height*4/3
     let t = document.getElementById("tab_header_in")
     let inh = t.getBoundingClientRect().height
-    console.log(inh)
-    console.log(basevh)
     t.dataset.martop = Math.floor(inh/Math.floor(basevh))*-1+1
     t.style.marginTop = `${Number(t.dataset.martop)*4}vh`
 }
@@ -1296,7 +1293,6 @@ function lockreload(){
     deal_sets.forEach(s => {
         c++
         let m = document.getElementById(`message_${c}`).parentNode
-        console.log(m)
         m.getElementsByClassName("meslockcheck")[0].checked = s["locked"]
         m.classList.remove("locked_mess")
         if (s["locked"]) {
@@ -1324,3 +1320,39 @@ function highlightchange(){
     }
     document.getElementsByTagName("style")[1].innerText = ss
 }
+document.addEventListener("mousedown", e => {
+    if (e.target.classList.contains("resizer")) {
+        e.target.classList.add("draggingresizer")
+        document.body.classList.add("nonono_resize")
+    }
+})
+document.addEventListener("mousemove",e=>{
+    if (document.getElementsByClassName("draggingresizer").length > 0){
+        let t = document.getElementsByClassName("draggingresizer")[0]
+        if (t.classList.contains("hresizer")) {
+            let btarget = t.previousElementSibling
+            let atarget = t.nextElementSibling
+            let bc = btarget.getBoundingClientRect()
+            let ac = atarget.getBoundingClientRect()
+            let old_ar = ac.right+0
+            let bw = e.clientX - bc.left
+            btarget.style.width = bw + "px"
+            atarget.style.width = old_ar - e.clientX + "px"
+        } else if (t.classList.contains("vresizer")){
+            let btarget = t.previousElementSibling
+            let atarget = t.nextElementSibling
+            let bc = btarget.getBoundingClientRect()
+            let ac = atarget.getBoundingClientRect()
+            let old_ab = ac.bottom+0
+            let bh = e.clientY - bc.top
+            btarget.style.height = bh + "px"
+            atarget.style.height = old_ab - e.clientY + "px"
+        }
+    }
+})
+document.addEventListener("mouseup",e=>{
+    if (document.getElementsByClassName("draggingresizer").length > 0){
+        document.getElementsByClassName("draggingresizer")[0].classList.remove("draggingresizer")
+        document.body.classList.remove("nonono_resize")
+    }
+})

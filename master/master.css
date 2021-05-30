@@ -45,16 +45,19 @@ li{
 }
 
 #box2{
+    border-right: none;
     overflow: auto;
     text-align: center;
     flex-grow : 0;
-    width : 25%;
+    width : calc(25% - 2px);
     background-color: var(--box2_color);
     color: var(--box2_font_color);
 }
 
 #box3{
-    width : 50%;
+    border-left: none;
+    border-right: none;
+    width : calc(50% - 4px);
     background-color: var(--box3_color);
     color: var(--box3_font_color);
 }
@@ -63,9 +66,10 @@ li{
     background-color: var(--box4_color);
     color: var(--box4_font_color);
     flex-grow : 0;
-    width : 25%;
+    width : calc(25% - 2px);
     display: flex;
     flex-direction: column;
+    border-left: none;
 }
 
 #template{
@@ -123,7 +127,7 @@ h1,h2{
     overflow-y : scroll;
     border: solid 1px var(--border_color);
     background-color: var(--forminp_color);
-    height: calc(30% - 2ex - 8px);
+    height: calc(30% - 2ex - 8px - 4px);
     padding: 3px;
     color: var(--forminp_font_color);
 }
@@ -238,6 +242,9 @@ h1,h2{
 .nonono :not(.messagediv){
     pointer-events:none;
 }
+.nonono_resize :not(.draggingresizer){
+    pointer-events:none;
+}
 #mesandform{
     padding-top: 3px;
     height: 97vh;
@@ -321,13 +328,16 @@ input[name="tab_item"] {
     padding:5px;
     padding-top: 0;
 }
-#dataset{
+#box4_1{
     border: solid 1px var(--border_color);
+    border-bottom: none;
+    height: calc(50% - 2px);
 }
-#randgenbox{
+#box4_2{
     border: solid 1px var(--border_color);
+    border-top: none;
     flex-grow: 1;
-
+    height: calc(50% - 2px)
 }
 #plaintext{
     display: flex;
@@ -686,4 +696,20 @@ button:active{
 .locked_mess input:not(.meslockcheck),.locked_mess button,.locked_mess textarea{
     pointer-events: none;
     filter: brightness(0.7);
+}
+.hresizer{
+    background-color: var(--border_color);
+    height: 100%;
+    width: 4px;
+    margin:0;
+    padding: 0;
+    cursor:col-resize;
+}
+.vresizer{
+    background-color: var(--border_color);
+    width: 100%;
+    height: 4px;
+    margin:0;
+    padding: 0;
+    cursor:row-resize;
 }

@@ -35,6 +35,9 @@ $番号$：$名前$ [$メール$] $id$
             <br>
             <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">ReadMe</a>
         </div>
+        <div class="hresizer resizer" draggable="true">
+
+        </div>
         <div id="box3">
             <div id="tab">
                 <div id="tab_start" onclick="tab_start_scroll()">≪</div>
@@ -65,6 +68,7 @@ $番号$：$名前$ [$メール$] $id$
                     <div id="messages">
 
                     </div>
+                    <div class="vresizer resizer" draggable="true"></div>
                     <div id="form_inp"></div>
                     <div id="addmesssetts">
                         <div id="messvdiv">
@@ -172,8 +176,10 @@ $番号$：$名前$ [$メール$] $id$
                 </div>
             </div>
         </div>
+        <div class="hresizer resizer" draggable="true">
+        </div>
         <div id="box4">
-            <div id="dataset">
+            <div id="box4_1">
                 <h1>変数の詳細設定</h1>
                 <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like">
                     <option hidden selected="true">設定変更する変数を選択</option>
@@ -183,7 +189,10 @@ $番号$：$名前$ [$メール$] $id$
                 <li title="固定された変数は削除や並び替えの影響を受けません"><label for="fix?"><input type="checkbox" id="fix?" disabled="true" onchange="changefix()">固定する</label></li>
                 <li title="変数の入力候補機能を有効化します。"><label for="datalist?"><input type="checkbox" id="datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
             </div>
-            <div id="randgenbox">
+            <div class="vresizer resizer" draggable="true">
+
+            </div>
+            <div id="box4_2">
                 <h1>ランダム文字列生成</h1>
                 対象文字を選択：<br>
                 <input type="checkbox" id="check_uaz"><label for="check_uaz">A-Z</label>
