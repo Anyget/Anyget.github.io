@@ -960,10 +960,12 @@ function subs() {
     if (num < 1) return false;
     let selecting = Object.keys(all_data)[sel.selectedIndex - 1]
     for (let i = num + 0; i - num < txts.length && i <= deal_list.length; i++) {
-        deal_list[i - 1][selecting] = txts[i - num]
-        if (templates[deal_sets[i-1]["use_temp"]]["conf_data"].includes(selecting)) {
-            document.getElementById(`message_${i}`).getElementsByClassName(selecting)[0].value = txts[i - num];
-        }
+        if (!deal_sets[i-1]["locked"]){
+            deal_list[i - 1][selecting] = txts[i - num]
+            if (templates[deal_sets[i-1]["use_temp"]]["conf_data"].includes(selecting)) {
+                document.getElementById(`message_${i}`).getElementsByClassName(selecting)[0].value = txts[i - num];
+            }
+        }  
     }
 }
 document.addEventListener("keydown", e => {
