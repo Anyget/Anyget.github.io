@@ -673,9 +673,6 @@ button:active{
 #settinginput>*:not(.setradised){
     display: none;
 }
-#themeselect{
-    display: inline;
-}
 .meslock{
     height: 1rem;
     width: 1rem;
@@ -770,4 +767,7 @@ button:active{
     padding: 0;
     margin: 0;
     margin-bottom: 3px;
+}
+#settinginput select{
+    display: inline;
 }

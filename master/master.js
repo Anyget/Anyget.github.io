@@ -1377,3 +1377,12 @@ function fitselector(t){
     t.style.fontSize = (pr.width-30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px"
     t.parentNode.parentNode.style.setProperty("--title_font_size", (pr.width - 30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px")
 }
+function sortboxes(){
+    let t = document.getElementById("sortboxesselect")
+    boxes_sort = t.options[t.selectedIndex].value.split(',').map(Number)
+    c = 0
+    boxes_sort.forEach(i=>{
+        document.getElementById("box").children[i*2].style.order = c
+        c+=2
+    })
+}
