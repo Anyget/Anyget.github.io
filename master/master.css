@@ -735,6 +735,7 @@ button:active{
     line-height: 1em;
 }
 .functionselect option{
+    font-size: medium;
     background-color: transparent;
 }
 #datapul_sets{
