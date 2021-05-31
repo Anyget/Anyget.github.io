@@ -31,6 +31,9 @@ window.onload = function () {
         l.insertAdjacentHTML("beforeend", `<option value=${("0" + c).slice(-2)}>${t}</option>`)
     })
     l.firstChild.selected = true
+    for (i of document.getElementsByClassName("functionselect")){
+        fitselector(i)
+    }
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -1063,11 +1066,12 @@ document.addEventListener("keydown", e => {
         }
     }
 })
-/*https://qiita.com/Sinraptor@github/items/1b3802db80eadf864633のパクリ*/
+/*https://qiita.com/Sinraptor@github/items/1b3802db80eadf864633 のパクリ*/
 function strWidth(str) {
     let canvas = document.getElementById('canvas');
     if (canvas.getContext) {
         let context = canvas.getContext('2d');
+        context.font = "10px sans-serif"
         let metrics = context.measureText(str);
         return metrics.width;
     }
@@ -1329,9 +1333,9 @@ document.addEventListener("mousedown", e => {
 document.addEventListener("mousemove",e=>{
     if (document.getElementsByClassName("draggingresizer").length > 0){
         let t = document.getElementsByClassName("draggingresizer")[0]
+        let btarget = t.previousElementSibling
+        let atarget = t.nextElementSibling
         if (t.classList.contains("hresizer")) {
-            let btarget = t.previousElementSibling
-            let atarget = t.nextElementSibling
             let bc = btarget.getBoundingClientRect()
             let ac = atarget.getBoundingClientRect()
             let old_ar = ac.right+0
@@ -1339,14 +1343,18 @@ document.addEventListener("mousemove",e=>{
             btarget.style.width = bw + "px"
             atarget.style.width = old_ar - e.clientX + "px"
         } else if (t.classList.contains("vresizer")){
-            let btarget = t.previousElementSibling
-            let atarget = t.nextElementSibling
             let bc = btarget.getBoundingClientRect()
             let ac = atarget.getBoundingClientRect()
             let old_ab = ac.bottom+0
             let bh = e.clientY - bc.top
             btarget.style.height = bh + "px"
             atarget.style.height = old_ab - e.clientY + "px"
+        }
+        for (i of btarget.getElementsByClassName("functionselect")) {
+            fitselector(i)
+        }
+        for (i of atarget.getElementsByClassName("functionselect")) {
+            fitselector(i)
         }
     }
 })
@@ -1356,3 +1364,7 @@ document.addEventListener("mouseup",e=>{
         document.body.classList.remove("nonono_resize")
     }
 })
+function fitselector(t){
+    let pr = t.parentNode.getBoundingClientRect()
+    t.style.fontSize = (pr.width-30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px"
+}

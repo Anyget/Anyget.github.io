@@ -10,10 +10,15 @@
 </head>
 <body>
     <div id="abss"></div>
-    <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute;"></canvas>
+    <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute"></canvas>
     <div id="box">
         <div id="box2">
-            <h1>テンプレートを入力</h1>
+            <div class="div13">
+                <select class="functionselect">
+                    <option selected value="1">テンプレートを入力</option>
+                </select>
+            </div>
+            <div class="margdiv2"></div>
             <textarea id="template" placeholder="$...$：一行変数宣言
 |...|：複数行変数宣言
 \...：エスケープ
@@ -21,10 +26,13 @@
 例：
 $番号$：$名前$ [$メール$] $id$
 |本文|"></textarea>
+            <div class="margdiv2"></div>
             <button id="temp_change" onclick="changetemp()">
                 ↓変更
             </button>
+            <div class="margdiv2"></div>
             <div id="edited" class="textbox_like"></div>
+            <div class="margdiv2"></div>
             <div id="temp_select">
                 <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
                 <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
