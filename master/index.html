@@ -13,7 +13,7 @@
     <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute"></canvas>
     <div id="box">
         <div id="box2">
-            <div class="div13">
+            <div class="functionselectdiv">
                 <select class="functionselect">
                     <option selected value="1">テンプレートを入力</option>
                 </select>
@@ -188,20 +188,32 @@ $番号$：$名前$ [$メール$] $id$
         </div>
         <div id="box4">
             <div id="box4_1">
-                <h1>変数の詳細設定</h1>
+                <div class="functionselectdiv">
+                    <select class="functionselect">
+                        <option selected value="1">変数の詳細設定</option>
+                    </select>
+                </div>
                 <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like">
                     <option hidden selected="true">設定変更する変数を選択</option>
                 </select>
-                <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>
-                <li title="プレビュー時のアンカーの設定（>>など）"><label for="anchor?"><input type="checkbox" id="anchor?" disabled="true" onchange="anchorcheck()">アンカー：</label><input type="text" id="anchor" disabled="true"></li>
-                <li title="固定された変数は削除や並び替えの影響を受けません"><label for="fix?"><input type="checkbox" id="fix?" disabled="true" onchange="changefix()">固定する</label></li>
-                <li title="変数の入力候補機能を有効化します。"><label for="datalist?"><input type="checkbox" id="datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
+                <div id="datapul_sets">
+                    <div id="datapul_sets_in">
+                        <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>
+                        <li title="プレビュー時のアンカーの設定（>>など）"><label for="anchor?"><input type="checkbox" id="anchor?" disabled="true" onchange="anchorcheck()">アンカー：</label><input type="text" id="anchor" disabled="true"></li>
+                        <li title="固定された変数は削除や並び替えの影響を受けません"><label for="fix?"><input type="checkbox" id="fix?" disabled="true" onchange="changefix()">固定する</label></li>
+                        <li title="変数の入力候補機能を有効化します。"><label for="datalist?"><input type="checkbox" id="datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
+                    </div>
+                </div>
             </div>
             <div class="vresizer resizer" draggable="true">
 
             </div>
             <div id="box4_2">
-                <h1>ランダム文字列生成</h1>
+                <div class="functionselectdiv">
+                    <select class="functionselect">
+                        <option selected value="1">ランダム文字列生成</option>
+                    </select>
+                </div>
                 対象文字を選択：<br>
                 <input type="checkbox" id="check_uaz"><label for="check_uaz">A-Z</label>
                 <input type="checkbox" id="check_daz"><label for="check_daz">a-z</label>
@@ -211,7 +223,7 @@ $番号$：$名前$ [$メール$] $id$
                 <input type="checkbox" id="check_inp" onchange="checkinpchange()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
                 <br><div style="text-align: right;"><input type="number" id="randlen" value="1" min="1">文字<input type="number" id="randman" value="1" min="1">個
                 <button onclick="randgen()">生成</button></div>
-                <textarea id="randgenopt" rows="6"></textarea>
+                <textarea id="randgenopt"></textarea>
                 <input type="number" id="subsnum" value="1" min="1">
                 番目以降の
                 <select id="subssel" size="1">

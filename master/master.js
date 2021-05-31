@@ -1367,4 +1367,5 @@ document.addEventListener("mouseup",e=>{
 function fitselector(t){
     let pr = t.parentNode.getBoundingClientRect()
     t.style.fontSize = (pr.width-30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px"
+    t.parentNode.parentNode.style.setProperty("--title_font_size", (pr.width - 30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px")
 }
