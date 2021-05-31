@@ -658,9 +658,8 @@ button:active{
 #settingtab>label{
     box-sizing: border-box;
     display: block;
-    text-align: center;
-    line-height: 2rem;
-    font-size: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 1rem;
     background-color: var(--tabbutton_color);
     border-left: 5px solid var(--tabbutton_color)
 }
@@ -757,4 +756,18 @@ button:active{
     width: 100%;
     flex-grow: 1;
 
+}
+#settinginput>div>div{
+    padding: 10px;
+    background-color: var(--box3_color);
+}
+#settinginput>div>div:hover{
+    filter: brightness(1.2);
+}
+#settinginput>div>div>h3{
+    font-size: medium;
+    color: var(--selected_tab_font_color);
+    padding: 0;
+    margin: 0;
+    margin-bottom: 3px;
 }

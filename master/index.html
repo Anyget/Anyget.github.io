@@ -12,7 +12,7 @@
     <div id="abss"></div>
     <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute"></canvas>
     <div id="box">
-        <div id="box2">
+        <div id="box2" style="order:0">
             <div class="functionselectdiv">
                 <select class="functionselect">
                     <option selected value="1">テンプレートを入力</option>
@@ -41,12 +41,12 @@ $番号$：$名前$ [$メール$] $id$
                 <button id="temp_select_end" onclick="temp_select_end_click()">≫</button>
             </div>
             <br>
-            <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">ReadMe</a>
+            <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">使い方</a>
         </div>
-        <div class="hresizer resizer" draggable="true">
+        <div class="hresizer resizer" style="order: 1;" data-order="1">
 
         </div>
-        <div id="box3">
+        <div id="box3" style="order:2">
             <div id="tab">
                 <div id="tab_start" onclick="tab_start_scroll()">≪</div>
                 <div id="tab_prev" onclick="tab_prev_scroll()">&lt;</div>
@@ -76,7 +76,7 @@ $番号$：$名前$ [$メール$] $id$
                     <div id="messages">
 
                     </div>
-                    <div class="vresizer resizer" draggable="true"></div>
+                    <div class="vresizer resizer"></div>
                     <div id="form_inp"></div>
                     <div id="addmesssetts">
                         <div id="messvdiv">
@@ -173,8 +173,15 @@ $番号$：$名前$ [$メール$] $id$
                         </div>
                         <div id="settinginput">
                             <div class="setradised" id="set_views">
-                                <h4><label>テーマ<select id="themeselect" onchange="themechange()"></select></label></h4>
-                                <h4><label>変数に色を付ける<input type="checkbox" id="highlightcheck" onchange="highlightchange()"></label></h4>
+                                <div>
+                                    <h3>テーマ</h3>
+                                    <select id="themeselect" onchange="themechange()"></select>
+                                </div>
+                                <div>
+                                    <h3><span>色を付ける</span></h3>
+                                    <label><input type="checkbox" id="highlightcheck" onchange="highlightchange()">変数に色を付ける</label>
+                                </div>
+                                
                             </div>
                             <div id="set_editor">
 
@@ -184,9 +191,9 @@ $番号$：$名前$ [$メール$] $id$
                 </div>
             </div>
         </div>
-        <div class="hresizer resizer" draggable="true">
+        <div class="hresizer resizer" style="order: 3;" data-order="3">
         </div>
-        <div id="box4">
+        <div id="box4" style="order:4;">
             <div id="box4_1">
                 <div class="functionselectdiv">
                     <select class="functionselect">
@@ -205,7 +212,7 @@ $番号$：$名前$ [$メール$] $id$
                     </div>
                 </div>
             </div>
-            <div class="vresizer resizer" draggable="true">
+            <div class="vresizer resizer">
 
             </div>
             <div id="box4_2">

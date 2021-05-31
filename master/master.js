@@ -19,6 +19,7 @@ let templates = [
             "conf_data" : [],
         }
     ]
+let boxes_sort = [0,1,2]
 let now_temp = 0
 let deal_sets = []
 let inputing = {}
@@ -1337,6 +1338,11 @@ document.addEventListener("mousemove",e=>{
         let t = document.getElementsByClassName("draggingresizer")[0]
         let btarget = t.previousElementSibling
         let atarget = t.nextElementSibling
+        if (t.hasAttribute("data-order")){
+            let o = Number(t.getAttribute("data-order"))
+            btarget = t.parentNode.children[(boxes_sort[(o+1)/2-1])*2]
+            atarget = t.parentNode.children[(boxes_sort[(o+1)/2])*2]
+        }
         if (t.classList.contains("hresizer")) {
             let bc = btarget.getBoundingClientRect()
             let ac = atarget.getBoundingClientRect()
