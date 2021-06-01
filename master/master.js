@@ -54,31 +54,6 @@ document.addEventListener("paste", function (e) {
     };
 });
 
-function datalistschange(name) {
-    let x = {};
-    let n
-    if (!all_data[name]["datalist?"]) {
-        n = document.getElementById(`n_list_${name}`);
-    } else {
-        n = document.getElementById(`list_${name}`);
-    }
-    n.innerHTML = ""
-    deal_list.forEach(c => {
-        if (Object.keys(x).includes(c[name])) {
-            x[c[name]]["num"] += 1;
-        } else {
-            x[c[name]] = { "name": c[name], "num": 1 }
-        }
-    })
-    x = Object.values(x).sort(function (a, b) {
-        return b["num"] - a["num"];
-    })
-    for (let i = 0; i < (x.length < 5 ? x.length : 5); i++) {
-        n.insertAdjacentHTML("beforeend", `<option value="${x[i]["name"]}"></option>`)
-    }
-
-}
-
 
 function escapeHtml(str) {
     let div = document.createElement('div');
@@ -195,46 +170,51 @@ function changetemp() {
         templates[t]["conf_data"].forEach(x => {
             if (backupconfdata.includes(x) || now_temp != t) {
                 style_list[n - 1][x] = []
-                Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                    if (cd.classList.contains("|")) {
-                        style_list[n - 1][x].push(cd.style.cssText);
-                    } else {
+                if (x.startsWith("liner_")){
+                    Array.from(box.getElementsByClassName(x)).forEach(cd => {
                         style_list[n - 1][x].push(cd.parentNode.style.cssText)
-                    }
-                })
-            } else if (!Object.keys(style_list[n - 1]).includes(x)) {
+                    })
+                }else{
+                    Array.from(box.getElementsByClassName(x)).forEach(cd => {
+                        style_list[n - 1][x].push(cd.style.cssText);
+                    })
+                }
+                
+            }else if (!Object.keys(style_list[n - 1]).includes(x)) {
                 style_list[n - 1][x] = []
             }
         })
     })
     templates[now_temp]["template"] = temp + "";
-    messagereload()
+    messagereloadbynowtemp()
     } else {
         alert("Error:不正な構文");
     };
 };
-function messagereload(){
+function messagereloadbynowtemp(){
     n = 0
     deal_list.forEach(ii => {
         n++;
         let box = document.getElementById(`message_${n}`);
-        let t = deal_sets[n-1]["use_temp"]
-        box.innerHTML = templates[t]["conf_htm"];
-        Object.keys(all_data).forEach(xx => {
-            if (typeof ii[xx] === "undefined") {
-                ii[xx] = "";
-            };
-            let cc = 0
-            Array.from(box.getElementsByClassName(xx)).forEach(iii => {
-                iii.value = ii[xx];
-                if (xx.startsWith("blocker_")) {
-                    iii.style = style_list[n - 1][xx][cc]
-                } else {
-                    iii.parentNode.style = style_list[n - 1][xx][cc]
-                }
-                cc++
-            })
-        });
+        if (deal_sets[n - 1]["use_temp"] == now_temp){
+            box.innerHTML = templates[now_temp]["conf_htm"];
+            Object.keys(all_data).forEach(xx => {
+                if (typeof ii[xx] === "undefined") {
+                    ii[xx] = "";
+                };
+                let cc = 0
+                Array.from(box.getElementsByClassName(xx)).forEach(iii => {
+                    iii.value = ii[xx];
+                    if (xx.startsWith("blocker_")) {
+                        iii.style = style_list[n - 1][xx][cc]
+                    } else {
+                        iii.parentNode.style = style_list[n - 1][xx][cc]
+                    }
+                    cc++
+                })
+            });
+        }
+        
     });
 }
 function addmess() {
@@ -262,32 +242,33 @@ function addmess() {
             "locked":false
         })
         templates[now_temp]["conf_data"].forEach(i=>{
-            let m = 0
-            Array.from(now.getElementsByClassName(i)).forEach(o=>{
-                
-                if (i.startsWith("blocker_")) {
-                    Array.from(formi_c.getElementsByClassName(i)).forEach(nnnnn => {
-                        o.style = formi_c.getElementsByClassName(i)[m].style.cssText;
-                        deal_list[num][i] = o.value = nnnnn.value
-                    })
-                } else {
-                    Array.from(formi_c.getElementsByClassName(i)).forEach(nnnnn => {
-                        o.parentNode.style = formi_c.getElementsByClassName(i)[m].parentNode.style.cssText;
-                        deal_list[num][i] = o.value = nnnnn.value
-                    });
-                    datalistschange(i)
-                };
-                m++
-            })
+            if (i.startsWith("blocker_")) {
+                let n = 0
+                Array.from(now.getElementsByClassName(i)).forEach(o=>{
+                    let nnnnn = formi_c.getElementsByClassName(i)[n]
+                    o.style = nnnnn.style.cssText;
+                    deal_list[num][i] = o.value = nnnnn.value
+                    n++
+                })
+            } else {
+                let n = 0
+                Array.from(now.getElementsByClassName(i)).forEach(o=>{
+                    let nnnnn = formi_c.getElementsByClassName(i)[n]
+                    o.parentNode.style = nnnnn.parentNode.style.cssText;
+                    deal_list[num][i] = o.value = nnnnn.value
+                    n++
+                })
+            };
         })
         templates[now_temp]["conf_data"].forEach(k => {
             let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
-            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && all_data[k]["adder"] != 0) {
-                added = Number(added) + Number(all_data[k]["adder"])
+            let na = Number(all_data[k]["adder"])
+            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && na != 0) {
+                added = Number(added) + na
             }
+            inputing[k] = String(added)
             Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i=>{
-                i.value = String(added)
-                inputing[k] = i.value
+                i.value = inputing[k]
             })
         });
     }
@@ -331,14 +312,13 @@ document.addEventListener("input", (e) => {
     if (target.matches(".message textarea,.message input")) {
         let clas = target.className.replace(/^[^ ]* /, "");
         if (target.matches("textarea")) {
-            num = target.parentNode.id.replace(/^[^_]*_/, "") - 1;
+            num = target.parentNode.id.replace("blocker_", "") - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
         } else {
-            num = target.parentNode.parentNode.id.replace(/^[^_]*_/, "") - 1;
+            num = target.parentNode.parentNode.id.replace("liner_", "") - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
-            datalistschange(target.classList[1])
         };
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
@@ -1159,9 +1139,6 @@ function replacing(){
         if (!g) {
             break
         }
-    }
-    for (r of rr_list){
-        datalistschange(r)
     }
 }
 function plainreplace(){
