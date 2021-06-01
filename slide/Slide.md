@@ -196,13 +196,13 @@ _backgroundColor: #ffedbd
 
 - ふたば★ちゃんねる（https://2chan.net ）における**そうだねボタン**の機能
 ![picture 1](images/3e00a54002239074406bc5f2dcc771ac1ce0fef3176acd3104d4069ccae003e7.png)  
-<h6 style="margin:0;">
+<h6 style="margin:0;color:blue;">
 
 　`$そうだね数$`が`""`の場合：![picture 3](images/c0ee7b6d8e148a8bb650bf907106caa7fba917c4649d2d10fdb41a80f1a41803.png) 
 
 </h6>
 
-<h6 style="margin:0;">
+<h6 style="margin:0;color:red;">
 
 　そうでない場合：![picture 4](images/96fe11f6c8c7a2f756c4b98fb50b4c95a45c83f6cab7a9afd4bd9475810e6d88.png)  
 
@@ -222,17 +222,20 @@ _backgroundColor: #ffedbd
 - スラド（https://srad.jp/ ）における言及機能
   はてな匿名ダイアリー（https://anond.hatelabo.jp/ ）におけるトラックバック
 
-<div style="display:flex;">
-<div style="width:50%;">
+<div style="display:flex;justify-content:space-between;">
+<div style="width:45%;border:5px dashed black;box-sizing:border-box;">
 
 ![picture 8](images/77a27edb6c01b217fc9313cbdc487f1a652b7ce10744ff9f2d02bae826aca3c8.png)  
 
 </div>
-<div style="width:50%;">
+<div style="width:45%;border:5px dashed black;box-sizing:border-box;">
 
 ![picture 7](images/0743a59febceaaddbc3698ff65439381d8231060b55f313c79d145646f2fd7a9.png)  
 
 </div>
 
 </div>
-<div style="text-align:right;display:block;">プレビュー時の<mark>再現度</mark>向上に使用</div>
+<div style="text-align:right;display:block;">プレビュー時の<mark>再現度</mark>向上に寄与</div>
+
+---
+

@@ -62,6 +62,7 @@ li{
     width : calc(50% - 4px);
     background-color: var(--box3_color);
     color: var(--box3_font_color);
+    min-width: 9rem;
 }
 
 #box4{
