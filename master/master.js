@@ -593,6 +593,7 @@ function plainreload() {
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
+    console.log(ok)
     let out = ""
     let sent = "a" + s;
     while (sent) {
@@ -643,12 +644,14 @@ function radiochange(e) {
     switch (e.target.id) {
         case ("radio_preview"):
             let anchorok = {}
-            templates[now_temp]["conf_data"].forEach(a => {
+            let dm = deal_list.map(xx => Object.values(xx).join("")).join("")
+            Object.keys(all_data).forEach(a => {
                 if (!all_data[a]["anchor?"]) { return };
                 if (all_data[a]["anchor"] === "") { return };
-                if (deal_list.map(xx => Object.values(xx).join("")).join("").split(all_data[a]["anchor"]).length - 1 > 10000 || deal_list.map(xx => Object.values(xx).join("")).join("").split(all_data[a]["anchor"]).length - 1 < 1) { return };
+                let dms = dm.split(all_data[a]["anchor"])
+                if (dms.length - 1 > 10000 || dms.length - 1 < 1) { return };
                 if (Object.values(anchorok).includes(all_data[a]["anchor"])) { return };
-                anchorok[a] = all_data[a]["anchor"];
+                anchorok[a] = escapeHtml(all_data[a]["anchor"]);
             })
             let alll = "";
             let s = 0;
