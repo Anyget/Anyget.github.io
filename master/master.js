@@ -312,11 +312,11 @@ document.addEventListener("input", (e) => {
     if (target.matches(".message textarea,.message input")) {
         let clas = target.className.replace(/^[^ ]* /, "");
         if (target.matches("textarea")) {
-            num = target.parentNode.id.replace("blocker_", "") - 1;
+            num = target.parentNode.id.replace("message_", "") - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
         } else {
-            num = target.parentNode.parentNode.id.replace("liner_", "") - 1;
+            num = target.parentNode.parentNode.id.replace("message_", "") - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
         };
