@@ -24,7 +24,7 @@ let now_temp = 0
 let deal_sets = []
 let inputing = {}
 let now_theme = 0
-const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","プレビュー"]
+const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","簡易プレビュー"]
 let selectedsubfunction = [0,1,2,3]
 let subfunctionelements = []
 window.onload = function () {
@@ -36,7 +36,7 @@ window.onload = function () {
     })
     l.firstChild.selected = true
     let cc = 0
-    for (i of document.getElementsByClassName("functionselect")){
+    for (let i of document.getElementsByClassName("functionselect")){
         let c = 0
         SUBFUNCTIONNAMES.forEach(n=>{
             i.insertAdjacentHTML("beforeend",`<option>${n}</option>`)
@@ -326,13 +326,15 @@ document.addEventListener("input", (e) => {
     if (target.matches(".message textarea,.message input")) {
         let clas = target.className.replace(/^[^ ]* /, "");
         if (target.matches("textarea")) {
-            num = target.parentNode.id.replace("message_", "") - 1;
+            num = Number(target.parentNode.id.replace("message_", "")) - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
+            unieasypreviewreloader(num)
         } else {
-            num = target.parentNode.parentNode.id.replace("message_", "") - 1;
+            num = Number(target.parentNode.parentNode.id.replace("message_", "")) - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
+            unieasypreviewreloader(num)
         };
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
@@ -350,7 +352,7 @@ function taras(target){
 }
 document.addEventListener("click", (e) => {
     let target = e.target;
-    if (target.className === "closebtn") {
+    if (target.className == "closebtn") {
         let num = Number(target.parentNode.nextElementSibling.id.replace("message_", ""));
         for (let i = num; i < deal_list.length; i++) {
             let to = document.getElementById(`message_${i}`);
@@ -1117,18 +1119,18 @@ document.addEventListener("mouseout",function (e){
     }
 })
 function replace_allselect(){
-    for (i of document.getElementById("replace_list").children){
+    for (let i of document.getElementById("replace_list").children){
         i.firstChild.checked = "true"
     }
 }
 function replace_reflect(){
-    for (i of document.getElementById("replace_list").children) {
+    for (let i of document.getElementById("replace_list").children) {
         i.firstChild.checked = !i.firstChild.checked
     }
 }
 function replacing(){
     let r_list = []
-    for (i of document.querySelectorAll("#replace_list input:checked")){
+    for (let i of document.querySelectorAll("#replace_list input:checked")){
         r_list.push(i.id.replace("replacecheck_",""))
     }
     let g = document.getElementById("replace_g?").checked
@@ -1139,10 +1141,10 @@ function replacing(){
     let reg = new RegExp(document.getElementById("replace_a").value, flag)
     let n = 0;
     let rr_list = []
-    for (i of deal_list){
+    for (let i of deal_list){
         n++;
         let to = document.getElementById(`message_${n}`)
-        for (r of r_list){
+        for (let r of r_list){
             i[r] = i[r].replace(reg,document.getElementById("replace_b").value)
             rr_list.push(r)
             if (templates[deal_sets[n-1]["use_temp"]]["conf_data"].includes(r)){
@@ -1352,10 +1354,10 @@ document.addEventListener("mousemove",e=>{
             btarget.style.height = bh + "px"
             atarget.style.height = old_ab - e.clientY + "px"
         }
-        for (i of btarget.getElementsByClassName("functionselect")) {
+        for (let i of btarget.getElementsByClassName("functionselect")) {
             fitselector(i)
         }
-        for (i of atarget.getElementsByClassName("functionselect")) {
+        for (let i of atarget.getElementsByClassName("functionselect")) {
             fitselector(i)
         }
     }
@@ -1402,4 +1404,70 @@ function subfunctionchange(e) {
     tp.insertAdjacentElement("beforeend",i_s)
     fitselector(is)
     fitselector(ts)
+}
+new MutationObserver(e=>{
+    let mc = document.getElementById("messages")
+    let ec = document.getElementById("easy_preview")
+    let editlist = []
+    console.log(e)
+    if (!e[0].target.classList.contains("tempselect")){
+        e.forEach(r=>{
+            if (!r.target.classList.contains("tempselect")){
+                if (r.type == "childList"){
+                    if (r.target.id == "messages"){
+                        if (r.removedNodes.length > 0){
+                            if (r.removedNodes[0].lastElementChild != null){
+                                editlist.push(r.removedNodes[0].lastElementChild.id.replace("message_",""))
+                            }
+                        }
+                        if (r.addedNodes.length > 0) {
+                            if (r.addedNodes[0].lastElementChild != null){
+                                editlist.push(r.addedNodes[0].lastElementChild.id.replace("message_",""))
+                            }
+                        }
+                    }
+                    if (r.target.classList.contains("message")){
+                        if (r.removedNodes.length > 0) {
+                            if (r.removedNodes[0].parentNode != null){
+                                editlist.push(r.removedNodes[0].parentNode.id.replace("message_", ""))
+                            }
+                            console.log(r.removedNodes[0])
+                        }
+                        if (r.addedNodes.length > 0) {
+                            if (r.addedNodes[0].parentNode != null) {
+                                editlist.push(r.addedNodes[0].parentNode.id.replace("message_", ""))
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        if (editlist.length > 0){
+            editlist = Array.from(new Set(editlist))
+            editlist.forEach(i=>{
+                unieasypreviewreloader(Number(i)-1)
+            })
+        }
+    }
+}).observe(document.getElementById("messages"), {childList: true,attributes: true,subtree: true})
+
+function unieasypreviewreloader(n){
+    let sent = templates[deal_sets[n]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
+    templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(d => {
+        let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
+            .replace(/\\/g, "\\\\")
+            .replace(/\$/g, "\\$")
+            .replace(/\|/g, "\\|")
+            }$` : `|${d.replace("blocker_", "")
+                .replace(/\\/g, "\\\\")
+                .replace(/\$/g, "\\$")
+                .replace(/\|/g, "\\|")}|`
+        sent = sent.split(dd).join(escapeHtml(deal_list[n][d]));
+    })
+    if (document.getElementById("easy_preview").childElementCount < n+1){
+        document.getElementById("easy_preview").insertAdjacentHTML("beforeend",`<div class="neko">${sent.replace(/\n/g, "<br>")}</div>`)
+    }else{
+        document.getElementById("easy_preview").children[n].outerHTML = `<div class="neko">${sent.replace(/\n/g, "<br>")}</div>`
+    }
+
 }

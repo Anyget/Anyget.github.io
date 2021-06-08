@@ -17,7 +17,7 @@
                 <select class="functionselect" oninput="subfunctionchange(event)">
                 </select>
             </div>
-            <div class="mainer">
+            <div class="mainer" data-mainub="0">
                 <div class="margdiv2"></div>
                 <textarea id="template" placeholder="$...$：一行変数宣言
 |...|：複数行変数宣言
@@ -211,7 +211,7 @@ $番号$：$名前$ [$メール$] $id$
                     <select class="functionselect" oninput="subfunctionchange(event)">
                     </select>
                 </div>
-                <div class="mainer">
+                <div class="mainer" data-mainub="1">
                     <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like">
                         <option hidden selected="true">設定変更する変数を選択</option>
                     </select>
@@ -259,7 +259,17 @@ $番号$：$名前$ [$メール$] $id$
 
     </div>
     <div id="unvisiblesf">
-
+        <div data-subboxindex="3" class="subbox">
+            <div class="functionselectdiv">
+                <select class="functionselect" oninput="subfunctionchange(event)">
+                </select>
+            </div>
+            <div class="mainer">
+                <div id="easy_preview">
+                    
+                </div>
+            </div>
+        </div>
     </div>
     <script type="text/javascript" src="master.js"></script>
 </body>
