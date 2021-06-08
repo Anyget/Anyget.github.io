@@ -12,44 +12,45 @@
     <div id="abss"></div>
     <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute"></canvas>
     <div id="box">
-        <div id="box2" style="order:0">
+        <div id="box2" style="order:0" class="subbox" data-subboxindex="0">
             <div class="functionselectdiv">
-                <select class="functionselect">
-                    <option selected value="1">テンプレートを入力</option>
+                <select class="functionselect" oninput="subfunctionchange(event)">
                 </select>
             </div>
-            <div class="margdiv2"></div>
-            <textarea id="template" placeholder="$...$：一行変数宣言
+            <div class="mainer">
+                <div class="margdiv2"></div>
+                <textarea id="template" placeholder="$...$：一行変数宣言
 |...|：複数行変数宣言
 \...：エスケープ
 
 例：
 $番号$：$名前$ [$メール$] $id$
 |本文|"></textarea>
-            <div class="margdiv2"></div>
-            <button id="temp_change" onclick="changetemp()">
-                ↓変更
-            </button>
-            <div class="margdiv2"></div>
-            <div id="edited" class="textbox_like"></div>
-            <div class="margdiv2"></div>
-            <div id="temp_select">
-                <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
-                <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
-                <input type="number" id="temp_select_number" class="no-spin" value="1" min="1" onchange="temp_number_change()">
-                <button id="temp_select_next" onclick="temp_select_next_click()">&gt;</button>
-                <button id="temp_select_end" onclick="temp_select_end_click()">≫</button>
+                <div class="margdiv2"></div>
+                <button id="temp_change" onclick="changetemp()">
+                    ↓変更
+                </button>
+                <div class="margdiv2"></div>
+                <div id="edited" class="textbox_like"></div>
+                <div class="margdiv2"></div>
+                <div id="temp_select">
+                    <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
+                    <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
+                    <input type="number" id="temp_select_number" class="no-spin" value="1" min="1" onchange="temp_number_change()">
+                    <button id="temp_select_next" onclick="temp_select_next_click()">&gt;</button>
+                    <button id="temp_select_end" onclick="temp_select_end_click()">≫</button>
+                </div>
+                <br>
+                <!--<a href="ReadMe.html" target="_blank" rel="noopener noreferrer">使い方</a>-->
             </div>
-            <br>
-            <a href="ReadMe.html" target="_blank" rel="noopener noreferrer">使い方</a>
         </div>
         <div class="hresizer resizer" style="order: 1;" data-order="1">
 
         </div>
         <div id="box3" style="order:2">
             <div id="tab">
-                <div id="tab_start" onclick="tab_start_scroll()">≪</div>
-                <div id="tab_prev" onclick="tab_prev_scroll()">&lt;</div>
+                <div class="tab_controller" onclick="tab_start_scroll()">≪</div>
+                <div class="tab_controller" onclick="tab_prev_scroll()">&lt;</div>
                 <div id="tab_header">
                     <div id="tab_header_in" data-martop="0">
                         <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);" checked><!--
@@ -68,8 +69,8 @@ $番号$：$名前$ [$メール$] $id$
                         --><label class="tab_item" for="radio_datgen">datファイル</label>
                 </div>
                 </div>
-                <div id="tab_next" onclick="tab_next_scroll()">&gt;</div>
-                <div id="tab_end" onclick="tab_end_scroll()">≫</div>
+                <div class="tab_controller" onclick="tab_next_scroll()">&gt;</div>
+                <div class="tab_controller" onclick="tab_end_scroll()">≫</div>
             </div>
             <div id="tab_cont">
                 <div id="mesandform" class="radised">
@@ -205,54 +206,59 @@ $番号$：$名前$ [$メール$] $id$
         <div class="hresizer resizer" style="order: 3;" data-order="3">
         </div>
         <div id="box4" style="order:4;">
-            <div id="box4_1">
+            <div id="box4_1" class="subbox" data-subboxindex="1">
                 <div class="functionselectdiv">
-                    <select class="functionselect">
-                        <option selected value="1">変数の詳細設定</option>
+                    <select class="functionselect" oninput="subfunctionchange(event)">
                     </select>
                 </div>
-                <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like">
-                    <option hidden selected="true">設定変更する変数を選択</option>
-                </select>
-                <div id="datapul_sets">
-                    <div id="datapul_sets_in">
-                        <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>
-                        <li title="プレビュー時のアンカーの設定（>>など）"><label for="anchor?"><input type="checkbox" id="anchor?" disabled="true" onchange="anchorcheck()">アンカー：</label><input type="text" id="anchor" disabled="true"></li>
-                        <li title="固定された変数は削除や並び替えの影響を受けません"><label for="fix?"><input type="checkbox" id="fix?" disabled="true" onchange="changefix()">固定する</label></li>
-                        <li title="変数の入力候補機能を有効化します。"><label for="datalist?"><input type="checkbox" id="datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
+                <div class="mainer">
+                    <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like">
+                        <option hidden selected="true">設定変更する変数を選択</option>
+                    </select>
+                    <div id="datapul_sets">
+                        <div id="datapul_sets_in">
+                            <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="adder" disabled="true"></li>
+                            <li title="プレビュー時のアンカーの設定（>>など）"><label for="anchor?"><input type="checkbox" id="anchor?" disabled="true" onchange="anchorcheck()">アンカー：</label><input type="text" id="anchor" disabled="true"></li>
+                            <li title="固定された変数は削除や並び替えの影響を受けません"><label for="fix?"><input type="checkbox" id="fix?" disabled="true" onchange="changefix()">固定する</label></li>
+                            <li title="変数の入力候補機能を有効化します。"><label for="datalist?"><input type="checkbox" id="datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="vresizer resizer">
 
             </div>
-            <div id="box4_2">
+            <div id="box4_2" class="subbox" data-subboxindex="2">
                 <div class="functionselectdiv">
-                    <select class="functionselect">
-                        <option selected value="1">ランダム文字列生成</option>
+                    <select class="functionselect" oninput="subfunctionchange(event)">
                     </select>
                 </div>
-                対象文字を選択：<br>
-                <input type="checkbox" id="check_uaz"><label for="check_uaz">A-Z</label>
-                <input type="checkbox" id="check_daz"><label for="check_daz">a-z</label>
-                <input type="checkbox" id="check_num"><label for="check_num">0-9</label>
-                <input type="checkbox" id="check_sim"><label for="check_sim">記号</label>
-                <input type="checkbox" id="check_sp"><label for="check_sp">半角空白</label>
-                <input type="checkbox" id="check_inp" onchange="checkinpchange()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
-                <br><div style="text-align: right;"><input type="number" id="randlen" value="1" min="1">文字<input type="number" id="randman" value="1" min="1">個
-                <button onclick="randgen()">生成</button></div>
-                <textarea id="randgenopt"></textarea>
-                <input type="number" id="subsnum" value="1" min="1">
-                番目以降の
-                <select id="subssel" size="1">
-                    <option hidden selected>変数を選択</option>
-                </select>
-                に
-                <button onclick="subs()">代入</button>
+                <div class="mainer">
+                    対象文字を選択：<br>
+                    <input type="checkbox" id="check_uaz"><label for="check_uaz">A-Z</label>
+                    <input type="checkbox" id="check_daz"><label for="check_daz">a-z</label>
+                    <input type="checkbox" id="check_num"><label for="check_num">0-9</label>
+                    <input type="checkbox" id="check_sim"><label for="check_sim">記号</label>
+                    <input type="checkbox" id="check_sp"><label for="check_sp">半角空白</label>
+                    <input type="checkbox" id="check_inp" onchange="checkinpchange()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
+                    <br><div style="text-align: right;"><input type="number" id="randlen" value="1" min="1">文字<input type="number" id="randman" value="1" min="1">個
+                    <button onclick="randgen()">生成</button></div>
+                    <textarea id="randgenopt"></textarea>
+                    <input type="number" id="subsnum" value="1" min="1">
+                    番目以降の
+                    <select id="subssel" size="1">
+                        <option hidden selected>変数を選択</option>
+                    </select>
+                    に
+                    <button onclick="subs()">代入</button>
+                </div>
             </div>
         </div>
     </div>
     <div id="datalists">
+
+    </div>
+    <div id="unvisiblesf">
 
     </div>
     <script type="text/javascript" src="master.js"></script>

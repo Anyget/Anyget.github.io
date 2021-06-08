@@ -50,16 +50,17 @@ li{
     min-width: 9rem;
     border-right: none;
     overflow: auto;
-    text-align: center;
-    width : calc(25% - 2px);
+    width : calc(25% - 1px);
     background-color: var(--box2_color);
     color: var(--box2_font_color);
 }
-
+#box2>.mainer{
+    text-align: center;
+}
 #box3{
     border-left: none;
     border-right: none;
-    width : calc(50% - 4px);
+    width : calc(50% - 2px);
     background-color: var(--box3_color);
     color: var(--box3_font_color);
     min-width: 9rem;
@@ -68,7 +69,7 @@ li{
 #box4{
     background-color: var(--box4_color);
     color: var(--box4_font_color);
-    width : calc(25% - 2px);
+    width : calc(25% - 1px);
     display: flex;
     flex-direction: column;
     border-left: none;
@@ -126,8 +127,8 @@ h1,h2{
 }
 #form_inp{
     vertical-align: top;
-    font-size: 17px;
-    line-height: 22px;
+    font-size: 15px;
+    line-height: 20px;
     overflow-y : scroll;
     border: solid 1px var(--border_color);
     background-color: var(--forminp_color);
@@ -155,7 +156,7 @@ h1,h2{
 }
 .\$text,.datgen_div input {
     font-family: sans-serif;
-    font-size: 17px;
+    font-size: 15px;
     padding:0;
     height: 100%;
     width: 100%;
@@ -169,7 +170,7 @@ h1,h2{
 .\| {
     color: var(--blocker_font_color) !important;
     display: block;
-    font-size: 16px;
+    font-size: 15px;
     height: 4rem;
     resize: vertical;
     overflow-y: scroll;
@@ -188,6 +189,8 @@ h1,h2{
     color: var(--textinput_placeholder_color);
 }
 .messagediv{
+    font-size: 15px;
+    line-height: 20px;
     color: var(--message_font_color);
     border: solid var(--message_border_color) 1px;
     border-left-width: 5px;
@@ -272,7 +275,7 @@ h1,h2{
     flex-wrap: wrap;
     width: 100%;
 }
-#tab_prev,#tab_next,#tab_start,#tab_end{
+.tab_controller{
     user-select: none;
     box-sizing: border-box;
     border: var(--border_color) solid 1px;
@@ -282,10 +285,10 @@ h1,h2{
     line-height: 3vh;
     background-color: var(--tabbutton_color);
 }
-#tab_prev:hover,#tab_next:hover,#tab_start:hover,#tab_end:hover{
+.tab_controller:hover{
     filter: brightness(1.2);
 }
-#tab_prev:active,#tab_next:active,#tab_start:active,#tab_end:active{
+.tab_controller:active{
     filter: brightness(0.7);
 }
 .tab_item{
@@ -302,7 +305,7 @@ h1,h2{
     margin: 0;
     margin-bottom: 1vh;
     box-sizing: border-box;
-    border-right: solid 1px var(--border_color);
+    border-right: solid 2px var(--border_color);
 }
 .tab_item:hover {
     filter: brightness(1.2);
@@ -335,12 +338,12 @@ input[name="tab_item"] {
 #box4_1{
     border: solid 1px var(--border_color);
     border-bottom: none;
-    height: calc(50% - 2px);
+    height: calc(50% - 1px);
 }
 #box4_2{
     border: solid 1px var(--border_color);
     border-top: none;
-    height: calc(50% - 2px)
+    height: calc(50% - 1px)
 }
 #plaintext{
     display: flex;
@@ -701,20 +704,46 @@ button:active{
     filter: brightness(0.7);
 }
 .hresizer{
-    background-color: var(--border_color);
+    position: relative;
     height: 100%;
-    width: 4px;
     margin:0;
     padding: 0;
     cursor:col-resize;
+    width: 2px;
+    background-color: var(--border_color);
 }
 .vresizer{
-    background-color: var(--border_color);
+    position: relative;
     width: 100%;
-    height: 4px;
     margin:0;
     padding: 0;
     cursor:row-resize;
+    height: 2px;
+    background-color: var(--border_color);
+}
+.hresizer::after{
+    width: 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: -3px;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: transparent;
+}
+.vresizer::after{
+    height: 8px;
+    position: absolute;
+    top: -3px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: auto;
+    content: "";
+    background-color: transparent;
 }
 .functionselectdiv{
     display: flex;
@@ -741,7 +770,7 @@ button:active{
 }
 #datapul_sets{
     width: 100%;
-    height:calc(50% - var(--title_font_size));
+    height:50%;
     overflow: hidden;
 }
 #datapul_sets_in{
@@ -772,4 +801,8 @@ button:active{
 }
 #settinginput select{
     display: inline;
+}
+.mainer{
+    height: calc(100% - var(--title_font_size));
+    width: 100%;
 }

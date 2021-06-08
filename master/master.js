@@ -24,6 +24,9 @@ let now_temp = 0
 let deal_sets = []
 let inputing = {}
 let now_theme = 0
+const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","プレビュー"]
+let selectedsubfunction = [0,1,2,3]
+let subfunctionelements = []
 window.onload = function () {
     let l = document.getElementById("themeselect")
     let c = 0
@@ -32,8 +35,19 @@ window.onload = function () {
         l.insertAdjacentHTML("beforeend", `<option value=${("0" + c).slice(-2)}>${t}</option>`)
     })
     l.firstChild.selected = true
+    let cc = 0
     for (i of document.getElementsByClassName("functionselect")){
+        let c = 0
+        SUBFUNCTIONNAMES.forEach(n=>{
+            i.insertAdjacentHTML("beforeend",`<option>${n}</option>`)
+            if (c == selectedsubfunction[cc]){
+                i.lastChild.selected = true
+            }
+            c++
+        })
+        subfunctionelements.push(i.parentNode.parentNode.cloneNode(true))
         fitselector(i)
+        cc++
     }
 };
 window.addEventListener('beforeunload', function (event) {
@@ -593,7 +607,6 @@ function plainreload() {
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
-    console.log(ok)
     let out = ""
     let sent = "a" + s;
     while (sent) {
@@ -649,35 +662,36 @@ function radiochange(e) {
                 if (!all_data[a]["anchor?"]) { return };
                 if (all_data[a]["anchor"] === "") { return };
                 let dms = dm.split(all_data[a]["anchor"])
-                if (dms.length - 1 > 10000 || dms.length - 1 < 1) { return };
+                if (dms.length>10000 || dms.length<0) { return };
                 if (Object.values(anchorok).includes(all_data[a]["anchor"])) { return };
                 anchorok[a] = escapeHtml(all_data[a]["anchor"]);
             })
-            let alll = "";
             let s = 0;
             deal_list.forEach(i => {
                 s++;
-                let sent = templates[deal_sets[s-1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
-                templates[deal_sets[s-1]["use_temp"]]["conf_data"].forEach(d => {
-                    let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
-                        .replace(/\\/g, "\\\\")
-                        .replace(/\$/g, "\\$")
-                        .replace(/\|/g, "\\|")
-                        }$` : `|${d.replace("blocker_", "")
-                            .replace(/\\/g, "\\\\")
-                            .replace(/\$/g, "\\$")
-                            .replace(/\|/g, "\\|")}|`
-                    sent = sent.split(dd).join(escapeHtml(i[d]));
-                })
-                sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/,"<a href='$1'>$1</a>")
-                alll += `<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`
+                previewunimessage(s,anchorok)
             })
-            document.getElementById("preview").innerHTML = alll;
             break;
         case ("radio_plaintext"):
             plainreload();
             break;
     }
+}
+function previewunimessage(s,anchorok){
+    let sent = templates[deal_sets[s - 1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
+    templates[deal_sets[s - 1]["use_temp"]]["conf_data"].forEach(d => {
+        let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
+            .replace(/\\/g, "\\\\")
+            .replace(/\$/g, "\\$")
+            .replace(/\|/g, "\\|")
+            }$` : `|${d.replace("blocker_", "")
+                .replace(/\\/g, "\\\\")
+                .replace(/\$/g, "\\$")
+                .replace(/\|/g, "\\|")}|`
+        sent = sent.split(dd).join(escapeHtml(deal_list[s - 1][d]));
+    })
+    sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
+    document.getElementById("preview").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`)
 }
 document.getElementById("plainset").addEventListener("input", function (e) {
     plainreload();
@@ -1365,4 +1379,27 @@ function sortboxes(){
         document.getElementById("box").children[i*2].style.order = c
         c+=2
     })
+}
+function subfunctionchange(e) {
+    let is = e.target
+    let i = Number(is.parentNode.parentNode.dataset.subboxindex)
+    if (is.selectedIndex == selectedsubfunction[i]){return false}
+    let it = is.parentNode.nextElementSibling
+    let ind = selectedsubfunction.indexOf(is.selectedIndex)
+    let tt = document.getElementsByClassName("mainer")[ind]
+    let ts = tt.previousElementSibling.firstElementChild
+    ts.children[ts.selectedIndex].selected = false
+    ts.children[selectedsubfunction[i]].selected = true
+    selectedsubfunction[ind] = selectedsubfunction[i] + 0
+    selectedsubfunction[i] = is.selectedIndex
+    let i_s = it.cloneNode(true)
+    let t_s = tt.cloneNode(true)
+    let ip = it.parentNode
+    let tp = tt.parentNode
+    tt.outerHTML = ""
+    it.outerHTML = ""
+    ip.insertAdjacentElement("beforeend",t_s)
+    tp.insertAdjacentElement("beforeend",i_s)
+    fitselector(is)
+    fitselector(ts)
 }
