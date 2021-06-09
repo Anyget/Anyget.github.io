@@ -27,6 +27,19 @@ let now_theme = 0
 const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","簡易プレビュー"]
 let selectedsubfunction = [0,1,2,3]
 let subfunctionelements = []
+let intersectobjects = new Set()
+function epo_function(es){
+    console.log(es)
+    es.forEach(e=>{
+        if (e.intersectionRatio > 0){
+            intersectobjects.add(e.target)
+            unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(e.target))
+        }else{
+            intersectobjects.delete(e.target)
+        }
+    })
+}
+let easypreviewobserver = new IntersectionObserver(epo_function,{root:document.getElementById("easy_preview")})
 window.onload = function () {
     let l = document.getElementById("themeselect")
     let c = 0
@@ -329,12 +342,18 @@ document.addEventListener("input", (e) => {
             num = Number(target.parentNode.id.replace("message_", "")) - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
-            unieasypreviewreloader(num)
+            Array.from(intersectobjects).forEach(i => {
+                console.log(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+                unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+            })
         } else {
             num = Number(target.parentNode.parentNode.id.replace("message_", "")) - 1;
             inp = target.value;
             deal_list[num][clas] = inp;
-            unieasypreviewreloader(num)
+            Array.from(intersectobjects).forEach(i => {
+                console.log(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+                unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+            })
         };
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
@@ -624,10 +643,10 @@ function previewanchor(s, ok) {
                 let sss = 0
                 deal_list.map(xx => xx[k]).forEach(l => {
                     sss++;
-                    if (l === "") { return };
+                    if (l == "") { return };
                     if (sent.startsWith(l)) {
                         if (nnn != "") {
-                            if (l === nnn) {
+                            if (l == nnn) {
                                 nnns.push(sss)
                             } else if (nnn.length < l.length) {
                                 nnns = [sss]
@@ -1079,16 +1098,29 @@ function strWidth(str) {
     }
     return -1;
 }
-document.addEventListener("mouseover", function (e){
-    if (e.target.classList.contains("anchorspan")){
+document.addEventListener("mouseover", e=>{
+    if (e.target.classList.contains("anchorspan")) {
+        console.log(e.target)
+        let d = []
+        if (e.target.parentNode.parentNode.id == "preview" || e.target.parentNode.parentNode.parentNode.id=="abss") {
+            e.target.dataset.to.split(",").forEach(s => {
+                let n = document.getElementById(`preview_${s}`)
+                d.push(n.outerHTML.replace(/ id="preview_/, ' id="n_preview_').replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
+            })
+
+        }else if (e.target.parentNode.parentNode.id == "easy_preview"){
+            e.target.dataset.to.split(",").forEach(s => {
+                if (!intersectobjects.has(e.target.parentNode)){
+                    console.log(intersectobjects)
+                    unieasypreviewreloader(Number(s) - 1)
+                }
+                let n = document.getElementById("easy_preview").children[Number(s)-1]
+                d.push(n.outerHTML.replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
+            })
+        }
         if (!document.getElementById("abss").querySelector(".abssc:hover,.abssc[data-flag='true'],.abssc:hover~.abssc")){
             document.getElementById("abss").innerHTML = ""
         }
-        let d = []
-        e.target.dataset.to.split(",").forEach(s=>{
-            let n = document.getElementById(`preview_${s}`)
-            d.push(n.outerHTML.replace(/ id="preview_/, ' id="n_preview_').replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
-        })
         let pos = e.target.getBoundingClientRect()
 
         if (e.target.parentNode.parentNode != document.getElementById("abss").firstChild && e.target.parentNode.parentNode.classList.contains("abssc")){
@@ -1104,6 +1136,7 @@ document.addEventListener("mouseover", function (e){
         }else{
             a.style.maxWidth = String(window.innerWidth-pos_x) + "px"
         }
+        console.log(e.target.parentNode.parentNode)
         a.style.display = "block"
         a.style.top = Math.floor(pos_y) + "px"
         a.style.left = Math.floor(pos_x) + "px"
@@ -1398,18 +1431,21 @@ function subfunctionchange(e) {
     let t_s = tt.cloneNode(true)
     let ip = it.parentNode
     let tp = tt.parentNode
+    intersectobjects.clear()
     tt.outerHTML = ""
     it.outerHTML = ""
     ip.insertAdjacentElement("beforeend",t_s)
     tp.insertAdjacentElement("beforeend",i_s)
     fitselector(is)
     fitselector(ts)
+    easypreviewobserver = new IntersectionObserver(epo_function, { root: document.getElementById("easy_preview") })
+    for (let ch of document.getElementById("easy_preview").children){
+        easypreviewobserver.observe(ch)
+        console.log("hoge")
+    }
 }
 new MutationObserver(e=>{
-    let mc = document.getElementById("messages")
-    let ec = document.getElementById("easy_preview")
-    let editlist = []
-    console.log(e)
+    let editlist = new Set()
     if (!e[0].target.classList.contains("tempselect")){
         e.forEach(r=>{
             if (!r.target.classList.contains("tempselect")){
@@ -1417,34 +1453,32 @@ new MutationObserver(e=>{
                     if (r.target.id == "messages"){
                         if (r.removedNodes.length > 0){
                             if (r.removedNodes[0].lastElementChild != null){
-                                editlist.push(r.removedNodes[0].lastElementChild.id.replace("message_",""))
+                                editlist.add(r.removedNodes[0].lastElementChild.id.replace("message_",""))
                             }
                         }
                         if (r.addedNodes.length > 0) {
                             if (r.addedNodes[0].lastElementChild != null){
-                                editlist.push(r.addedNodes[0].lastElementChild.id.replace("message_",""))
+                                editlist.add(r.addedNodes[0].lastElementChild.id.replace("message_",""))
                             }
                         }
                     }
                     if (r.target.classList.contains("message")){
                         if (r.removedNodes.length > 0) {
                             if (r.removedNodes[0].parentNode != null){
-                                editlist.push(r.removedNodes[0].parentNode.id.replace("message_", ""))
+                                editlist.add(r.removedNodes[0].parentNode.id.replace("message_", ""))
                             }
-                            console.log(r.removedNodes[0])
                         }
                         if (r.addedNodes.length > 0) {
                             if (r.addedNodes[0].parentNode != null) {
-                                editlist.push(r.addedNodes[0].parentNode.id.replace("message_", ""))
+                                editlist.add(r.addedNodes[0].parentNode.id.replace("message_", ""))
                             }
                         }
                     }
                 }
             }
         })
-        if (editlist.length > 0){
-            editlist = Array.from(new Set(editlist))
-            editlist.forEach(i=>{
+        if (editlist.size > 0){
+            Array.from(editlist).forEach(i=>{
                 unieasypreviewreloader(Number(i)-1)
             })
         }
@@ -1452,6 +1486,11 @@ new MutationObserver(e=>{
 }).observe(document.getElementById("messages"), {childList: true,attributes: true,subtree: true})
 
 function unieasypreviewreloader(n){
+    if (deal_list.length < n+1){
+        easypreviewobserver.unobserve(document.getElementById("easy_preview").children[n])
+        document.getElementById("easy_preview").children[n].outerHTML = ""
+        return false
+    }
     let sent = templates[deal_sets[n]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
     templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(d => {
         let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
@@ -1466,8 +1505,20 @@ function unieasypreviewreloader(n){
     })
     if (document.getElementById("easy_preview").childElementCount < n+1){
         document.getElementById("easy_preview").insertAdjacentHTML("beforeend",`<div class="neko">${sent.replace(/\n/g, "<br>")}</div>`)
+        easypreviewobserver.observe(document.getElementById("easy_preview").lastElementChild)
     }else{
-        document.getElementById("easy_preview").children[n].outerHTML = `<div class="neko">${sent.replace(/\n/g, "<br>")}</div>`
+
+        if (intersectobjects.has(document.getElementById("easy_preview").children[n])) {
+            let anchorok = {}
+            Object.keys(all_data).forEach(a => {
+                if (!all_data[a]["anchor?"]) { return };
+                if (all_data[a]["anchor"] == "") { return };
+                if (Object.values(anchorok).includes(all_data[a]["anchor"])) { return };
+                anchorok[a] = escapeHtml(all_data[a]["anchor"]);
+            })
+            sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
+        }
+        document.getElementById("easy_preview").children[n].innerHTML = `${sent.replace(/\n/g, "<br>")}`
     }
 
 }
