@@ -29,7 +29,7 @@ let selectedsubfunction = [0,1,2,3]
 let subfunctionelements = []
 let intersectobjects = new Set()
 function epo_function(es){
-    console.log(es)
+    
     es.forEach(e=>{
         if (e.intersectionRatio > 0){
             intersectobjects.add(e.target)
@@ -343,7 +343,7 @@ document.addEventListener("input", (e) => {
             inp = target.value;
             deal_list[num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
-                console.log(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+                
                 unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
             })
         } else {
@@ -351,7 +351,7 @@ document.addEventListener("input", (e) => {
             inp = target.value;
             deal_list[num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
-                console.log(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+                
                 unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
             })
         };
@@ -1100,7 +1100,7 @@ function strWidth(str) {
 }
 document.addEventListener("mouseover", e=>{
     if (e.target.classList.contains("anchorspan")) {
-        console.log(e.target)
+        
         let d = []
         if (e.target.parentNode.parentNode.id == "preview" || e.target.parentNode.parentNode.parentNode.id=="abss") {
             e.target.dataset.to.split(",").forEach(s => {
@@ -1111,7 +1111,7 @@ document.addEventListener("mouseover", e=>{
         }else if (e.target.parentNode.parentNode.id == "easy_preview"){
             e.target.dataset.to.split(",").forEach(s => {
                 if (!intersectobjects.has(e.target.parentNode)){
-                    console.log(intersectobjects)
+                    
                     unieasypreviewreloader(Number(s) - 1)
                 }
                 let n = document.getElementById("easy_preview").children[Number(s)-1]
@@ -1136,7 +1136,7 @@ document.addEventListener("mouseover", e=>{
         }else{
             a.style.maxWidth = String(window.innerWidth-pos_x) + "px"
         }
-        console.log(e.target.parentNode.parentNode)
+        
         a.style.display = "block"
         a.style.top = Math.floor(pos_y) + "px"
         a.style.left = Math.floor(pos_x) + "px"
@@ -1441,7 +1441,7 @@ function subfunctionchange(e) {
     easypreviewobserver = new IntersectionObserver(epo_function, { root: document.getElementById("easy_preview") })
     for (let ch of document.getElementById("easy_preview").children){
         easypreviewobserver.observe(ch)
-        console.log("hoge")
+        
     }
 }
 new MutationObserver(e=>{
