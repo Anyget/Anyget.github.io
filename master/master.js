@@ -1103,13 +1103,14 @@ document.addEventListener("mouseover", e=>{
     if (e.target.classList.contains("anchorspan")) {
         
         let d = []
-        if (e.target.parentNode.parentNode.id == "preview" || e.target.parentNode.parentNode.parentNode.id=="abss") {
+        if (e.target.parentNode.parentNode.id == "preview" || (e.target.parentNode.parentNode.parentNode.id=="abss" && e.target.parentNode.parentNode.parentNode.dataset.per=="p")) {
             e.target.dataset.to.split(",").forEach(s => {
                 let n = document.getElementById(`preview_${s}`)
                 d.push(n.outerHTML.replace(/ id="preview_/, ' id="n_preview_').replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
             })
+            document.getElementById("abss").dataset.per = "p"
 
-        }else if (e.target.parentNode.parentNode.id == "easy_preview"){
+        } else if (e.target.parentNode.parentNode.id == "easy_preview" || (e.target.parentNode.parentNode.parentNode.id == "abss" && e.target.parentNode.parentNode.parentNode.dataset.per == "e")){
             e.target.dataset.to.split(",").forEach(s => {
                 if (!intersectobjects.has(e.target.parentNode)){
                     
@@ -1118,6 +1119,7 @@ document.addEventListener("mouseover", e=>{
                 let n = document.getElementById("easy_preview").children[Number(s)-1]
                 d.push(n.outerHTML.replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
             })
+            document.getElementById("abss").dataset.per = "e"
         }
         if (!document.getElementById("abss").querySelector(".abssc:hover,.abssc[data-flag='true'],.abssc:hover~.abssc")){
             document.getElementById("abss").innerHTML = ""
