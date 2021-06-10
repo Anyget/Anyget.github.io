@@ -204,7 +204,7 @@ h1,h2{
     overflow-y: scroll;
 }
 .messagediv:hover{
-    filter:contrast(80%)
+    filter:contrast(87%)
 }
 .message{
     padding: 0 5px;
