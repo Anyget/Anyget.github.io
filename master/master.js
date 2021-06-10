@@ -324,6 +324,7 @@ document.getElementById("datapul").addEventListener("change", (e) => {
             document.getElementById("datalist?").disabled = true;
             document.getElementById("datalist?").checked = false;
         }
+        document.getElementById("datalist?").disabled = true;
 
     };
 });
