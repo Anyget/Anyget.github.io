@@ -678,6 +678,7 @@ function radiochange(e) {
     document.getElementById(e.target.id.replace("radio_","")).classList.add("radised");
     switch (e.target.id) {
         case ("radio_preview"):
+            document.getElementById("preview").innerHTML = ""
             let anchorok = {}
             let dm = deal_list.map(xx => Object.values(xx).join("")).join("")
             Object.keys(all_data).forEach(a => {
