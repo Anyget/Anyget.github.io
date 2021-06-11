@@ -303,7 +303,7 @@ function addmess() {
     obj.scrollTop = obj.scrollHeight;
 };
 
-document.getElementById("datapul").addEventListener("change", (e) => {
+function datapulchange(e) {
     if (e.target.value != "設定変更する変数を選択") {
         document.getElementById("adder").disabled = false;
         let selecting = Object.keys(all_data)[(e.target.selectedIndex) - 1];
@@ -327,11 +327,11 @@ document.getElementById("datapul").addEventListener("change", (e) => {
         document.getElementById("datalist?").disabled = true;
 
     };
-});
+}
 
-document.getElementById("adder").addEventListener("change", (e) => {
+function adderchange(e){
     all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["adder"] = e.target.value;
-});
+}
 
 document.addEventListener("input", (e) => {
     let target = e.target;
@@ -594,9 +594,9 @@ function anchorcheck() {
     document.getElementById("anchor").disabled = !c;
     all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["anchor?"] = c;
 }
-document.getElementById("anchor").addEventListener("change", (e) => {
+function anchorchange(e){
     all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["anchor"] = e.target.value;
-});
+}
 function unescapeHtml(str) {
     let div = document.createElement("div");
     div.innerHTML = str.replace(/</g,"&lt;")
@@ -715,12 +715,9 @@ function previewunimessage(s,anchorok){
     sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
     document.getElementById("preview").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`)
 }
-document.getElementById("plainset").addEventListener("input", function (e) {
-    plainreload();
-})
-document.getElementById("previewplain").addEventListener("input",function (e){
+function previewplaininput(){
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
-})
+}
 function randgen() {
     let str = ""
     str += document.getElementById("check_uaz").checked ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : "";
