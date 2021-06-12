@@ -406,15 +406,17 @@ document.addEventListener("click", (e) => {
         lockreload()
 
         templates[now_temp]["conf_data"].forEach(k => {
-            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
-            let na = Number(all_data[k]["dataset_adder"])
-            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && document.getElementById("dataset_adderm")) {
-                added = Number(added) - na
+            if (all_data[k]["dataset_adderm"]){
+                let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+                let na = Number(all_data[k]["dataset_adder"])
+                if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
+                    added = Number(added) - na
+                }
+                inputing[k] = String(added)
+                Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
+                    i.value = inputing[k]
+                })
             }
-            inputing[k] = String(added)
-            Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
-                i.value = inputing[k]
-            })
         });
     };
 });
