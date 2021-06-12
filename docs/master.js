@@ -169,7 +169,7 @@ function changetemp() {
         templates[now_temp]["conf_data"] = Array.from(new Set(data))
         templates[now_temp]["conf_data"].forEach(i => {
         if (!Object.keys(all_data).includes(i)) {
-            all_data[i] = ({"adder": 0, "anchor?": false, "anchor": "", "fix?": false, "datalist?": false});
+            all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor": "", "dataset_fix?": false, "dataset_datalist?": false});
             document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
             document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
             document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
@@ -289,7 +289,7 @@ function addmess() {
         })
         templates[now_temp]["conf_data"].forEach(k => {
             let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
-            let na = Number(all_data[k]["adder"])
+            let na = Number(all_data[k]["dataset_adder"])
             if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && na != 0) {
                 added = Number(added) + na
             }
@@ -305,32 +305,34 @@ function addmess() {
 
 function datapulchange(e) {
     if (e.target.value != "設定変更する変数を選択") {
-        document.getElementById("adder").disabled = false;
+        document.getElementById("dataset_adder").disabled = false;
         let selecting = Object.keys(all_data)[(e.target.selectedIndex) - 1];
-        document.getElementById("adder").value = all_data[selecting]["adder"];
-        document.getElementById("fix?").disabled = false;
-        document.getElementById("fix?").checked = all_data[selecting]["fix?"];
+        document.getElementById("dataset_adder").value = all_data[selecting]["dataset_adder"];
+        document.getElementById("dataset_adderm").disabled = false;
+        document.getElementById("dataset_adderm").checked = all_data[selecting]["dataset_adderm"];
+        document.getElementById("dataset_fix?").disabled = false;
+        document.getElementById("dataset_fix?").checked = all_data[selecting]["dataset_fix?"];
         if (e.target.value.startsWith("$")) {
-            document.getElementById("anchor?").disabled = false;
-            document.getElementById("anchor?").checked = all_data[selecting]["anchor?"];
-            document.getElementById("anchor").disabled = !all_data[selecting]["anchor?"]
-            document.getElementById("anchor").value = all_data[selecting]["anchor"];
-            document.getElementById("datalist?").disabled = false;
-            document.getElementById("datalist?").checked = all_data[selecting]["datalist?"];
+            document.getElementById("dataset_anchor?").disabled = false;
+            document.getElementById("dataset_anchor?").checked = all_data[selecting]["dataset_anchor?"];
+            document.getElementById("dataset_anchor").disabled = !all_data[selecting]["dataset_anchor?"]
+            document.getElementById("dataset_anchor").value = all_data[selecting]["dataset_anchor"];
+            document.getElementById("dataset_datalist?").disabled = false;
+            document.getElementById("dataset_datalist?").checked = all_data[selecting]["dataset_datalist?"];
         } else {
-            document.getElementById("anchor?").disabled = true;
-            document.getElementById("anchor?").checked = false;
-            document.getElementById("anchor").value = "";
-            document.getElementById("datalist?").disabled = true;
-            document.getElementById("datalist?").checked = false;
+            document.getElementById("dataset_anchor?").disabled = true;
+            document.getElementById("dataset_anchor?").checked = false;
+            document.getElementById("dataset_anchor").value = "";
+            document.getElementById("dataset_datalist?").disabled = true;
+            document.getElementById("dataset_datalist?").checked = false;
         }
-        document.getElementById("datalist?").disabled = true;
+        document.getElementById("dataset_datalist?").disabled = true;
 
     };
 }
 
-function adderchange(e){
-    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["adder"] = e.target.value;
+function dataset_adderchange(e){
+    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["dataset_adder"] = e.target.value;
 }
 
 document.addEventListener("input", (e) => {
@@ -380,13 +382,13 @@ document.addEventListener("click", (e) => {
             let from = document.getElementById(`message_${i + 1}`);
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
-                if (!all_data[d]["fix?"]) {
+                if (!all_data[d]["dataset_fix?"]) {
                     deal_list[i - 1][d] = deal_list[i][d];
                 };
                 Array.from(to.getElementsByClassName(d)).forEach(toc=>{
                     let fromc = from.getElementsByClassName(d)[nnn];
                     if (fromc) {
-                        if (!all_data[d]["fix?"]) {
+                        if (!all_data[d]["dataset_fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
@@ -402,16 +404,28 @@ document.addEventListener("click", (e) => {
         deal_sets.splice(num-1,1)
         document.getElementById("messages").lastChild.outerHTML = "";
         lockreload()
+
+        templates[now_temp]["conf_data"].forEach(k => {
+            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+            let na = Number(all_data[k]["dataset_adder"])
+            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && document.getElementById("dataset_adderm")) {
+                added = Number(added) - na
+            }
+            inputing[k] = String(added)
+            Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
+                i.value = inputing[k]
+            })
+        });
     };
 });
 function changefix() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
-    all_data[selecting]["fix?"] = document.getElementById("fix?").checked;
+    all_data[selecting]["dataset_fix?"] = document.getElementById("dataset_fix?").checked;
 }
 function flapdatalist() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
-    all_data[selecting]["datalist?"] = document.getElementById("datalist?").checked;
-    if (!document.getElementById("datalist?").checked) {
+    all_data[selecting]["dataset_datalist?"] = document.getElementById("dataset_datalist?").checked;
+    if (!document.getElementById("dataset_datalist?").checked) {
         document.getElementById(`list_${selecting}`).id = `n_list_${selecting}`
     } else {
         document.getElementById(`n_list_${selecting}`).id = `list_${selecting}`
@@ -450,13 +464,13 @@ function drop(e) {
             let itihods = deal_sets[dragging_num - 1]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
-                if (!all_data[d]["fix?"]) {
+                if (!all_data[d]["dataset_fix?"]) {
                     itihoarr[d] = deal_list[dragging_num - 1][d]
                 }
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
                     if (fromc) {
-                        if (!all_data[d]["fix?"]) {
+                        if (!all_data[d]["dataset_fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
@@ -473,13 +487,13 @@ function drop(e) {
                 let from = document.getElementById(`message_${i + 1}`);
                 Object.keys(all_data).forEach(d => {
                     let nnn = 0
-                    if (!all_data[d]["fix?"]) {
+                    if (!all_data[d]["dataset_fix?"]) {
                         deal_list[i - 1][d] = deal_list[i][d];
                     }
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
                         if (fromc) {
-                            if (!all_data[d]["fix?"]) {
+                            if (!all_data[d]["dataset_fix?"]) {
                                 toc.style = fromc.style.cssText;
                                 toc.parentNode.style = fromc.parentNode.style.cssText;
                                 toc.value = fromc.value;
@@ -496,13 +510,13 @@ function drop(e) {
             target.children[1].innerHTML = templates[deal_sets[target_num-1]["use_temp"]]["conf_htm"]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
-                if (!all_data[d]["fix?"]) {
+                if (!all_data[d]["dataset_fix?"]) {
                     deal_list[target_num - 1][d] = itihoarr[d];
                 }
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (fromc) {
-                        if (!all_data[d]["fix?"]) {
+                        if (!all_data[d]["dataset_fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
@@ -520,13 +534,13 @@ function drop(e) {
             let itihods = deal_sets[dragging_num - 1]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
-                if (!all_data[d]["fix?"]) {
+                if (!all_data[d]["dataset_fix?"]) {
                     itihoarr[d] = deal_list[dragging_num - 1][d]
                 }
                 Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
                     let fromc = dragmes.getElementsByClassName(d)[nnn];
                     if (fromc) {
-                        if (!all_data[d]["fix?"]) {
+                        if (!all_data[d]["dataset_fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
@@ -544,13 +558,13 @@ function drop(e) {
                 let from = document.getElementById(`message_${i - 1}`);
                 Object.keys(all_data).forEach(d => {
                     let nnn = 0
-                    if (!all_data[d]["fix?"]) {
+                    if (!all_data[d]["dataset_fix?"]) {
                         deal_list[i - 1][d] = deal_list[i-2][d];
                     }
                     Array.from(to.getElementsByClassName(d)).forEach(toc => {
                         let fromc = from.getElementsByClassName(d)[nnn];
                         if (fromc) {
-                            if (!all_data[d]["fix?"]) {
+                            if (!all_data[d]["dataset_fix?"]) {
                                 toc.style = fromc.style.cssText;
                                 toc.parentNode.style = fromc.parentNode.style.cssText;
                                 toc.value = fromc.value;
@@ -566,13 +580,13 @@ function drop(e) {
             target.children[1].innerHTML = templates[deal_sets[target_num-1]["use_temp"]]["conf_htm"]
             Object.keys(all_data).forEach(d => {
                 let nnn = 0
-                if (!all_data[d]["fix?"]) {
+                if (!all_data[d]["dataset_fix?"]) {
                     deal_list[target_num - 1][d] = itihoarr[d];
                 }
                 Array.from(target.getElementsByClassName(d)).forEach(toc => {
                     let fromc = itiho.getElementsByClassName(d)[nnn];
                     if (fromc) {
-                        if (!all_data[d]["fix?"]) {
+                        if (!all_data[d]["dataset_fix?"]) {
                             toc.style = fromc.style.cssText;
                             toc.parentNode.style = fromc.parentNode.style.cssText;
                             toc.value = fromc.value;
@@ -590,12 +604,12 @@ function dragend(e) {
     document.querySelector("body").classList.remove("nonono");
 }
 function anchorcheck() {
-    let c = document.getElementById("anchor?").checked
-    document.getElementById("anchor").disabled = !c;
-    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["anchor?"] = c;
+    let c = document.getElementById("dataset_anchor?").checked
+    document.getElementById("dataset_anchor").disabled = !c;
+    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["dataset_anchor?"] = c;
 }
 function anchorchange(e){
-    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["anchor"] = e.target.value;
+    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["dataset_anchor"] = e.target.value;
 }
 function unescapeHtml(str) {
     let div = document.createElement("div");
@@ -682,12 +696,12 @@ function radiochange(e) {
             let anchorok = {}
             let dm = deal_list.map(xx => Object.values(xx).join("")).join("")
             Object.keys(all_data).forEach(a => {
-                if (!all_data[a]["anchor?"]) { return };
-                if (all_data[a]["anchor"] === "") { return };
-                let dms = dm.split(all_data[a]["anchor"])
+                if (!all_data[a]["dataset_anchor?"]) { return };
+                if (all_data[a]["dataset_anchor"] === "") { return };
+                let dms = dm.split(all_data[a]["dataset_anchor"])
                 if (dms.length>10000 || dms.length<0) { return };
-                if (Object.values(anchorok).includes(all_data[a]["anchor"])) { return };
-                anchorok[a] = escapeHtml(all_data[a]["anchor"]);
+                if (Object.values(anchorok).includes(all_data[a]["dataset_anchor"])) { return };
+                anchorok[a] = escapeHtml(all_data[a]["dataset_anchor"]);
             })
             let s = 0;
             deal_list.forEach(i => {
@@ -965,7 +979,7 @@ function load() {
             document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
 
             if (c.startsWith("liner_")) {
-                document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
+                document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["dataset_datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
             };
         })
         lockreload()
@@ -1513,14 +1527,18 @@ function unieasypreviewreloader(n){
         if (intersectobjects.has(document.getElementById("easy_preview").children[n])) {
             let anchorok = {}
             Object.keys(all_data).forEach(a => {
-                if (!all_data[a]["anchor?"]) { return };
-                if (all_data[a]["anchor"] == "") { return };
-                if (Object.values(anchorok).includes(all_data[a]["anchor"])) { return };
-                anchorok[a] = escapeHtml(all_data[a]["anchor"]);
+                if (!all_data[a]["dataset_anchor?"]) { return };
+                if (all_data[a]["dataset_anchor"] == "") { return };
+                if (Object.values(anchorok).includes(all_data[a]["dataset_anchor"])) { return };
+                anchorok[a] = escapeHtml(all_data[a]["dataset_anchor"]);
             })
             sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
         }
         document.getElementById("easy_preview").children[n].innerHTML = `${sent.replace(/\n/g, "<br>")}`
     }
 
+}
+function changeadderm() {
+    let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
+    all_data[selecting]["dataset_adderm"] = document.getElementById("dataset_adderm").checked
 }
