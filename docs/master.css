@@ -42,6 +42,7 @@ li{
     border: solid 1px var(--border_color); 
     min-width : 0px;
     box-sizing: border-box;
+    overflow: hidden !important;
 }
 
 #box2{
@@ -811,4 +812,45 @@ button:active{
 #unvisiblesf{
     visibility: hidden;
     display: none;
+}
+#textadder_div{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-y: scroll;
+    height: 100%;
+    box-sizing: border-box;
+}
+#textadder{
+    width: calc(100% - 20px);
+    font-size: 200%;
+    line-height: 1em;
+    border-radius: 0.5em;
+    margin-top: 0.25em;
+    outline: none;
+}
+
+#textadder_div>div{
+    margin-top: 0.5em;
+    overflow:hidden;
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid var(--message_border_color);
+    padding: 1px;
+}
+#textadder_div>div>div>button{
+    font-size: 1.1em;
+    line-height: 1em;
+}
+#textadder_div>div>textarea{
+    line-height: 1em;
+    height: 4.5rem;
+    overflow-y: scroll;
+    width: 100%;
+    resize: vertical;
+    display: block;
+    letter-spacing:-0.1em;
 }

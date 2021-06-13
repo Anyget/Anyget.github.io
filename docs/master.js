@@ -24,8 +24,8 @@ let now_temp = 0
 let deal_sets = []
 let inputing = {}
 let now_theme = 0
-const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","簡易プレビュー"]
-let selectedsubfunction = [0,1,2,3]
+const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","簡易プレビュー","テキストメモ"]
+let selectedsubfunction = [0,1,2,3,4]
 let subfunctionelements = []
 let intersectobjects = new Set()
 function epo_function(es){
@@ -1543,4 +1543,30 @@ function unieasypreviewreloader(n){
 function changeadderm() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
     all_data[selecting]["dataset_adderm"] = document.getElementById("dataset_adderm").checked
+}
+function addmemo(e){
+    e.target.insertAdjacentHTML("afterend","<div><div><button onclick='memoup(event)'>^</button><button onclick='memodown(event)'>v</button><button onclick='memofontzoomout(event)'>-</button><button onclick='memofontzoom(event)'>+</button></div><textarea data-fontsizer='1.5' style='font-size:1.5em;'></textarea></div>")
+}
+
+function memofontzoom(e){
+    let ta = e.target.parentNode.parentNode.lastChild
+    ta.dataset.fontsizer = Number(ta.dataset.fontsizer)+0.5
+    ta.style.fontSize =  Number(ta.dataset.fontsizer) + "em"
+}
+function memofontzoomout(e){
+    let ta = e.target.parentNode.parentNode.lastChild
+    ta.dataset.fontsizer = Number(ta.dataset.fontsizer)-0.5
+    ta.style.fontSize =  Number(ta.dataset.fontsizer) + "em"
+}
+function memoup(e){
+    let td = e.target.parentNode.parentNode
+    if (td == td.parentNode.firstElementChild.nextElementSibling){return false}
+    td.parentNode.insertBefore(td.cloneNode(true), td.previousElementSibling)
+    td.outerHTML = ""
+}
+function memodown(e) {
+    if (e.target.parentNode.parentNode == e.target.parentNode.parentNode.parentNode.lastElementChild){return false}
+    let td = e.target.parentNode.parentNode.nextElementSibling
+    td.parentNode.insertBefore(td.cloneNode(true), td.previousElementSibling)
+    td.outerHTML = ""
 }
