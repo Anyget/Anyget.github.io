@@ -28,6 +28,7 @@ const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定",
 let selectedsubfunction = [0,1,2,3,4]
 let subfunctionelements = []
 let intersectobjects = new Set()
+let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
 function epo_function(es){
     
     es.forEach(e=>{
@@ -81,7 +82,23 @@ document.addEventListener("paste", function (e) {
     };
 });
 
-
+window.addEventListener("resize",e=>{
+    Array.from(document.getElementById("box").children).forEach(i=>{
+        if (i.style.width) {
+            i.style.width = window.innerWidth/windowsizelog["w"]*Number(i.style.width.replace("px",""))  + "px"
+        }
+    })
+    Array.from(document.getElementById("box4").children).forEach(i=>{
+        if (i.style.height) {
+            i.style.height = window.innerHeight/windowsizelog["h"]*Number(i.style.height.replace("px",""))  + "px"
+        }
+    })
+    for (let i of document.getElementsByClassName("functionselect")) {
+        fitselector(i)
+    }
+    windowsizelog["w"] = window.innerWidth
+    windowsizelog["h"] = window.innerHeight
+})
 function escapeHtml(str) {
     let div = document.createElement('div');
     div.innerText = str;
@@ -1406,9 +1423,6 @@ document.addEventListener("mousemove",e=>{
             atarget.style.height = old_ab - e.clientY + "px"
         }
         for (let i of btarget.getElementsByClassName("functionselect")) {
-            fitselector(i)
-        }
-        for (let i of atarget.getElementsByClassName("functionselect")) {
             fitselector(i)
         }
     }
