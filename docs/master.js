@@ -68,19 +68,19 @@ window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
     event.returnValue = ''
 })
-document.addEventListener("paste", function (e) {
-    let target = e.target
-    if (target.matches("div[contenteditable='true']")) {
-        let text = e.clipboardData.getData("text/plain");
-        const selection = window.getSelection();
-        if (!selection.rangeCount) return false;
-        selection.deleteFromDocument();
-        let cas = selection.getRangeAt(0);
-        cas.insertNode(document.createTextNode(text));
-        selection.collapseToEnd();
-        e.preventDefault();
-    };
-});
+//document.addEventListener("paste", function (e) {
+//    let target = e.target
+//    if (target.matches("div[contenteditable='true']")) {
+//        let text = e.clipboardData.getData("text/plain");
+//        const selection = window.getSelection();
+//        if (!selection.rangeCount) return false;
+//        selection.deleteFromDocument();
+//        let cas = selection.getRangeAt(0);
+//        cas.insertNode(document.createTextNode(text));
+//        selection.collapseToEnd();
+//        e.preventDefault();
+//    };
+//});
 
 window.addEventListener("resize",e=>{
     Array.from(document.getElementById("box").children).forEach(i=>{
@@ -370,7 +370,7 @@ function taras(target){
         k.value = target.value
     })
 }
-document.addEventListener("click", (e) => {
+function closebtnclick(e){
     let target = e.target;
     if (target.className == "closebtn") {
         let num = Number(target.parentNode.nextElementSibling.id.replace("message_", ""));
@@ -417,7 +417,7 @@ document.addEventListener("click", (e) => {
             }
         });
     };
-});
+}
 function changefix() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
     all_data[selecting]["dataset_fix?"] = document.getElementById("dataset_fix?").checked;
@@ -674,7 +674,7 @@ function previewanchor(s, ok) {
                     }
                 })
                 if (nnn != ""){
-                    out += `<a href="#preview_${nnns[0]}" class="anchorspan" onmouseout="anchorspanmouseout(event)" data-to="${nnns.join(",")}">${ith}${nnn}</a>`
+                    out += `<a href="#preview_${nnns[0]}" class="anchorspan" onmouseover="anchorspanmouseover(event)" onmouseout="anchorspanmouseout(event)" data-to="${nnns.join(",")}">${ith}${nnn}</a>`
                     sent = sent.slice(nnn.length)
                 }else{
                     out += ith
@@ -1104,7 +1104,7 @@ function strWidth(str) {
     }
     return -1;
 }
-document.addEventListener("mouseover", e=>{
+function anchorspanmouseover(e){
     if (e.target.classList.contains("anchorspan")) {
         
         let d = []
@@ -1153,7 +1153,7 @@ document.addEventListener("mouseover", e=>{
         a.style.zIndex = Number(e.target.parentNode.parentNode.style.zIndex) + 1
         a.dataset.flag = "true"
     }
-})
+}
 function anchorspanmouseout(e){
     if (e.target.matches(".anchorspan") && document.getElementById("abss").querySelector(".abssc:hover,.abssc[data-flag='true'],.abssc:hover~.abssc")){
         document.getElementById("abss").firstChild.dataset.flag = "false"
@@ -1570,5 +1570,5 @@ function memodown(e) {
 }
 
 function messtemper(t,h){
-    return `<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
+    return `<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
 }
