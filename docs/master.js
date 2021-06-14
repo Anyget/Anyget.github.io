@@ -263,16 +263,7 @@ function messagereloadbynowtemp(){
 }
 function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
-        document.getElementById("messages").insertAdjacentHTML("beforeend",
-            '<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
-            +'<div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv">'
-            + '<select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)">'
-            + '<option value="'
-            + (Number(now_temp)+1)
-            + '" selected">'
-            + (Number(now_temp)+1)
-            + '</option></select></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">'
-            + templates[now_temp]["conf_htm"] + "</div></div>");
+        document.getElementById("messages").insertAdjacentHTML("beforeend",messtemper(now_temp+1,templates[now_temp]["conf_htm"]));
         let formi_c = document.getElementById("form_inp")
         let now = document.getElementById("cd")
         let num = deal_list.length
@@ -286,31 +277,21 @@ function addmess() {
             "locked":false
         })
         templates[now_temp]["conf_data"].forEach(i=>{
-            if (i.startsWith("blocker_")) {
-                let n = 0
-                Array.from(now.getElementsByClassName(i)).forEach(o=>{
-                    let nnnnn = formi_c.getElementsByClassName(i)[n]
-                    o.style = nnnnn.style.cssText;
-                    deal_list[num][i] = o.value = nnnnn.value
-                    n++
-                })
-            } else {
-                let n = 0
-                Array.from(now.getElementsByClassName(i)).forEach(o=>{
-                    let nnnnn = formi_c.getElementsByClassName(i)[n]
-                    o.parentNode.style = nnnnn.parentNode.style.cssText;
-                    deal_list[num][i] = o.value = nnnnn.value
-                    n++
-                })
-            };
+            let n = 0
+            Array.from(now.getElementsByClassName(i)).forEach(o=>{
+                let nnnnn = formi_c.getElementsByClassName(i)[n];
+                (i.startsWith("blocker_")?o:o.parentNode).style = (i.startsWith("blocker_")?nnnnn:nnnnn.parentNode).style.cssText;
+                deal_list[num][i] = o.value = nnnnn.value
+                n++
+            })
         })
         templates[now_temp]["conf_data"].forEach(k => {
-            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+            let added = document.getElementById("form_inp").getElementsByClassName(k)[0].value
             let na = Number(all_data[k]["dataset_adder"])
             if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added) && na != 0) {
-                added = Number(added) + na
+                added = Number(added)+na
             }
-            inputing[k] = String(added)
+            inputing[k] = added
             Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i=>{
                 i.value = inputing[k]
             })
@@ -693,7 +674,7 @@ function previewanchor(s, ok) {
                     }
                 })
                 if (nnn != ""){
-                    out += `<a href="#preview_${nnns[0]}" class="anchorspan" data-to="${nnns.join(",")}">${ith}${nnn}</a>`
+                    out += `<a href="#preview_${nnns[0]}" class="anchorspan" onmouseout="anchorspanmouseout(event)" data-to="${nnns.join(",")}">${ith}${nnn}</a>`
                     sent = sent.slice(nnn.length)
                 }else{
                     out += ith
@@ -961,17 +942,9 @@ function load() {
         deal_list.forEach(d => {
             x++;
             document.getElementById("messages").insertAdjacentHTML("beforeend",
-                '<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);">'
-                + '<div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv">'
-                + '<select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)">'
-                + '<option value="'
-                + String(deal_sets[x - 1]["use_temp"] + 1)
-                + '" selected">'
-                + String(deal_sets[x - 1]["use_temp"] + 1)
-                + '</option></select></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="message_'
-                + x + '">'
-                + templates[deal_sets[x - 1]["use_temp"]]["conf_htm"] + "</div></div>")
-            let now = document.getElementById(`message_${x}`)
+                messtemper(deal_sets[x - 1]["use_temp"] + 1, templates[deal_sets[x - 1]["use_temp"]]["conf_htm"]))
+            let now = document.getElementById("cd")
+            now.id = `message_${x}`
             templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
                 let z = 0
                 Array.from(now.getElementsByClassName(c)).forEach(m=>{
@@ -1181,11 +1154,11 @@ document.addEventListener("mouseover", e=>{
         a.dataset.flag = "true"
     }
 })
-document.addEventListener("mouseout",function (e){
+function anchorspanmouseout(e){
     if (e.target.matches(".anchorspan") && document.getElementById("abss").querySelector(".abssc:hover,.abssc[data-flag='true'],.abssc:hover~.abssc")){
         document.getElementById("abss").firstChild.dataset.flag = "false"
     }
-})
+}
 function replace_allselect(){
     for (let i of document.getElementById("replace_list").children){
         i.firstChild.checked = "true"
@@ -1391,54 +1364,57 @@ function highlightchange(){
     }
     document.getElementsByTagName("style")[1].innerText = ss
 }
-document.addEventListener("mousedown", e => {
+function resizermousedown(e){
     if (e.target.classList.contains("resizer")) {
+        if (document.getElementsByClassName("draggingresizer").length < 1){
+            document.addEventListener("mousemove",mousemovelistener)
+        }
         e.target.classList.add("draggingresizer")
         document.body.classList.add("nonono_resize")
     }
-})
-document.addEventListener("mousemove",e=>{
-    if (document.getElementsByClassName("draggingresizer").length > 0){
-        let t = document.getElementsByClassName("draggingresizer")[0]
-        let btarget = t.previousElementSibling
-        let atarget = t.nextElementSibling
-        if (t.hasAttribute("data-order")){
-            let o = Number(t.getAttribute("data-order"))
-            btarget = t.parentNode.children[(boxes_sort[(o+1)/2-1])*2]
-            atarget = t.parentNode.children[(boxes_sort[(o+1)/2])*2]
-        }
-        if (t.classList.contains("hresizer")) {
-            let bc = btarget.getBoundingClientRect()
-            let ac = atarget.getBoundingClientRect()
-            let old_ar = ac.right+0
-            let bw = e.clientX - bc.left
-            let lim = parseFloat(getComputedStyle(document.documentElement).fontSize)*9
-            console.log(lim)
-            if (bw >= lim && old_ar - e.clientX>=lim){
-                btarget.style.width = bw + "px"
-                atarget.style.width = old_ar - e.clientX + "px"
-            }
-
-        } else if (t.classList.contains("vresizer")){
-            let bc = btarget.getBoundingClientRect()
-            let ac = atarget.getBoundingClientRect()
-            let old_ab = ac.bottom+0
-            let bh = e.clientY - bc.top
-            btarget.style.height = bh + "px"
-            atarget.style.height = old_ab - e.clientY + "px"
-        }
-        for (let i of btarget.getElementsByClassName("functionselect")) {
-            fitselector(i)
-        }
-        for (let i of atarget.getElementsByClassName("functionselect")) {
-            fitselector(i)
-        }
+}
+function mousemovelistener(e){
+    let t = document.getElementsByClassName("draggingresizer")[0]
+    let btarget = t.previousElementSibling
+    let atarget = t.nextElementSibling
+    if (t.hasAttribute("data-order")){
+        let o = Number(t.getAttribute("data-order"))
+        btarget = t.parentNode.children[(boxes_sort[(o+1)/2-1])*2]
+        atarget = t.parentNode.children[(boxes_sort[(o+1)/2])*2]
     }
-})
+    if (t.classList.contains("hresizer")) {
+        let bc = btarget.getBoundingClientRect()
+        let ac = atarget.getBoundingClientRect()
+        let old_ar = ac.right+0
+        let bw = e.clientX - bc.left
+        let lim = parseFloat(getComputedStyle(document.documentElement).fontSize)*9
+        if (bw >= lim && old_ar - e.clientX>=lim){
+            btarget.style.width = bw + "px"
+            atarget.style.width = old_ar - e.clientX + "px"
+        }
+
+    } else if (t.classList.contains("vresizer")){
+        let bc = btarget.getBoundingClientRect()
+        let ac = atarget.getBoundingClientRect()
+        let old_ab = ac.bottom+0
+        let bh = e.clientY - bc.top
+        btarget.style.height = bh + "px"
+        atarget.style.height = old_ab - e.clientY + "px"
+    }
+    for (let i of btarget.getElementsByClassName("functionselect")) {
+        fitselector(i)
+    }
+    for (let i of atarget.getElementsByClassName("functionselect")) {
+        fitselector(i)
+    }
+}
 document.addEventListener("mouseup",e=>{
     if (document.getElementsByClassName("draggingresizer").length > 0){
         document.getElementsByClassName("draggingresizer")[0].classList.remove("draggingresizer")
         document.body.classList.remove("nonono_resize")
+    }
+    if (document.getElementsByClassName("draggingresizer").length < 1) {
+        document.removeEventListener("mousemove", mousemovelistener)
     }
 })
 function fitselector(t){
@@ -1591,4 +1567,8 @@ function memodown(e) {
     let td = e.target.parentNode.parentNode.nextElementSibling
     td.parentNode.insertBefore(td.cloneNode(true), td.previousElementSibling)
     td.outerHTML = ""
+}
+
+function messtemper(t,h){
+    return `<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
 }
