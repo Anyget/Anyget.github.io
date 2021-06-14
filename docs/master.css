@@ -40,11 +40,10 @@ li{
 #box2, #box3,#box4{
     color:white;
     border: solid 1px var(--border_color); 
-    min-width : 0px;
+    min-width: 9rem;
     box-sizing: border-box;
     overflow: hidden !important;
 }
-
 #box2{
     display: flex;
     flex-direction: column;
@@ -66,7 +65,6 @@ li{
     width : calc(50% - 2px);
     background-color: var(--box3_color);
     color: var(--box3_font_color);
-    min-width: 9rem;
 }
 
 #box4{
@@ -76,7 +74,6 @@ li{
     display: flex;
     flex-direction: column;
     border-left: none;
-    min-width: 9rem;
 }
 
 #template{
@@ -175,10 +172,10 @@ h1,h2{
     display: block;
     font-size: 15px;
     height: 4rem;
+    margin: 1px;
     resize: vertical;
     overflow-y: scroll;
     font-family: sans-serif;
-    margin: 1px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -255,6 +252,7 @@ h1,h2{
 }
 .nonono_resize :not(.draggingresizer){
     pointer-events:none;
+    user-select: none;
 }
 #mesandform{
     padding-top: 3px;

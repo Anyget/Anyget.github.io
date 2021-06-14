@@ -1412,8 +1412,13 @@ document.addEventListener("mousemove",e=>{
             let ac = atarget.getBoundingClientRect()
             let old_ar = ac.right+0
             let bw = e.clientX - bc.left
-            btarget.style.width = bw + "px"
-            atarget.style.width = old_ar - e.clientX + "px"
+            let lim = parseFloat(getComputedStyle(document.documentElement).fontSize)*9
+            console.log(lim)
+            if (bw >= lim && old_ar - e.clientX>=lim){
+                btarget.style.width = bw + "px"
+                atarget.style.width = old_ar - e.clientX + "px"
+            }
+
         } else if (t.classList.contains("vresizer")){
             let bc = btarget.getBoundingClientRect()
             let ac = atarget.getBoundingClientRect()
@@ -1423,6 +1428,9 @@ document.addEventListener("mousemove",e=>{
             atarget.style.height = old_ab - e.clientY + "px"
         }
         for (let i of btarget.getElementsByClassName("functionselect")) {
+            fitselector(i)
+        }
+        for (let i of atarget.getElementsByClassName("functionselect")) {
             fitselector(i)
         }
     }
