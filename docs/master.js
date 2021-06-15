@@ -974,7 +974,7 @@ function load() {
                 document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["dataset_datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
             };
         })
-        lockreload()
+        //lockreload()
     })
 }
 function subs() {

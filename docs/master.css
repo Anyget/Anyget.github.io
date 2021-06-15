@@ -602,16 +602,15 @@ header{
 
 }
 .tempselect{
-    display: inline-block;
     margin-left: auto;
-    visibility: hidden;
+    display: none;
     width: 2rem;
 }
 .tempselect option{
-    visibility: hidden;
+    display: none;
 }
-.messagediv:hover .tempselect,.tempselect:focus.messagediv:hover .tempselect option,.tempselect:focus option{
-    visibility: visible;
+.messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option{
+    display: inline-block;
 }
 textarea,input[type="text"],input[type="number"],input[type="search"]{
     background-color: var(--textinput_color) !important;
