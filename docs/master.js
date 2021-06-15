@@ -102,7 +102,7 @@ window.addEventListener("resize",e=>{
 function escapeHtml(str) {
     let div = document.createElement('div');
     div.innerText = str;
-    return div.innerHTML.replace(/<br>/g, "\n").replace(/\"/g, "&quot;");
+    return div.innerHTML.split("<br>").join("\n").split('"').join("&quot;");
 };
 function changetemp() {
     let col = "";
@@ -175,11 +175,11 @@ function changetemp() {
             };
         };
     };
-    htm = htm.replace(/\<\/textarea\>\n/g,"</textarea>")
-    htm = htm.replace(/\n/g, "<br>");
+    htm = htm.split("</textarea>\n").join("</textarea>")
+    htm = htm.split("\n").join("<br>")
     if (mode == "normal") {
         let backupconfdata = templates[now_temp]["conf_data"];
-        document.getElementById("edited").innerHTML = col.replace(/\n/g, "<br>");
+        document.getElementById("edited").innerHTML = col.split("\n").join("<br>");
         document.getElementById("form_inp").innerHTML = htm;
         templates[now_temp]["conf_htm"] = htm;
         templates[now_temp]["conf_col"] = col;
@@ -728,7 +728,7 @@ function previewunimessage(s,anchorok){
         sent = sent.split(dd).join(escapeHtml(deal_list[s - 1][d]));
     })
     sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
-    document.getElementById("preview").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.replace(/\n/g, "<br>")}</div>`)
+    document.getElementById("preview").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.split("\n").join("<br>")}</div>`)
 }
 function previewplaininput(){
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
@@ -833,7 +833,7 @@ function datgen() {
                 if (t.startsWith("text_")) {
                     strs[n - 1] += t.replace("text_", "")
                 } else if (k === "dat_main") {
-                    strs[n - 1] += " " + escapeHtml(m[t]).replace(/\n/g, " <br> ") + " "
+                    strs[n - 1] += " " + escapeHtml(m[t]).split("\n").join("<br>")+ " "
                 } else {
                     strs[n - 1] += escapeHtml(m[t]).replace(/\n/g, "")
                 }
@@ -1111,7 +1111,7 @@ function anchorspanmouseover(e){
         if (e.target.parentNode.parentNode.id == "preview" || (e.target.parentNode.parentNode.parentNode.id=="abss" && e.target.parentNode.parentNode.parentNode.dataset.per=="p")) {
             e.target.dataset.to.split(",").forEach(s => {
                 let n = document.getElementById(`preview_${s}`)
-                d.push(n.outerHTML.replace(/ id="preview_/, ' id="n_preview_').replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
+                d.push(n.outerHTML.replace(' id="preview_', ' id="n_preview_').replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))
             })
             document.getElementById("abss").dataset.per = "p"
 
