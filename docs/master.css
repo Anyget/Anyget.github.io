@@ -254,6 +254,11 @@ h1,h2{
     pointer-events:none;
     user-select: none;
 }
+.nonono_startmenu :not(#startmenu,#startmenuback){
+    pointer-events:none;
+    user-select: none;
+    filter: blur(1px);
+}
 #mesandform{
     padding-top: 3px;
     height: 97vh;
@@ -851,4 +856,34 @@ button:active{
     resize: vertical;
     display: block;
     letter-spacing:-0.1em;
+}
+
+#startmenudiv{
+    position: relative;
+}
+.nonono_startmenu #startmenu{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 80vh;
+    width: 100vh;
+    z-index: 10;
+    box-shadow: 10px 5px 20px var(--color_2);
+    background-color: var(--color_3);
+}
+.nonono_startmenu #startmenu_back{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    height: 100vh;
+    width: 100vw;
+    z-index: 9;
+    background-color: #00AA00;
+    opacity: 0;
 }

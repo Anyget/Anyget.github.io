@@ -1572,3 +1572,7 @@ function memodown(e) {
 function messtemper(t,h){
     return `<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
 }
+function startmenukill(){
+    console.log("a")
+    document.body.classList.remove("nonono_startmenu")
+}
