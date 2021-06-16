@@ -923,10 +923,7 @@ function tempsave() {
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
 }
-function load() {
-    if (document.getElementById("load_inp").files.length === 0) return false;
-    let f = document.getElementById("load_inp").files[0];
-    if (!window.confirm(`このファイルをロードします：${f.name}\n編集中のデータは消滅しますが、本当によろしいですか？`)) { return false; }
+function load(f) {
     let n = ""
     f.text().then(t => {
         n = JSON.parse(t);
@@ -1331,7 +1328,19 @@ function lockmes(e){
         deal_sets[Number(e.target.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = false
     }
 }
+function loadbybutton1(){
+    if (document.getElementById("startmenu_load_inp").files.length === 0) return false;
+    let f = document.getElementById("startmenu_load_inp").files[0];
+    load(f)
+    startmenukill()
+}
+function loadbybutton2(){
+    if (document.getElementById("load_inp").files.length === 0) return false;
+    let f = document.getElementById("load_inp").files[0];
+    if (!window.confirm(`このファイルをロードします：${f.name}\n編集中のデータは消滅しますが、本当によろしいですか？`)) { return false; }
 
+    load(f)
+}
 function lockreload(){
     let c = 0
     deal_sets.forEach(s => {
@@ -1343,6 +1352,22 @@ function lockreload(){
             m.classList.add("locked_mess")
         }
     })
+}
+function themeprev(){
+    let t = document.getElementById("themeselect")
+    let n = t.selectedIndex
+    if (n > 0){
+        t.children[n - 1].selected = true
+        themechange()
+    }
+}
+function themenext() {
+    let t = document.getElementById("themeselect")
+    let n = t.selectedIndex
+    if (n < theme_list.length-1) {
+        t.children[n + 1].selected = true
+        themechange()
+    }
 }
 function themechange(){
     let t = document.getElementById("themeselect")
@@ -1573,6 +1598,5 @@ function messtemper(t,h){
     return `<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
 }
 function startmenukill(){
-    console.log("a")
     document.body.classList.remove("nonono_startmenu")
 }
