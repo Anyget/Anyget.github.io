@@ -29,6 +29,14 @@ let selectedsubfunction = [0,1,2,3,4]
 let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
+const PRE_TEMPLETES={
+    "5ch": {
+        "deal_list":[],"deal_sets":[],"all_data":{"liner_num":{"dataset_adder":"1","dataset_adderm":true,"dataset_anchor?":true,"dataset_anchor":">>","dataset_fix?":true,"dataset_datalist?":false},"liner_name":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_mail":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"blocker_message":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false}},"style_list":[],"templates":[{"template":"$num$：$name$ [$mail$]\n|message|","conf_htm":"<div class=\"$\"><input type=\"text\" class=\"$text liner_num\" placeholder=\"num\" list=\"list_liner_num\" value=\"\"></input></div>：<div class=\"$\"><input type=\"text\" class=\"$text liner_name\" placeholder=\"name\" list=\"list_liner_name\" value=\"\"></input></div> [<div class=\"$\"><input type=\"text\" class=\"$text liner_mail\" placeholder=\"mail\" list=\"list_liner_mail\" value=\"\"></input></div>]<br><textarea class=\"| blocker_message\" placeholder=\"message\"></textarea>","conf_col":"<span style=\"color:#FF0000;\">$num$</span>：<span style=\"color:#FF0000;\">$name$</span> [<span style=\"color:#FF0000;\">$mail$</span>]\n<span style=\"color:#0000FF;\">|message|</span>","conf_data":["liner_num","liner_name","liner_mail","blocker_message"]}],"inputing":{"liner_num":"1","liner_name":"名無し","liner_mail":"sage","blocker_message":""},"now_temp":0
+    },
+    "twitter":{
+        "deal_list":[],"deal_sets":[],"all_data":{"liner_name":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_screenname":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_time":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"blocker_message":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_rt":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_fav":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false}},"style_list":[],"templates":[{"template":"$name$ @$screenname$ $time$\n|message|\n↻$rt$ ♥$fav$","conf_htm":"<div class=\"$\"><input type=\"text\" class=\"$text liner_name\" placeholder=\"name\" list=\"list_liner_name\" value=\"\"></input></div> @<div class=\"$\"><input type=\"text\" class=\"$text liner_screenname\" placeholder=\"screenname\" list=\"list_liner_screenname\" value=\"\"></input></div> <div class=\"$\"><input type=\"text\" class=\"$text liner_time\" placeholder=\"time\" list=\"list_liner_time\" value=\"\"></input></div><br><textarea class=\"| blocker_message\" placeholder=\"message\"></textarea>↻<div class=\"$\"><input type=\"text\" class=\"$text liner_rt\" placeholder=\"rt\" list=\"list_liner_rt\" value=\"\"></input></div> ♥<div class=\"$\"><input type=\"text\" class=\"$text liner_fav\" placeholder=\"fav\" list=\"list_liner_fav\" value=\"\"></input></div>","conf_col":"<span style=\"color:#FF0000;\">$name$</span> @<span style=\"color:#FF0000;\">$screenname$</span> <span style=\"color:#FF0000;\">$time$</span>\n<span style=\"color:#0000FF;\">|message|</span>\n↻<span style=\"color:#FF0000;\">$rt$</span> ♥<span style=\"color:#FF0000;\">$fav$</span>","conf_data":["liner_name","liner_screenname","liner_time","blocker_message","liner_rt","liner_fav"]}],"inputing":{"liner_name":"名無し","liner_screenname":"noname","liner_time":"3 秒前","blocker_message":"","liner_rt":"","liner_fav":""},"now_temp":0
+    }
+}
 function epo_function(es){
     
     es.forEach(e=>{
@@ -923,55 +931,53 @@ function tempsave() {
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
 }
-function load(f) {
-    let n = ""
+function loadrap(f) {
     f.text().then(t => {
-        n = JSON.parse(t);
-        all_data = n["all_data"];
-        deal_list = n["deal_list"];
-        deal_sets=n["deal_sets"];
-        style_list = n["style_list"];
-        templates = n["templates"];
-        inputing = n["inputing"]
-        now_temp=n["now_temp"]
-        document.getElementById("messages").innerHTML = "";
-        let x = 0;
-        deal_list.forEach(d => {
-            x++;
-            document.getElementById("messages").insertAdjacentHTML("beforeend",
-                messtemper(deal_sets[x - 1]["use_temp"] + 1, templates[deal_sets[x - 1]["use_temp"]]["conf_htm"]))
-            let now = document.getElementById("cd")
-            now.id = `message_${x}`
-            templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
-                let z = 0
-                Array.from(now.getElementsByClassName(c)).forEach(m=>{
-
-                    m.value = d[c]
-                    if (m.classList.contains("|")) {
-                        m.style = style_list[x - 1][c][z]
-                    } else {
-                        m.parentNode.style = style_list[x - 1][c][z]
-                    }
-                    z++
-                })
+        load(JSON.parse(t))
+    })
+}
+function load(n){
+    all_data = n["all_data"];
+    deal_list = n["deal_list"];
+    deal_sets=n["deal_sets"];
+    style_list = n["style_list"];
+    templates = n["templates"];
+    inputing = n["inputing"]
+    now_temp=n["now_temp"]
+    document.getElementById("messages").innerHTML = "";
+    let x = 0;
+    deal_list.forEach(d => {
+        x++;
+        document.getElementById("messages").insertAdjacentHTML("beforeend",
+            messtemper(deal_sets[x - 1]["use_temp"] + 1, templates[deal_sets[x - 1]["use_temp"]]["conf_htm"]))
+        let now = document.getElementById("cd")
+        now.id = `message_${x}`
+        templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
+            let z = 0
+            Array.from(now.getElementsByClassName(c)).forEach(m=>{
+                m.value = d[c]
+                if (m.classList.contains("|")) {
+                    m.style = style_list[x - 1][c][z]
+                } else {
+                    m.parentNode.style = style_list[x - 1][c][z]
+                }
+                z++
             })
         })
-        document.getElementById("template").value = templates[now_temp]["template"]
-        changetemp()
-        document.getElementById("datapul").innerHTML = "<option hidden selected>設定変更する変数を選択</option>"
-        document.getElementById("subssel").innerHTML = "<option hidden selected>変数を選択</option>"
-        document.getElementById("datalists").innerHTML = ""
-        document.getElementById("replace_list").innerHTML = ""
-        Object.keys(all_data).forEach(c => {
-            document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
-            document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
-            document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
-
-            if (c.startsWith("liner_")) {
-                document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["dataset_datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
-            };
-        })
-        //lockreload()
+    })
+    document.getElementById("template").value = templates[now_temp]["template"]
+    changetemp()
+    document.getElementById("datapul").innerHTML = "<option hidden selected>設定変更する変数を選択</option>"
+    document.getElementById("subssel").innerHTML = "<option hidden selected>変数を選択</option>"
+    document.getElementById("datalists").innerHTML = ""
+    document.getElementById("replace_list").innerHTML = ""
+    Object.keys(all_data).forEach(c => {
+        document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
+        document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
+        document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
+        if (c.startsWith("liner_")) {
+            document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["dataset_datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
+        };
     })
 }
 function subs() {
@@ -1331,7 +1337,7 @@ function lockmes(e){
 function loadbybutton1(){
     if (document.getElementById("startmenu_load_inp").files.length === 0) return false;
     let f = document.getElementById("startmenu_load_inp").files[0];
-    load(f)
+    loadrap(f)
     startmenukill()
 }
 function loadbybutton2(){
@@ -1339,7 +1345,7 @@ function loadbybutton2(){
     let f = document.getElementById("load_inp").files[0];
     if (!window.confirm(`このファイルをロードします：${f.name}\n編集中のデータは消滅しますが、本当によろしいですか？`)) { return false; }
 
-    load(f)
+    loadrap(f)
 }
 function lockreload(){
     let c = 0
@@ -1599,4 +1605,12 @@ function messtemper(t,h){
 }
 function startmenukill(){
     document.body.classList.remove("nonono_startmenu")
+}
+function load5ch(){
+    load(PRE_TEMPLETES["5ch"])
+    startmenukill()
+}
+function loadtwitter(){
+    load(PRE_TEMPLETES["twitter"])
+    startmenukill()
 }
