@@ -1005,7 +1005,14 @@ button:active{
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     display: flex;
+    flex-direction: column;
     padding: 0.5rem 2rem;
+}
+#startmenu_l>div{
+    width: 100%;
+    display: flex;
+    height: 25%;
+    margin-bottom: 10px;
 }
 #startmenu_l h3{
     margin: 0;
@@ -1013,26 +1020,39 @@ button:active{
     filter:brightness(0.6);
     font-size: 1em;
 }
-#startmenu_l li{
+#startmenu_l>div>div{
+    user-select: none;
+    cursor: pointer;
     margin: 0;
-    height: 1.4em;
+    height: 100%;
     line-height: 1.4em;
+    width: calc(25% - 10px);
     display: block;
     width: 100%;
+    background-color: var(--color_3);
+    border-radius: 20px;
+    margin-right: 10px;
+    color: var(--color_5);
+    text-align: center;
 }
-#startmenu_l li svg{
-    height: 1em;
-    width: 1em;
-    fill: blue;
+#startmenu_l>div>div>svg{
+    margin-top: 0.4em;
+    height: calc(100% - 1.9em);
+    width: 100%;
+    fill: var(--color_1);
+}
+#startmenu_l>div>div:hover{
+    filter: invert(1);
+}
+#startmenu_l li{
+    width: 100%;
+    margin: 0;
+    line-height: 1.4em;
+    display: block;
+    height: 1.4em;
 }
 #startmenu_l li:hover{
     background-color: var(--color_1);
-}
-#startmenu_l>div{
-    width: calc(50% - 0.5rem);
-}
-#startmenu_l>div:first-child{
-    margin-right: 1rem;
 }
 #startmenu_load_inp{
     display: none;
