@@ -245,7 +245,7 @@ h1,h2{
 }
 
 .dragover{
-    border: dashed 2px var(--border_color);
+    border: dashed 2px var(--color_1) !important;
 }
 .nonono :not(.messagediv){
     pointer-events:none;
