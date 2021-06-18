@@ -382,6 +382,7 @@ function closebtnclick(e){
     let target = e.target;
     if (target.className == "closebtn") {
         let num = Number(target.parentNode.nextElementSibling.id.replace("message_", ""));
+        intersectobjects.delete(e.target.parentNode.parentNode)
         for (let i = num; i < deal_list.length; i++) {
             let to = document.getElementById(`message_${i}`);
             to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]

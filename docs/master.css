@@ -1057,3 +1057,7 @@ button:active{
 #startmenu_load_inp{
     display: none;
 }
+#startmenu_l label{
+    width: 100%;
+    display: block;
+}
