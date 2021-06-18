@@ -692,7 +692,6 @@ function previewanchor(s, ok) {
                 return;
             }
         })
-
     }
     return out;
 }
