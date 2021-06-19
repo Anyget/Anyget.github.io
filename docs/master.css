@@ -193,7 +193,7 @@ h1,h2{
     line-height: 20px;
     color: var(--message_font_color);
     border: solid var(--message_border_color) 1px;
-    border-left-width: 5px;
+    border-left-width: 5px !important;
     margin:5px;
     background-color: var(--message_color);
     padding:5px 0;
@@ -225,6 +225,7 @@ h1,h2{
 }
 
 .closebtn{
+    user-select: none;
     margin: 0;
     margin-top: 0.1rem;
     margin-left: 30px;
@@ -688,15 +689,15 @@ button:active{
 #settinginput>*:not(.setradised){
     display: none;
 }
-.meslock{
+.headright{
+    display:flex;
     height: 1rem;
-    width: 1rem;
     margin-right: auto;
 }
 .meslocklabel{
     display: block;
     height: 100%;
-    width: 100%;
+    width: 1rem;
     background: url(images/icons/unlock.svg) no-repeat;
     background-size: contain;
     background-position: top;
@@ -1060,4 +1061,17 @@ button:active{
 #startmenu_l label{
     width: 100%;
     display: block;
+}
+.messelectcheck{
+    display: block;
+    margin-right: auto;
+    height: 1rem;
+    width: 1rem;
+}
+.checked_mb{
+    border: solid 1px var(--color_1) !important;
+    box-sizing: border-box;
+}
+.messagediv{
+    border-left-width: 5px !important;
 }
