@@ -1068,9 +1068,9 @@ button:active{
     height: 1rem;
     width: 1rem;
 }
-.checked_mb{
-    border: solid 1px var(--color_1) !important;
-    box-sizing: border-box;
+.checked_md{
+    border-style: solid !important;
+    border-color: var(--color_1) !important;
 }
 .messagediv{
     border-left-width: 5px !important;

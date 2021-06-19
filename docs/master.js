@@ -379,35 +379,13 @@ function taras(target){
     })
 }
 function closebtnclick(e){
-    let target = e.target;
-    if (target.className == "closebtn") {
-        let num = Number(target.parentNode.nextElementSibling.id.replace("message_", ""));
-        intersectobjects.delete(e.target.parentNode.parentNode)
-        for (let i = num; i < deal_list.length; i++) {
-            let to = document.getElementById(`message_${i}`);
-            to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
-            let from = document.getElementById(`message_${i + 1}`);
-            tfer(to,from,i-1,deal_list[i-1],deal_list[i])
-        };
-        deal_list.pop();
-        deal_sets.splice(num-1,1)
-        document.getElementById("messages").lastChild.outerHTML = "";
-        lockreload()
-
-        templates[now_temp]["conf_data"].forEach(k => {
-            if (all_data[k]["dataset_adderm"]){
-                let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
-                let na = Number(all_data[k]["dataset_adder"])
-                if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
-                    added = Number(added) - na
-                }
-                inputing[k] = String(added)
-                Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
-                    i.value = inputing[k]
-                })
-            }
-        });
-    };
+    if (e.target.parentNode.parentNode.classList.contains("checked_md")){
+        while (document.getElementsByClassName("checked_md")){
+            mesdel(document.getElementsByClassName("checked_md")[0])
+        }
+    }else{
+        mesdel(e.target.parentNode.parentNode)
+    }
 }
 function changefix() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
@@ -426,7 +404,7 @@ function dragstart(e) {
     dragging = e.target
     document.querySelector("body").classList.add("nonono");
     let tuka = document.createElement("div")
-    Array.from(document.getElementsByClassName("checked_mb")).forEach(i=>{
+    Array.from(document.getElementsByClassName("checked_md")).forEach(i=>{
         let ss = i.cloneNode(true)
         ss.lastChild.id=""
         tuka.appendChild(ss)
@@ -455,7 +433,6 @@ function drop(e) {
     if (!(target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) {
         return false;
     }
-    dragging.classList.remove("checked_mb")
     mcheckr(dragging)
     e.preventDefault();
     document.querySelector("body").classList.remove("nonono");
@@ -1508,58 +1485,64 @@ function loadtwitter(){
     startmenukill()
 }
 function mescheck(e){
-    e.target.parentNode.parentNode.parentNode.classList.remove("checked_mb")
+    e.target.parentNode.parentNode.parentNode.classList.remove("checked_md")
     if (e.target.checked){
-        e.target.parentNode.parentNode.parentNode.classList.add("checked_mb")
+        e.target.parentNode.parentNode.parentNode.classList.add("checked_md")
     }
 }
 function md_click(e){
     if (e.target.tagName!="DIV"){return false}
     if (!e.ctrlKey && e.shiftKey) {
         e.currentTarget.id="telstro"
-        if (e.currentTarget.matches(".checked_mb~div:not(.checked_mb)")){
+        if (e.currentTarget.matches(".checked_md~div:not(.checked_md)")){
             let now = e.currentTarget
-            while (!now.classList.contains("checked_mb") || now.id == "telstro") {
-                now.classList.add("checked_mb")
+            while (!now.classList.contains("checked_md") || now.id == "telstro") {
+                now.classList.add("checked_md")
                 mcheckr(now)
                 now = now.previousElementSibling
             }
         }
-        if (document.querySelector("#telstro~.checked_mb")){
+        if (document.querySelector("#telstro~.checked_md")){
             let now = e.currentTarget
-            while (!now.classList.contains("checked_mb") || now.id == "telstro") {
-                now.classList.add("checked_mb")
+            while (!now.classList.contains("checked_md") || now.id == "telstro") {
+                now.classList.add("checked_md")
                 mcheckr(now)
                 now = now.nextElementSibling
             }
         }
         e.currentTarget.id = ""
     } else if (e.ctrlKey && e.shiftKey) {
-        e.currentTarget.classList.add("checked_mb")
+        e.currentTarget.classList.add("checked_md")
         mcheckr(e.currentTarget)
     }else if (e.ctrlKey){
-        if (e.currentTarget.classList.contains("checked_mb")){
-            e.currentTarget.classList.remove("checked_mb")
+        if (e.currentTarget.classList.contains("checked_md")){
+            e.currentTarget.classList.remove("checked_md")
         }else{
-            e.currentTarget.classList.add("checked_mb")
+            e.currentTarget.classList.add("checked_md")
         }
         mcheckr(e.currentTarget)
     }else{
-        Array.from(document.getElementsByClassName("checked_mb")).forEach(i => {
-            i.classList.remove("checked_mb")
+        Array.from(document.getElementsByClassName("checked_md")).forEach(i => {
+            i.classList.remove("checked_md")
             mcheckr(i)
         })
-        e.currentTarget.classList.add("checked_mb")
+        e.currentTarget.classList.add("checked_md")
         mcheckr(e.currentTarget)
     }
     
     
 }
 function mcheckr(e){
-    e.getElementsByClassName("messelectcheck")[0].checked =e.classList.contains("checked_mb")
-    e.draggable=e.classList.contains("checked_mb")
+    e.getElementsByClassName("messelectcheck")[0].checked =e.classList.contains("checked_md")
+    e.draggable=e.classList.contains("checked_md")
 }
 function tfer(to,from,toi,toic,fromic){
+    if (from.parentNode.classList.contains("checked_md")){
+        to.parentNode.classList.add("checked_md")
+    }else{
+        to.parentNode.classList.remove("checked_md")
+    }
+    mcheckr(to.parentNode)
     Object.keys(all_data).forEach(d => {
         let nnn = 0
         if (!all_data[d]["dataset_fix?"]) {
@@ -1578,5 +1561,31 @@ function tfer(to,from,toi,toic,fromic){
             }
             nnn++
         })
+    });
+}
+function mesdel(target){
+    let num = Number(target.lastChild.id.replace("message_", ""));
+    for (let i = num; i < deal_list.length; i++) {
+        let to = document.getElementById(`message_${i}`);
+        to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
+        let from = document.getElementById(`message_${i + 1}`);
+        tfer(to,from,i-1,deal_list[i-1],deal_list[i])
+    };
+    deal_list.pop();
+    deal_sets.splice(num-1,1)
+    document.getElementById("messages").lastChild.outerHTML = "";
+    lockreload()
+    templates[now_temp]["conf_data"].forEach(k => {
+        if (all_data[k]["dataset_adderm"]){
+            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+            let na = Number(all_data[k]["dataset_adder"])
+            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
+                added = Number(added) - na
+            }
+            inputing[k] = String(added)
+            Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
+                i.value = inputing[k]
+            })
+        }
     });
 }
