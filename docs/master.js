@@ -366,7 +366,8 @@ function taras(target){
 }
 function closebtnclick(e){
     if (e.target.parentNode.parentNode.classList.contains("checked_md")){
-        while (document.getElementsByClassName("checked_md")){
+        while (document.getElementsByClassName("checked_md").length>0){
+            console.log(document.getElementsByClassName("checked_md")[0])
             mesdel(document.getElementsByClassName("checked_md")[0])
         }
     }else{
@@ -1393,8 +1394,8 @@ new MutationObserver(e=>{
             }
         })
         if (editlist.size > 0){
-            Array.from(editlist).forEach(i=>{
-                unieasypreviewreloader(Number(i)-1)
+            Array.from(editlist).map(x=>Number(x)).sort(function (a,b){if (a > b) return -1;if (a < b) return 1;return 0;}).forEach(i=>{
+                unieasypreviewreloader(i-1)
             })
         }
     }
