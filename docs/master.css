@@ -193,7 +193,7 @@ h1,h2{
     line-height: 20px;
     color: var(--message_font_color);
     border: solid var(--message_border_color) 1px;
-    border-left-width: 5px;
+    border-left-width: 5px !important;
     margin:5px;
     background-color: var(--message_color);
     padding:5px 0;
@@ -201,7 +201,7 @@ h1,h2{
     resize: vertical;
     overflow-y: scroll;
 }
-.messagediv:hover{
+.messagediv:hover,.checked_md{
     filter:contrast(87%)
 }
 .message{
@@ -225,6 +225,7 @@ h1,h2{
 }
 
 .closebtn{
+    user-select: none;
     margin: 0;
     margin-top: 0.1rem;
     margin-left: 30px;
@@ -240,7 +241,7 @@ h1,h2{
     border-radius: 10px;
     visibility: hidden;
 }
-.messagediv:hover .closebtn{
+.messagediv:hover .closebtn,.checked_md .closebtn{
     visibility: visible;
 }
 
@@ -613,7 +614,7 @@ header{
 .tempselect option{
     display: none;
 }
-.messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option{
+.messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option,.checked_md .tempselect,.checked_md .tempselect option{
     display: inline-block;
 }
 textarea,input[type="text"],input[type="number"],input[type="search"]{
@@ -688,15 +689,15 @@ button:active{
 #settinginput>*:not(.setradised){
     display: none;
 }
-.meslock{
+.headright{
+    display:flex;
     height: 1rem;
-    width: 1rem;
     margin-right: auto;
 }
 .meslocklabel{
     display: block;
     height: 100%;
-    width: 100%;
+    width: 1rem;
     background: url(images/icons/unlock.svg) no-repeat;
     background-size: contain;
     background-position: top;
@@ -710,7 +711,7 @@ button:active{
 .locked_mess .meslocklabel{
     background-image: url(images/icons/lock.svg);
 }
-.locked_mess input:not(.meslockcheck),.locked_mess button,.locked_mess textarea{
+.locked_mess .message,.locked_mess .closebtn,.locked_mess .tempselectdiv{
     pointer-events: none;
     filter: brightness(0.7);
 }
@@ -1060,4 +1061,17 @@ button:active{
 #startmenu_l label{
     width: 100%;
     display: block;
+}
+.messelectcheck{
+    display: block;
+    margin-right: auto;
+    height: 1rem;
+    width: 1rem;
+}
+.checked_md{
+    border-style: solid !important;
+    border-color: var(--color_1) !important;
+}
+.messagediv{
+    border-left-width: 5px !important;
 }

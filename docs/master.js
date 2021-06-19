@@ -379,53 +379,13 @@ function taras(target){
     })
 }
 function closebtnclick(e){
-    let target = e.target;
-    if (target.className == "closebtn") {
-        let num = Number(target.parentNode.nextElementSibling.id.replace("message_", ""));
-        intersectobjects.delete(e.target.parentNode.parentNode)
-        for (let i = num; i < deal_list.length; i++) {
-            let to = document.getElementById(`message_${i}`);
-            to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
-            let from = document.getElementById(`message_${i + 1}`);
-            Object.keys(all_data).forEach(d => {
-                let nnn = 0
-                if (!all_data[d]["dataset_fix?"]) {
-                    deal_list[i - 1][d] = deal_list[i][d];
-                };
-                Array.from(to.getElementsByClassName(d)).forEach(toc=>{
-                    let fromc = from.getElementsByClassName(d)[nnn];
-                    if (fromc) {
-                        if (!all_data[d]["dataset_fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
-                        }else{
-                            toc.value = deal_list[i-1][d]
-                        }
-                    }
-                    nnn++
-                })
-            });
-        };
-        deal_list.pop();
-        deal_sets.splice(num-1,1)
-        document.getElementById("messages").lastChild.outerHTML = "";
-        lockreload()
-
-        templates[now_temp]["conf_data"].forEach(k => {
-            if (all_data[k]["dataset_adderm"]){
-                let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
-                let na = Number(all_data[k]["dataset_adder"])
-                if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
-                    added = Number(added) - na
-                }
-                inputing[k] = String(added)
-                Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
-                    i.value = inputing[k]
-                })
-            }
-        });
-    };
+    if (e.target.parentNode.parentNode.classList.contains("checked_md")){
+        while (document.getElementsByClassName("checked_md")){
+            mesdel(document.getElementsByClassName("checked_md")[0])
+        }
+    }else{
+        mesdel(e.target.parentNode.parentNode)
+    }
 }
 function changefix() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
@@ -441,175 +401,83 @@ function flapdatalist() {
     }
 }
 function dragstart(e) {
+    if (!e.currentTarget.classList.contains("checked_md")){return false}
     dragging = e.target
     document.querySelector("body").classList.add("nonono");
+    let tuka = document.createElement("div")
+    Array.from(document.getElementsByClassName("checked_md")).forEach(i=>{
+        let ss = i.cloneNode(true)
+        ss.lastChild.id=""
+        tuka.appendChild(ss)
+    })
+    tuka.style.zIndex="-10"
+    tuka.style.display="flex"
+    tuka.style.position="absolute"
+    tuka.style.flexDirection="column"
+    tuka.style.width = e.target.getBoundingClientRect().width + "px"
+    tuka.id="tuka"
+    document.body.appendChild(tuka)
+    e.dataTransfer.setDragImage(tuka,0,0);
 }
 function dragover(e) {
-    if (!(e.target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) {
-        return false;
-    }
     e.preventDefault();
+    if (!(e.target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) {return false;}
     e.target.classList.add("dragover");
 }
 function dragleave(e) {
     e.target.classList.remove("dragover");
 }
 function drop(e) {
-    let target = e.target
-    if (!(target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) {
-        return false;
-    }
+    document.getElementById("tuka").outerHTML = ""
+    if (!(e.target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) { return false; }
     e.preventDefault();
     document.querySelector("body").classList.remove("nonono");
-    target.classList.remove("dragover");
-    let target_num = Number(target.children[1].id.replace("message_", ""))
-    let dragging_num = Number(dragging.children[1].id.replace("message_", ""))
-
-    if (target_num != dragging_num) {
+    e.target.classList.remove("dragover");
+    if (e.target.classList.contains("checked_md")){return false}
+    let f = false
+    if (e.target.matches(".checked_md~*")){
+        f = true
+    }
+    let target_num = Number(e.target.lastChild.id.replace("message_", ""))
+    console.log(document.getElementsByClassName("checked_md").length)
+    while (document.getElementsByClassName("checked_md").length > 0){
+        console.log(document.getElementsByClassName("checked_md"))
+        let ragging = f ? document.getElementsByClassName("checked_md")[0] : document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length - 1]
+        let dragging_num = Number(ragging.lastChild.id.replace("message_", ""))
+        let dragmes = ragging.lastChild;
+        let itihop = ragging.cloneNode(true);
+        let itihoarr = {};
+        let itihods = deal_sets[dragging_num - 1]
+        tfer(itihop.lastChild, dragmes, target_num - 1, itihoarr, deal_list[dragging_num - 1])
         if (target_num > dragging_num) {
-            let dragmes = dragging.children[1];
-            let itiho = dragmes.cloneNode(true);
-            let itihoarr = {};
-            let itihods = deal_sets[dragging_num - 1]
-            Object.keys(all_data).forEach(d => {
-                let nnn = 0
-                if (!all_data[d]["dataset_fix?"]) {
-                    itihoarr[d] = deal_list[dragging_num - 1][d]
-                }
-                Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
-                    let fromc = dragmes.getElementsByClassName(d)[nnn];
-                    if (fromc) {
-                        if (!all_data[d]["dataset_fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
-                        }else{
-                            toc.value = deal_list[target_num-1][d]
-                        }
-                    }
-                    nnn++
-                })
-            })
             for (let i = dragging_num; i < target_num; i++) {
                 let to = document.getElementById(`message_${i}`);
                 to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
                 let from = document.getElementById(`message_${i + 1}`);
-                Object.keys(all_data).forEach(d => {
-                    let nnn = 0
-                    if (!all_data[d]["dataset_fix?"]) {
-                        deal_list[i - 1][d] = deal_list[i][d];
-                    }
-                    Array.from(to.getElementsByClassName(d)).forEach(toc => {
-                        let fromc = from.getElementsByClassName(d)[nnn];
-                        if (fromc) {
-                            if (!all_data[d]["dataset_fix?"]) {
-                                toc.style = fromc.style.cssText;
-                                toc.parentNode.style = fromc.parentNode.style.cssText;
-                                toc.value = fromc.value;
-                            } else {
-                                toc.value = deal_list[i - 1][d]
-                            }
-                        }
-                        nnn++
-                    })
-                });
+                tfer(to,from,i-1,deal_list[i-1],deal_list[i])
                 deal_sets[i-1] = deal_sets[i]
             };
-            deal_sets[target_num-1] = itihods
-            target.children[1].innerHTML = templates[deal_sets[target_num-1]["use_temp"]]["conf_htm"]
-            Object.keys(all_data).forEach(d => {
-                let nnn = 0
-                if (!all_data[d]["dataset_fix?"]) {
-                    deal_list[target_num - 1][d] = itihoarr[d];
-                }
-                Array.from(target.getElementsByClassName(d)).forEach(toc => {
-                    let fromc = itiho.getElementsByClassName(d)[nnn];
-                    if (fromc) {
-                        if (!all_data[d]["dataset_fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
-                        }else{
-                            toc.value = deal_list[target_num-1][d]
-                        }
-                    }
-                    nnn++
-                })
-            });
         } else {
-            let dragmes = dragging.children[1];
-            let itiho = dragmes.cloneNode(true);
-            let itihoarr = {}
-            let itihods = deal_sets[dragging_num - 1]
-            Object.keys(all_data).forEach(d => {
-                let nnn = 0
-                if (!all_data[d]["dataset_fix?"]) {
-                    itihoarr[d] = deal_list[dragging_num - 1][d]
-                }
-                Array.from(itiho.getElementsByClassName(d)).forEach(toc => {
-                    let fromc = dragmes.getElementsByClassName(d)[nnn];
-                    if (fromc) {
-                        if (!all_data[d]["dataset_fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
-                        }else{
-                            toc.value = deal_list[target_num-1][d]
-                        }
-                    }
-                    nnn++
-                })
-            })
             for (let i = dragging_num; i > target_num; i--) {
                 deal_sets[i - 1] = deal_sets[i - 2]
                 let to = document.getElementById(`message_${i}`);
                 to.innerHTML = templates[deal_sets[i-2]["use_temp"]]["conf_htm"]
                 let from = document.getElementById(`message_${i - 1}`);
-                Object.keys(all_data).forEach(d => {
-                    let nnn = 0
-                    if (!all_data[d]["dataset_fix?"]) {
-                        deal_list[i - 1][d] = deal_list[i-2][d];
-                    }
-                    Array.from(to.getElementsByClassName(d)).forEach(toc => {
-                        let fromc = from.getElementsByClassName(d)[nnn];
-                        if (fromc) {
-                            if (!all_data[d]["dataset_fix?"]) {
-                                toc.style = fromc.style.cssText;
-                                toc.parentNode.style = fromc.parentNode.style.cssText;
-                                toc.value = fromc.value;
-                            } else {
-                                toc.value = deal_list[i-1][d]
-                            }
-                        }
-                        nnn++
-                    })
-                });
+                tfer(to,from,i-1,deal_list[i-1],deal_list[i-2])
             };
-            deal_sets[target_num-1] = itihods
-            target.children[1].innerHTML = templates[deal_sets[target_num-1]["use_temp"]]["conf_htm"]
-            Object.keys(all_data).forEach(d => {
-                let nnn = 0
-                if (!all_data[d]["dataset_fix?"]) {
-                    deal_list[target_num - 1][d] = itihoarr[d];
-                }
-                Array.from(target.getElementsByClassName(d)).forEach(toc => {
-                    let fromc = itiho.getElementsByClassName(d)[nnn];
-                    if (fromc) {
-                        if (!all_data[d]["dataset_fix?"]) {
-                            toc.style = fromc.style.cssText;
-                            toc.parentNode.style = fromc.parentNode.style.cssText;
-                            toc.value = fromc.value;
-                        } else {
-                            toc.value = deal_list[target_num - 1][d]
-                        }
-                    }
-                })
-            });
         }
+        deal_sets[target_num - 1] = itihods
+        document.getElementById(`message_${target_num}`).innerHTML = templates[deal_sets[target_num - 1]["use_temp"]]["conf_htm"]
+        tfer(document.getElementById(`message_${target_num}`), itihop.lastChild, target_num - 1, deal_list[target_num - 1], itihoarr)
+        document.getElementById(`message_${target_num}`).parentNode.classList.remove("checked_md")
+        mcheckr(document.getElementById(`message_${target_num}`).parentNode)
     };
     lockreload()
 };
 function dragend(e) {
+    if (document.getElementById("tuka")){
+        document.getElementById("tuka").outerHTML = ""
+    }
     document.querySelector("body").classList.remove("nonono");
 }
 function anchorcheck() {
@@ -1260,8 +1128,7 @@ function deparr(arr1,arr2){
 function confdep(n1,n2){
     return deparr(templates[deal_sets[n1]["use_temp"]]["conf_data"], templates[deal_sets[n2]["use_temp"]]["conf_data"])
 }
-function tempselectover(e){
-    let t = e.target
+function tempselectover(t){
     let el = t.parentNode.parentNode.nextElementSibling
     let s = Number(el.id.replace(/[^_]*_/, ""))-1
     t.innerHTML = ""
@@ -1270,25 +1137,29 @@ function tempselectover(e){
         
     }
 }
-function tempselectout(e){
-    let t = e.target
-    let el = t.parentNode.parentNode.nextElementSibling
-    let s = Number(el.id.replace(/[^_]*_/, "")) - 1
-    t.innerHTML = ""
-    t.insertAdjacentHTML("beforeend", `<option value="${deal_sets[s]["use_temp"] + 1}" selected>${deal_sets[s]["use_temp"] + 1}</option>`)
-
+function tempselectout(t){
+    return false
 }
 function tempselected(e){
-    let t = e.target
-    let el = t.parentNode.parentNode.nextElementSibling
-    let s = Number(el.id.replace(/[^_]*_/, ""))-1
-    let n = t.selectedIndex + 1
-    deal_sets[s]["use_temp"] = t.selectedIndex
-    el.innerHTML = templates[t.selectedIndex]["conf_htm"]
-    templates[t.selectedIndex]["conf_data"].forEach(d=>{
-        Array.from(el.getElementsByClassName(d)).forEach(b=>{
-            b.value = deal_list[s][d]
+    let l = []
+    if (e.target.parentNode.parentNode.parentNode.classList.contains("checked_md")) {
+        l = Array.from(document.getElementsByClassName("checked_md"))
+    } else {
+        l = [e.target.parentNode.parentNode.parentNode]
+    }
+    l.forEach(t=>{
+        let el = t.lastChild
+        let s = Number(el.id.replace(/[^_]*_/, ""))-1
+        deal_sets[s]["use_temp"] = e.target.selectedIndex
+        el.innerHTML = templates[e.target.selectedIndex]["conf_htm"]
+        templates[e.target.selectedIndex]["conf_data"].forEach(d=>{
+            Array.from(el.getElementsByClassName(d)).forEach(b=>{
+                b.value = deal_list[s][d]
+            })
         })
+        tempselectover(t.getElementsByClassName("tempselect")[0])
+        t.getElementsByClassName("tempselect")[0].children[e.target.selectedIndex].selected=true
+
     })
 }
 function tab_next_scroll(){
@@ -1326,13 +1197,24 @@ function setradiochange(e) {
 }
 
 function lockmes(e){
-    if (e.target.checked){
-        e.target.parentNode.parentNode.parentNode.parentNode.classList.add("locked_mess")
-        deal_sets[Number(e.target.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = true
-    }else{
-        e.target.parentNode.parentNode.parentNode.parentNode.classList.remove("locked_mess")
-        deal_sets[Number(e.target.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = false
+    e.target.checked = !e.target.checked
+    let l = []
+    if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.classList.contains("checked_md")) {
+        l = Array.from(document.getElementsByClassName("checked_md"))
+    } else {
+        l = [e.target.parentNode.parentNode.parentNode.parentNode.parentNode]
     }
+    l.forEach(i=>{
+        let t = i.getElementsByClassName("meslockcheck")[0]
+        t.checked = !t.checked
+        if (t.checked){
+            i.classList.add("locked_mess")
+            deal_sets[Number(i.lastChild.id.replace ("message_",""))-1]["locked"] = true
+        }else{
+            i.classList.remove("locked_mess")
+            deal_sets[Number(i.lastChild.id.replace ("message_",""))-1]["locked"] = false
+        }
+    })
 }
 function loadbybutton1(){
     if (document.getElementById("startmenu_load_inp").files.length === 0) return false;
@@ -1601,7 +1483,7 @@ function memodown(e) {
 }
 
 function messtemper(t,h){
-    return `<div class="messagediv" draggable="true" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event)" onmouseout="tempselectout(event)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
+    return `<div class="messagediv" onclick="md_click(event)" draggable="false" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="headright"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><input type="checkbox" class="messelectcheck" onchange="mescheck(event)"></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event.target)" onmouseout="tempselectout(event.target)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
 }
 function startmenukill(){
     document.body.classList.remove("nonono_startmenu")
@@ -1613,4 +1495,112 @@ function load5ch(){
 function loadtwitter(){
     load(PRE_TEMPLETES["twitter"])
     startmenukill()
+}
+function mescheck(e){
+    e.target.parentNode.parentNode.parentNode.classList.remove("checked_md")
+    if (e.target.checked){
+        e.target.parentNode.parentNode.parentNode.classList.add("checked_md")
+    }
+}
+function md_click(e){
+    if (e.target.tagName!="DIV"){return false}
+    if (!e.ctrlKey && e.shiftKey) {
+        e.currentTarget.id="telstro"
+        if (e.currentTarget.matches(".checked_md~div:not(.checked_md)")){
+            let now = e.currentTarget
+            while (!now.classList.contains("checked_md") || now.id == "telstro") {
+                now.classList.add("checked_md")
+                mcheckr(now)
+                now = now.previousElementSibling
+            }
+        }
+        if (document.querySelector("#telstro~.checked_md")){
+            let now = e.currentTarget
+            while (!now.classList.contains("checked_md") || now.id == "telstro") {
+                now.classList.add("checked_md")
+                mcheckr(now)
+                now = now.nextElementSibling
+            }
+        }
+        e.currentTarget.id = ""
+    } else if (e.ctrlKey && e.shiftKey) {
+        e.currentTarget.classList.add("checked_md")
+        mcheckr(e.currentTarget)
+    }else if (e.ctrlKey){
+        if (e.currentTarget.classList.contains("checked_md")){
+            e.currentTarget.classList.remove("checked_md")
+        }else{
+            e.currentTarget.classList.add("checked_md")
+        }
+        mcheckr(e.currentTarget)
+    }else{
+        Array.from(document.getElementsByClassName("checked_md")).forEach(i => {
+            i.classList.remove("checked_md")
+            mcheckr(i)
+        })
+        e.currentTarget.classList.add("checked_md")
+        mcheckr(e.currentTarget)
+    }
+    
+    
+}
+function mcheckr(e){
+    e.getElementsByClassName("messelectcheck")[0].checked =e.classList.contains("checked_md")
+    e.draggable=e.classList.contains("checked_md")
+}
+function tfer(to,from,toi,toic,fromic){
+    if (from.parentNode.classList.contains("checked_md")){
+        to.parentNode.classList.add("checked_md")
+    }else{
+        to.parentNode.classList.remove("checked_md")
+    }
+    mcheckr(to.parentNode)
+    Object.keys(all_data).forEach(d => {
+        let nnn = 0
+        if (!all_data[d]["dataset_fix?"]) {
+            toic[d] = fromic[d];
+        }
+        Array.from(to.getElementsByClassName(d)).forEach(toc => {
+            let fromc = from.getElementsByClassName(d)[nnn];
+            if (fromc) {
+                if (!all_data[d]["dataset_fix?"]) {
+                    toc.style = fromc.style.cssText;
+                    toc.parentNode.style = fromc.parentNode.style.cssText;
+                    toc.value = fromc.value;
+                } else {
+                    toc.value = deal_list[toi][d]
+                }
+            }
+            nnn++
+        })
+    });
+}
+function mesdel(target){
+    let num = Number(target.lastChild.id.replace("message_", ""));
+    for (let i = num; i < deal_list.length; i++) {
+        let to = document.getElementById(`message_${i}`);
+        to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
+        let from = document.getElementById(`message_${i + 1}`);
+        tfer(to,from,i-1,deal_list[i-1],deal_list[i])
+        tempselectover(to.parentNode.getElementsByClassName("tempselect")[0])
+        to.parentNode.getElementsByClassName("tempselect")[0].selectedIndex = deal_sets[i]["use_temp"]
+
+    };
+    deal_list.pop();
+    deal_sets.splice(num-1,1)
+    document.getElementById("messages").lastChild.outerHTML = "";
+    lockreload()
+    templates[now_temp]["conf_data"].forEach(k => {
+        if (all_data[k]["dataset_adderm"]){
+            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+            let na = Number(all_data[k]["dataset_adder"])
+            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
+                added = Number(added) - na
+            }
+            inputing[k] = String(added)
+            Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
+                i.value = inputing[k]
+            })
+        }
+    });
 }
