@@ -201,7 +201,7 @@ h1,h2{
     resize: vertical;
     overflow-y: scroll;
 }
-.messagediv:hover{
+.messagediv:hover,.checked_md{
     filter:contrast(87%)
 }
 .message{
@@ -241,7 +241,7 @@ h1,h2{
     border-radius: 10px;
     visibility: hidden;
 }
-.messagediv:hover .closebtn{
+.messagediv:hover .closebtn,.checked_md .closebtn{
     visibility: visible;
 }
 
@@ -614,7 +614,7 @@ header{
 .tempselect option{
     display: none;
 }
-.messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option{
+.messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option,.checked_md .tempselect,.checked_md .tempselect option{
     display: inline-block;
 }
 textarea,input[type="text"],input[type="number"],input[type="search"]{
@@ -711,7 +711,7 @@ button:active{
 .locked_mess .meslocklabel{
     background-image: url(images/icons/lock.svg);
 }
-.locked_mess input:not(.meslockcheck),.locked_mess button,.locked_mess textarea{
+.locked_mess .message,.locked_mess .closebtn,.locked_mess .tempselectdiv{
     pointer-events: none;
     filter: brightness(0.7);
 }

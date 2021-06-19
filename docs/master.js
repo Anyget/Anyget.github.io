@@ -1196,13 +1196,25 @@ function setradiochange(e) {
 }
 
 function lockmes(e){
-    if (e.target.checked){
-        e.target.parentNode.parentNode.parentNode.parentNode.parentNode.classList.add("locked_mess")
-        deal_sets[Number(e.target.parentNode.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = true
-    }else{
-        e.target.parentNode.parentNode.parentNode.parentNode.parentNode.classList.remove("locked_mess")
-        deal_sets[Number(e.target.parentNode.parentNode.parentNode.parentNode.nextElementSibling.id.replace("message_",""))-1]["locked"] = false
+    e.target.checked = !e.target.checked
+    let l = []
+    if (e.target.parentNode.parentNode.parentNode.parentNode.parentNode.classList.contains("checked_md")) {
+        l = Array.from(document.getElementsByClassName("checked_md"))
+    } else {
+        l = [e.target.parentNode.parentNode.parentNode.parentNode.parentNode]
     }
+    console.log(l)
+    l.forEach(i=>{
+        let t = i.getElementsByClassName("meslockcheck")[0]
+        t.checked = !t.checked
+        if (t.checked){
+            i.classList.add("locked_mess")
+            deal_sets[Number(i.lastChild.id.replace ("message_",""))-1]["locked"] = true
+        }else{
+            i.classList.remove("locked_mess")
+            deal_sets[Number(i.lastChild.id.replace ("message_",""))-1]["locked"] = false
+        }
+    })
 }
 function loadbybutton1(){
     if (document.getElementById("startmenu_load_inp").files.length === 0) return false;
