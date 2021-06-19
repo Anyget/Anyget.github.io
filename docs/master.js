@@ -76,20 +76,6 @@ window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
     event.returnValue = ''
 })
-//document.addEventListener("paste", function (e) {
-//    let target = e.target
-//    if (target.matches("div[contenteditable='true']")) {
-//        let text = e.clipboardData.getData("text/plain");
-//        const selection = window.getSelection();
-//        if (!selection.rangeCount) return false;
-//        selection.deleteFromDocument();
-//        let cas = selection.getRangeAt(0);
-//        cas.insertNode(document.createTextNode(text));
-//        selection.collapseToEnd();
-//        e.preventDefault();
-//    };
-//});
-
 window.addEventListener("resize",e=>{
     Array.from(document.getElementById("box").children).forEach(i=>{
         if (i.style.width) {
@@ -1447,7 +1433,7 @@ function unieasypreviewreloader(n){
             })
             sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
         }
-        document.getElementById("easy_preview").children[n].innerHTML = `${sent.replace(/\n/g, "<br>")}`
+        document.getElementById("easy_preview").children[n].innerHTML = `${sent.split("\n").join("<br>")}`
     }
 
 }
@@ -1534,11 +1520,19 @@ function md_click(e){
         }
         mcheckr(e.currentTarget)
     }else{
+        let f = false
         Array.from(document.getElementsByClassName("checked_md")).forEach(i => {
-            i.classList.remove("checked_md")
-            mcheckr(i)
+            if (i != e.currentTarget){
+                f = true
+                i.classList.remove("checked_md")
+                mcheckr(i)
+            }
         })
-        e.currentTarget.classList.add("checked_md")
+        if (e.currentTarget.classList.contains("checked_md") && !f){
+            e.currentTarget.classList.remove("checked_md")
+        }else{
+            e.currentTarget.classList.add("checked_md")
+        }
         mcheckr(e.currentTarget)
     }
     
