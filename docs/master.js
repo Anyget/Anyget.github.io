@@ -34,7 +34,15 @@ let settings = {
                         info:"エディタの全体的色設定",
                         type:"select",
                         init:0,
-                        options:{},
+                        options:{
+                            "VSCode_Dark":"01",
+                            "VSCode_Light":"02",
+                            "HighDark":"03",
+                            "5ch":"04",
+                            "futaba":"05",
+                            "Twitter":"06",
+                            "Discord":"07"
+                        },
                         f:themechange
                     },
                     "highlightcheck":{
@@ -102,14 +110,26 @@ function epo_function(es){
 }
 function settings_r(v,d,kk){
     if (v.type == "head"){
-        console.log([v,d,kk])
-        document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
-        console.log(document.getElementById("settings").innerHTML)
+        document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
         Object.keys(v.list).forEach(vk=>{
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
         })
     }else{
-        document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div=>`)
+        document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div>`)
+        let te = document.getElementById("settings").lastChild
+        switch (v.type){
+            case "checkbox":
+                te.insertAdjacentHTML("beforeend",`<label><input type="checkbox" ${v.init?"checked":""} id="settings_${kk}" onchange="settings.${kk.split("_").join(".list.")}.f()">${v.label}</label>`)
+                break
+            case "select":
+                te.insertAdjacentHTML("beforeend",`<select id="settings_${kk}" onchange="settings.${kk.split("_").join(".list.")}.f()"></select>`)
+                Object.keys(v.options).forEach(i=>{
+                    te.lastChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
+                })
+                te.lastChild.children[v.init].selected = true
+
+                break
+        }
     }
 }
 let easypreviewobserver = new IntersectionObserver(epo_function,{root:document.getElementById("easy_preview")})
@@ -117,13 +137,6 @@ window.onload = function () {
     Object.keys(settings).forEach(cc=>{
         settings_r(settings[cc],1,cc)
     })
-    //let l = document.getElementById("settings_views_themeselect")
-    //let c = 0
-    //theme_list.forEach(t=>{
-    //    c++
-    //    l.insertAdjacentHTML("beforeend", `<option value=${("0" + c).slice(-2)}>${t}</option>`)
-    //})
-    //l.firstChild.selected = true
     let cc = 0
     for (let i of document.getElementsByClassName("functionselect")){
         let c = 0
@@ -1296,7 +1309,7 @@ function lockreload(){
     })
 }
 function themeprev(){
-    let t = document.getElementById("settings_views_themeselect")
+    let t = document.getElementById("settings_views_colors_themeselect")
     let n = t.selectedIndex
     if (n > 0){
         t.children[n - 1].selected = true
@@ -1304,7 +1317,7 @@ function themeprev(){
     }
 }
 function themenext() {
-    let t = document.getElementById("settings_views_themeselect")
+    let t = document.getElementById("settings_views_colors_themeselect")
     let n = t.selectedIndex
     if (n < theme_list.length-1) {
         t.children[n + 1].selected = true
@@ -1312,21 +1325,21 @@ function themenext() {
     }
 }
 function themechange(){
-    let t = document.getElementById("settings_views_themeselect")
+    let t = document.getElementById("settings_views_colors_themeselect")
     let n = t.options[t.selectedIndex].value
     let s = `@import url(themes/${n}.css);`
     let ss = ""
-    if (document.getElementById("settings_views_highlightcheck").checked){
+    if (document.getElementById("settings_views_colors_highlightcheck").checked){
         ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[0].innerText = s
     document.getElementsByTagName("style")[1].innerText = ss
 }
 function highlightchange(){
-    let t = document.getElementById("settings_views_themeselect")
+    let t = document.getElementById("settings_views_colors_themeselect")
     let n = t.options[t.selectedIndex].value
     let ss = ""
-    if (document.getElementById("settings_views_highlightcheck").checked) {
+    if (document.getElementById("settings_views_colors_highlightcheck").checked) {
         ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[1].innerText = ss
@@ -1390,7 +1403,7 @@ function fitselector(t){
     t.parentNode.parentNode.style.setProperty("--title_font_size", (pr.width - 30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px")
 }
 function sortboxes(){
-    let t = document.getElementById("settings_sortboxesselect")
+    let t = document.getElementById("settings_views_size_sortboxes")
     boxes_sort = t.options[t.selectedIndex].value.split(',').map(Number)
     c = 0
     boxes_sort.forEach(i=>{

@@ -788,6 +788,12 @@ button:active{
     padding: 10px;
     background-color: var(--box3_color);
 }
+.settdiv label{
+    user-select: none;
+}
+.settdiv label:hover{
+    cursor: pointer;
+}
 .settdiv:hover,#settings h1:hover{
     filter: brightness(1.2);
 }
@@ -797,10 +803,9 @@ button:active{
     padding: 0;
     margin: 0;
     margin-left: -10px;
-    margin-bottom: 3px;
 }
 #settings select{
-    display: inline;
+    display: block;
 }
 #settings h1{
     background-color: var(--box3_color);
