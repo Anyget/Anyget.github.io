@@ -114,6 +114,7 @@ function settings_r(v,d,kk){
         Object.keys(v.list).forEach(vk=>{
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
         })
+        let t = document.getElementById("settingtab")
     }else{
         document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div>`)
         let te = document.getElementById("settings").lastChild
