@@ -1685,3 +1685,29 @@ function mesdel(target){
         }
     });
 }
+function settingsearcher(){
+    let k = escapeHtml(document.getElementById("settingsearch").value)
+    document.getElementById("settings").innerHTML = document.getElementById("settings").innerHTML.split("<mark>").join("").split("</mark>").join("")
+    if (k == ""){
+        Array.from(document.getElementById("settings").children).forEach(i => {
+            i.classList.remove("unfilt")
+        })
+    }else{
+        Array.from(document.getElementById("settings").children).forEach(i=>{
+            i.classList.add("unfilt")
+            if (i.innerHTML.indexOf(k) > -1) {
+                i.classList.remove("unfilt")
+                markloop(k,i)
+            }
+        })
+    }
+}
+function markloop(k,o){
+    if (o.firstElementChild){
+    Array.from(o.children).forEach(i=>{
+        markloop(k,i)
+    })
+    }else{
+        o.innerHTML = o.innerHTML.split("<mark>").join("").split("</mark>").join("").split(k).join(`<mark>${k}</mark>`)
+    }
+}
