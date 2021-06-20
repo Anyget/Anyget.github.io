@@ -628,7 +628,7 @@ button:hover{
 button:active{
     filter: brightness(0.7);
 }
-#settings{
+#settings_div{
     height: 100%;
     width: 100%;
     padding: 5% 5%;
@@ -658,15 +658,12 @@ button:active{
     overflow-y: auto;
     box-sizing: border-box;
 }
-#settinginput{
+#settings{
     margin-left: 10px;
     border: 1px solid var(--border_color);
     height: 100%;
     width: calc(75% - 10px);
     background-color: var(--box3_color);
-}
-#settinginput>*:not(.setradised){
-    display: none;
 }
 #settingtab>input{
     display: none;
@@ -685,9 +682,6 @@ button:active{
 }
 #settingtab>label:hover{
     background-color: var(--unselected_tab_color)
-}
-#settinginput>*:not(.setradised){
-    display: none;
 }
 .headright{
     display:flex;
@@ -790,22 +784,30 @@ button:active{
     height: 100%;
     overflow-y: auto;
 }
-#settinginput>div>div{
+.settdiv{
     padding: 10px;
     background-color: var(--box3_color);
 }
-#settinginput>div>div:hover{
+.settdiv:hover,#settings h1:hover{
     filter: brightness(1.2);
 }
-#settinginput>div>div>h3{
-    font-size: medium;
+.settdiv>h3{
+    font-size: 0.8rem;
     color: var(--selected_tab_font_color);
     padding: 0;
     margin: 0;
+    margin-left: -10px;
     margin-bottom: 3px;
 }
-#settinginput select{
+#settings select{
     display: inline;
+}
+#settings h1{
+    background-color: var(--box3_color);
+    text-align: left;
+    display: block;
+    margin: 0;
+    color:var(--color_3)
 }
 .mainer{
     height: calc(100% - var(--title_font_size));
@@ -1074,4 +1076,9 @@ button:active{
 }
 .messagediv{
     border-left-width: 5px !important;
+}
+.settinfo{
+    color:var(--color_3);
+    filter: contrast(0.5);
+    font-size: 0.7rem;;
 }

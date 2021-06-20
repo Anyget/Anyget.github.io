@@ -20,6 +20,58 @@ let templates = [
         }
     ]
 let boxes_sort = [0,1,2]
+let settings = {
+    "views":{
+        name:"表示",
+        type:"head",
+        list:{
+            "colors":{
+                name:"色",
+                type:"head",
+                list:{
+                    "themeselect":{
+                        name:"テーマ",
+                        info:"エディタの全体的色設定",
+                        type:"select",
+                        init:0,
+                        options:{},
+                        f:themechange
+                    },
+                    "highlightcheck":{
+                        name:"色を付ける",
+                        info:"",
+                        type:"checkbox",
+                        init:false,
+                        label:"変数に色を付ける",
+                        f:highlightchange
+                    }
+                }
+            },
+            "size":{
+                name:"寸法",
+                type:"head",
+                list:{
+                    "sortboxes":{
+                        name:"パネルの並び替え",
+                        info:"3枚のパネルを任意の順番で並び替えます",
+                        type:"select",
+                        init:0,
+                        options:{
+                            "縦長―メイン―二分割":"0,1,2",
+                            "縦長―二分割―メイン":"0,2,1",
+                            "メイン―縦長―二分割":"1,0,2",
+                            "メイン―二分割―縦長":"1,2,0",
+                            "二分割―メイン―縦長":"2,1,0",
+                            "二分割―縦長―メイン":"2,0,1"
+                        },
+                        f:sortboxes
+                    }
+                }
+            }
+            
+        }
+    }
+}
 let now_temp = 0
 let deal_sets = []
 let inputing = {}
@@ -48,15 +100,30 @@ function epo_function(es){
         }
     })
 }
+function settings_r(v,d,kk){
+    if (v.type == "head"){
+        console.log([v,d,kk])
+        document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
+        console.log(document.getElementById("settings").innerHTML)
+        Object.keys(v.list).forEach(vk=>{
+            settings_r(v.list[vk],d+1,`${kk}_${vk}`)
+        })
+    }else{
+        document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div=>`)
+    }
+}
 let easypreviewobserver = new IntersectionObserver(epo_function,{root:document.getElementById("easy_preview")})
 window.onload = function () {
-    let l = document.getElementById("themeselect")
-    let c = 0
-    theme_list.forEach(t=>{
-        c++
-        l.insertAdjacentHTML("beforeend", `<option value=${("0" + c).slice(-2)}>${t}</option>`)
+    Object.keys(settings).forEach(cc=>{
+        settings_r(settings[cc],1,cc)
     })
-    l.firstChild.selected = true
+    //let l = document.getElementById("settings_views_themeselect")
+    //let c = 0
+    //theme_list.forEach(t=>{
+    //    c++
+    //    l.insertAdjacentHTML("beforeend", `<option value=${("0" + c).slice(-2)}>${t}</option>`)
+    //})
+    //l.firstChild.selected = true
     let cc = 0
     for (let i of document.getElementsByClassName("functionselect")){
         let c = 0
@@ -1229,7 +1296,7 @@ function lockreload(){
     })
 }
 function themeprev(){
-    let t = document.getElementById("themeselect")
+    let t = document.getElementById("settings_views_themeselect")
     let n = t.selectedIndex
     if (n > 0){
         t.children[n - 1].selected = true
@@ -1237,7 +1304,7 @@ function themeprev(){
     }
 }
 function themenext() {
-    let t = document.getElementById("themeselect")
+    let t = document.getElementById("settings_views_themeselect")
     let n = t.selectedIndex
     if (n < theme_list.length-1) {
         t.children[n + 1].selected = true
@@ -1245,21 +1312,21 @@ function themenext() {
     }
 }
 function themechange(){
-    let t = document.getElementById("themeselect")
+    let t = document.getElementById("settings_views_themeselect")
     let n = t.options[t.selectedIndex].value
     let s = `@import url(themes/${n}.css);`
     let ss = ""
-    if (document.getElementById("highlightcheck").checked){
+    if (document.getElementById("settings_views_highlightcheck").checked){
         ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[0].innerText = s
     document.getElementsByTagName("style")[1].innerText = ss
 }
 function highlightchange(){
-    let t = document.getElementById("themeselect")
+    let t = document.getElementById("settings_views_themeselect")
     let n = t.options[t.selectedIndex].value
     let ss = ""
-    if (document.getElementById("highlightcheck").checked) {
+    if (document.getElementById("settings_views_highlightcheck").checked) {
         ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[1].innerText = ss
@@ -1323,7 +1390,7 @@ function fitselector(t){
     t.parentNode.parentNode.style.setProperty("--title_font_size", (pr.width - 30) / strWidth(t.options[t.selectedIndex].innerText) * 10 + "px")
 }
 function sortboxes(){
-    let t = document.getElementById("sortboxesselect")
+    let t = document.getElementById("settings_sortboxesselect")
     boxes_sort = t.options[t.selectedIndex].value.split(',').map(Number)
     c = 0
     boxes_sort.forEach(i=>{
