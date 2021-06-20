@@ -1129,3 +1129,6 @@ button:active{
 .unfilt{
     display: none !important;
 }
+mark{
+    background-color: var(--checked_color);
+}
