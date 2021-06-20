@@ -111,10 +111,15 @@ function epo_function(es){
 function settings_r(v,d,kk){
     if (v.type == "head"){
         document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
+        let t = document.getElementById("settingtab")
+        for (let i = 0; i < d-1; i++) {
+            t = t.lastElementChild;
+        }
+        console.log(d)
+        t.insertAdjacentHTML("beforeend", `<div><input type="checkbox" id="settingtab_${kk}"><label for="settingtab_${kk}"><div></div></label><a href="#settings_${kk}">${v.name}</a></div>`)
         Object.keys(v.list).forEach(vk=>{
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
         })
-        let t = document.getElementById("settingtab")
     }else{
         document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div>`)
         let te = document.getElementById("settings").lastChild
