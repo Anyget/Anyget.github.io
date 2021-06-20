@@ -116,7 +116,7 @@ function settings_r(v,d,kk){
             t = t.lastElementChild;
         }
         console.log(d)
-        t.insertAdjacentHTML("beforeend", `<div><input type="checkbox" id="settingtab_${kk}"><label for="settingtab_${kk}"><div></div></label><a href="#settings_${kk}">${v.name}</a></div>`)
+        t.insertAdjacentHTML("beforeend", `<div><input type="checkbox" id="settingtab_${kk}"><label for="settingtab_${kk}"><div></div></label><a href="#settings#settings_${kk}">${v.name}</a></div>`)
         Object.keys(v.list).forEach(vk=>{
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
         })
