@@ -121,7 +121,7 @@ function settings_r(v,d,kk){
         })
     }else{
         document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div>`)
-        let te = document.getElementById("settings").lastChild
+        let te = document.getElementById("settings").lastElementChild
         switch (v.type){
             case "checkbox":
                 te.insertAdjacentHTML("beforeend",`<label><input type="checkbox" ${v.init?"checked":""} id="settings_${kk}" onchange="settings.${kk.split("_").join(".list.")}.f()">${v.label}</label>`)
@@ -129,9 +129,9 @@ function settings_r(v,d,kk){
             case "select":
                 te.insertAdjacentHTML("beforeend",`<select id="settings_${kk}" onchange="settings.${kk.split("_").join(".list.")}.f()"></select>`)
                 Object.keys(v.options).forEach(i=>{
-                    te.lastChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
+                    te.lastElementChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
                 })
-                te.lastChild.children[v.init].selected = true
+                te.lastElementChild.children[v.init].selected = true
 
                 break
         }
@@ -148,7 +148,7 @@ window.onload = function () {
         SUBFUNCTIONNAMES.forEach(n=>{
             i.insertAdjacentHTML("beforeend",`<option>${n}</option>`)
             if (c == selectedsubfunction[cc]){
-                i.lastChild.selected = true
+                i.lastElementChild.selected = true
             }
             c++
         })
@@ -287,26 +287,26 @@ function changetemp() {
     }
     let n = 0
     deal_list.forEach(ii => {
-        n++;
-        let box = document.getElementById(`message_${n}`);
-        let t = deal_sets[n-1]["use_temp"]
+        let box = mbyn(n).lastElementChild;
+        let t = deal_sets[n]["use_temp"]
         templates[t]["conf_data"].forEach(x => {
             if (backupconfdata.includes(x) || now_temp != t) {
-                style_list[n - 1][x] = []
+                style_list[n][x] = []
                 if (x.startsWith("liner_")){
                     Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                        style_list[n - 1][x].push(cd.parentNode.style.cssText)
+                        style_list[n][x].push(cd.parentNode.style.cssText)
                     })
                 }else{
                     Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                        style_list[n - 1][x].push(cd.style.cssText);
+                        style_list[n][x].push(cd.style.cssText);
                     })
                 }
                 
-            }else if (!Object.keys(style_list[n - 1]).includes(x)) {
-                style_list[n - 1][x] = []
+            }else if (!Object.keys(style_list[n]).includes(x)) {
+                style_list[n][x] = []
             }
         })
+        n++;
     })
     templates[now_temp]["template"] = temp + "";
     messagereloadbynowtemp()
@@ -317,9 +317,8 @@ function changetemp() {
 function messagereloadbynowtemp(){
     n = 0
     deal_list.forEach(ii => {
-        n++;
-        let box = document.getElementById(`message_${n}`);
-        if (deal_sets[n - 1]["use_temp"] == now_temp){
+        let box = mbyn(n).lastElementChild;
+        if (deal_sets[n]["use_temp"] == now_temp){
             box.innerHTML = templates[now_temp]["conf_htm"];
             Object.keys(all_data).forEach(xx => {
                 if (typeof ii[xx] === "undefined") {
@@ -329,15 +328,15 @@ function messagereloadbynowtemp(){
                 Array.from(box.getElementsByClassName(xx)).forEach(iii => {
                     iii.value = ii[xx];
                     if (xx.startsWith("blocker_")) {
-                        iii.style = style_list[n - 1][xx][cc]
+                        iii.style = style_list[n][xx][cc]
                     } else {
-                        iii.parentNode.style = style_list[n - 1][xx][cc]
+                        iii.parentNode.style = style_list[n][xx][cc]
                     }
                     cc++
                 })
             });
         }
-        
+        n++;
     });
 }
 function addmess() {
@@ -345,8 +344,8 @@ function addmess() {
         document.getElementById("messages").insertAdjacentHTML("beforeend",messtemper(now_temp+1,templates[now_temp]["conf_htm"]));
         let formi_c = document.getElementById("form_inp")
         let now = document.getElementById("cd")
+        now.id = ""
         let num = deal_list.length
-        now.id = "message_" + (num + 1)
         deal_list.push({})
         Object.keys(all_data).forEach(k=>{
             deal_list[num][k] = ""
@@ -419,7 +418,7 @@ document.addEventListener("input", (e) => {
     if (target.matches(".message textarea,.message input")) {
         let clas = target.className.replace(/^[^ ]* /, "");
         if (target.matches("textarea")) {
-            num = Number(target.parentNode.id.replace("message_", "")) - 1;
+            num = nbym(target.parentNode.parentNode);
             inp = target.value;
             deal_list[num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
@@ -427,7 +426,7 @@ document.addEventListener("input", (e) => {
                 unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
             })
         } else {
-            num = Number(target.parentNode.parentNode.id.replace("message_", "")) - 1;
+            num = nbym(target.parentNode.parentNode.parentNode);
             inp = target.value;
             deal_list[num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
@@ -478,7 +477,7 @@ function dragstart(e) {
     let tuka = document.createElement("div")
     Array.from(document.getElementsByClassName("checked_md")).forEach(i=>{
         let ss = i.cloneNode(true)
-        ss.lastChild.id=""
+        ss.lastElementChild.id=""
         tuka.appendChild(ss)
     })
     tuka.style.zIndex="-10"
@@ -509,37 +508,37 @@ function drop(e) {
     if (e.target.matches(".checked_md~*")){
         f = true
     }
-    let target_num = Number(e.target.lastChild.id.replace("message_", ""))
+    let target_num = nbym(e.target)+1
     while (document.getElementsByClassName("checked_md").length > 0){
         let ragging = f ? document.getElementsByClassName("checked_md")[0] : document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length - 1]
-        let dragging_num = Number(ragging.lastChild.id.replace("message_", ""))
-        let dragmes = ragging.lastChild;
+        let dragging_num = nbym(ragging)+1
+        let dragmes = ragging.lastElementChild;
         let itihop = ragging.cloneNode(true);
         let itihoarr = {};
         let itihods = deal_sets[dragging_num - 1]
-        tfer(itihop.lastChild, dragmes, target_num - 1, itihoarr, deal_list[dragging_num - 1])
+        tfer(itihop.lastElementChild, dragmes, target_num - 1, itihoarr, deal_list[dragging_num - 1])
         if (target_num > dragging_num) {
             for (let i = dragging_num; i < target_num; i++) {
-                let to = document.getElementById(`message_${i}`);
+                let to = mbyn(i-1).lastElementChild
                 to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
-                let from = document.getElementById(`message_${i + 1}`);
+                let from = mbyn(i).lastElementChild
                 tfer(to,from,i-1,deal_list[i-1],deal_list[i])
                 deal_sets[i-1] = deal_sets[i]
             };
         } else {
             for (let i = dragging_num; i > target_num; i--) {
                 deal_sets[i - 1] = deal_sets[i - 2]
-                let to = document.getElementById(`message_${i}`);
+                let to = mbyn(i-1).lastElementChild;
                 to.innerHTML = templates[deal_sets[i-2]["use_temp"]]["conf_htm"]
-                let from = document.getElementById(`message_${i - 1}`);
+                let from = mbyn(i-2).lastElementChild;
                 tfer(to,from,i-1,deal_list[i-1],deal_list[i-2])
             };
         }
         deal_sets[target_num - 1] = itihods
-        document.getElementById(`message_${target_num}`).innerHTML = templates[deal_sets[target_num - 1]["use_temp"]]["conf_htm"]
-        tfer(document.getElementById(`message_${target_num}`), itihop.lastChild, target_num - 1, deal_list[target_num - 1], itihoarr)
-        document.getElementById(`message_${target_num}`).parentNode.classList.remove("checked_md")
-        mcheckr(document.getElementById(`message_${target_num}`).parentNode)
+        mbyn(target_num-1).lastElementChild.innerHTML = templates[deal_sets[target_num - 1]["use_temp"]]["conf_htm"]
+        tfer(mbyn(target_num-1).lastChild, itihop.lastElementChild, target_num - 1, deal_list[target_num - 1], itihoarr)
+        mbyn(target_num-1).classList.remove("checked_md")
+        mcheckr(mbyn(target_num-1))
     };
     lockreload()
 };
@@ -803,17 +802,17 @@ function save() {
     }
     let n = 0;
     deal_list.forEach(d => {
-        n++;
         templates[now_temp]["conf_data"].forEach(c => {
-            style_list[n-1][c] = []
-            Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
+            style_list[n][c] = []
+            Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd=>{
                 if (cd.classList.contains("|")) {
-                    style_list[n - 1][c].push(cd.style.cssText);
+                    style_list[n][c].push(cd.style.cssText);
                 } else {
-                    style_list[n - 1][c].push(cd.parentNode.style.cssText);
+                    style_list[n][c].push(cd.parentNode.style.cssText);
                 }
             })
         })
+        n++;
     })
     let j = JSON.stringify(
         { "deal_list": deal_list, 
@@ -837,10 +836,9 @@ function tempsave() {
     }
     let n = 0;
     deal_list.forEach(d => {
-        n++;
-        templates[deal_sets[n-1]["use_temp"]]["conf_data"].forEach(c => {
-            style_list[n-1][c] = []
-            Array.from(document.getElementById(`message_${n}`).getElementsByClassName(c)).forEach(cd=>{
+        templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(c => {
+            style_list[n][c] = []
+            Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd=>{
                 if (cd.classList.contains("|")) {
                     style_list.push(cd.style.cssText)
                 } else {
@@ -848,6 +846,7 @@ function tempsave() {
                 }
             })
         })
+        n++;
     })
     let j = JSON.stringify(
         { 
@@ -888,7 +887,7 @@ function load(n){
         document.getElementById("messages").insertAdjacentHTML("beforeend",
             messtemper(deal_sets[x - 1]["use_temp"] + 1, templates[deal_sets[x - 1]["use_temp"]]["conf_htm"]))
         let now = document.getElementById("cd")
-        now.id = `message_${x}`
+        now.id = ""
         templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
             let z = 0
             Array.from(now.getElementsByClassName(c)).forEach(m=>{
@@ -928,7 +927,7 @@ function subs() {
         if (!deal_sets[i-1]["locked"]){
             deal_list[i - 1][selecting] = txts[i - num]
             if (templates[deal_sets[i-1]["use_temp"]]["conf_data"].includes(selecting)) {
-                document.getElementById(`message_${i}`).getElementsByClassName(selecting)[0].value = txts[i - num];
+                mbyn(i-1).lastElementChild.getElementsByClassName(selecting)[0].value = txts[i - num];
             }
         }  
     }
@@ -1124,7 +1123,7 @@ function replacing(){
     let rr_list = []
     for (let i of deal_list){
         n++;
-        let to = document.getElementById(`message_${n}`)
+        let to = mbyn(n-1).lastElementChild
         for (let r of r_list){
             i[r] = i[r].replace(reg,document.getElementById("replace_b").value)
             rr_list.push(r)
@@ -1199,7 +1198,7 @@ function confdep(n1,n2){
 }
 function tempselectover(t){
     let el = t.parentNode.parentNode.nextElementSibling
-    let s = Number(el.id.replace(/[^_]*_/, ""))-1
+    let s = nbym(el.parentNode)
     t.innerHTML = ""
     for (let i = 0; i < templates.length; i++) {
         t.insertAdjacentHTML("beforeend",`<option value="${i+1}"${deal_sets[s]["use_temp"] == i ? " selected" : ""}>${i+1}</option>`)
@@ -1217,8 +1216,8 @@ function tempselected(e){
         l = [e.target.parentNode.parentNode.parentNode]
     }
     l.forEach(t=>{
-        let el = t.lastChild
-        let s = Number(el.id.replace(/[^_]*_/, ""))-1
+        let el = t.lastElementChild
+        let s = nbym(el.parentNode)
         deal_sets[s]["use_temp"] = e.target.selectedIndex
         el.innerHTML = templates[e.target.selectedIndex]["conf_htm"]
         templates[e.target.selectedIndex]["conf_data"].forEach(d=>{
@@ -1278,10 +1277,10 @@ function lockmes(e){
         t.checked = !t.checked
         if (t.checked){
             i.classList.add("locked_mess")
-            deal_sets[Number(i.lastChild.id.replace ("message_",""))-1]["locked"] = true
+            deal_sets[nbym(i)]["locked"] = true
         }else{
             i.classList.remove("locked_mess")
-            deal_sets[Number(i.lastChild.id.replace ("message_",""))-1]["locked"] = false
+            deal_sets[nbym(i)]["locked"] = false
         }
     })
 }
@@ -1302,7 +1301,7 @@ function lockreload(){
     let c = 0
     deal_sets.forEach(s => {
         c++
-        let m = document.getElementById(`message_${c}`).parentNode
+        let m = mbyn(c-1)
         m.getElementsByClassName("meslockcheck")[0].checked = s["locked"]
         m.classList.remove("locked_mess")
         if (s["locked"]) {
@@ -1449,26 +1448,16 @@ new MutationObserver(e=>{
             if (!r.target.classList.contains("tempselect")){
                 if (r.type == "childList"){
                     if (r.target.id == "messages"){
-                        if (r.removedNodes.length > 0){
-                            if (r.removedNodes[0].lastElementChild != null){
-                                editlist.add(r.removedNodes[0].lastElementChild.id.replace("message_",""))
-                            }
-                        }
                         if (r.addedNodes.length > 0) {
                             if (r.addedNodes[0].lastElementChild != null){
-                                editlist.add(r.addedNodes[0].lastElementChild.id.replace("message_",""))
+                                editlist.add(nbym(r.addedNodes[0])+1)
                             }
                         }
                     }
                     if (r.target.classList.contains("message")){
-                        if (r.removedNodes.length > 0) {
-                            if (r.removedNodes[0].parentNode != null){
-                                editlist.add(r.removedNodes[0].parentNode.id.replace("message_", ""))
-                            }
-                        }
                         if (r.addedNodes.length > 0) {
                             if (r.addedNodes[0].parentNode != null) {
-                                editlist.add(r.addedNodes[0].parentNode.id.replace("message_", ""))
+                                editlist.add(nbym(r.addedNodes[0].parentNode.parentNode)+1)
                             }
                         }
                     }
@@ -1476,7 +1465,7 @@ new MutationObserver(e=>{
             }
         })
         if (editlist.size > 0){
-            Array.from(editlist).map(x=>Number(x)).sort(function (a,b){if (a > b) return -1;if (a < b) return 1;return 0;}).forEach(i=>{
+            Array.from(editlist).sort(function (a,b){if (a > b) return -1;if (a < b) return 1;return 0;}).forEach(i=>{
                 unieasypreviewreloader(i-1)
             })
         }
@@ -1529,12 +1518,12 @@ function addmemo(e){
 }
 
 function memofontzoom(e){
-    let ta = e.target.parentNode.parentNode.lastChild
+    let ta = e.target.parentNode.parentNode.lastElementChild
     ta.dataset.fontsizer = Number(ta.dataset.fontsizer)+0.5
     ta.style.fontSize =  Number(ta.dataset.fontsizer) + "em"
 }
 function memofontzoomout(e){
-    let ta = e.target.parentNode.parentNode.lastChild
+    let ta = e.target.parentNode.parentNode.lastElementChild
     ta.dataset.fontsizer = Number(ta.dataset.fontsizer)-0.5
     ta.style.fontSize =  Number(ta.dataset.fontsizer) + "em"
 }
@@ -1653,19 +1642,20 @@ function tfer(to,from,toi,toic,fromic){
     });
 }
 function mesdel(target){
-    let num = Number(target.lastChild.id.replace("message_", ""));
+    let num = nbym(target)+1;
     for (let i = num; i < deal_list.length; i++) {
-        let to = document.getElementById(`message_${i}`);
+        let to = mbyn(i-1);
         to.innerHTML = templates[deal_sets[i]["use_temp"]]["conf_htm"]
-        let from = document.getElementById(`message_${i + 1}`);
+        let from = mbyn(i);
         tfer(to,from,i-1,deal_list[i-1],deal_list[i])
         tempselectover(to.parentNode.getElementsByClassName("tempselect")[0])
         to.parentNode.getElementsByClassName("tempselect")[0].selectedIndex = deal_sets[i]["use_temp"]
 
     };
     deal_list.pop();
-    deal_sets.splice(num-1,1)
-    document.getElementById("messages").lastChild.outerHTML = "";
+    deal_sets.splice(num - 1, 1)
+    unieasypreviewreloader(nbym(target))
+    document.getElementById("messages").lastElementChild.outerHTML = "";
     lockreload()
     templates[now_temp]["conf_data"].forEach(k => {
         if (all_data[k]["dataset_adderm"]){
@@ -1706,4 +1696,10 @@ function markloop(k,o){
     }else{
         o.innerHTML = o.innerHTML.split("<mark>").join("").split("</mark>").join("").split(k).join(`<mark>${k}</mark>`)
     }
+}
+function nbym(m){
+    return Array.from(document.getElementById("messages").children).indexOf(m)
+}
+function mbyn(n){
+    return document.getElementById("messages").children[n]
 }
