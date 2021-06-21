@@ -115,7 +115,6 @@ function settings_r(v,d,kk){
         for (let i = 0; i < d-1; i++) {
             t = t.lastElementChild;
         }
-        console.log(d)
         t.insertAdjacentHTML("beforeend", `<div><input type="checkbox" id="settingtab_${kk}"><label for="settingtab_${kk}"><div></div></label><a href="#settings#settings_${kk}">${v.name}</a></div>`)
         Object.keys(v.list).forEach(vk=>{
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
@@ -453,7 +452,6 @@ function taras(target){
 function closebtnclick(e){
     if (e.target.parentNode.parentNode.classList.contains("checked_md")){
         while (document.getElementsByClassName("checked_md").length>0){
-            console.log(document.getElementsByClassName("checked_md")[0])
             mesdel(document.getElementsByClassName("checked_md")[0])
         }
     }else{
@@ -512,9 +510,7 @@ function drop(e) {
         f = true
     }
     let target_num = Number(e.target.lastChild.id.replace("message_", ""))
-    console.log(document.getElementsByClassName("checked_md").length)
     while (document.getElementsByClassName("checked_md").length > 0){
-        console.log(document.getElementsByClassName("checked_md"))
         let ragging = f ? document.getElementsByClassName("checked_md")[0] : document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length - 1]
         let dragging_num = Number(ragging.lastChild.id.replace("message_", ""))
         let dragmes = ragging.lastChild;

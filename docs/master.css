@@ -623,10 +623,10 @@ textarea,input[type="text"],input[type="number"],input[type="search"]{
     border: none;
 }
 button:hover{
-    filter: brightness(1.2);
+    filter: contrast(0.8);
 }
 button:active{
-    filter: brightness(0.7);
+    filter:  contrast(1.2);
 }
 #settings_div{
     height: 100%;
@@ -778,7 +778,7 @@ button:active{
     cursor: pointer;
 }
 .settdiv:hover,#settings h1:hover{
-    filter: brightness(1.2);
+    filter: contrast(0.8);
 }
 .settdiv>h3{
     font-size: 0.8rem;
