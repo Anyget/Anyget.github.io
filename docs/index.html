@@ -258,14 +258,13 @@ $番号$：$名前$ [$メール$] $id$
                 </div>
                 <div class="mainer">
                     対象文字を選択：<br>
-                    <input type="checkbox" id="check_uaz"><label for="check_uaz">A-Z</label>
-                    <input type="checkbox" id="check_daz"><label for="check_daz">a-z</label>
-                    <input type="checkbox" id="check_num"><label for="check_num">0-9</label>
-                    <input type="checkbox" id="check_sim"><label for="check_sim">記号</label>
-                    <input type="checkbox" id="check_sp"><label for="check_sp">半角空白</label>
-                    <input type="checkbox" id="check_inp" onchange="checkinpchange()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
-                    <br><div style="text-align: right;"><input type="number" id="randlen" value="1" min="1">文字<input type="number" id="randman" value="1" min="1">個
-                    <button onclick="randgen()">生成</button></div>
+                    <input type="checkbox" id="check_uaz" oninput="randgen()"><label for="check_uaz">A-Z</label>
+                    <input type="checkbox" id="check_daz" oninput="randgen()"><label for="check_daz">a-z</label>
+                    <input type="checkbox" id="check_num" oninput="randgen()"><label for="check_num">0-9</label>
+                    <input type="checkbox" id="check_sim" oninput="randgen()"><label for="check_sim">記号</label>
+                    <input type="checkbox" id="check_sp" oninput="randgen()"><label for="check_sp">半角空白</label>
+                    <input type="checkbox" id="check_inp" onchange="checkinpchange()" oninput="randgen()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
+                    <br><div style="text-align: right;" oninput="randgen()"><input type="number" id="randlen" value="8" min="1" oninput="randgen()">文字<input type="number" id="randman" value="8" min="1" oninput="randgen()">個</div>
                     <textarea id="randgenopt"></textarea>
                     <input type="number" id="subsnum" value="1" min="1">
                     番目以降の

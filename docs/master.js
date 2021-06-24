@@ -156,6 +156,7 @@ window.onload = function () {
         fitselector(i)
         cc++
     }
+    randgen()
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
