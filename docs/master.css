@@ -1132,3 +1132,75 @@ button:active{
 mark{
     background-color: var(--checked_color);
 }
+#datamemoselpul{
+    display: block;
+    box-sizing: border-box;
+    background-color: var(--datapul_color);
+    color: var(--box4_font_color);
+    border: none;
+    height: 100%;
+    width: 50%;
+}
+#datamemopul{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+#datamemopuldiv{
+    margin: 0 auto;
+    margin-top: 5px;
+    display: flex;
+    height: calc(100% - 20px - 4em);
+    width: 90%;
+    font-family: sans-serif;
+    margin-bottom: 10px;
+}
+#datamemo{
+    font-size: large;
+    display: block;
+    width: 50%;
+    height: 100%;
+    resize: none;
+}
+#datamemobuttondiv{
+    width: 90%;
+    margin:0 auto;
+    display: flex;
+    height: 2em;
+    margin-bottom: 10px;
+    justify-content: center; 
+    align-items: center;
+}
+#datamemobuttondiv div{
+    position: relative;
+    font-size: 2em;
+    user-select: none;
+    vertical-align: middle;
+
+}
+#datamemobuttondiv div:hover{
+    cursor: pointer;
+    filter: contrast(0.8);
+}
+#datamemobuttondiv div:active{
+    filter:  contrast(1.2);
+}
+#datamemobuttondiv div[data-notif="true"]::before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    box-sizing: border-box;
+    padding: 4px;
+    font-weight: bold;
+    background-color: #ff0400;
+    border-radius: 5px;
+    top: 0;
+    right: 0;
+    transform: translate(0, 50%);
+}
+.pulg{
+    color: #006800;
+}

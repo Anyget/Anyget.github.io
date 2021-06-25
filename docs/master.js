@@ -84,11 +84,19 @@ let now_temp = 0
 let deal_sets = []
 let inputing = {}
 let now_theme = 0
-const SUBFUNCTIONNAMES = ["テンプレートを変更","変数の詳細設定","ランダム文字列生成","簡易プレビュー","テキストメモ"]
-let selectedsubfunction = [0,1,2,3,4]
+const SUBFUNCTIONNAMES = [
+    "テンプレートを変更",
+    "変数の詳細設定",
+    "ランダム文字列生成",
+    "簡易プレビュー",
+    "テキストメモ",
+    "変数特定値メモ"
+]
+let selectedsubfunction = [0,1,2,3,4,5]
 let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
+let mexsets = {}
 const PRE_TEMPLETES={
     "5ch": {
         "deal_list":[],"deal_sets":[],"all_data":{"liner_num":{"dataset_adder":"1","dataset_adderm":true,"dataset_anchor?":true,"dataset_anchor":">>","dataset_fix?":true,"dataset_datalist?":false},"liner_name":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_mail":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"blocker_message":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false}},"style_list":[],"templates":[{"template":"$num$：$name$ [$mail$]\n|message|","conf_htm":"<div class=\"$\"><input type=\"text\" class=\"$text liner_num\" placeholder=\"num\" list=\"list_liner_num\" value=\"\"></input></div>：<div class=\"$\"><input type=\"text\" class=\"$text liner_name\" placeholder=\"name\" list=\"list_liner_name\" value=\"\"></input></div> [<div class=\"$\"><input type=\"text\" class=\"$text liner_mail\" placeholder=\"mail\" list=\"list_liner_mail\" value=\"\"></input></div>]<br><textarea class=\"| blocker_message\" placeholder=\"message\"></textarea>","conf_col":"<span style=\"color:#FF0000;\">$num$</span>：<span style=\"color:#FF0000;\">$name$</span> [<span style=\"color:#FF0000;\">$mail$</span>]\n<span style=\"color:#0000FF;\">|message|</span>","conf_data":["liner_num","liner_name","liner_mail","blocker_message"]}],"inputing":{"liner_num":"1","liner_name":"名無し","liner_mail":"sage","blocker_message":""},"now_temp":0
@@ -266,9 +274,10 @@ function changetemp() {
         templates[now_temp]["conf_data"] = Array.from(new Set(data))
         templates[now_temp]["conf_data"].forEach(i => {
         if (!Object.keys(all_data).includes(i)) {
-            all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor": "", "dataset_fix?": false, "dataset_datalist?": false});
-            document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
-            document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+            all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor": "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
+            Array.from(document.getElementsByClassName("dataman")).forEach(s=>{
+                s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+            })
             document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
             if (i.startsWith("liner_")) {
                 document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
@@ -906,12 +915,15 @@ function load(n){
     document.getElementById("template").value = templates[now_temp]["template"]
     changetemp()
     document.getElementById("datapul").innerHTML = "<option hidden selected>設定変更する変数を選択</option>"
+    document.getElementById("datamemopul").innerHTML = "<option hidden selected>変数を選択</option>"
     document.getElementById("subssel").innerHTML = "<option hidden selected>変数を選択</option>"
     document.getElementById("datalists").innerHTML = ""
     document.getElementById("replace_list").innerHTML = ""
     Object.keys(all_data).forEach(c => {
-        document.getElementById("datapul").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
-        document.getElementById("subssel").insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
+        Array.from(document.getElementsByClassName("dataman")).forEach(s => {
+            s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
+        })
+
         document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
         if (c.startsWith("liner_")) {
             document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["dataset_datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
@@ -1726,4 +1738,49 @@ function moveAt(array, index, at) {//https://qiita.com/nowayoutbut/items/991515b
     array.splice(at, 0, value);
 
     return array;
+}
+function datamemoreload(){
+    let t = document.getElementById("datamemopul")
+    let i = t.selectedIndex-1
+    if (i == -1){return false}
+    let n = Object.keys(all_data)[i];
+    mexsets[n] = {};
+    deal_list.forEach(d=>{
+        if (Object.keys(mexsets[n]).includes(d[n])){
+            mexsets[n][d[n]] = mexsets[n][d[n]]+1
+        }else{
+            mexsets[n][d[n]] = 1
+        }
+    })
+    document.getElementById("datamemoselpul").innerHTML = '<option hidden>変数値を選択</option>'
+    if (Object.keys(mexsets[n]).length > 0) {
+        Object.keys(mexsets[n]).forEach(d => {
+            document.getElementById("datamemoselpul").insertAdjacentHTML("beforeend", `<option>${escapeHtml(d)}<span class="pulg">(${mexsets[n][d]})</span></option>`)
+            if (typeof all_data[n]["memo"][d] === "undefined") {
+                all_data[n]["memo"][d] = ""
+            }
+        })
+        document.getElementById("datamemoselpul").children[1].selected = true
+        document.getElementById("datamemo").value = all_data[n]["memo"][Object.keys(mexsets[n])[0]]
+    }
+}
+function datamemochange(){
+    let t = document.getElementById("datamemopul")
+    let i = t.selectedIndex-1
+    if (i == -1){return false}
+    let n = Object.keys(all_data)[i]
+    let tt = document.getElementById("datamemo")
+    all_data[n]["memo"][Object.keys(mexsets[n])[document.getElementById("datamemoselpul").selectedIndex-1]] = tt.value
+}
+function datamemoselpulchange(){
+    console.log(all_data)
+    let t = document.getElementById("datamemopul")
+    let i = t.selectedIndex-1
+    if (i == -1){return false}
+    let n = Object.keys(all_data)[i]
+    let tt = document.getElementById("datamemo")
+    if (typeof all_data[n]["memo"][mexsets[n]] === "undefined") {
+        all_data[n]["memo"][mexsets[n]] = ""
+    }
+    tt.value = all_data[n]["memo"][Object.keys(mexsets[n])[document.getElementById("datamemoselpul").selectedIndex-1]]
 }

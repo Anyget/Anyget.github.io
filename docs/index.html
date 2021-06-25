@@ -234,7 +234,7 @@ $番号$：$名前$ [$メール$] $id$
                     </select>
                 </div> 
                 <div class="mainer" data-mainub="1">
-                    <select id="datapul" title="設定する変数を選択" size="5" class="textbox_like" onchange="datapulchange(event)">
+                    <select id="datapul" title="設定する変数を選択" class="dataman" size="5" class="textbox_like" onchange="datapulchange(event)">
                         <option hidden selected="true">設定変更する変数を選択</option>
                     </select>
                     <div id="datapul_sets">
@@ -268,7 +268,7 @@ $番号$：$名前$ [$メール$] $id$
                     <textarea id="randgenopt"></textarea>
                     <input type="number" id="subsnum" value="1" min="1">
                     番目以降の
-                    <select id="subssel" size="1">
+                    <select id="subssel" size="1" class="dataman">
                         <option hidden selected>変数を選択</option>
                     </select>
                     に
@@ -302,6 +302,25 @@ $番号$：$名前$ [$メール$] $id$
                     <button id="textadder" onclick="addmemo(event)">
                         +
                     </button>
+                </div>
+            </div>
+        </div>
+        <div data-subboxindex="5" class="subbox">
+            <div class="functionselectdiv">
+                <select class="functionselect" oninput="subfunctionchange(event)"></select>
+            </div>
+            <div class="mainer">
+                <select id="datamemopul" title="変数を選択" class="dataman" class="textbox_like"   onchange="datamemoreload()">
+                    <option hidden selected="true">変数を選択</option>
+                </select>
+                <div id="datamemopuldiv">
+                    <select id="datamemoselpul" title="変数値を選択" size="5" class="textbox_like" onchange="datamemoselpulchange()">
+                        <option hidden selected="true">変数値を選択</option>
+                    </select>
+                    <textarea id="datamemo" onchange="datamemochange()" placeholder="特定値にメモを付ける"></textarea>
+                </div>
+                <div id="datamemobuttondiv">
+                    <div onclick="datamemoreload()">🔃</div>
                 </div>
             </div>
         </div>
