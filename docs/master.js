@@ -572,7 +572,7 @@ function plainreload() {
     let c = 0
     deal_list.forEach(i => {
         c++
-        let sent = templates[deal_sets[c-1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g,"");
+        let sent = templates[deal_sets[c-1]["use_temp"]]["template"]
         templates[deal_sets[c-1]["use_temp"]]["conf_data"].forEach(d => {
             let dd = d.startsWith("liner_")?`$${d.replace("liner_","")
             .replace(/\\/g,"\\\\")
@@ -661,7 +661,7 @@ function radiochange(e) {
     }
 }
 function previewunimessage(s,anchorok){
-    let sent = templates[deal_sets[s - 1]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
+    let sent = templates[deal_sets[s - 1]["use_temp"]]["template"]
     templates[deal_sets[s - 1]["use_temp"]]["conf_data"].forEach(d => {
         let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
             .replace(/\\/g, "\\\\")
@@ -1480,7 +1480,7 @@ function unieasypreviewreloader(n){
         document.getElementById("easy_preview").children[n].outerHTML = ""
         return false
     }
-    let sent = templates[deal_sets[n]["use_temp"]]["conf_col"].replace(/<[^<>]*>/g, "");
+    let sent = templates[deal_sets[n]["use_temp"]]["template"]
     templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(d => {
         let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
             .replace(/\\/g, "\\\\")
@@ -1664,7 +1664,7 @@ function mesdel(target){
         }
     })
     deal_list = newdeal
-    unieasypreviewreloader(nbym(target))
+    document.getElementById("easy_preview").children[num-1].outerHTML = ""
     lockreload()
     templates[now_temp]["conf_data"].forEach(k => {
         if (all_data[k]["dataset_adderm"]){
