@@ -258,9 +258,9 @@ $番号$：$名前$ [$メール$] $id$
                 </div>
                 <div class="mainer">
                     対象文字を選択：<br>
-                    <input type="checkbox" id="check_uaz" oninput="randgen()"><label for="check_uaz">A-Z</label>
-                    <input type="checkbox" id="check_daz" oninput="randgen()"><label for="check_daz">a-z</label>
-                    <input type="checkbox" id="check_num" oninput="randgen()"><label for="check_num">0-9</label>
+                    <input type="checkbox" id="check_uaz" checked oninput="randgen()"><label for="check_uaz">A-Z</label>
+                    <input type="checkbox" id="check_daz" checked oninput="randgen()"><label for="check_daz">a-z</label>
+                    <input type="checkbox" id="check_num" checked oninput="randgen()"><label for="check_num">0-9</label>
                     <input type="checkbox" id="check_sim" oninput="randgen()"><label for="check_sim">記号</label>
                     <input type="checkbox" id="check_sp" oninput="randgen()"><label for="check_sp">半角空白</label>
                     <input type="checkbox" id="check_inp" onchange="checkinpchange()" oninput="randgen()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
@@ -292,7 +292,7 @@ $番号$：$名前$ [$メール$] $id$
                 </div>
             </div>
         </div>
-        <div udata-subboxindex="4" class="subbox">
+        <div data-subboxindex="4" class="subbox">
             <div class="functionselectdiv">
                 <select class="functionselect" oninput="subfunctionchange(event)">
                 </select>
