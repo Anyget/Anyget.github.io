@@ -90,9 +90,10 @@ const SUBFUNCTIONNAMES = [
     "ランダム文字列生成",
     "簡易プレビュー",
     "テキストメモ",
-    "変数特定値メモ"
+    "変数特定値メモ",
+    "メッセージ仮置き場"
 ]
-let selectedsubfunction = [0,1,2,3,4,5]
+let selectedsubfunction = [0,1,2,3,4,5,6]
 let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
