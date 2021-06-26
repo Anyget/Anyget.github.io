@@ -7,7 +7,7 @@ const theme_list = [
     "Twitter",
     "Discord"
 ]
-let lists = {"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"put_messages":{"deal_list":[],"style_list":[],"deal_sets":[]}}
+let lists = {"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"putmessagediv":{"deal_list":[],"style_list":[],"deal_sets":[]}}
 let deal_list = lists["messages"]["deal_list"];
 let style_list = lists["messages"]["style_list"];
 let deal_sets = lists["messages"]["deal_sets"]
@@ -484,6 +484,7 @@ function closebtnclick(e){
     }else{
         mesdel(e.target.parentNode.parentNode)
     }
+    lockreload()
 }
 function changefix() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
@@ -542,7 +543,22 @@ function put_drop(e){
     if (e.target.classList.contains("checked_md")){return false}
     let target_num = nbym(e.target)
     let f = e.target.matches(".checked_md~*")
-    let newdeal = deal_list.map( list => ({...list}))
+    while (document.getElementsByClassName("checked_md").length > 0){
+
+        let ragging = f ? document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length-1] : document.getElementsByClassName("checked_md")[0]
+        let dragging_num = nbym(ragging)
+        ragging.classList.remove("checked_md")
+        mcheckr(ragging)
+        let c = ragging.cloneNode(true)
+        console.log(ragging.parentNode.id)
+        console.log(e.target.id)
+        lists[e.target.id]["deal_list"].push(lists[ragging.parentNode.id]["deal_list"][dragging_num])
+        lists[e.target.id]["deal_sets"].push(lists[ragging.parentNode.id]["deal_sets"][dragging_num])
+        lists[e.target.id]["style_list"].push(lists[ragging.parentNode.id]["style_list"][dragging_num])
+        mesdel(ragging)
+        e.target.appendChild(c)
+    };
+    lockreload()
 }
 function drop(e) {
     document.getElementById("tuka").outerHTML = ""
@@ -554,6 +570,27 @@ function drop(e) {
     let target_num = nbym(e.target)
     let f = e.target.matches(".checked_md~*")
     let newdeal = deal_list.map( list => ({...list}))
+    while (document.getElementsByClassName("checked_md").length > 0) {
+
+        let ragging = f ? document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length - 1] : document.getElementsByClassName("checked_md")[0]
+        ragging.classList.remove("checked_md")
+        let dragging_num = nbym(ragging)
+        let to = nbym(e.target)
+        mcheckr(ragging)
+        let c = ragging.cloneNode(true)
+        ragging.outerHTML = ""
+        newdeal = moveAt(newdeal, dragging_num, to)
+        deal_sets = moveAt(deal_sets, dragging_num, to)
+        if (target_num > dragging_num) {
+            if (e.target.matches("*:last-child")) {
+                e.target.parentNode.appendChild(c)
+            } else {
+                e.target.parentNode.insertBefore(c, e.target.nextElementSibling)
+            }
+        } else {
+            e.target.parentNode.insertBefore(c, e.target)
+        }
+    };
     while (document.getElementsByClassName("checked_md").length > 0){
 
         let ragging = f ? document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length-1] : document.getElementsByClassName("checked_md")[0]
@@ -897,7 +934,7 @@ function save() {
 function tempsave() {
     let j = JSON.stringify(
         { 
-            "lists":{"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"put_messages":{"deal_list":[],"style_list":[],"deal_sets":[]}},
+            "lists":{"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"putmessagediv":{"deal_list":[],"style_list":[],"deal_sets":[]}},
             "all_data": all_data, 
             "templates": templates,
             "inputing":inputing,
@@ -1253,11 +1290,14 @@ function confdep(n1,n2){
     return deparr(templates[deal_sets[n1]["use_temp"]]["conf_data"], templates[deal_sets[n2]["use_temp"]]["conf_data"])
 }
 function tempselectover(t){
-    let el = t.parentNode.parentNode.nextElementSibling
-    let s = nbym(el.parentNode)
+    let el = t.parentNode.parentNode.parentNode
+    let s = nbym(el)
+    let pid = el.parentNode.id
     t.innerHTML = ""
+    console.log(s)
+    console.log(lists[pid]["deal_sets"])
     for (let i = 0; i < templates.length; i++) {
-        t.insertAdjacentHTML("beforeend",`<option value="${i+1}"${deal_sets[s]["use_temp"] == i ? " selected" : ""}>${i+1}</option>`)
+        t.insertAdjacentHTML("beforeend",`<option value="${i+1}"${lists[pid]["deal_sets"][s]["use_temp"] == i ? " selected" : ""}>${i+1}</option>`)
         
     }
 }
@@ -1335,10 +1375,10 @@ function lockmes(e){
         t.checked = !t.checked
         if (t.checked){
             i.classList.add("locked_mess")
-            deal_sets[nbym(i)]["locked"] = true
+            lists[i.parentNode.id]["deal_sets"][nbym(i)]["locked"] = true
         }else{
             i.classList.remove("locked_mess")
-            deal_sets[nbym(i)]["locked"] = false
+            lists[i.parentNode.id]["deal_sets"][nbym(i)]["locked"] = false
         }
     })
 }
@@ -1356,15 +1396,18 @@ function loadbybutton2(){
     loadrap(f)
 }
 function lockreload(){
-    let c = 0
-    deal_sets.forEach(s => {
-        let m = mbyn(c)
-        m.getElementsByClassName("meslockcheck")[0].checked = s["locked"]
-        m.classList.remove("locked_mess")
-        if (s["locked"]) {
-            m.classList.add("locked_mess")
-        }
-        c++
+    Object.keys(lists).forEach(k => {
+        let c = 0
+        lists[k]["deal_sets"].forEach(s => {
+            let m = mbyidn(k,c)
+            m.getElementsByClassName("meslockcheck")[0].checked = s["locked"]
+            m.classList.remove("locked_mess")
+            if (s["locked"]) {
+                m.classList.add("locked_mess")
+            }
+            c++
+        })
+
     })
 }
 function themeprev(){
@@ -1724,7 +1767,6 @@ function mesdel(target){
     })
     dl = newdeal
     document.getElementById("easy_preview").children[num-1].outerHTML = ""
-    lockreload()
     if (pid == "messages"){
         templates[now_temp]["conf_data"].forEach(k => {
             if (all_data[k]["dataset_adderm"]){
@@ -1778,10 +1820,13 @@ function markloop(k,o){
     }
 }
 function nbym(m){
-    return Array.from(document.getElementById("messages").children).indexOf(m)
+    return Array.from(m.parentNode.children).indexOf(m)
 }
 function mbyn(n){
     return document.getElementById("messages").children[n]
+}
+function mbyidn(id,n){
+    return document.getElementById(id).children[n]
 }
 function moveAt(array, index, at) {//https://qiita.com/nowayoutbut/items/991515b32805e21f8892
     if (index === at || index > array.length -1 || at > array.length - 1) {
