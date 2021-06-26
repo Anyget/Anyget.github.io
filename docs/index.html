@@ -154,24 +154,33 @@ $番号$：$名前$ [$メール$] $id$
                             <span id="plainsize">0</span>文字
                         </div>
                         <div>
+                            <h3>字下げ</h3>
+                            <div class="plainddd">
+                                <div class="indent"></div><input type="text" id="plainindentex" oninput="plainreload()" placeholder="例外文字">
+                            </div>
+                            <div class="plainddd">
+                                <div class="indent"></div><input type="text" id="plainindentspace" oninput="plainreload()" placeholder="字下げ内容">
+                            </div>
+                        </div>
+                        <div>
                             <h3>置換</h3>
-                            <div id="plainsearchdiv"><div class="indent"></div>
+                            <div class="plainddd"><div class="indent"></div>
                                 <input type="text" id="plainsearch" placeholder="from">
                                 <div id="ps_reg"><input type="checkbox" id="ps_reg_cb">
                                 <label id="ps_reg_label" for="ps_reg_cb">.*</label></div>
                             </div>
                             <div style="width:100%;display:flex">
-                                <div id="plainreplacediv">
+                                <div class="plainddd">
                                     <div class="indent">→</div>
                                     <input type="text" id="plainreplace" placeholder="to">
                                     <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
                                 </div>
                             </div>
-                            <div>
-                                <button onclick="plaincopy()">
-                                    コピー
-                                </button>
-                            </div>
+                        </div>
+                        <div>
+                            <button onclick="plaincopy()">
+                                コピー
+                            </button>
                         </div>
                     </div>
                 </div>

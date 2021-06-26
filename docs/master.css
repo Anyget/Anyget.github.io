@@ -388,6 +388,9 @@ input[name="tab_item"] {
 #randlen,#randman{
     width: 3rem;
 }
+#plainsidemenu h3{
+    margin: 5px 0;
+}
 #randgenopt{
     resize: none;
     overflow-y: scroll;
@@ -533,11 +536,11 @@ header{
 #mess_adddiv{
     height: calc(2ex + 4px);
 }
-#plainsearchdiv,#plainreplacediv{
+.plainddd{
     display: flex;
     height: calc(1.2rem + 4px);
 }
-#ps_reg,#plainsearch,#plainreplace{
+.plainddd>input[type="text"],#ps_reg{
     border: solid 2px var(--border_color);
     font-size: 1.2rem;
     overflow: hidden;
@@ -568,7 +571,7 @@ header{
 #ps_reg_cb{
     display: none;
 }
-#plainsearch,#plainreplace{
+.plainddd>input[type="text"]{
     display: block;
     resize: none;
     width: calc(100% - 2.4rem);
@@ -1203,4 +1206,7 @@ mark{
 }
 .pulg{
     color: #006800;
+}
+#plainindentex{
+    width:calc(100% - 1.2rem)
 }

@@ -605,7 +605,20 @@ function plainreload() {
             .replace(/\\/g,"\\\\")
             .replace(/\$/g,"\\$")
             .replace(/\|/g,"\\|")}|`
-            sent = sent.split(dd).join(escapeHtml(i[d]));
+            let idd = []
+            if (d.startsWith("blocker_")){
+                i[d].split("\n").forEach(l=>{
+                    if (![...document.getElementById("plainindentex").value].includes(l.charAt(0))){
+                        idd.push(document.getElementById("plainindentspace").value+l)
+                    }else{
+                        idd.push(l)
+                    }
+                })
+                idd = idd.join("\n")
+            }else{
+                idd = i[d]
+            }
+            sent = sent.split(dd).join(escapeHtml(idd));
         })
         alll.push(sent)
     })
