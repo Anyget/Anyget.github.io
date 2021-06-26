@@ -397,7 +397,7 @@ function addmess() {
     })
     let obj = document.getElementById("messages");
     obj.scrollTop = obj.scrollHeight;
-    datamemoreload()
+    datamemodivreload()
 };
 
 function datapulchange(e) {
@@ -955,6 +955,7 @@ function load(n){
         })
         document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
     })
+    datamemodivreload()
 }
 function subs() {
     let sel = document.getElementById("subssel");
@@ -1726,7 +1727,7 @@ function mesdel(target){
             mexsets[n][d[n]] = 1
         }
     })
-    datamemoreload()
+    datamemodivreload()
 }
 function settingsearcher(){
     let k = escapeHtml(document.getElementById("settingsearch").value)
