@@ -277,11 +277,11 @@ function changetemp() {
             all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor": "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
             Array.from(document.getElementsByClassName("dataman")).forEach(s=>{
                 s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+                if (s.id == "datamemopul" && i.startsWith("blocker_")){
+                    s.lastChild.hidden = true
+                }
             })
             document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
-            if (i.startsWith("liner_")) {
-                document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="n_list_${escapeHtml(i)}"></datalist>`)
-            };
         };
         if (!Object.keys(inputing).includes(i)){
             inputing[i] = ""
@@ -357,6 +357,7 @@ function addmess() {
         now.id = ""
         let num = deal_list.length
         deal_list.push({})
+        datamemodivreload()
         Object.keys(all_data).forEach(k=>{
             deal_list[num][k] = ""
         })
@@ -364,7 +365,7 @@ function addmess() {
             "use_temp":now_temp+0,
             "locked":false
         })
-        templates[now_temp]["conf_data"].forEach(i=>{
+        templates[now_temp]["conf_data"].forEach(i => {
             let n = 0
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
                 let nnnnn = formi_c.getElementsByClassName(i)[n];
@@ -385,8 +386,18 @@ function addmess() {
             })
         });
     }
+    let nnn = getn()
+    mexsets[nnn] = {};
+    deal_list.forEach(d => {
+        if (Object.keys(mexsets[nnn]).includes(d[nnn])) {
+            mexsets[nnn][d[nnn]] = mexsets[nnn][d[nnn]] + 1
+        } else {
+            mexsets[nnn][d[nnn]] = 1
+        }
+    })
     let obj = document.getElementById("messages");
     obj.scrollTop = obj.scrollHeight;
+    datamemoreload()
 };
 
 function datapulchange(e) {
@@ -438,6 +449,9 @@ document.addEventListener("input", (e) => {
         } else {
             num = nbym(target.parentNode.parentNode.parentNode);
             inp = target.value;
+            mexsets[clas][deal_list[num][clas]] -= 1
+            mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
+            datamemodivreload()
             deal_list[num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
                 
@@ -922,12 +936,11 @@ function load(n){
     Object.keys(all_data).forEach(c => {
         Array.from(document.getElementsByClassName("dataman")).forEach(s => {
             s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</option>`)
+            if (s.id == "datamemopul" && c.startsWith("blocker_")) {
+                s.lastChild.hidden = true
+            }
         })
-
         document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
-        if (c.startsWith("liner_")) {
-            document.getElementById("datalists").insertAdjacentHTML("beforeend", `<datalist id="${all_data[c]["dataset_datalist?"] ? "" : "n_"}list_${escapeHtml(c)}"></datalist>`)
-        };
     })
 }
 function subs() {
@@ -1691,6 +1704,16 @@ function mesdel(target){
             })
         }
     });
+    let n =getn()
+    mexsets[n] = {};
+    deal_list.forEach(d=>{
+        if (Object.keys(mexsets[n]).includes(d[n])){
+            mexsets[n][d[n]] = mexsets[n][d[n]]+1
+        }else{
+            mexsets[n][d[n]] = 1
+        }
+    })
+    datamemoreload()
 }
 function settingsearcher(){
     let k = escapeHtml(document.getElementById("settingsearch").value)
@@ -1783,4 +1806,29 @@ function datamemoselpulchange(){
         all_data[n]["memo"][mexsets[n]] = ""
     }
     tt.value = all_data[n]["memo"][Object.keys(mexsets[n])[document.getElementById("datamemoselpul").selectedIndex-1]]
+}
+function datamemodivreload(){
+    let t = document.getElementById("datamemopul")
+    let i = t.selectedIndex - 1
+    if (i == -1) { return false }
+    let n = Object.keys(all_data)[i];
+    document.getElementById("datamemoselpul").innerHTML = '<option hidden>変数値を選択</option>'
+    if (Object.keys(mexsets[n]).length > 0) {
+        Object.keys(mexsets[n]).forEach(d => {
+            document.getElementById("datamemoselpul").insertAdjacentHTML("beforeend", `<option>${escapeHtml(d)}<span class="pulg">(${mexsets[n][d]})</span></option>`)
+            if (typeof all_data[n]["memo"][d] === "undefined") {
+                all_data[n]["memo"][d] = ""
+            }
+            if (mexsets[n][d]==0){
+                document.getElementById("datamemoselpul").lastChild.hidden = true
+            }
+        })
+        document.getElementById("datamemoselpul").children[i+1].selected = true
+        document.getElementById("datamemo").value = all_data[n]["memo"][Object.keys(mexsets[n])[0]]
+    }
+}
+function getn(){
+    let t = document.getElementById("datamemopul")
+    let i = t.selectedIndex-1
+    return Object.keys(all_data)[i];
 }
