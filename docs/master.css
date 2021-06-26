@@ -248,8 +248,11 @@ h1,h2{
 .dragover{
     border: dashed 2px var(--color_1) !important;
 }
-.nonono :not(.messagediv){
+.nonono :not(.droppable){
     pointer-events:none;
+}
+.droppable{
+    pointer-events: all !important;
 }
 .nonono_resize :not(.draggingresizer){
     pointer-events:none;
@@ -1209,4 +1212,18 @@ mark{
 }
 #plainindentex{
     width:calc(100% - 1.2rem)
+}
+#putmessagediv{
+    height: 100%;
+    width: 100%;
+    background-color: inherit;
+}
+.put_dragover{
+    background: repeating-linear-gradient(
+        -45deg,
+        var(--color_1),
+        var(--color_1) 10px,
+        transparent 10px,
+        transparent 20px
+    );
 }

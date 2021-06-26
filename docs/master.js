@@ -7,10 +7,14 @@ const theme_list = [
     "Twitter",
     "Discord"
 ]
-let deal_list = [];
+let lists = {"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"put_messages":{"deal_list":[],"style_list":[],"deal_sets":[]}}
+let deal_list = lists["messages"]["deal_list"];
+let style_list = lists["messages"]["style_list"];
+let deal_sets = lists["messages"]["deal_sets"]
+let put_deal_list = []
+let put_deal_sets = []
 let all_data = {};
 let dragging = null;
-let style_list = [];
 let templates = [
         {
             "template" : "",
@@ -81,7 +85,6 @@ let settings = {
     }
 }
 let now_temp = 0
-let deal_sets = []
 let inputing = {}
 let now_theme = 0
 const SUBFUNCTIONNAMES = [
@@ -522,6 +525,25 @@ function dragover(e) {
 function dragleave(e) {
     e.target.classList.remove("dragover");
 }
+function put_dragover(e){
+    if (!document.querySelector("body").classList.contains("nonono")) {return false;}
+    e.preventDefault()
+    e.target.classList.add("put_dragover");
+}
+function put_dragleave(e){
+    e.target.classList.remove("put_dragover");
+}
+function put_drop(e){
+    document.getElementById("tuka").outerHTML = ""
+    if (!document.querySelector("body").classList.contains("nonono")) { return false; }
+    e.preventDefault();
+    document.querySelector("body").classList.remove("nonono");
+    e.target.classList.remove("put_dragover");
+    if (e.target.classList.contains("checked_md")){return false}
+    let target_num = nbym(e.target)
+    let f = e.target.matches(".checked_md~*")
+    let newdeal = deal_list.map( list => ({...list}))
+}
 function drop(e) {
     document.getElementById("tuka").outerHTML = ""
     if (!(e.target.classList.contains("messagediv") && document.querySelector("body").classList.contains("nonono"))) { return false; }
@@ -836,28 +858,31 @@ function datgen() {
     a.click();
 }
 function save() {
-    while (style_list.length < deal_list.length) {
-        style_list.push({})
-    }
-    let n = 0;
-    deal_list.forEach(d => {
-        templates[now_temp]["conf_data"].forEach(c => {
-            style_list[n][c] = []
-            Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd=>{
-                if (cd.classList.contains("|")) {
-                    style_list[n][c].push(cd.style.cssText);
-                } else {
-                    style_list[n][c].push(cd.parentNode.style.cssText);
-                }
+    Object.keys(lists).forEach(k => {
+        let sl = lists[k]["style_list"]
+        let dl = lists[k]["deal_list"]
+        let ds = lists[k]["deal_sets"]
+        while (sl.length < dl.length) {
+            sl.push({})
+        }
+        let n = 0;
+        ds.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(c => {
+                sl[n][c] = []
+                Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd => {
+                    if (cd.classList.contains("|")) {
+                        sl[n][c].push(cd.style.cssText);
+                    } else {
+                        sl[n][c].push(cd.parentNode.style.cssText);
+                    }
+                })
             })
+            n++;
         })
-        n++;
     })
     let j = JSON.stringify(
-        { "deal_list": deal_list, 
-        "deal_sets": deal_sets,
+        { "lists":lists,
         "all_data": all_data, 
-        "style_list": style_list,
         "templates": templates,
         "inputing": inputing,
         "now_temp":now_temp})
@@ -870,29 +895,10 @@ function save() {
     a.click();
 }
 function tempsave() {
-    while (style_list.length < deal_list.length) {
-        style_list.push({})
-    }
-    let n = 0;
-    deal_list.forEach(d => {
-        templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(c => {
-            style_list[n][c] = []
-            Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd=>{
-                if (cd.classList.contains("|")) {
-                    style_list.push(cd.style.cssText)
-                } else {
-                    style_list.push(cd.parentNode.style.cssText)
-                }
-            })
-        })
-        n++;
-    })
     let j = JSON.stringify(
         { 
-            "deal_list": [],
-            "deal_sets":[],
+            "lists":{"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"put_messages":{"deal_list":[],"style_list":[],"deal_sets":[]}},
             "all_data": all_data, 
-            "style_list": [], 
             "templates": templates,
             "inputing":inputing,
             "now_temp":now_temp
@@ -913,32 +919,39 @@ function loadrap(f) {
 }
 function load(n){
     all_data = n["all_data"];
-    deal_list = n["deal_list"];
-    deal_sets=n["deal_sets"];
-    style_list = n["style_list"];
+    lists = n["lists"];
+    deal_sets = lists["messages"]["deal_sets"];
+    deal_list = lists["messages"]["deal_list"];
+    style_list = lists["messages"]["style_list"];
     templates = n["templates"];
     inputing = n["inputing"]
     now_temp=n["now_temp"]
     document.getElementById("messages").innerHTML = "";
     let x = 0;
-    deal_list.forEach(d => {
-        x++;
-        document.getElementById("messages").insertAdjacentHTML("beforeend",
-            messtemper(deal_sets[x - 1]["use_temp"] + 1, templates[deal_sets[x - 1]["use_temp"]]["conf_htm"]))
-        let now = document.getElementById("cd")
-        now.id = ""
-        templates[deal_sets[x-1]["use_temp"]]["conf_data"].forEach(c=>{
-            let z = 0
-            Array.from(now.getElementsByClassName(c)).forEach(m=>{
-                m.value = d[c]
-                if (m.classList.contains("|")) {
-                    m.style = style_list[x - 1][c][z]
-                } else {
-                    m.parentNode.style = style_list[x - 1][c][z]
-                }
-                z++
+    Object.keys(lists).forEach(kd => {
+        let dl = lists[kd]["deal_list"]
+        let ds = lists[kd]["deal_sets"]
+        let sl = lists[kd]["style_list"]
+        dl.forEach(d => {
+            x++;
+            document.getElementById(kd).insertAdjacentHTML("beforeend",
+                messtemper(ds[x - 1]["use_temp"] + 1, templates[ds[x - 1]["use_temp"]]["conf_htm"]))
+            let now = document.getElementById("cd")
+            now.id = ""
+            templates[ds[x - 1]["use_temp"]]["conf_data"].forEach(c => {
+                let z = 0
+                Array.from(now.getElementsByClassName(c)).forEach(m => {
+                    m.value = d[c]
+                    if (m.classList.contains("|")) {
+                        m.style = sl[x - 1][c][z]
+                    } else {
+                        m.parentNode.style = sl[x - 1][c][z]
+                    }
+                    z++
+                })
             })
         })
+
     })
     document.getElementById("template").value = templates[now_temp]["template"]
     changetemp()
@@ -956,6 +969,7 @@ function load(n){
         })
         document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
     })
+    lockreload()
     datamemodivreload()
 }
 function subs() {
@@ -1258,13 +1272,15 @@ function tempselected(e){
         l = [e.target.parentNode.parentNode.parentNode]
     }
     l.forEach(t=>{
+        let dl = lists[t.parentNode.id][deal_list]
+        let ds = lists[t.parentNode.id][deal_sets]
         let el = t.lastElementChild
         let s = nbym(el.parentNode)
-        deal_sets[s]["use_temp"] = e.target.selectedIndex
+        ds[s]["use_temp"] = e.target.selectedIndex
         el.innerHTML = templates[e.target.selectedIndex]["conf_htm"]
         templates[e.target.selectedIndex]["conf_data"].forEach(d=>{
             Array.from(el.getElementsByClassName(d)).forEach(b=>{
-                b.value = deal_list[s][d]
+                b.value = dl[s][d]
             })
         })
         tempselectover(t.getElementsByClassName("tempselect")[0])
@@ -1583,7 +1599,7 @@ function memodown(e) {
 }
 
 function messtemper(t,h){
-    return `<div class="messagediv" onclick="md_click(event)" draggable="false" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="headright"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><input type="checkbox" class="messelectcheck" onchange="mescheck(event)"></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event.target)" onmouseout="tempselectout(event.target)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
+    return `<div class="messagediv droppable" onclick="md_click(event)" draggable="false" ondragstart="dragstart(event);" ondragover="dragover(event);" ondragleave="dragleave(event);" ondrop="drop(event);" ondragend="dragend(event);"><div class="messagehead"><div class="headright"><div class="meslock"><label class="meslocklabel"><input type="checkbox" class="meslockcheck" onchange="lockmes(event);"></label></div><input type="checkbox" class="messelectcheck" onchange="mescheck(event)"></div><div class="tempselectdiv"><select class="tempselect" onmouseover="tempselectover(event.target)" onmouseout="tempselectout(event.target)" onchange="tempselected(event)"><option value="${t}" selected">${t}</option></select></div><button class="closebtn" onclick="closebtnclick(event)" title="レスの削除">×</button></div><div class="message" id="cd">${h}</div></div>`
 }
 function startmenukill(){
     document.body.classList.remove("nonono_startmenu")
@@ -1684,12 +1700,15 @@ function tfer(to,from,toi,toic,fromic){
     });
 }
 function mesdel(target){
-    let newdeal = deal_list.map( list => ({...list}))
+    let pid = target.parentNode.id
+    let dl = lists[pid]["deal_list"]
+    let ds = lists[pid]["deal_sets"]
+    let newdeal = dl.map( list => ({...list}))
     let num = nbym(target)+1;
     target.outerHTML = ""
-    deal_sets.splice(num - 1, 1)
+    ds.splice(num - 1, 1)
     newdeal.splice(num - 1, 1)
-    let mememedl = deal_list.map( list => ({...list}))
+    let mememedl = dl.map( list => ({...list}))
     mememedl.pop()
     Object.keys(all_data).forEach(k=>{
         if (all_data[k]["dataset_fix?"]){
@@ -1703,25 +1722,27 @@ function mesdel(target){
             })
         }
     })
-    deal_list = newdeal
+    dl = newdeal
     document.getElementById("easy_preview").children[num-1].outerHTML = ""
     lockreload()
-    templates[now_temp]["conf_data"].forEach(k => {
-        if (all_data[k]["dataset_adderm"]){
-            let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
-            let na = Number(all_data[k]["dataset_adder"])
-            if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
-                added = Number(added) - na
+    if (pid == "messages"){
+        templates[now_temp]["conf_data"].forEach(k => {
+            if (all_data[k]["dataset_adderm"]){
+                let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
+                let na = Number(all_data[k]["dataset_adder"])
+                if (/^\-?[0-9]+(\.[0-9]+)?$/.test(added)) {
+                    added = Number(added) - na
+                }
+                inputing[k] = String(added)
+                Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
+                    i.value = inputing[k]
+                })
             }
-            inputing[k] = String(added)
-            Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i => {
-                i.value = inputing[k]
-            })
-        }
-    });
+        });
+    }
     let n =getn()
     mexsets[n] = {};
-    deal_list.forEach(d=>{
+    dl.forEach(d=>{
         if (Object.keys(mexsets[n]).includes(d[n])){
             mexsets[n][d[n]] = mexsets[n][d[n]]+1
         }else{
