@@ -604,6 +604,9 @@ function drop(e) {
                 }
                 relolist.add(document.getElementById("easy_preview").children[to])
             }
+            if (fromid == "messages"){
+                document.getElementById("easy_preview").children[dragging_num].outerHTML = ""
+            }
         }else{
             fromdl = moveAt(fromdl, dragging_num, to)
             fromds = moveAt(fromds, dragging_num, to)
