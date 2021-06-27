@@ -569,7 +569,7 @@ function drop(e) {
     if (e.target.classList.contains("checked_md")){return false}
     let target_num = nbym(e.target)
     let f = e.target.matches(".checked_md~*")
-    let newlists = [lists].map( list => ({...list}))[0]
+    let newlists = JSON.parse(JSON.stringify(lists))
     let relolist = new Set()
     while (document.getElementsByClassName("checked_md").length > 0) {
 
@@ -587,7 +587,6 @@ function drop(e) {
         let c = ragging.cloneNode(true)
         ragging.outerHTML = ""
         if (toid != fromid){
-            console.log("a");
             let c1 = moveft(fromdl, todl, dragging_num, to)
             fromdl = c1[0]
             todl = c1[1]
@@ -620,17 +619,18 @@ function drop(e) {
         } else {
             e.target.parentNode.insertBefore(c, e.target)
         }
-        console.log(lists)
     };
     Object.keys(all_data).forEach(k=>{
         if (all_data[k]["dataset_fix?"]){
             Object.keys(lists).forEach(kk=>{
                 let c = 0
                 lists[kk]["deal_list"].forEach(d=>{
-                    newlists[kk]["deal_list"][c][k] = d[k]
-                    Array.from(mbyn(c).getElementsByClassName(k)).forEach(t=>{
-                        t.value = d[k]
-                    })
+                    if (newlists[kk]["deal_list"].length>c){
+                        newlists[kk]["deal_list"][c][k] = d[k]
+                        Array.from(mbyn(c).getElementsByClassName(k)).forEach(t=>{
+                            t.value = d[k]
+                        })
+                    }
                     c++
                 })
             })
