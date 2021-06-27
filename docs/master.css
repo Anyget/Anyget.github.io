@@ -773,6 +773,9 @@ button:active{
     height: 100%;
     overflow-y: auto;
 }
+#datapul_sets_in input[type="text"]{
+    max-width: 90%;
+}
 .settdiv{
     padding: 10px;
     background-color: var(--box3_color);
