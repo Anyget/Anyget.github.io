@@ -1217,6 +1217,7 @@ mark{
     height: 100%;
     width: 100%;
     background-color: inherit;
+    overflow-y: scroll;
 }
 .put_dragover{
     background: repeating-linear-gradient(

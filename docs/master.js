@@ -528,6 +528,7 @@ function dragleave(e) {
 }
 function put_dragover(e){
     if (!document.querySelector("body").classList.contains("nonono")) {return false;}
+    if (e.target != e.currentTarget){return false}
     e.preventDefault()
     e.target.classList.add("put_dragover");
 }
@@ -535,13 +536,15 @@ function put_dragleave(e){
     e.target.classList.remove("put_dragover");
 }
 function put_drop(e){
-    document.getElementById("tuka").outerHTML = ""
+    if (document.getElementById("tuka")){
+        document.getElementById("tuka").outerHTML = ""
+    }
     if (!document.querySelector("body").classList.contains("nonono")) { return false; }
     e.preventDefault();
     document.querySelector("body").classList.remove("nonono");
+    if (!e.target.classList.contains("put_dragover")){return false}
     e.target.classList.remove("put_dragover");
     if (e.target.classList.contains("checked_md")){return false}
-    let target_num = nbym(e.target)
     let f = e.target.matches(".checked_md~*")
     while (document.getElementsByClassName("checked_md").length > 0){
 
@@ -550,8 +553,6 @@ function put_drop(e){
         ragging.classList.remove("checked_md")
         mcheckr(ragging)
         let c = ragging.cloneNode(true)
-        console.log(ragging.parentNode.id)
-        console.log(e.target.id)
         lists[e.target.id]["deal_list"].push(lists[ragging.parentNode.id]["deal_list"][dragging_num])
         lists[e.target.id]["deal_sets"].push(lists[ragging.parentNode.id]["deal_sets"][dragging_num])
         lists[e.target.id]["style_list"].push(lists[ragging.parentNode.id]["style_list"][dragging_num])
@@ -569,19 +570,41 @@ function drop(e) {
     if (e.target.classList.contains("checked_md")){return false}
     let target_num = nbym(e.target)
     let f = e.target.matches(".checked_md~*")
-    let newdeal = deal_list.map( list => ({...list}))
+    let newlists = [lists].map( list => ({...list}))[0]
+    let relolist = new Set()
     while (document.getElementsByClassName("checked_md").length > 0) {
 
         let ragging = f ? document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length - 1] : document.getElementsByClassName("checked_md")[0]
+        let fromid = ragging.parentNode.id
+        let fromdl = newlists[fromid]["deal_list"]
+        let fromds = newlists[fromid]["deal_sets"]
+        let toid = e.target.parentNode.id
+        let todl = newlists[toid]["deal_list"]
+        let tods = newlists[toid]["deal_sets"]
         ragging.classList.remove("checked_md")
         let dragging_num = nbym(ragging)
         let to = nbym(e.target)
         mcheckr(ragging)
         let c = ragging.cloneNode(true)
         ragging.outerHTML = ""
-        newdeal = moveAt(newdeal, dragging_num, to)
-        deal_sets = moveAt(deal_sets, dragging_num, to)
-        if (target_num > dragging_num) {
+        if (toid != fromid){
+            [newlists[fromid]["deal_list"], newlists[toid]["deal_list"]] = moveft(fromdl, todl, dragging_num, to)
+            [newlists[fromid]["deal_sets"], newlists[toid]["deal_sets"]] = moveft(fromds, tods, dragging_num, to)
+            if (toid == "messages"){
+                let el = document.createElement("div")
+                el.classList.add("neko")
+                if (document.getElementById("easy_preview").childElementCount>=to){
+                    document.getElementById("easy_preview").insertBefore(el,document.getElementById("easy_preview").    children[to])
+                }else{
+                    document.getElementById("easy_preview").appendChild(el)
+                }
+                relolist.add(document.getElementById("easy_preview").children[to + 1])
+            }
+        }else{
+            fromdl = moveAt(fromdl, dragging_num, to)
+            fromds = moveAt(fromds, dragging_num, to)
+        }
+        if (target_num > dragging_num && toid == fromid) {
             if (e.target.matches("*:last-child")) {
                 e.target.parentNode.appendChild(c)
             } else {
@@ -591,41 +614,25 @@ function drop(e) {
             e.target.parentNode.insertBefore(c, e.target)
         }
     };
-    while (document.getElementsByClassName("checked_md").length > 0){
-
-        let ragging = f ? document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length-1] : document.getElementsByClassName("checked_md")[0]
-        ragging.classList.remove("checked_md")
-        let dragging_num = nbym(ragging)
-        let to = nbym(e.target)
-        mcheckr(ragging)
-        let c = ragging.cloneNode(true)
-        ragging.outerHTML = ""
-        newdeal = moveAt(newdeal,dragging_num,to)
-        deal_sets = moveAt(deal_sets,dragging_num,to)
-        if (target_num > dragging_num) {
-            if (e.target.matches("*:last-child")){
-                e.target.parentNode.appendChild(c)
-            }else{
-                e.target.parentNode.insertBefore(c,e.target.nextElementSibling)
-            }
-        } else {
-            e.target.parentNode.insertBefore(c,e.target)
-        }
-    };
     Object.keys(all_data).forEach(k=>{
         if (all_data[k]["dataset_fix?"]){
+            Object.keys(lists).forEach(kk=>{
             let c = 0
-            deal_list.forEach(d=>{
-                newdeal[c][k] = d[k]
+            lists[kk]["deal_list"].forEach(d=>{
+                newlists[kk]["deal_list"][c][k] = d[k]
                 Array.from(mbyn(c).getElementsByClassName(k)).forEach(t=>{
                     t.value = d[k]
                 })
                 c++
             })
+            })
         }
     })
-    deal_list = newdeal
+    lists = newlists
     lockreload()
+    Array.from(relolist).forEach(r=>{
+        unieasypreviewreloader(r)
+    })
 };
 function dragend(e) {
     if (document.getElementById("tuka")){
@@ -1294,8 +1301,6 @@ function tempselectover(t){
     let s = nbym(el)
     let pid = el.parentNode.id
     t.innerHTML = ""
-    console.log(s)
-    console.log(lists[pid]["deal_sets"])
     for (let i = 0; i < templates.length; i++) {
         t.insertAdjacentHTML("beforeend",`<option value="${i+1}"${lists[pid]["deal_sets"][s]["use_temp"] == i ? " selected" : ""}>${i+1}</option>`)
         
@@ -1747,27 +1752,29 @@ function mesdel(target){
     let dl = lists[pid]["deal_list"]
     let ds = lists[pid]["deal_sets"]
     let newdeal = dl.map( list => ({...list}))
+    let mememedl = dl.map( list => ({...list}))
     let num = nbym(target)+1;
     target.outerHTML = ""
     ds.splice(num - 1, 1)
     newdeal.splice(num - 1, 1)
-    let mememedl = dl.map( list => ({...list}))
     mememedl.pop()
     Object.keys(all_data).forEach(k=>{
         if (all_data[k]["dataset_fix?"]){
             let c = 0
             mememedl.forEach(d=>{
                 newdeal[c][k] = d[k]
-                Array.from(mbyn(c).getElementsByClassName(k)).forEach(t=>{
+                Array.from(mbyidn(pid,c).getElementsByClassName(k)).forEach(t=>{
                     t.value = d[k]
                 })
                 c++
             })
         }
     })
-    dl = newdeal
-    document.getElementById("easy_preview").children[num-1].outerHTML = ""
-    if (pid == "messages"){
+    lists[pid]["deal_list"] = newdeal.map( list => ({...list}))
+    if (pid == "messages") {
+        if (document.getElementById("easy_preview").children[num - 1]){
+            document.getElementById("easy_preview").children[num - 1].outerHTML = ""
+        }
         templates[now_temp]["conf_data"].forEach(k => {
             if (all_data[k]["dataset_adderm"]){
                 let added = String(document.getElementById("form_inp").getElementsByClassName(k)[0].value)
@@ -1782,6 +1789,10 @@ function mesdel(target){
             }
         });
     }
+    
+    deal_list = lists["messages"]["deal_list"];
+    style_list = lists["messages"]["style_list"];
+    deal_sets = lists["messages"]["deal_sets"]
     let n =getn()
     mexsets[n] = {};
     dl.forEach(d=>{
@@ -1791,7 +1802,9 @@ function mesdel(target){
             mexsets[n][d[n]] = 1
         }
     })
+    
     datamemodivreload()
+
 }
 function settingsearcher(){
     let k = escapeHtml(document.getElementById("settingsearch").value)
@@ -1843,6 +1856,17 @@ function moveAt(array, index, at) {//https://qiita.com/nowayoutbut/items/991515b
 
     return array;
 }
+function moveft(array,array2, index, at) {//https://qiita.com/nowayoutbut/items/991515b32805e21f8892
+    if (index > array.length -1 || at > array2.length - 1) {
+        return array;
+    }
+    const value = array[index]
+    array.splice(index+1,1)
+    array2.splice(at,0,value)
+    return [array,array2]
+
+    return array;
+}
 function datamemoreload(){
     let t = document.getElementById("datamemopul")
     let i = t.selectedIndex-1
@@ -1877,7 +1901,6 @@ function datamemochange(){
     all_data[n]["memo"][Object.keys(mexsets[n])[document.getElementById("datamemoselpul").selectedIndex-1]] = tt.value
 }
 function datamemoselpulchange(){
-    console.log(all_data)
     let t = document.getElementById("datamemopul")
     let i = t.selectedIndex-1
     if (i == -1){return false}
