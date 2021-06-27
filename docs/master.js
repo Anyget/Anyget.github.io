@@ -547,7 +547,6 @@ function put_drop(e){
     if (e.target.classList.contains("checked_md")){return false}
     let f = e.target.matches(".checked_md~*")
     while (document.getElementsByClassName("checked_md").length > 0){
-
         let ragging = f ? document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length-1] : document.getElementsByClassName("checked_md")[0]
         let dragging_num = nbym(ragging)
         ragging.classList.remove("checked_md")
@@ -588,17 +587,22 @@ function drop(e) {
         let c = ragging.cloneNode(true)
         ragging.outerHTML = ""
         if (toid != fromid){
-            [newlists[fromid]["deal_list"], newlists[toid]["deal_list"]] = moveft(fromdl, todl, dragging_num, to)
-            [newlists[fromid]["deal_sets"], newlists[toid]["deal_sets"]] = moveft(fromds, tods, dragging_num, to)
+            console.log("a");
+            let c1 = moveft(fromdl, todl, dragging_num, to)
+            newlists[fromid]["deal_list"] = c1[0]
+            newlists[toid]["deal_list"] = c1[1]
+            let c2 = moveft(fromds, tods, dragging_num, to)
+            newlists[fromid]["deal_sets"] = c2[0]
+            newlists[toid]["deal_sets"] = c2[1]
             if (toid == "messages"){
                 let el = document.createElement("div")
                 el.classList.add("neko")
                 if (document.getElementById("easy_preview").childElementCount>=to){
-                    document.getElementById("easy_preview").insertBefore(el,document.getElementById("easy_preview").    children[to])
+                    document.getElementById("easy_preview").insertBefore(el,document.getElementById("easy_preview").children[to])
                 }else{
                     document.getElementById("easy_preview").appendChild(el)
                 }
-                relolist.add(document.getElementById("easy_preview").children[to + 1])
+                relolist.add(document.getElementById("easy_preview").children[to])
             }
         }else{
             fromdl = moveAt(fromdl, dragging_num, to)
@@ -629,10 +633,10 @@ function drop(e) {
         }
     })
     lists = newlists
-    lockreload()
     Array.from(relolist).forEach(r=>{
         unieasypreviewreloader(r)
     })
+    lockreload()
 };
 function dragend(e) {
     if (document.getElementById("tuka")){
@@ -1856,16 +1860,11 @@ function moveAt(array, index, at) {//https://qiita.com/nowayoutbut/items/991515b
 
     return array;
 }
-function moveft(array,array2, index, at) {//https://qiita.com/nowayoutbut/items/991515b32805e21f8892
-    if (index > array.length -1 || at > array2.length - 1) {
-        return array;
-    }
+function moveft(array,array2, index, at) {
     const value = array[index]
-    array.splice(index+1,1)
+    array.splice(index,1)
     array2.splice(at,0,value)
     return [array,array2]
-
-    return array;
 }
 function datamemoreload(){
     let t = document.getElementById("datamemopul")
