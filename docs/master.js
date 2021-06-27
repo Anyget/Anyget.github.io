@@ -589,11 +589,11 @@ function drop(e) {
         if (toid != fromid){
             console.log("a");
             let c1 = moveft(fromdl, todl, dragging_num, to)
-            newlists[fromid]["deal_list"] = c1[0]
-            newlists[toid]["deal_list"] = c1[1]
+            fromdl = c1[0]
+            todl = c1[1]
             let c2 = moveft(fromds, tods, dragging_num, to)
-            newlists[fromid]["deal_sets"] = c2[0]
-            newlists[toid]["deal_sets"] = c2[1]
+            fromds = c2[0]
+            tods = c2[1]
             if (toid == "messages"){
                 let el = document.createElement("div")
                 el.classList.add("neko")
@@ -620,18 +620,19 @@ function drop(e) {
         } else {
             e.target.parentNode.insertBefore(c, e.target)
         }
+        console.log(lists)
     };
     Object.keys(all_data).forEach(k=>{
         if (all_data[k]["dataset_fix?"]){
             Object.keys(lists).forEach(kk=>{
-            let c = 0
-            lists[kk]["deal_list"].forEach(d=>{
-                newlists[kk]["deal_list"][c][k] = d[k]
-                Array.from(mbyn(c).getElementsByClassName(k)).forEach(t=>{
-                    t.value = d[k]
+                let c = 0
+                lists[kk]["deal_list"].forEach(d=>{
+                    newlists[kk]["deal_list"][c][k] = d[k]
+                    Array.from(mbyn(c).getElementsByClassName(k)).forEach(t=>{
+                        t.value = d[k]
+                    })
+                    c++
                 })
-                c++
-            })
             })
         }
     })
