@@ -342,6 +342,26 @@ $番号$：$名前$ [$メール$] $id$
                 <div id="putmessagediv" ondragover="put_dragover(event)" ondragleave="put_dragleave(event)" ondrop="put_drop(event)" class="droppable"></div>
             </div>
         </div>
+        <div class="subbox" data-subboxindex="7">
+            <div class="functionselectdiv">
+                <select class="functionselect" oninput="subfunctionchange(event)">
+                </select>
+            </div>
+            <div class="mainer" data-mainub="1">
+                <select id="labelpul" title="設定するラベルを選択" class="labelman" size="5" class="textbox_like"
+                    onchange="labelpulchange(event)">
+                    <option hidden selected="true">設定変更する変数を選択</option>
+                </select>
+                <div id="labelpul_sets">
+                    <div id="labelpul_sets_in">
+                        <li title="ラベルの対象となる変数を選択します"><select disabled class="dataman" id="labelset_calctarget" onchange="labelset_calctargetchange(event)"><option hidden selected="true">監視対象とする変数を選択</option></select></li>
+                        <li><label>もし<input disabled type="text" id="labelset_calcstr" onchange="labelset_textchange(event)">なら</label></li>
+                        <li><input type="text" disabled id="labelset_calcthen" onchange="labelset_textchange(event)"></li>
+                        <li><label>でなければ<input disabled type="text" id="labelset_calcelse" onchange="labelset_textchange(event)"></label></li>
+                        <li><label>クリックで増加：<input disabled type="number" id="labelset_adder" onchange="labelset_textchange(event)"></label></li>
+                    </div>
+                </div>
+            </div>
     </div>
 
     <script type="text/javascript" src="master.js"></script>
