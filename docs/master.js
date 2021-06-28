@@ -278,7 +278,7 @@ function changetemp() {
                             col += escapeHtml(char);
                             htm += escapeHtml(char);
                             labeldata[labeldata.length - 1] += char;
-                            labelstack += char
+                            labelstack += escapeHtml(char)
                             break;
                     };
                     break;
