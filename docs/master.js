@@ -205,7 +205,6 @@ function changetemp() {
     let mode = "normal";
     let data = [];
     let temp = document.getElementById("template").value;
-    let labelercount = Object.keys(all_label).length
     let labelstack = ""
     let labeldata = []
     for (let i = 0; i < temp.length; i++) {
@@ -274,7 +273,6 @@ function changetemp() {
                             mode = "normal";
                             col += "%</span>";
                             htm += `">${labelstack}</span>`;
-                            labelercount++
                             break;
                         default:
                             col += escapeHtml(char);
@@ -323,7 +321,7 @@ function changetemp() {
         })
         templates[now_temp]["conf_label"].forEach(i => {
             if (!Object.keys(all_label).includes(i)) {
-                all_label[i] = {"labelset_calctarget":0,"labelset_calcstr":"a","labelset_calcthen":"aa","labelset_calcelse":i.replace("labeler_","")};
+                all_label[i] = { "labelset_calctarget": -1, "labelset_calcstr": "", "labelset_calcthen": i.replace("labeler_", ""), "labelset_calcelse": ""};
                 Array.from(document.getElementsByClassName("labelman")).forEach(s=>{
                     s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, "%")}</option>`)
                 })
@@ -428,6 +426,7 @@ function addmess() {
                 i.value = inputing[k]
             })
         });
+        labelreload("messages",deal_list.length-1)
     }
     let nnn = getn()
     mexsets[nnn] = {};
@@ -508,17 +507,7 @@ document.addEventListener("input", (e) => {
     }
     if (target.matches("#form_inp textarea,#form_inp input")){
         inputing[target.classList[1]] = target.value
-        templates[deal_sets[now_temp]["use_temp"]]["conf_label"].forEach(xx => {
-            if (all_label[xx]["labelset_calctarget"] >= 0) {
-                Array.from(document.getElementById("form_inp").getElementsByClassName(xx)).forEach(iii => {
-                    if (inputing[Object.keys(all_data)[all_label[xx]["labelset_calctarget"]]] == all_label[xx]["labelset_calcstr"]) {
-                        iii.innerText = all_label[xx]["labelset_calcthen"]
-                    } else {
-                        iii.innerText = all_label[xx]["labelset_calcelse"]
-                    }
-                })
-            }
-        })
+        formlabelreload()
     }
 });
 function taras(target){
@@ -723,14 +712,7 @@ function plainreload() {
         c++
         let sent = templates[deal_sets[c-1]["use_temp"]]["template"]
         templates[deal_sets[c-1]["use_temp"]]["conf_data"].forEach(d => {
-            let dd = d.startsWith("liner_")?`$${d.replace("liner_","")
-            .replace(/\\/g,"\\\\")
-            .replace(/\$/g,"\\$")
-            .replace(/\|/g,"\\|")
-            }$`:`|${d.replace("blocker_","")
-            .replace(/\\/g,"\\\\")
-            .replace(/\$/g,"\\$")
-            .replace(/\|/g,"\\|")}|`
+            let dd = d.startsWith("liner_")?`$${d.replace("liner_","")}$`:`|${d.replace("blocker_","")}|`
             let idd = []
             if (d.startsWith("blocker_")){
                 i[d].split("\n").forEach(l=>{
@@ -745,6 +727,17 @@ function plainreload() {
                 idd = i[d]
             }
             sent = sent.split(dd).join(escapeHtml(idd));
+        })
+        templates[deal_sets[c - 1]["use_temp"]]["conf_label"].forEach(d => {
+            let dd = `%${d.replace("labeler_", "")}%`
+            let inner = ""
+            console.log(ltget(d))
+            if (deal_list[c - 1][ltget(d)] == all_label[d]["labelset_calcstr"]) {
+                inner = all_label[d]["labelset_calcthen"]
+            } else {
+                inner = all_label[d]["labelset_calcelse"]
+            }
+            sent = sent.split(dd).join(escapeHtml(inner));
         })
         alll.push(sent)
     })
@@ -1650,15 +1643,19 @@ function unieasypreviewreloader(n){
     }
     let sent = templates[deal_sets[n]["use_temp"]]["template"]
     templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(d => {
-        let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
-            .replace(/\\/g, "\\\\")
-            .replace(/\$/g, "\\$")
-            .replace(/\|/g, "\\|")
-            }$` : `|${d.replace("blocker_", "")
-                .replace(/\\/g, "\\\\")
-                .replace(/\$/g, "\\$")
-                .replace(/\|/g, "\\|")}|`
+        let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")}$` : `|${d.replace("blocker_", "")}|`
         sent = sent.split(dd).join(escapeHtml(deal_list[n][d]));
+    })
+    templates[deal_sets[n]["use_temp"]]["conf_label"].forEach(d => {
+        let dd = `%${d.replace("labeler_", "")}%`
+        let inner = ""
+        console.log(ltget(d))
+        if (deal_list[n][ltget(d)] == all_label[d]["labelset_calcstr"]) {
+            inner = all_label[d]["labelset_calcthen"]
+        } else {
+            inner = all_label[d]["labelset_calcelse"]
+        }
+        sent = sent.split(dd).join(escapeHtml(inner));
     })
     if (document.getElementById("easy_preview").childElementCount < n+1){
         document.getElementById("easy_preview").insertAdjacentHTML("beforeend",`<div class="neko">${sent.replace(/\n/g, "<br>")}</div>`)
@@ -2011,4 +2008,46 @@ function labelreload(id,n){
 }
 function ltget(d){
     return Object.keys(all_data)[all_label[d]["labelset_calctarget"]]
+}
+function labelpulchange(e){
+    if (e.target.selectedIndex != 0){
+        let selecting = Object.keys(all_label)[e.target.selectedIndex-1]
+        document.getElementById("labelset_calctarget").children[all_label[selecting]["labelset_calctarget"]+1].selected=true
+        document.getElementById("labelset_calctarget").disabled=false
+        document.getElementById("labelset_calcstr").value = all_label[selecting]["labelset_calcstr"]
+        document.getElementById("labelset_calcthen").value = all_label[selecting]["labelset_calcthen"]
+        document.getElementById("labelset_calcelse").value = all_label[selecting]["labelset_calcelse"]
+    }
+}
+function labelset_textchange(e){
+    let selecting = Object.keys(all_label)[document.getElementById("labelpul").selectedIndex - 1]
+    all_label[selecting][e.target.id] = e.target.value
+    Object.keys(lists).forEach(k=>{
+        let c = 0
+        lists[k]["deal_list"].forEach(kk=>{
+            labelreload(k,c)
+            c++
+        })
+    })
+    formlabelreload()
+}
+function labelset_calctargetchange(e){
+    let selecting = Object.keys(all_label)[document.getElementById("labelpul").selectedIndex - 1]
+    all_label[selecting][e.target.id] = e.target.selectedIndex-1
+    document.getElementById("labelset_calcstr").disabled=false
+    document.getElementById("labelset_calcthen").disabled=false
+    document.getElementById("labelset_calcelse").disabled=false
+}
+function formlabelreload(){
+    templates[now_temp]["conf_label"].forEach(xx => {
+        if (all_label[xx]["labelset_calctarget"] >= 0) {
+            Array.from(document.getElementById("form_inp").getElementsByClassName(xx)).forEach(iii => {
+                if (inputing[Object.keys(all_data)[all_label[xx]["labelset_calctarget"]]] == all_label[xx]["labelset_calcstr"]) {
+                    iii.innerText = all_label[xx]["labelset_calcthen"]
+                } else {
+                    iii.innerText = all_label[xx]["labelset_calcelse"]
+                }
+            })
+        }
+    })
 }
