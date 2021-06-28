@@ -223,6 +223,9 @@ h1,h2{
     background-color: var(--message_color);
     display: flex;
 }
+.\%{
+    cursor: pointer;
+}
 
 .closebtn{
     user-select: none;

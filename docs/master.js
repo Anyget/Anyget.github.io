@@ -228,7 +228,7 @@ function changetemp() {
                         case ("%"):
                             mode = "labeler";
                             col += '<span style="color:#FFFF00;">%';
-                            htm += `<span class="% labeler_`;
+                            htm += `<span onclick="labelerclick(event)" class="% labeler_`;
                             labelstack = ""
                             labeldata.push(`labeler_`);
                             break;
@@ -321,7 +321,7 @@ function changetemp() {
         })
         templates[now_temp]["conf_label"].forEach(i => {
             if (!Object.keys(all_label).includes(i)) {
-                all_label[i] = { "labelset_calctarget": -1, "labelset_calcstr": "", "labelset_calcthen": i.replace("labeler_", ""), "labelset_calcelse": ""};
+                all_label[i] = { "labelset_calctarget": -1, "labelset_calcstr": "", "labelset_calcthen": i.replace("labeler_", ""), "labelset_calcelse": "","labelset_adder":"0"};
                 Array.from(document.getElementsByClassName("labelman")).forEach(s=>{
                     s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, "%")}</option>`)
                 })
@@ -2017,6 +2017,7 @@ function labelpulchange(e){
         document.getElementById("labelset_calcstr").value = all_label[selecting]["labelset_calcstr"]
         document.getElementById("labelset_calcthen").value = all_label[selecting]["labelset_calcthen"]
         document.getElementById("labelset_calcelse").value = all_label[selecting]["labelset_calcelse"]
+        document.getElementById("labelset_adder").value = all_label[selecting]["labelset_adder"]
     }
 }
 function labelset_textchange(e){
@@ -2036,7 +2037,8 @@ function labelset_calctargetchange(e){
     all_label[selecting][e.target.id] = e.target.selectedIndex-1
     document.getElementById("labelset_calcstr").disabled=false
     document.getElementById("labelset_calcthen").disabled=false
-    document.getElementById("labelset_calcelse").disabled=false
+    document.getElementById("labelset_calcelse").disabled = false
+    document.getElementById("labelset_adder").disabled = false
 }
 function formlabelreload(){
     templates[now_temp]["conf_label"].forEach(xx => {
@@ -2050,4 +2052,29 @@ function formlabelreload(){
             })
         }
     })
+}
+function labelerclick(e){
+    let at = all_label[e.target.classList[1]]["labelset_calctarget"]
+    if (at < 0) { return false }
+    let av = all_label[e.target.classList[1]]["labelset_adder"]
+    if (e.target.parentNode.parentNode.classList.contains("messagediv")){
+        let pid = e.target.parentNode.parentNode.parentNode.id
+        let n = nbym(e.target.parentNode.parentNode)
+        let v = lists[pid]["deal_list"][n][Object.keys(all_data)[at]]
+        if (/^\-?[0-9]+(\.[0-9]+)?$/.test(v) && e.target.value != 0){
+            lists[pid]["deal_list"][n][Object.keys(all_data)[at]] = Number(v)+Number(av)
+            Array.from(e.target.parentNode.getElementsByClassName(Object.keys(all_data)[at])).forEach(b=>{
+                b.value = lists[pid]["deal_list"][n][Object.keys(all_data)[at]]
+            })
+        }
+    }else{
+        let v = inputing[Object.keys(all_data)[at]]
+        if ((/^\-?[0-9]+(\.[0-9]+)?$/.test(v) || v == "") && e.target.value != 0) {
+            inputing[Object.keys(all_data)[at]] = Number(v) + Number(av)
+            Array.from(e.target.parentNode.getElementsByClassName(Object.keys(all_data)[at])).forEach(b => {
+                b.value = inputing[Object.keys(all_data)[at]]
+            })
+        }
+    }
+
 }
