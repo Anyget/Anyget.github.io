@@ -14,6 +14,7 @@ let deal_sets = lists["messages"]["deal_sets"]
 let put_deal_list = []
 let put_deal_sets = []
 let all_data = {};
+let all_label = {}
 let dragging = null;
 let templates = [
         {
@@ -21,6 +22,7 @@ let templates = [
             "conf_htm" : "",
             "conf_col" : "",
             "conf_data" : [],
+            "conf_label" : []
         }
     ]
 let boxes_sort = [0,1,2]
@@ -202,6 +204,9 @@ function changetemp() {
     let mode = "normal";
     let data = [];
     let temp = document.getElementById("template").value;
+    let labelercount = Object.keys(all_label).length
+    let labelstack = ""
+    let labeldata = []
     for (let i = 0; i < temp.length; i++) {
         let char = temp[i];
         if (char != "\\") {
@@ -219,6 +224,13 @@ function changetemp() {
                             col += '<span style="color:#0000FF;">|';
                             htm += '<textarea class="| blocker_';
                             data.push("blocker_");
+                            break;
+                        case ("%"):
+                            mode = "labeler";
+                            col += '<span style="color:#FFFF00;">%';
+                            htm += `<span class="% labeler_${labelercount}_`;
+                            labelstack = ""
+                            labeldata.push(`labeler_${labelercount}_`);
                             break;
                         default:
                             col += escapeHtml(char);
@@ -255,6 +267,22 @@ function changetemp() {
                             break;
                     };
                     break;
+                case ("labeler"):
+                    switch (char) {
+                        case ("%"):
+                            mode = "normal";
+                            col += "%</span>";
+                            htm += `">${labelstack}</span>`;
+                            labelercount++
+                            break;
+                        default:
+                            col += escapeHtml(char);
+                            htm += escapeHtml(char);
+                            labeldata[labeldata.length - 1] += char;
+                            labelstack += char
+                            break;
+                    };
+                    break;
             };
         } else {
             if (i < temp.length) {
@@ -271,59 +299,69 @@ function changetemp() {
     htm = htm.split("\n").join("<br>")
     if (mode == "normal") {
         let backupconfdata = templates[now_temp]["conf_data"];
+        let backupconflabel = templates[now_temp]["conf_label"]
         document.getElementById("edited").innerHTML = col.split("\n").join("<br>");
         document.getElementById("form_inp").innerHTML = htm;
         templates[now_temp]["conf_htm"] = htm;
         templates[now_temp]["conf_col"] = col;
+        templates[now_temp]["conf_label"] = labeldata;
         templates[now_temp]["conf_data"] = Array.from(new Set(data))
         templates[now_temp]["conf_data"].forEach(i => {
-        if (!Object.keys(all_data).includes(i)) {
-            all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor": "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
-            Array.from(document.getElementsByClassName("dataman")).forEach(s=>{
-                s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
-                if (s.id == "datamemopul" && i.startsWith("blocker_")){
-                    s.lastChild.hidden = true
-                }
-            })
-            document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
-        };
-        if (!Object.keys(inputing).includes(i)){
-            inputing[i] = ""
-        }
-    })
-    deparr(Object.keys(inputing),templates[now_temp]["conf_data"]).forEach(i=>{
-        let t = document.getElementById("form_inp").getElementsByClassName(i)[0]
-        t.value = inputing[i]
-        taras(t)
-    })
-    while (style_list.length < deal_list.length) {
-        style_list.push({})
-    }
-    let n = 0
-    deal_list.forEach(ii => {
-        let box = mbyn(n).lastElementChild;
-        let t = deal_sets[n]["use_temp"]
-        templates[t]["conf_data"].forEach(x => {
-            if (backupconfdata.includes(x) || now_temp != t) {
-                style_list[n][x] = []
-                if (x.startsWith("liner_")){
-                    Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                        style_list[n][x].push(cd.parentNode.style.cssText)
-                    })
-                }else{
-                    Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                        style_list[n][x].push(cd.style.cssText);
-                    })
-                }
-                
-            }else if (!Object.keys(style_list[n]).includes(x)) {
-                style_list[n][x] = []
+            if (!Object.keys(all_data).includes(i)) {
+                all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor":  "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
+                Array.from(document.getElementsByClassName("dataman")).forEach(s=>{
+                    s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace  (/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+                    if (s.id == "datamemopul" && i.startsWith("blocker_")){
+                        s.lastChild.hidden = true
+                    }
+                })
+                document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(i)}"></input><label for="replacecheck_${escapeHtml(i)}">${(escapeHtml(i)  + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</label></li>`)
+            };
+            if (!Object.keys(inputing).includes(i)){
+                inputing[i] = ""
             }
         })
-        n++;
-    })
-    templates[now_temp]["template"] = temp + "";
-    messagereloadbynowtemp()
+        templates[now_temp]["conf_label"].forEach(i => {
+            if (!Object.keys(all_label).includes(i)) {
+                all_label[i] = {"labelset_calctarget":0,"labelset_calcstr":"a","labelset_calcthen":"aa"};
+                Array.from(document.getElementsByClassName("labelman")).forEach(s=>{
+                    s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, "%")}</option>`)
+                })
+            }
+        })
+        deparr(Object.keys(inputing),templates[now_temp]["conf_data"]).forEach(i=>{
+            let t = document.getElementById("form_inp").getElementsByClassName(i)[0]
+            t.value = inputing[i]
+            taras(t)
+        })
+        while (style_list.length < deal_list.length) {
+            style_list.push({})
+        }
+        let n = 0
+        deal_list.forEach(ii => {
+            let box = mbyn(n).lastElementChild;
+            let t = deal_sets[n]["use_temp"]
+            templates[t]["conf_data"].forEach(x => {
+                if (backupconfdata.includes(x) || now_temp != t) {
+                    style_list[n][x] = []
+                    if (x.startsWith("liner_")){
+                        Array.from(box.getElementsByClassName(x)).forEach(cd => {
+                            style_list[n][x].push(cd.parentNode.style.cssText)
+                        })
+                    }else{
+                        Array.from(box.getElementsByClassName(x)).forEach(cd => {
+                            style_list[n][x].push(cd.style.cssText);
+                        })
+                    }
+
+                }else if (!Object.keys(style_list[n]).includes(x)) {
+                    style_list[n][x] = []
+                }
+            })
+            n++;
+        })
+        templates[now_temp]["template"] = temp + "";
+        messagereloadbynowtemp()
     } else {
         alert("Error:不正な構文");
     };
@@ -349,6 +387,7 @@ function messagereloadbynowtemp(){
                     cc++
                 })
             });
+            labelreload("messages",n)
         }
         n++;
     });
@@ -445,7 +484,7 @@ document.addEventListener("input", (e) => {
         if (target.matches("textarea")) {
             num = nbym(target.parentNode.parentNode);
             inp = target.value;
-            deal_list[num][clas] = inp;
+            lists[target.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
                 
                 unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
@@ -453,14 +492,15 @@ document.addEventListener("input", (e) => {
         } else {
             num = nbym(target.parentNode.parentNode.parentNode);
             inp = target.value;
-            mexsets[clas][deal_list[num][clas]] -= 1
-            mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
+            //mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas]] -= 1
+            //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
             datamemodivreload()
-            deal_list[num][clas] = inp;
+            lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
                 
                 unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
             })
+            labelreload(target.parentNode.parentNode.parentNode.parentNode.id, num)
         };
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
@@ -1938,4 +1978,18 @@ function getn(){
     let t = document.getElementById("datamemopul")
     let i = t.selectedIndex-1
     return Object.keys(all_data)[i];
+}
+function labelreload(id,n){
+    Object.keys(all_label).forEach(xx => {
+        console.log(xx)
+        if (all_label[xx]["labelset_calctarget"] >= 0) {
+            Array.from(mbyidn(id,n).getElementsByClassName(xx)).forEach(iii => {
+                if (lists[id]["deal_list"][n][Object.keys(all_data)[all_label[xx]["labelset_calctarget"]]] == all_label[xx]["labelset_calcstr"]) {
+                    iii.innerText = all_label[xx]["labelset_calcthen"]
+                }else{
+                    iii.innerText =xx.replace(/labeler_[^_]*_/g,"")
+                }
+            })
+        }
+    })
 }
