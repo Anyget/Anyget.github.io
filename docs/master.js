@@ -986,7 +986,8 @@ function save() {
         "all_data": all_data, 
         "templates": templates,
         "inputing": inputing,
-        "now_temp":now_temp})
+        "now_temp":now_temp,
+        "all_label":all_label})
     let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "UNKNOWN"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
@@ -1002,7 +1003,8 @@ function tempsave() {
             "all_data": all_data, 
             "templates": templates,
             "inputing":inputing,
-            "now_temp":now_temp
+            "now_temp":now_temp,
+            "all_label":all_label
         }
     )
     let name = `${document.getElementById("tempsave_inp").value != "" ? document.getElementById("tempsave_inp").value : "UNKNOWN"}.json`
@@ -1027,6 +1029,7 @@ function load(n){
     templates = n["templates"];
     inputing = n["inputing"]
     now_temp=n["now_temp"]
+    all_label=n["all_label"]
     document.getElementById("messages").innerHTML = "";
     let x = 0;
     Object.keys(lists).forEach(kd => {
