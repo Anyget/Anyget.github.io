@@ -1855,13 +1855,9 @@ function moveAt(array, index, at) {//https://qiita.com/nowayoutbut/items/991515b
     }
     const value = array[index];
     const tail = array.slice(index + 1);
-
     array.splice(index);
-
     Array.prototype.push.apply(array, tail);
-
     array.splice(at, 0, value);
-
     return array;
 }
 function moveft(array,array2, index, at) {
