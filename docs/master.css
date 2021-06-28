@@ -207,7 +207,7 @@ h1,h2{
 .message{
     padding: 0 5px;
 }
-#datapul{
+#datapul,#labelpul{
     box-sizing: content-box;
     display: block;
     width: 80%;
@@ -763,17 +763,20 @@ button:active{
     font-size: medium;
     background-color: transparent;
 }
-#datapul_sets{
+#datapul_sets,#labelpul_sets{
     width: 100%;
     height:50%;
     overflow: hidden;
 }
-#datapul_sets_in{
+#datapul_sets_in,#labelpul_sets_in{
     width: 100%;
     height: 100%;
     overflow-y: auto;
 }
 #datapul_sets_in input[type="text"]{
+    max-width: 90%;
+}
+#labelpul_sets_in input[type="text"]{
     max-width: 90%;
 }
 .settdiv{

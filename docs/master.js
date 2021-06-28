@@ -96,9 +96,10 @@ const SUBFUNCTIONNAMES = [
     "簡易プレビュー",
     "テキストメモ",
     "変数特定値メモ",
-    "メッセージ仮置き場"
+    "メッセージ仮置き場",
+    "ラベルの詳細設定"
 ]
-let selectedsubfunction = [0,1,2,3,4,5,6]
+let selectedsubfunction = [0,1,2,3,4,5,6,7]
 let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
@@ -228,9 +229,9 @@ function changetemp() {
                         case ("%"):
                             mode = "labeler";
                             col += '<span style="color:#FFFF00;">%';
-                            htm += `<span class="% labeler_${labelercount}_`;
+                            htm += `<span class="% labeler_`;
                             labelstack = ""
-                            labeldata.push(`labeler_${labelercount}_`);
+                            labeldata.push(`labeler_`);
                             break;
                         default:
                             col += escapeHtml(char);
@@ -299,7 +300,6 @@ function changetemp() {
     htm = htm.split("\n").join("<br>")
     if (mode == "normal") {
         let backupconfdata = templates[now_temp]["conf_data"];
-        let backupconflabel = templates[now_temp]["conf_label"]
         document.getElementById("edited").innerHTML = col.split("\n").join("<br>");
         document.getElementById("form_inp").innerHTML = htm;
         templates[now_temp]["conf_htm"] = htm;
@@ -310,7 +310,7 @@ function changetemp() {
             if (!Object.keys(all_data).includes(i)) {
                 all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor":  "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
                 Array.from(document.getElementsByClassName("dataman")).forEach(s=>{
-                    s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace  (/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
+                    s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
                     if (s.id == "datamemopul" && i.startsWith("blocker_")){
                         s.lastChild.hidden = true
                     }
@@ -323,7 +323,7 @@ function changetemp() {
         })
         templates[now_temp]["conf_label"].forEach(i => {
             if (!Object.keys(all_label).includes(i)) {
-                all_label[i] = {"labelset_calctarget":0,"labelset_calcstr":"a","labelset_calcthen":"aa"};
+                all_label[i] = {"labelset_calctarget":0,"labelset_calcstr":"a","labelset_calcthen":"aa","labelset_calcelse":i.replace("labeler_","")};
                 Array.from(document.getElementsByClassName("labelman")).forEach(s=>{
                     s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, "%")}</option>`)
                 })
@@ -508,6 +508,17 @@ document.addEventListener("input", (e) => {
     }
     if (target.matches("#form_inp textarea,#form_inp input")){
         inputing[target.classList[1]] = target.value
+        templates[deal_sets[now_temp]["use_temp"]]["conf_label"].forEach(xx => {
+            if (all_label[xx]["labelset_calctarget"] >= 0) {
+                Array.from(document.getElementById("form_inp").getElementsByClassName(xx)).forEach(iii => {
+                    if (inputing[Object.keys(all_data)[all_label[xx]["labelset_calctarget"]]] == all_label[xx]["labelset_calcstr"]) {
+                        iii.innerText = all_label[xx]["labelset_calcthen"]
+                    } else {
+                        iii.innerText = all_label[xx]["labelset_calcelse"]
+                    }
+                })
+            }
+        })
     }
 });
 function taras(target){
@@ -814,15 +825,20 @@ function radiochange(e) {
 function previewunimessage(s,anchorok){
     let sent = templates[deal_sets[s - 1]["use_temp"]]["template"]
     templates[deal_sets[s - 1]["use_temp"]]["conf_data"].forEach(d => {
-        let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")
-            .replace(/\\/g, "\\\\")
-            .replace(/\$/g, "\\$")
-            .replace(/\|/g, "\\|")
-            }$` : `|${d.replace("blocker_", "")
-                .replace(/\\/g, "\\\\")
-                .replace(/\$/g, "\\$")
-                .replace(/\|/g, "\\|")}|`
+        let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")}$` : `|${d.replace("blocker_", "")}|`
         sent = sent.split(dd).join(escapeHtml(deal_list[s - 1][d]));
+    })
+    templates[deal_sets[s - 1]["use_temp"]]["conf_label"].forEach(d=>{
+        let dd = `%${d.replace("labeler_", "")}%`
+        let inner = ""
+        console.log(ltget(d))
+        if (deal_list[s-1][ltget(d)] == all_label[d]["labelset_calcstr"]){
+            inner = all_label[d]["labelset_calcthen"]
+        }else{
+            inner = all_label[d]["labelset_calcelse"]
+        }
+        sent = sent.split(dd).join(escapeHtml(inner));
+
     })
     sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
     document.getElementById("preview").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.split("\n").join("<br>")}</div>`)
@@ -1980,16 +1996,19 @@ function getn(){
     return Object.keys(all_data)[i];
 }
 function labelreload(id,n){
-    Object.keys(all_label).forEach(xx => {
-        console.log(xx)
+    templates[deal_sets[n]["use_temp"]]["conf_label"].forEach(xx => {
         if (all_label[xx]["labelset_calctarget"] >= 0) {
             Array.from(mbyidn(id,n).getElementsByClassName(xx)).forEach(iii => {
                 if (lists[id]["deal_list"][n][Object.keys(all_data)[all_label[xx]["labelset_calctarget"]]] == all_label[xx]["labelset_calcstr"]) {
                     iii.innerText = all_label[xx]["labelset_calcthen"]
                 }else{
-                    iii.innerText =xx.replace(/labeler_[^_]*_/g,"")
+
+                    iii.innerText = all_label[xx]["labelset_calcelse"]
                 }
             })
         }
     })
+}
+function ltget(d){
+    return Object.keys(all_data)[all_label[d]["labelset_calctarget"]]
 }
