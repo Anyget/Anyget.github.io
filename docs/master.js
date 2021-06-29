@@ -884,6 +884,10 @@ function datgen() {
                                 mode = "blocker";
                                 temp[tar.id].push("blocker_")
                                 break;
+                            case ("%"):
+                                mode = "labeler";
+                                temp[tar.id].push("labeler_")
+                                break;
                             default:
                                 temp[tar.id][temp[tar.id].length - 1] += escapeHtml(char)
                                 break;
@@ -903,6 +907,17 @@ function datgen() {
                     case ("blocker"):
                         switch (char) {
                             case ("|"):
+                                mode = "normal";
+                                temp[tar.id].push("text_")
+                                break;
+                            default:
+                                temp[tar.id][temp[tar.id].length - 1] += escapeHtml(char)
+                                break;
+                        };
+                        break;
+                    case ("labeler"):
+                        switch (char) {
+                            case ("%"):
                                 mode = "normal";
                                 temp[tar.id].push("text_")
                                 break;
@@ -938,6 +953,8 @@ function datgen() {
             tar.forEach(t => {
                 if (t.startsWith("text_")) {
                     strs[n - 1] += t.replace("text_", "")
+                }else if (t.startsWith("labeler_")){
+                    strs[n - 1] += m[all_label[t]["calctarget"]] == all_label[t]["calcstr"] ? all_label[t]["calcthen"] : all_label[t]["calcelse"]
                 } else if (k === "dat_main") {
                     strs[n - 1] += " " + escapeHtml(m[t]).split("\n").join("<br>")+ " "
                 } else {
