@@ -731,7 +731,6 @@ function plainreload() {
         templates[deal_sets[c - 1]["use_temp"]]["conf_label"].forEach(d => {
             let dd = `%${d.replace("labeler_", "")}%`
             let inner = ""
-            console.log(ltget(d))
             if (deal_list[c - 1][ltget(d)] == all_label[d]["labelset_calcstr"]) {
                 inner = all_label[d]["labelset_calcthen"]
             } else {
@@ -824,7 +823,6 @@ function previewunimessage(s,anchorok){
     templates[deal_sets[s - 1]["use_temp"]]["conf_label"].forEach(d=>{
         let dd = `%${d.replace("labeler_", "")}%`
         let inner = ""
-        console.log(ltget(d))
         if (deal_list[s-1][ltget(d)] == all_label[d]["labelset_calcstr"]){
             inner = all_label[d]["labelset_calcthen"]
         }else{
@@ -936,7 +934,7 @@ function datgen() {
         }
         let newtemp = []
         temp[tar.id].forEach(function (p) {
-            if ((Object.keys(all_data).includes(p)) || ((p.startsWith("text_")) && p != "text_")) {
+            if (Object.keys(all_data).includes(p) || (p.startsWith("labeler_") && Object.keys(all_label).includes(p)) || ((p.startsWith("text_")) && p != "text_")) {
                 newtemp.push(p);
             }
         });
@@ -954,7 +952,7 @@ function datgen() {
                 if (t.startsWith("text_")) {
                     strs[n - 1] += t.replace("text_", "")
                 }else if (t.startsWith("labeler_")){
-                    strs[n - 1] += m[all_label[t]["calctarget"]] == all_label[t]["calcstr"] ? all_label[t]["calcthen"] : all_label[t]["calcelse"]
+                    strs[n - 1] += (m[Object.keys(all_data)[all_label[t]["labelset_calctarget"]]] == all_label[t]["labelset_calcstr"]) ? all_label[t]["labelset_calcthen"] : all_label[t]["labelset_calcelse"]
                 } else if (k === "dat_main") {
                     strs[n - 1] += " " + escapeHtml(m[t]).split("\n").join("<br>")+ " "
                 } else {
@@ -1669,7 +1667,6 @@ function unieasypreviewreloader(n){
     templates[deal_sets[n]["use_temp"]]["conf_label"].forEach(d => {
         let dd = `%${d.replace("labeler_", "")}%`
         let inner = ""
-        console.log(ltget(d))
         if (deal_list[n][ltget(d)] == all_label[d]["labelset_calcstr"]) {
             inner = all_label[d]["labelset_calcthen"]
         } else {
