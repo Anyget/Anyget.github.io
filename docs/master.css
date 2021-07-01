@@ -1205,6 +1205,12 @@ mark{
 #plainindentex{
     width:calc(100% - 1.2rem)
 }
+#plaincopybutton{
+    display: block;
+    margin: auto;
+    margin-top: 5px;
+    margin-right: 0;
+}
 #putmessagediv{
     height: 100%;
     width: 100%;
