@@ -2093,10 +2093,14 @@ function labelerclick(e){
 }
 document.addEventListener("contextmenu",e=>{
     e.preventDefault()
-    if (e.target.parentNode.classList.contains("messagediv")){
+    if (e.target.matches(".checked_md div")){
         const cm = document.getElementById("messagediv_contextmenu")
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
-        cm.style.display = "block"
+        cm.style.display = "flex"
     }
+})
+document.addEventListener("click",e=>{
+    const cm = document.getElementById("messagediv_contextmenu")
+    cm.style.display = "none"
 })

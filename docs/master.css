@@ -1227,6 +1227,8 @@ mark{
     );
 }
 #messagediv_contextmenu{
+    width: 20vw;
+    color: var(--tabbutton_font_color);
     z-index: 100;
     right: auto;
     bottom: auto;
@@ -1235,9 +1237,15 @@ mark{
     line-height: 1rem;
     position:absolute;
     padding: 0.3rem;
-    height: 100px;
-    width: 100px;
-    background-color: var(--message_color);
-    border: 1px solid var(--message_border_color);
-    box-shadow:0px 0px 8px 2.5px #000000;
+    background-color: var(--color_8);
+    border: 1px solid var(--color_5);
+    flex-direction: column;
+}
+#messagediv_contextmenu>div{
+    width: calc(100% - 0.6rem);
+    cursor: pointer;
+    padding: 0.1rem 0.3rem;
+}
+#messagediv_contextmenu>div:hover{
+    background-color: var(--selection_color);
 }
