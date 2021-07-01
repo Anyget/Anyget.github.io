@@ -2091,3 +2091,12 @@ function labelerclick(e){
     }
 
 }
+document.addEventListener("contextmenu",e=>{
+    e.preventDefault()
+    if (e.target.parentNode.classList.contains("messagediv")){
+        const cm = document.getElementById("messagediv_contextmenu")
+        cm.style.left = String(e.clientX) + "px"
+        cm.style.top = String(e.clientY) + "px"
+        cm.style.display = "block"
+    }
+})

@@ -1226,3 +1226,18 @@ mark{
         transparent 20px
     );
 }
+#messagediv_contextmenu{
+    z-index: 100;
+    right: auto;
+    bottom: auto;
+    display: none;
+    font-size: 1rem;
+    line-height: 1rem;
+    position:absolute;
+    padding: 0.3rem;
+    height: 100px;
+    width: 100px;
+    background-color: var(--message_color);
+    border: 1px solid var(--message_border_color);
+    box-shadow:0px 0px 8px 2.5px #000000;
+}
