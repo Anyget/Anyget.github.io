@@ -2093,7 +2093,7 @@ function labelerclick(e){
 }
 document.addEventListener("contextmenu",e=>{
     e.preventDefault()
-    if (e.target.matches(".checked_md div")){
+    if (e.target.matches(".checked_md div,.checked_md")){
         const cm = document.getElementById("messagediv_contextmenu")
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
@@ -2104,3 +2104,54 @@ document.addEventListener("click",e=>{
     const cm = document.getElementById("messagediv_contextmenu")
     cm.style.display = "none"
 })
+function contextcommand_checkedsave() {
+    Object.keys(lists).forEach(k => {
+        let sl = lists[k]["style_list"]
+        let dl = lists[k]["deal_list"]
+        let ds = lists[k]["deal_sets"]
+        while (sl.length < dl.length) {
+            sl.push({})
+        }
+        let n = 0;
+        ds.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(c => {
+                sl[n][c] = []
+                Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd => {
+                    if (cd.classList.contains("|")) {
+                        sl[n][c].push(cd.style.cssText);
+                    } else {
+                        sl[n][c].push(cd.parentNode.style.cssText);
+                    }
+                })
+            })
+            n++;
+        })
+    })
+    let mellists = {}
+    Object.keys(lists).forEach(k => {
+        mellists[k] = {}
+        let cs = document.getElementById(k).getElementsByClassName("checked_md")
+        Object.keys(lists[k]).forEach(kk => {
+            mellists[k][kk] = []
+            Array.from(cs).forEach(c=>{
+                mellists[k][kk].push(lists[k][kk][nbym(c)])
+            })
+        })
+    })
+    let j = JSON.stringify(
+        {
+            "lists": mellists,
+            "all_data": all_data,
+            "templates": templates,
+            "inputing": inputing,
+            "now_temp": now_temp,
+            "all_label": all_label
+        })
+    let name = `${prompt("ファイル名を入力")}.json`
+    let blob = new Blob([j], { type: "application/json" });
+    let a = document.createElement('a');
+    a.download = name;
+    a.target = '_blank';
+    a.href = window.webkitURL.createObjectURL(blob);
+    a.click();
+}
