@@ -2093,16 +2093,25 @@ function labelerclick(e){
 }
 document.addEventListener("contextmenu",e=>{
     e.preventDefault()
+    Array.from(document.getElementsByClassName("contextmenu")).forEach(cm => {
+        cm.style.display = "none"
+    })
     if (e.target.matches(".checked_md div,.checked_md")){
         const cm = document.getElementById("messagediv_contextmenu")
+        cm.style.left = String(e.clientX) + "px"
+        cm.style.top = String(e.clientY) + "px"
+        cm.style.display = "flex"
+    }else if (e.target.id == "messages"){
+        const cm = document.getElementById("messages_contextmenu")
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
         cm.style.display = "flex"
     }
 })
 document.addEventListener("click",e=>{
-    const cm = document.getElementById("messagediv_contextmenu")
-    cm.style.display = "none"
+    Array.from(document.getElementsByClassName("contextmenu")).forEach(cm=>{
+        cm.style.display = "none"
+    })
 })
 function contextcommand_checkedsave() {
     Object.keys(lists).forEach(k => {

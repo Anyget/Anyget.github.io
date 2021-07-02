@@ -1226,7 +1226,7 @@ mark{
         transparent 20px
     );
 }
-#messagediv_contextmenu{
+.contextmenu{
     width: 20vw;
     color: var(--tabbutton_font_color);
     z-index: 100;
@@ -1241,11 +1241,11 @@ mark{
     border: 1px solid var(--color_5);
     flex-direction: column;
 }
-#messagediv_contextmenu>div{
+.contextmenu>div{
     width: calc(100% - 0.6rem);
     cursor: pointer;
     padding: 0.1rem 0.3rem;
 }
-#messagediv_contextmenu>div:hover{
+.contextmenu>div:hover{
     background-color: var(--selection_color);
 }
