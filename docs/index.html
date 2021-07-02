@@ -13,7 +13,7 @@
         <div onclick="contextcommand_checkedsave()">選択中のみセーブ</div>
     </div>
     <div id="messages_contextmenu" class="contextmenu">
-        <div onclick="contextcommand_additionalload()">追加でロード</div>
+        <div><label for="contextmenu_additionalload_inp">追加でロード</label><input type="file" id="contextmenu_additionalload_inp" accept=".json" oninput="loadbybutton3()"></div>
     </div>
     <div id="startmenu_back" onclick="startmenukill()">
     </div>

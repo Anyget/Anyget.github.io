@@ -1475,6 +1475,77 @@ function loadbybutton2(){
 
     loadrap(f)
 }
+function loadbybutton3(){
+    if (document.getElementById("contextmenu_additionalload_inp").files.length === 0) return false;
+    let f = document.getElementById("contextmenu_additionalload_inp").files[0];
+    f.text().then(t => {
+        let n = JSON.parse(t)
+        let conlist = {}
+        let medt = templates.map(t=>t["template"])
+        let c = 0
+        n["templates"].forEach(k=>{
+            if (medt.includes(k["template"])){
+                conlist[c] = medt.indexOf(k["template"])
+            }else{
+                templates.push(k)
+                conlist[c] = templates.length-1
+            }
+            c++
+        })
+        Object.keys(n["all_data"]).forEach(d=>{
+            if (!Object.keys(all_data).includes(d)){
+                all_data[d] = n["all_data"][d]
+                Object.keys(lists).forEach(k=>{
+                    lists[k]["deal_list"].forEach(dd=>{
+                        dd[d] = ""
+                    })
+                })
+            }
+        })
+        Object.keys(n["all_label"]).forEach(d=>{
+            if (!Object.keys(all_label).includes(d)){
+                all_label[d] = n["all_label"][d]
+            }
+        })
+        Object.keys(n["lists"]).forEach(k=>{
+            let dl = n["lists"][k]["deal_list"]
+            let ds = n["lists"][k]["deal_sets"]
+            let sl = n["lists"][k]["style_list"]
+            ds.forEach(dss=>{
+                dss["use_temp"] = conlist[dss["use_temp"]]
+            })
+            Object.keys(all_data).forEach(db => {
+                if (!Object.keys(n["all_data"]).includes(db)) {
+                    ds.forEach(dd=>{
+                        dd[db] = ""
+                    })
+                }
+            })
+            let x = 0
+            dl.forEach(d => {
+                x++;
+                document.getElementById(k).insertAdjacentHTML("beforeend",
+                    messtemper(ds[x - 1]["use_temp"] + 1, templates[ds[x - 1]["use_temp"]]["conf_htm"]))
+                let now = document.getElementById("cd")
+                now.id = ""
+                templates[ds[x - 1]["use_temp"]]["conf_data"].forEach(c => {
+                    let z = 0
+                    Array.from(now.getElementsByClassName(c)).forEach(m => {
+                        m.value = d[c]
+                        if (m.classList.contains("|")) {
+                            m.style = sl[x - 1][c][z]
+                        } else {
+                            m.parentNode.style = sl[x - 1][c][z]
+                        }
+                        z++
+                    })
+                })
+                lists[k]["deal_list"].push(d)
+                lists[k]["deal_sets"].push(ds[x])
+            })
+        })
+    })
+}
 function lockreload(){
     Object.keys(lists).forEach(k => {
         let c = 0
@@ -2163,4 +2234,7 @@ function contextcommand_checkedsave() {
     a.target = '_blank';
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
+}
+function contextcommand_additionalload(){
+
 }
