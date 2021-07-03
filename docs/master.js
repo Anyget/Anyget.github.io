@@ -2235,6 +2235,3 @@ function contextcommand_checkedsave() {
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
 }
-function contextcommand_additionalload(){
-
-}
