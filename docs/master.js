@@ -1516,7 +1516,7 @@ function loadbybutton3(){
             })
             Object.keys(all_data).forEach(db => {
                 if (!Object.keys(n["all_data"]).includes(db)) {
-                    ds.forEach(dd=>{
+                    dl.forEach(dd=>{
                         dd[db] = ""
                     })
                 }
@@ -1541,7 +1541,7 @@ function loadbybutton3(){
                     })
                 })
                 lists[k]["deal_list"].push(d)
-                lists[k]["deal_sets"].push(ds[x])
+                lists[k]["deal_sets"].push(ds[x-1])
             })
         })
     })
