@@ -261,7 +261,7 @@ h1,h2{
     flex-direction: column;
     overflow: hidden;
 }
-#tab{
+.tab{
     height: 3vh;
     display: flex;
 }
@@ -311,7 +311,7 @@ h1,h2{
 .tab_item:hover {
     filter: brightness(1.2);
 }
-input[name="tab_item"] {
+.tab_header_in>input {
     display: none;
 }
 .tab_header_in input:checked+.tab_item{
@@ -326,8 +326,8 @@ input[name="tab_item"] {
     height: calc(100% - 3vh);
     width: 100%;
 }
-#tab_cont>*:not(.radised){
-    display: none;
+.tabconter>*:not(.radised){
+    display: none !important;
 }
 .neko{
     border: var(--border_color) 1px solid;

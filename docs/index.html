@@ -104,7 +104,7 @@ $番号$：$名前$ [$メール$] $id$
 
         </div>
         <div id="box3" style="order:2">
-            <div id="tab">
+            <div class="tab">
                 <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
                 <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
                 <div class="tab_header">
@@ -125,12 +125,12 @@ $番号$：$名前$ [$メール$] $id$
                         --><label class="tab_item" for="radio_export">エクスポート</label><!--
                         --><input type="radio" name="tab_item" id="radio_import" onchange="radiochange(event);"><!--
                         --><label class="tab_item" for="radio_import">インポート</label>
-                </div>
+                    </div>
                 </div>
                 <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
                 <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
             </div>
-            <div id="tab_cont">
+            <div id="tab_cont" class="tabconter">
                 <div id="mesandform" class="radised">
                     <div id="messages">
 
@@ -194,20 +194,46 @@ $番号$：$名前$ [$メール$] $id$
                     </div>
                 </div>
                 <div id="export">
-                    <h1>対応する変数/文字列を選択/入力</h1>
-                    <div id="datgen_list">
-                        <li>スレッドタイトル：
-                            <div class="datgen_div"><input type="text" id="dat_title" placeholder="プレーンテキストで入力"></div></li>
-                        <li>名前：
-                            <div class="datgen_div"><input type="text" id="dat_name" placeholder="テンプレート記法で入力"></div></li>
-                        <li>メールアドレス：
-                            <div class="datgen_div"><input type="text" id="dat_mail" placeholder="テンプレート記法で入力"></div></li>
-                        <li>日付・IDなど：
-                            <div class="datgen_div"><input type="text" id="dat_date" placeholder="テンプレート記法で入力"></div></li>
-                        <li>本文：
-                            <div class="datgen_div"><input type="text" id="dat_main" placeholder="テンプレート記法で入力"></div></li>
+                    <div class="tab">
+                        <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
+                        <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
+                        <div class="tab_header">
+                            <div class="tab_header_in" data-martop="0" data-radioto="exporttab_cont">
+                                <input type="radio" name="exporttab_item" id="radio_datgen" onchange="radiochange(event);" checked><!--
+                                --><label class="tab_item" for="radio_datgen">.dat(2ch)</label><!--
+                                --><input type="radio" name="exporttab_item" id="radio_csvgen" onchange="radiochange(event);"><!--
+                                --><label class="tab_item" for="radio_csvgen">.csv(plain)</label><!--
+                                --><input type="radio" name="exporttab_item" id="radio_jsongen" onchange="radiochange(event);"><!--
+                                --><label class="tab_item" for="radio_csvgen">.json(plain)</label>
+                            </div>
+                        </div>
+                        <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
+                        <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
                     </div>
-                        <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
+                    <div id="exporttab_cont" class="tabconter">
+                        <div id="datgen" class="radised">
+                            <h1>対応する変数/文字列を選択/入力</h1>
+                            <div id="datgen_list">
+                                <li>スレッドタイトル：
+                                    <div class="datgen_div"><input type="text" id="dat_title" placeholder="プレーンテキストで入力"></div></li>
+                                <li>名前：
+                                    <div class="datgen_div"><input type="text" id="dat_name" placeholder="テンプレート記法で入力"></div></li>
+                                <li>メールアドレス：
+                                    <div class="datgen_div"><input type="text" id="dat_mail" placeholder="テンプレート記法で入力"></div></li>
+                                <li>日付・IDなど：
+                                    <div class="datgen_div"><input type="text" id="dat_date" placeholder="テンプレート記法で入力"></div></li>
+                                <li>本文：
+                                    <div class="datgen_div"><input type="text" id="dat_main" placeholder="テンプレート記法で入力"></div></li>
+                            </div>
+                            <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
+                        </div>
+                        <div id="csvgen">
+
+                        </div>
+                        <div id="jsongen">
+
+                        </div>
+                    </div>
                 </div>
                 <div id="saveload">
                     <h1>セーブ</h1>

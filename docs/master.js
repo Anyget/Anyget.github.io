@@ -788,7 +788,12 @@ function previewanchor(s, ok) {
     return out;
 }
 function radiochange(e) {
-    document.getElementById(e.target.parentNode.dataset.radioto).getElementsByClassName("radised")[0].classList.remove("radised");
+    console.log(document.getElementById(e.target.parentNode.dataset.radioto))
+    Array.from(document.getElementById(e.target.parentNode.dataset.radioto).getElementsByClassName("radised")).forEach(n=>{
+        if (n.parentNode.id == e.target.parentNode.dataset.radioto){
+            n.classList.remove("radised")
+        }
+    })
     document.getElementById(e.target.id.replace("radio_","")).classList.add("radised");
     switch (e.target.id) {
         case ("radio_preview"):
