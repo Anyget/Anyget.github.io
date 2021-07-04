@@ -265,13 +265,13 @@ h1,h2{
     height: 3vh;
     display: flex;
 }
-#tab_header{
+.tab_header{
     height: 100%;
     width: calc(100% - 4rem);
     padding: 0;
     overflow: hidden;
 }
-#tab_header_in{
+.tab_header_in{
     display: flex;
     flex-wrap: wrap;
     width: 100%;
@@ -314,12 +314,12 @@ h1,h2{
 input[name="tab_item"] {
     display: none;
 }
-#tab_header_in input:checked + .tab_item{
+.tab_header_in input:checked+.tab_item{
     background-color: var(--box3_color);
     color: var(--selected_tab_font_color);
     border-bottom: none;
 }
-#tab_header_in input:checked + .tab_item:hover{
+.tab_header_in input:checked+.tab_item:hover{
     filter: none;
 }
 #tab_cont{

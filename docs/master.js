@@ -788,7 +788,7 @@ function previewanchor(s, ok) {
     return out;
 }
 function radiochange(e) {
-    document.getElementsByClassName("radised")[0].classList.remove("radised");
+    document.getElementById(e.target.parentNode.dataset.radioto).getElementsByClassName("radised")[0].classList.remove("radised");
     document.getElementById(e.target.id.replace("radio_","")).classList.add("radised");
     switch (e.target.id) {
         case ("radio_preview"):
@@ -1408,29 +1408,29 @@ function tempselected(e){
 
     })
 }
-function tab_next_scroll(){
-    let basevh = document.getElementById("tab_header").getBoundingClientRect().height*4/3
-    let t = document.getElementById("tab_header_in")
+function tab_next_scroll(e){
+    let basevh = e.target.parentNode.getElementsByClassName("tab_header")[0].getBoundingClientRect().height*4/3
+    let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
     let inh = t.getBoundingClientRect().height
     if (Math.floor((Number(t.dataset.martop) - 1) * basevh) < Math.floor(inh) * -1) { return false }
     t.dataset.martop = String(Number(t.dataset.martop)-1)
     t.style.marginTop = `${Number(t.dataset.martop)*4}vh`
 }
-function tab_end_scroll(){
-    let basevh = document.getElementById("tab_header").getBoundingClientRect().height*4/3
-    let t = document.getElementById("tab_header_in")
+function tab_end_scroll(e){
+    let basevh = e.target.parentNode.getElementsByClassName("tab_header")[0].getBoundingClientRect().height*4/3
+    let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
     let inh = t.getBoundingClientRect().height
     t.dataset.martop = Math.floor(inh/Math.floor(basevh))*-1+1
     t.style.marginTop = `${Number(t.dataset.martop)*4}vh`
 }
-function tab_prev_scroll(){
-    let t = document.getElementById("tab_header_in")
+function tab_prev_scroll(e){
+    let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
     if (t.dataset.martop=="0") { return false }
     t.dataset.martop = String(Number(t.dataset.martop)+1)
     t.style.marginTop = `${Number(t.dataset.martop)*4}vh`
 }
-function tab_start_scroll(){
-    let t = document.getElementById("tab_header_in")
+function tab_start_scroll(e){
+    let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
     t.dataset.martop = 0
     t.style.marginTop = "0vh"
 }
