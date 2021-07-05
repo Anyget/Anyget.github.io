@@ -491,8 +491,8 @@ document.addEventListener("input", (e) => {
         } else {
             num = nbym(target.parentNode.parentNode.parentNode);
             inp = target.value;
-            //mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas]] -= 1
-            //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
+            mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas]] -= 1
+            mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
             datamemodivreload()
             lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
