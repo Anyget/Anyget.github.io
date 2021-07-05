@@ -365,30 +365,35 @@ function changetemp() {
     };
 };
 function messagereloadbynowtemp(){
-    n = 0
-    deal_list.forEach(ii => {
-        let box = mbyn(n).lastElementChild;
-        if (deal_sets[n]["use_temp"] == now_temp){
-            box.innerHTML = templates[now_temp]["conf_htm"];
-            Object.keys(all_data).forEach(xx => {
-                if (typeof ii[xx] === "undefined") {
-                    ii[xx] = "";
-                };
-                let cc = 0
-                Array.from(box.getElementsByClassName(xx)).forEach(iii => {
-                    iii.value = ii[xx];
-                    if (xx.startsWith("blocker_")) {
-                        iii.style = style_list[n][xx][cc]
-                    } else {
-                        iii.parentNode.style = style_list[n][xx][cc]
-                    }
-                    cc++
-                })
-            });
-            labelreload("messages",n)
-        }
-        n++;
-    });
+    Object.keys(lists).forEach(id=>{
+        let dl = lists[id]["deal_list"]
+        let ds = lists[id]["deal_sets"]
+        n = 0
+        dl.forEach(ii => {
+            let box = mbyidn(id,n).lastElementChild;
+            if (ds[n]["use_temp"] == now_temp) {
+                box.innerHTML = templates[now_temp]["conf_htm"];
+                Object.keys(all_data).forEach(xx => {
+                    if (typeof ii[xx] === "undefined") {
+                        ii[xx] = "";
+                    };
+                    let cc = 0
+                    Array.from(box.getElementsByClassName(xx)).forEach(iii => {
+                        iii.value = ii[xx];
+                        if (xx.startsWith("blocker_")) {
+                            iii.style = style_list[n][xx][cc]
+                        } else {
+                            iii.parentNode.style = style_list[n][xx][cc]
+                        }
+                        cc++
+                    })
+                });
+                labelreload(id, n)
+            }
+            n++;
+        });
+    })
+    
 }
 function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
