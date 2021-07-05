@@ -740,6 +740,7 @@ button:active{
     height: 2%;
 }
 .functionselect{
+    padding: 0;
     color: inherit;
     height: calc(1em + 2px);
     max-height: 100%;
@@ -748,10 +749,12 @@ button:active{
     border:1px transparent solid;
     font-weight: bolder;
     line-height: 1em;
+    vertical-align:top;
 }
 .functionselect option{
     font-size: medium;
     background-color: transparent;
+    vertical-align:top;
 }
 #datapul_sets,#labelpul_sets{
     width: 100%;

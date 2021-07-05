@@ -2087,7 +2087,7 @@ function getn(){
     return Object.keys(all_data)[i];
 }
 function labelreload(id,n){
-    templates[deal_sets[n]["use_temp"]]["conf_label"].forEach(xx => {
+    templates[lists[id]["deal_sets"][n]["use_temp"]]["conf_label"].forEach(xx => {
         if (all_label[xx]["labelset_calctarget"] >= 0) {
             Array.from(mbyidn(id,n).getElementsByClassName(xx)).forEach(iii => {
                 if (lists[id]["deal_list"][n][Object.keys(all_data)[all_label[xx]["labelset_calctarget"]]] == all_label[xx]["labelset_calcstr"]) {
