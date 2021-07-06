@@ -86,6 +86,7 @@ let settings = {
         }
     }
 }
+let settings_now={}
 let now_temp = 0
 let inputing = {}
 let now_theme = 0
@@ -139,10 +140,10 @@ function settings_r(v,d,kk){
         let te = document.getElementById("settings").lastElementChild
         switch (v.type){
             case "checkbox":
-                te.insertAdjacentHTML("beforeend",`<label><input type="checkbox" ${v.init?"checked":""} id="settings_${kk}" onchange="settings.${kk.split("_").join(".list.")}.f()">${v.label}</label>`)
+                te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${v.init ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f()">${v.label}</label>`)
                 break
             case "select":
-                te.insertAdjacentHTML("beforeend",`<select id="settings_${kk}" onchange="settings.${kk.split("_").join(".list.")}.f()"></select>`)
+                te.insertAdjacentHTML("beforeend", `<select id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.selectedIndex;settings.${kk.split("_").join(".list.")}.f()"></select>`)
                 Object.keys(v.options).forEach(i=>{
                     te.lastElementChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
                 })
@@ -152,10 +153,32 @@ function settings_r(v,d,kk){
         }
     }
 }
+function settingsnow_r(sv,nv){
+    if (sv.type == "head"){
+        Object.keys(sv.list).forEach(k=>{
+            if (sv.list[k].type == "head"){
+                nv[k] = {}
+            }else{
+                nv[k] = 0
+            }
+            settingsnow_r(sv.list[k],nv[k])
+        })
+    }else{
+        nv = sv.init
+    }
+}
 let easypreviewobserver = new IntersectionObserver(epo_function,{root:document.getElementById("easy_preview")})
 window.onload = function () {
     Object.keys(settings).forEach(cc=>{
         settings_r(settings[cc],1,cc)
+    })
+    Object.keys(settings).forEach(cc=>{
+        if (settings[cc].type == "head"){
+            settings_now[cc] = {}
+        }else{
+            settings_now[cc] = 0
+        }
+        settingsnow_r(settings[cc], settings_now[cc])
     })
     let cc = 0
     for (let i of document.getElementsByClassName("functionselect")){
