@@ -1595,37 +1595,31 @@ function lockreload(){
     })
 }
 function themeprev(){
-    let t = document.getElementById("settings_views_colors_themeselect")
-    let n = t.selectedIndex
-    if (n > 0){
-        t.children[n - 1].selected = true
+    if (settings_now["views"]["colors"]["themeselect"] > 0) {
+        settings_now["views"]["colors"]["themeselect"]  -= 1
         themechange()
     }
 }
 function themenext() {
-    let t = document.getElementById("settings_views_colors_themeselect")
-    let n = t.selectedIndex
-    if (n < theme_list.length-1) {
-        t.children[n + 1].selected = true
+    if (settings_now["views"]["colors"]["themeselect"]+1 < Object.keys(settings["views"]["list"]["colors"]["list"]["themeselect"]["options"]).length) {
+        settings_now["views"]["colors"]["themeselect"]  += 1
         themechange()
     }
 }
 function themechange(){
-    let t = document.getElementById("settings_views_colors_themeselect")
-    let n = t.options[t.selectedIndex].value
+    let n = String(settings_now["views"]["colors"]["themeselect"]+1).padStart(2,"0")
     let s = `@import url(themes/${n}.css);`
     let ss = ""
-    if (document.getElementById("settings_views_colors_highlightcheck").checked){
+    if (settings_now["views"]["colors"]["highlightcheck"]){
         ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[0].innerText = s
     document.getElementsByTagName("style")[1].innerText = ss
 }
 function highlightchange(){
-    let t = document.getElementById("settings_views_colors_themeselect")
-    let n = t.options[t.selectedIndex].value
+    let n = String(settings_now["views"]["colors"]["themeselect"]+1).padStart(2, "0")
     let ss = ""
-    if (document.getElementById("settings_views_colors_highlightcheck").checked) {
+    if (settings_now["views"]["colors"]["highlightcheck"]) {
         ss = `@import url(themes/fontcolors/${n}.css);`
     }
     document.getElementsByTagName("style")[1].innerText = ss
