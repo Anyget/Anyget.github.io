@@ -8,9 +8,6 @@ const theme_list = [
     "Discord"
 ]
 let lists = {"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"putmessagediv":{"deal_list":[],"style_list":[],"deal_sets":[]}}
-let deal_list = lists["messages"]["deal_list"];
-let style_list = lists["messages"]["style_list"];
-let deal_sets = lists["messages"]["deal_sets"]
 let put_deal_list = []
 let put_deal_sets = []
 let all_data = {};
@@ -355,31 +352,28 @@ function changetemp() {
             t.value = inputing[i]
             taras(t)
         })
-        deal_list = lists["messages"]["deal_list"];
-        style_list = lists["messages"]["style_list"];
-        deal_sets = lists["messages"]["deal_sets"]
-        while (style_list.length < deal_list.length) {
-            style_list.push({})
+        while (lists["messages"]["style_list"].length < lists["messages"]["deal_list"].length) {
+            lists["messages"]["style_list"].push({})
         }
         let n = 0
-        deal_list.forEach(ii => {
+        lists["messages"]["deal_list"].forEach(ii => {
             let box = mbyn(n).lastElementChild;
-            let t = deal_sets[n]["use_temp"]
+            let t = lists["messages"]["deal_sets"][n]["use_temp"]
             templates[t]["conf_data"].forEach(x => {
                 if (backupconfdata.includes(x) || now_temp != t) {
-                    style_list[n][x] = []
+                    lists["messages"]["style_list"][n][x] = []
                     if (x.startsWith("liner_")){
                         Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                            style_list[n][x].push(cd.parentNode.style.cssText)
+                            lists["messages"]["style_list"][n][x].push(cd.parentNode.style.cssText)
                         })
                     }else{
                         Array.from(box.getElementsByClassName(x)).forEach(cd => {
-                            style_list[n][x].push(cd.style.cssText);
+                            lists["messages"]["style_list"][n][x].push(cd.style.cssText);
                         })
                     }
 
-                }else if (!Object.keys(style_list[n]).includes(x)) {
-                    style_list[n][x] = []
+                }else if (!Object.keys(lists["messages"]["style_list"][n]).includes(x)) {
+                    lists["messages"]["style_list"][n][x] = []
                 }
             })
             n++;
@@ -407,9 +401,9 @@ function messagereloadbynowtemp(){
                     Array.from(box.getElementsByClassName(xx)).forEach(iii => {
                         iii.value = ii[xx];
                         if (xx.startsWith("blocker_")) {
-                            iii.style = style_list[n][xx][cc]
+                            iii.style = lists["messages"]["style_list"][n][xx][cc]
                         } else {
-                            iii.parentNode.style = style_list[n][xx][cc]
+                            iii.parentNode.style = lists["messages"]["style_list"][n][xx][cc]
                         }
                         cc++
                     })
@@ -419,9 +413,6 @@ function messagereloadbynowtemp(){
             n++;
         });
     })
-    style_list = lists["messages"]["style_list"]
-    deal_list = lists["messages"]["deal_list"]
-    deal_sets = lists["messages"]["deal_sets"]
 
 }
 function addmess() {
@@ -430,13 +421,13 @@ function addmess() {
         let formi_c = document.getElementById("form_inp")
         let now = document.getElementById("cd")
         now.id = ""
-        let num = deal_list.length
-        deal_list.push({})
+        let num = lists["messages"]["deal_list"].length
+        lists["messages"]["deal_list"].push({})
         datamemodivreload()
         Object.keys(all_data).forEach(k=>{
-            deal_list[num][k] = ""
+            lists["messages"]["deal_list"][num][k] = ""
         })
-        deal_sets.push({
+        lists["messages"]["deal_sets"].push({
             "use_temp":now_temp+0,
             "locked":false
         })
@@ -445,7 +436,7 @@ function addmess() {
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
                 let nnnnn = formi_c.getElementsByClassName(i)[n];
                 (i.startsWith("blocker_")?o:o.parentNode).style = (i.startsWith("blocker_")?nnnnn:nnnnn.parentNode).style.cssText;
-                deal_list[num][i] = o.value = nnnnn.value
+                lists["messages"]["deal_list"][num][i] = o.value = nnnnn.value
                 n++
             })
         })
@@ -460,11 +451,11 @@ function addmess() {
                 i.value = inputing[k]
             })
         });
-        labelreload("messages",deal_list.length-1)
+        labelreload("messages",lists["messages"]["deal_list"].length-1)
     }
     let nnn = getn()
     mexsets[nnn] = {};
-    deal_list.forEach(d => {
+    lists["messages"]["deal_list"].forEach(d => {
         if (Object.keys(mexsets[nnn]).includes(d[nnn])) {
             mexsets[nnn][d[nnn]] = mexsets[nnn][d[nnn]] + 1
         } else {
@@ -742,10 +733,10 @@ function unescapeHtml(str) {
 function plainreload() {
     let alll = []
     let c = 0
-    deal_list.forEach(i => {
+    lists["messages"]["deal_list"].forEach(i => {
         c++
-        let sent = templates[deal_sets[c-1]["use_temp"]]["template"]
-        templates[deal_sets[c-1]["use_temp"]]["conf_data"].forEach(d => {
+        let sent = templates[lists["messages"]["deal_sets"][c-1]["use_temp"]]["template"]
+        templates[lists["messages"]["deal_sets"][c-1]["use_temp"]]["conf_data"].forEach(d => {
             let dd = d.startsWith("liner_")?`$${d.replace("liner_","")}$`:`|${d.replace("blocker_","")}|`
             let idd = []
             if (d.startsWith("blocker_")){
@@ -762,10 +753,10 @@ function plainreload() {
             }
             sent = sent.split(dd).join(escapeHtml(idd));
         })
-        templates[deal_sets[c - 1]["use_temp"]]["conf_label"].forEach(d => {
+        templates[lists["messages"]["deal_sets"][c - 1]["use_temp"]]["conf_label"].forEach(d => {
             let dd = `%${d.replace("labeler_", "")}%`
             let inner = ""
-            if (deal_list[c - 1][ltget(d)] == all_label[d]["labelset_calcstr"]) {
+            if (lists["messages"]["deal_list"][c - 1][ltget(d)] == all_label[d]["labelset_calcstr"]) {
                 inner = all_label[d]["labelset_calcthen"]
             } else {
                 inner = all_label[d]["labelset_calcelse"]
@@ -791,7 +782,7 @@ function previewanchor(s, ok) {
                 out = out.slice(0, -1)
                 sent = sent.slice(ok[k].length)
                 let sss = 0
-                deal_list.map(xx => xx[k]).forEach(l => {
+                lists["messages"]["deal_list"].map(xx => xx[k]).forEach(l => {
                     sss++;
                     if (l == "") { return };
                     if (sent.startsWith(l)) {
@@ -833,7 +824,7 @@ function radiochange(e) {
         case ("radio_preview"):
             document.getElementById("preview").innerHTML = ""
             let anchorok = {}
-            let dm = deal_list.map(xx => Object.values(xx).join("")).join("")
+            let dm = lists["messages"]["deal_list"].map(xx => Object.values(xx).join("")).join("")
             Object.keys(all_data).forEach(a => {
                 if (!all_data[a]["dataset_anchor?"]) { return };
                 if (all_data[a]["dataset_anchor"] === "") { return };
@@ -843,7 +834,7 @@ function radiochange(e) {
                 anchorok[a] = escapeHtml(all_data[a]["dataset_anchor"]);
             })
             let s = 0;
-            deal_list.forEach(i => {
+            lists["messages"]["deal_list"].forEach(i => {
                 s++;
                 previewunimessage(s,anchorok)
             })
@@ -854,15 +845,15 @@ function radiochange(e) {
     }
 }
 function previewunimessage(s,anchorok){
-    let sent = templates[deal_sets[s - 1]["use_temp"]]["template"]
-    templates[deal_sets[s - 1]["use_temp"]]["conf_data"].forEach(d => {
+    let sent = templates[lists["messages"]["deal_sets"][s - 1]["use_temp"]]["template"]
+    templates[lists["messages"]["deal_sets"][s - 1]["use_temp"]]["conf_data"].forEach(d => {
         let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")}$` : `|${d.replace("blocker_", "")}|`
-        sent = sent.split(dd).join(escapeHtml(deal_list[s - 1][d]));
+        sent = sent.split(dd).join(escapeHtml(lists["messages"]["deal_list"][s - 1][d]));
     })
-    templates[deal_sets[s - 1]["use_temp"]]["conf_label"].forEach(d=>{
+    templates[lists["messages"]["deal_sets"][s - 1]["use_temp"]]["conf_label"].forEach(d=>{
         let dd = `%${d.replace("labeler_", "")}%`
         let inner = ""
-        if (deal_list[s-1][ltget(d)] == all_label[d]["labelset_calcstr"]){
+        if (lists["messages"]["deal_list"][s-1][ltget(d)] == all_label[d]["labelset_calcstr"]){
             inner = all_label[d]["labelset_calcthen"]
         }else{
             inner = all_label[d]["labelset_calcelse"]
@@ -982,7 +973,7 @@ function datgen() {
     let strs = []
     let title = escapeHtml(document.getElementById("dat_title").value)
     n = 0
-    deal_list.forEach(m => {
+    lists["messages"]["deal_list"].forEach(m => {
         n++;
         strs.push("")
         Object.keys(temp).forEach(k => {
@@ -1077,9 +1068,6 @@ function loadrap(f) {
 function load(n){
     all_data = n["all_data"];
     lists = n["lists"];
-    deal_sets = lists["messages"]["deal_sets"];
-    deal_list = lists["messages"]["deal_list"];
-    style_list = lists["messages"]["style_list"];
     templates = n["templates"];
     inputing = n["inputing"]
     now_temp=n["now_temp"]
@@ -1137,10 +1125,10 @@ function subs() {
     if (sel.selectedIndex < 1) return false;
     if (num < 1) return false;
     let selecting = Object.keys(all_data)[sel.selectedIndex - 1]
-    for (let i = num + 0; i - num < txts.length && i <= deal_list.length; i++) {
-        if (!deal_sets[i-1]["locked"]){
-            deal_list[i - 1][selecting] = txts[i - num]
-            if (templates[deal_sets[i-1]["use_temp"]]["conf_data"].includes(selecting)) {
+    for (let i = num + 0; i - num < txts.length && i <= lists["messages"]["deal_list"].length; i++) {
+        if (!lists["messages"]["deal_sets"][i-1]["locked"]){
+            lists["messages"]["deal_list"][i - 1][selecting] = txts[i - num]
+            if (templates[lists["messages"]["deal_sets"][i-1]["use_temp"]]["conf_data"].includes(selecting)) {
                 mbyn(i-1).lastElementChild.getElementsByClassName(selecting)[0].value = txts[i - num];
             }
         }  
@@ -1335,13 +1323,13 @@ function replacing(){
     let reg = new RegExp(document.getElementById("replace_a").value, flag)
     let n = 0;
     let rr_list = []
-    for (let i of deal_list){
+    for (let i of lists["messages"]["deal_list"]){
         n++;
         let to = mbyn(n-1).lastElementChild
         for (let r of r_list){
             i[r] = i[r].replace(reg,document.getElementById("replace_b").value)
             rr_list.push(r)
-            if (templates[deal_sets[n-1]["use_temp"]]["conf_data"].includes(r)){
+            if (templates[lists["messages"]["deal_sets"][n-1]["use_temp"]]["conf_data"].includes(r)){
                 to.getElementsByClassName(r)[0].value = i[r]
                 taras(to.getElementsByClassName(r)[0])
             }
@@ -1408,7 +1396,7 @@ function deparr(arr1,arr2){
     return [...new Set(dep)]
 }
 function confdep(n1,n2){
-    return deparr(templates[deal_sets[n1]["use_temp"]]["conf_data"], templates[deal_sets[n2]["use_temp"]]["conf_data"])
+    return deparr(templates[lists["messages"]["deal_sets"][n1]["use_temp"]]["conf_data"], templates[lists["messages"]["deal_sets"][n2]["use_temp"]]["conf_data"])
 }
 function tempselectover(t){
     let el = t.parentNode.parentNode.parentNode
@@ -1431,8 +1419,8 @@ function tempselected(e){
         l = [e.target.parentNode.parentNode.parentNode]
     }
     l.forEach(t=>{
-        let dl = lists[t.parentNode.id][deal_list]
-        let ds = lists[t.parentNode.id][deal_sets]
+        let dl = lists[t.parentNode.id][lists["messages"]["deal_list"]]
+        let ds = lists[t.parentNode.id][lists["messages"]["deal_sets"]]
         let el = t.lastElementChild
         let s = nbym(el.parentNode)
         ds[s]["use_temp"] = e.target.selectedIndex
@@ -1758,20 +1746,20 @@ new MutationObserver(e=>{
 }).observe(document.getElementById("messages"), {childList: true,attributes: true,subtree: true})
 
 function unieasypreviewreloader(n){
-    if (deal_list.length < n+1){
+    if (lists["messages"]["deal_list"].length < n+1){
         easypreviewobserver.unobserve(document.getElementById("easy_preview").children[n])
         document.getElementById("easy_preview").children[n].outerHTML = ""
         return false
     }
-    let sent = templates[deal_sets[n]["use_temp"]]["template"]
-    templates[deal_sets[n]["use_temp"]]["conf_data"].forEach(d => {
+    let sent = templates[lists["messages"]["deal_sets"][n]["use_temp"]]["template"]
+    templates[lists["messages"]["deal_sets"][n]["use_temp"]]["conf_data"].forEach(d => {
         let dd = d.startsWith("liner_") ? `$${d.replace("liner_", "")}$` : `|${d.replace("blocker_", "")}|`
-        sent = sent.split(dd).join(escapeHtml(deal_list[n][d]));
+        sent = sent.split(dd).join(escapeHtml(lists["messages"]["deal_list"][n][d]));
     })
-    templates[deal_sets[n]["use_temp"]]["conf_label"].forEach(d => {
+    templates[lists["messages"]["deal_sets"][n]["use_temp"]]["conf_label"].forEach(d => {
         let dd = `%${d.replace("labeler_", "")}%`
         let inner = ""
-        if (deal_list[n][ltget(d)] == all_label[d]["labelset_calcstr"]) {
+        if (lists["messages"]["deal_list"][n][ltget(d)] == all_label[d]["labelset_calcstr"]) {
             inner = all_label[d]["labelset_calcthen"]
         } else {
             inner = all_label[d]["labelset_calcelse"]
@@ -1922,7 +1910,7 @@ function tfer(to,from,toi,toic,fromic){
                     toc.parentNode.style = fromc.parentNode.style.cssText;
                     toc.value = fromc.value;
                 } else {
-                    toc.value = deal_list[toi][d]
+                    toc.value = lists["messages"]["deal_list"][toi][d]
                 }
             }
             nnn++
@@ -1972,9 +1960,6 @@ function mesdel(target){
         });
     }
     
-    deal_list = lists["messages"]["deal_list"];
-    style_list = lists["messages"]["style_list"];
-    deal_sets = lists["messages"]["deal_sets"]
     let n =getn()
     mexsets[n] = {};
     dl.forEach(d=>{
@@ -2046,7 +2031,7 @@ function datamemoreload(){
     if (i == -1){return false}
     let n = Object.keys(all_data)[i];
     mexsets[n] = {};
-    deal_list.forEach(d=>{
+    lists["messages"]["deal_list"].forEach(d=>{
         if (Object.keys(mexsets[n]).includes(d[n])){
             mexsets[n][d[n]] = mexsets[n][d[n]]+1
         }else{
