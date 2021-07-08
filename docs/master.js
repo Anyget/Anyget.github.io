@@ -355,6 +355,9 @@ function changetemp() {
             t.value = inputing[i]
             taras(t)
         })
+        deal_list = lists["messages"]["deal_list"];
+        style_list = lists["messages"]["style_list"];
+        deal_sets = lists["messages"]["deal_sets"]
         while (style_list.length < deal_list.length) {
             style_list.push({})
         }
@@ -416,7 +419,10 @@ function messagereloadbynowtemp(){
             n++;
         });
     })
-    
+    style_list = lists["messages"]["style_list"]
+    deal_list = lists["messages"]["deal_list"]
+    deal_sets = lists["messages"]["deal_sets"]
+
 }
 function addmess() {
     for (let i = 0; i < document.getElementById("messv").value; i++) {
@@ -519,15 +525,15 @@ document.addEventListener("input", (e) => {
         } else {
             num = nbym(target.parentNode.parentNode.parentNode);
             inp = target.value;
-            mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas]] -= 1
-            mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
-            datamemodivreload()
             lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
             Array.from(intersectobjects).forEach(i => {
                 
                 unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
             })
             labelreload(target.parentNode.parentNode.parentNode.parentNode.id, num)
+            //mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas]] -= 1
+            //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
+            //datamemodivreload()
         };
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
