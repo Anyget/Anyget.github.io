@@ -370,13 +370,13 @@ h1,h2{
     resize: none;
     overflow-y: scroll;
 }
-#plainset{
+#plainsidemenu textarea{
     border: solid 2px var(--border_color);
     display: block;
     resize: none;
     overflow-y: scroll;
     font-size: 1.2rem;
-    height: 30vh;
+    height: 15vh;
     width: 100%;
     box-sizing: border-box;
 }

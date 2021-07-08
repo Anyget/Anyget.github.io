@@ -764,6 +764,18 @@ function plainreload() {
             sent = sent.split(dd).join(escapeHtml(inner));
         })
         alll.push(sent)
+        if (lists["messages"]["deal_list"].length>c){
+            Object.keys(all_data).some(k=>{
+                if (Number(all_data[k]["dataset_adder"]) != 0){
+                    if (Number(lists["messages"]["deal_list"][c][k])-Number(i[k]) != Number(all_data[k]["dataset_adder"])){
+                        if (document.getElementById("plaincutset").value != ""){
+                            alll.push(document.getElementById("plaincutset").value)
+                            return true
+                        }
+                    }
+                }
+            })
+        }
     })
     document.getElementById("previewplain").value = unescapeHtml(alll.join(document.getElementById("plainset").value))
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
