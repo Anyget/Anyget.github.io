@@ -371,13 +371,14 @@ h1,h2{
     overflow-y: scroll;
 }
 #plainsidemenu textarea{
+    margin-left: 1.2em;
     border: solid 2px var(--border_color);
     display: block;
     resize: none;
     overflow-y: scroll;
     font-size: 1.2rem;
     height: 15vh;
-    width: 100%;
+    width: calc(100% - 1.2em);
     box-sizing: border-box;
 }
 #randlen,#randman{
