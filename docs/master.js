@@ -180,6 +180,11 @@ function nowsetchange(id,v){
     
     o.dispatchEvent(new Event('change'))
 }
+function kilec(id){
+    Array.from(document.querySelectorAll(`[data-tarid='${id}']`)).forEach(e=>{
+        e.value = document.getElementById(id).value
+    })
+}
 function settings_r(v,d,kk){
     if (v.type == "head"){
         document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
@@ -196,10 +201,10 @@ function settings_r(v,d,kk){
         let te = document.getElementById("settings").lastElementChild
         switch (v.type){
             case "checkbox":
-                te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${v.init ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f()">${v.label}</label>`)
+                te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${v.init ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.label}</label>`)
                 break
             case "select":
-                te.insertAdjacentHTML("beforeend", `<select id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.selectedIndex;settings.${kk.split("_").join(".list.")}.f()"></select>`)
+                te.insertAdjacentHTML("beforeend", `<select id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.selectedIndex;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)"></select>`)
                 Object.keys(v.options).forEach(i=>{
                     te.lastElementChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
                 })
@@ -207,10 +212,10 @@ function settings_r(v,d,kk){
 
                 break
             case "textarea":
-                te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f()">${v.init}</textarea>`)
+                te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.init}</textarea>`)
                 break
             case "text":
-                te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${v.init}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f()">`)
+                te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${v.init}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">`)
                 break
         }
     }

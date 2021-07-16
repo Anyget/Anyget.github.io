@@ -376,9 +376,9 @@ h1,h2{
     display: block;
     resize: none;
     overflow-y: scroll;
-    font-size: 1.2rem;
+    font-size: 1rem;
     height: 15vh;
-    width: calc(100% - 1.2em);
+    width: calc(100% - 1em);
     box-sizing: border-box;
 }
 #randlen,#randman{
