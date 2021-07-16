@@ -14,16 +14,16 @@ let all_data = {};
 let all_label = {}
 let dragging = null;
 let templates = [
-        {
-            "template" : "",
-            "conf_htm" : "",
-            "conf_col" : "",
-            "conf_data" : [],
-            "conf_label" : []
-        }
-    ]
+    {
+        "template" : "",
+        "conf_htm" : "",
+        "conf_col" : "",
+        "conf_data" : [],
+        "conf_label" : []
+    }
+]
 let boxes_sort = [0,1,2]
-let settings = {
+const settings = {
     "views":{
         name:"表示",
         type:"head",
@@ -79,7 +79,42 @@ let settings = {
                     }
                 }
             }
-            
+        }
+    },
+    "outputs":{
+        name:"出力",
+        type:"head",
+        list:{
+            "glo":{
+                name:"全体",
+                type:"head",
+                list:{
+                    "span":{
+                        name:"レス間文字列",
+                        info:"レスとレスの間に挟む文字列を指定します",
+                        type:"textarea",
+                        init:"\n\n"
+                    },
+                    "skip":{
+                        name:"省略文字列",
+                        info:"レスが省略された際、自動的に指定した文字列を挿入します",
+                        type:"textarea",
+                        init:"",
+                    },
+                    "indent_ex":{
+                        name:"字下げの例外文字",
+                        info:"行頭にある文字が含まれるとき、字下げの対象から除外されます",
+                        type:"text",
+                        init:"",
+                    },
+                    "indent_str": {
+                        name: "字下げ内容",
+                        info: "複数行変数の行頭を指定した文字列で字下げします",
+                        type: "text",
+                        init: "",
+                    }
+                }
+            }
         }
     }
 }
@@ -121,6 +156,26 @@ function epo_function(es){
         }
     })
 }
+function nowsetchange(id,v){
+    let o = document.getElementById(id)
+    switch (o.tagName.toLowerCase()){
+        case "select":
+            o.selectedIndex = v
+            break
+        case "input":
+            if (o.type == "checkbox"){
+                o.checked = v
+            }else{
+                o.value = v
+            }
+            break
+        default:
+            o.value = v
+            break
+    }
+    
+    o.dispatchEvent(new Event('change'))
+}
 function settings_r(v,d,kk){
     if (v.type == "head"){
         document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
@@ -146,6 +201,12 @@ function settings_r(v,d,kk){
                 })
                 te.lastElementChild.children[v.init].selected = true
 
+                break
+            case "textarea":
+                te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f()">${v.init}</textarea>`)
+                break
+            case "text":
+                te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${v.init}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f()">`)
                 break
         }
     }
@@ -1601,14 +1662,12 @@ function lockreload(){
 }
 function themeprev(){
     if (settings_now["views"]["colors"]["themeselect"] > 0) {
-        settings_now["views"]["colors"]["themeselect"]  -= 1
-        themechange()
+        nowsetchange("settings_views_colors_themeselect",settings_now["views"]["colors"]["themeselect"]-1)
     }
 }
 function themenext() {
     if (settings_now["views"]["colors"]["themeselect"]+1 < Object.keys(settings["views"]["list"]["colors"]["list"]["themeselect"]["options"]).length) {
-        settings_now["views"]["colors"]["themeselect"]  += 1
-        themechange()
+        nowsetchange("settings_views_colors_themeselect", settings_now["views"]["colors"]["themeselect"] + 1)
     }
 }
 function themechange(){

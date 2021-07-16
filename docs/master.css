@@ -796,6 +796,12 @@ button:active{
 #settings select{
     display: block;
 }
+#settings textarea{
+    display: block;
+    resize: none;
+    width: 80%;
+    height: 4em;
+}
 #settings h1{
     background-color: var(--box3_color);
     text-align: left;
