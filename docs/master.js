@@ -93,25 +93,29 @@ const settings = {
                         name:"レス間文字列",
                         info:"レスとレスの間に挟む文字列を指定します",
                         type:"textarea",
-                        init:"\n\n"
+                        init:"\n",
+                        f:plainreload
                     },
                     "skip":{
                         name:"省略文字列",
                         info:"レスが省略された際、自動的に指定した文字列を挿入します",
                         type:"textarea",
                         init:"",
+                        f:plainreload
                     },
-                    "indent_ex":{
+                    "indentex":{
                         name:"字下げの例外文字",
                         info:"行頭にある文字が含まれるとき、字下げの対象から除外されます",
                         type:"text",
                         init:"",
+                        f:plainreload
                     },
-                    "indent_str": {
+                    "indentstr": {
                         name: "字下げ内容",
                         info: "複数行変数の行頭を指定した文字列で字下げします",
                         type: "text",
                         init: "",
+                        f:plainreload
                     }
                 }
             }
@@ -217,7 +221,7 @@ function settingsnow_r(sv,nv){
             if (sv.list[k].type == "head"){
                 nv[k] = {}
             }else{
-                nv[k] = 0
+                nv[k] = sv.list[k].init
             }
             settingsnow_r(sv.list[k],nv[k])
         })
@@ -234,7 +238,7 @@ window.onload = function () {
         if (settings[cc].type == "head"){
             settings_now[cc] = {}
         }else{
-            settings_now[cc] = 0
+            settings_now[cc] = settings[cc].init
         }
         settingsnow_r(settings[cc], settings_now[cc])
     })
@@ -801,8 +805,8 @@ function plainreload() {
             let idd = []
             if (d.startsWith("blocker_")){
                 i[d].split("\n").forEach(l=>{
-                    if (![...document.getElementById("plainindentex").value].includes(l.charAt(0))){
-                        idd.push(document.getElementById("plainindentspace").value+l)
+                    if (![...settings_now["outputs"]["glo"]["indentex"]].includes(l.charAt(0))){
+                        idd.push(settings_now["outputs"]["glo"]["indentstr"]+l)
                     }else{
                         idd.push(l)
                     }
@@ -828,8 +832,8 @@ function plainreload() {
             Object.keys(all_data).some(k=>{
                 if (Number(all_data[k]["dataset_adder"]) != 0){
                     if (Number(lists["messages"]["deal_list"][c][k])-Number(i[k]) != Number(all_data[k]["dataset_adder"])){
-                        if (document.getElementById("plaincutset").value != ""){
-                            alll.push(document.getElementById("plaincutset").value)
+                        if (settings_now["outputs"]["glo"]["skip"] != ""){
+                            alll.push(settings_now["outputs"]["glo"]["skip"])
                             return true
                         }
                     }
@@ -837,7 +841,7 @@ function plainreload() {
             })
         }
     })
-    document.getElementById("previewplain").value = unescapeHtml(alll.join(document.getElementById("plainset").value))
+    document.getElementById("previewplain").value = unescapeHtml(alll.join(settings_now["outputs"]["glo"]["span"]))
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
@@ -2322,4 +2326,8 @@ function contextcommand_checkedsave() {
     a.target = '_blank';
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
+}
+
+function asetyc(e){
+    nowsetchange(e.target.dataset.tarid,e.target.value)
 }
