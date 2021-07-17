@@ -192,7 +192,7 @@ function settings_r(v,d,kk){
         for (let i = 0; i < d-1; i++) {
             t = t.lastElementChild;
         }
-        t.insertAdjacentHTML("beforeend", `<div><input type="checkbox" id="settingtab_${kk}"><label for="settingtab_${kk}"><div></div></label><a href="#settings#settings_${kk}">${v.name}</a></div>`)
+        t.insertAdjacentHTML("beforeend", `<div><input type="checkbox" id="settingtab_${kk}"><label for="settingtab_${kk}"><div></div></label><a data-dhref="settings_${kk}" onclick="setsc(event)">${v.name}</a></div>`)
         Object.keys(v.list).forEach(vk=>{
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
         })
@@ -2335,4 +2335,7 @@ function contextcommand_checkedsave() {
 
 function asetyc(e){
     nowsetchange(e.target.dataset.tarid,e.target.value)
+}
+function setsc(e){
+    document.getElementById("settings").scrollTop = document.getElementById(e.target.dataset.dhref).offsetTop
 }
