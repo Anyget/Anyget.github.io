@@ -116,6 +116,13 @@ const settings = {
                         type: "text",
                         init: "",
                         f:plainreload
+                    },
+                    "replyindent": {
+                        name: "返信インデント",
+                        info: "一つ上の投稿に対する返信であると判定できる場合にインデントを行います",
+                        type: "text",
+                        init: "",
+                        f: plainreload
                     }
                 }
             }
@@ -844,6 +851,45 @@ function plainreload() {
                     }
                 }
             })
+        }
+    })
+    c = 0
+    let reptree = []
+    lists["messages"]["deal_list"].forEach(i=>{
+        c++
+        let conf_data = templates[lists["messages"]["deal_sets"][c-1]["use_temp"]]["conf_data"]
+        let mexaflag = false
+        if (c != 1){
+            let cc = 0
+            reptree.slice().reverse().some(m=>{
+                conf_data.forEach(k=>{
+                    if (!mexaflag){
+                        if (all_data[k]["dataset_anchor?"]){
+                            if (all_data[k]["dataset_anchor"] != ""){
+                                conf_data.forEach(d=>{
+                                    if (d.startsWith("blocker_")){
+                                        if (i[d].indexOf(all_data[k]["dataset_anchor"] + m[k])+1){
+                                            mexaflag = true
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    }
+                })
+                if (mexaflag) {
+                    for (let iii = 0; iii < cc; iii++) {
+                        reptree.pop()
+                    }
+                    alll[c - 1] = alll[c - 1].replace(/^/gm, settings_now["outputs"]["glo"]["replyindent"].repeat(reptree.length))
+                    reptree.push(i)
+                    return true
+                }
+                cc++
+            })
+        }
+        if (!mexaflag){
+            reptree = [i]
         }
     })
     document.getElementById("previewplain").value = unescapeHtml(alll.join(settings_now["outputs"]["glo"]["span"]))
