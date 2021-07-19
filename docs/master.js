@@ -2269,7 +2269,7 @@ document.addEventListener("contextmenu",e=>{
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
         cm.style.display = "flex"
-    }else if (e.target.id == "messages"){
+    } else if (e.target.id == "messages" || e.target.matches(".messagediv div,.messagediv")){
         const cm = document.getElementById("messages_contextmenu")
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
