@@ -903,7 +903,7 @@ function radiochange(e) {
     document.getElementById(e.target.id.replace("radio_","")).classList.add("radised");
     switch (e.target.id) {
         case ("radio_preview"):
-            document.getElementById("preview").innerHTML = ""
+            document.getElementById("normalp").innerHTML = ""
             let anchorok = {}
             let dm = lists["messages"]["deal_list"].map(xx => Object.values(xx).join("")).join("")
             Object.keys(all_data).forEach(a => {
@@ -943,7 +943,7 @@ function previewunimessage(s,anchorok){
 
     })
     sent = previewanchor(sent, anchorok).replace(/(https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+)/, "<a href='$1'>$1</a>")
-    document.getElementById("preview").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.split("\n").join("<br>")}</div>`)
+    document.getElementById("normalp").insertAdjacentHTML("beforeend",`<div class="neko" id="preview_${s}">${sent.split("\n").join("<br>")}</div>`)
 }
 function previewplaininput(){
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
@@ -1330,7 +1330,7 @@ function anchorspanmouseover(e){
     if (e.target.classList.contains("anchorspan")) {
         
         let d = []
-        if (e.target.parentNode.parentNode.id == "preview" || (e.target.parentNode.parentNode.parentNode.id=="abss" && e.target.parentNode.parentNode.parentNode.dataset.per=="p")) {
+        if (e.target.parentNode.parentNode.id == "normalp" || (e.target.parentNode.parentNode.parentNode.id=="abss" && e.target.parentNode.parentNode.parentNode.dataset.per=="p")) {
             e.target.dataset.to.split(",").forEach(s => {
                 let n = document.getElementById(`preview_${s}`)
                 d.push(n.outerHTML.replace(' id="preview_', ' id="n_preview_').replace(/ class\=\"[^\"]*\"/, " class='abssneko'"))

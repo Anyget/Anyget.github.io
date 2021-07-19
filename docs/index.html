@@ -150,7 +150,24 @@ $番号$：$名前$ [$メール$] $id$
                     </div>
                 </div>
                 <div id="preview">
-                    
+                    <div class="tab">
+                        <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
+                        <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
+                        <div class="tab_header">
+                            <div class="tab_header_in" data-martop="0" data-radioto="previewtab_cont">
+                                <input type="radio" name="previewtab_item" id="radio_normalp" onchange="radiochange(event);" checked><!--
+                                --><label class="tab_item" for="radio_datgen">通常</label><!--
+                                --><input type="radio" name="previewtab_item" id="radio_2chp" onchange="radiochange(event);">
+                            </div>
+                        </div>
+                        <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
+                        <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
+                    </div>
+                    <div id="previewtab_cont">
+                        <div id="normalp" class="radised">
+
+                        </div>
+                    </div>
                 </div>
                 <div id="plaintext">
                     <div id="previewplaindiv"><textarea id="previewplain" oninput="previewplaininput()"></textarea></div>
