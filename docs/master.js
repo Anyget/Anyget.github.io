@@ -123,6 +123,20 @@ const settings = {
                         type: "text",
                         init: "",
                         f: plainreload
+                    },
+                    "zenkaku": {
+                        name: "全角化",
+                        type: "head",
+                        list:{
+                            "zenkakuall":{
+                                name:"すべて",
+                                type:"checkbox",
+                                info:"",
+                                init:false,
+                                label:"すべての全角化設定をオン/オフ",
+                                f:zenkakuall
+                            }
+                        }
                     }
                 }
             }
@@ -192,6 +206,9 @@ function kilec(id){
         e.value = document.getElementById(id).value
     })
 }
+function zenkakuall(){
+    console.log("a")
+}
 function settings_r(v,d,kk){
     if (v.type == "head"){
         document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
@@ -204,7 +221,7 @@ function settings_r(v,d,kk){
             settings_r(v.list[vk],d+1,`${kk}_${vk}`)
         })
     }else{
-        document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div>`)
+        document.getElementById("settings").insertAdjacentHTML("beforeend", `<div class="settdiv" style="padding-left:${d<4?10:(d-3)*20}px;"><h3>${v.name}</h3><span class="settinfo">${v.info}</span></div>`)
         let te = document.getElementById("settings").lastElementChild
         switch (v.type){
             case "checkbox":
