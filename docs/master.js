@@ -937,7 +937,23 @@ function plainreload() {
             reptree = [i]
         }
     })
-    document.getElementById("previewplain").value = unescapeHtml(alll.join(settings_now["outputs"]["glo"]["span"]))
+    let str = unescapeHtml(alll.join(settings_now["outputs"]["glo"]["span"]))
+    if (settings_now["outputs"]["glo"]["zenkaku"]["zenkakunumber"]){
+        str = str.replace(/[0-9]/g, function (s) {
+            return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+        });
+    }
+    if (settings_now["outputs"]["glo"]["zenkaku"]["zenkakualphabet"]){
+        str = str.replace(/[a-zA-Z]/g, function (s) {
+            return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+        });
+    }
+    if (settings_now["outputs"]["glo"]["zenkaku"]["zenkakusymbol"]) {
+        str = str.replace(/[!-/:-@\[-`{-~\ ]/g, function (s) {
+            return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+        });
+    }
+    document.getElementById("previewplain").value = str
     document.getElementById("plainsize").innerText = document.getElementById("previewplain").value.length
 }
 function previewanchor(s, ok) {
