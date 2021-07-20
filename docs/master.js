@@ -133,9 +133,33 @@ const settings = {
                                 type:"checkbox",
                                 info:"",
                                 init:false,
-                                label:"すべての全角化設定をオン/オフ",
+                                label:"すべての全角化",
                                 f:zenkakuall
-                            }
+                            },
+                            "zenkakunumber":{
+                                name:"数字",
+                                type:"checkbox",
+                                info:"",
+                                init:false,
+                                label:"数字の全角化",
+                                f:plainreload
+                            },
+                            "zenkakualphabet":{
+                                name:"アルファベット",
+                                type:"checkbox",
+                                info:"",
+                                init:false,
+                                label:"アルファベットの全角化",
+                                f:plainreload
+                            },
+                            "zenkakusymbol":{
+                                name:"記号",
+                                type:"checkbox",
+                                info:"",
+                                init:false,
+                                label:"記号の全角化",
+                                f:plainreload
+                            },
                         }
                     }
                 }
