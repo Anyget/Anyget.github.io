@@ -231,7 +231,11 @@ function kilec(id){
     })
 }
 function zenkakuall(){
-    console.log("a")
+    const tf = settings_now["outputs"]["glo"]["zenkaku"]["zenkakuall"]
+    nowsetchange("settings_outputs_glo_zenkaku_zenkakualphabet",tf)
+    nowsetchange("settings_outputs_glo_zenkaku_zenkakunumber", tf)
+    nowsetchange("settings_outputs_glo_zenkaku_zenkakusymbol", tf)
+    plainreload()
 }
 function settings_r(v,d,kk){
     if (v.type == "head"){
