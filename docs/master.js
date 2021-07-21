@@ -361,7 +361,7 @@ function changetemp() {
             templi.push(l)
         }
     })
-    let temp = templi
+    let temp = templi.join("\n")
     let labelstack = ""
     let labeldata = []
     for (let i = 0; i < temp.length; i++) {
