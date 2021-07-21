@@ -85,8 +85,8 @@ const settings = {
         name:"出力",
         type:"head",
         list:{
-            "glo":{
-                name:"全体",
+            "plain":{
+                name:"プレーンテキスト",
                 type:"head",
                 list:{
                     "span":{
@@ -101,6 +101,14 @@ const settings = {
                         info:"レスが省略された際、自動的に指定した文字列を挿入します",
                         type:"textarea",
                         init:"",
+                        f:plainreload
+                    },
+                    "specialindent":{
+                        name:"位置合わせインデント",
+                        info:"",
+                        type:"checkbox",
+                        init:false,
+                        label:"複数行変数の行頭を位置合わせ(他の字下げ・インデント設定を無視)",
                         f:plainreload
                     },
                     "indentex":{
@@ -231,10 +239,10 @@ function kilec(id){
     })
 }
 function zenkakuall(){
-    const tf = settings_now["outputs"]["glo"]["zenkaku"]["zenkakuall"]
-    nowsetchange("settings_outputs_glo_zenkaku_zenkakualphabet",tf)
-    nowsetchange("settings_outputs_glo_zenkaku_zenkakunumber", tf)
-    nowsetchange("settings_outputs_glo_zenkaku_zenkakusymbol", tf)
+    const tf = settings_now["outputs"]["plain"]["zenkaku"]["zenkakuall"]
+    nowsetchange("settings_outputs_plain_zenkaku_zenkakualphabet",tf)
+    nowsetchange("settings_outputs_plain_zenkaku_zenkakunumber", tf)
+    nowsetchange("settings_outputs_plain_zenkaku_zenkakusymbol", tf)
     plainreload()
 }
 function settings_r(v,d,kk){
@@ -346,7 +354,14 @@ function changetemp() {
     let htm = "";
     let mode = "normal";
     let data = [];
-    let temp = document.getElementById("template").value;
+    let otemp = document.getElementById("template").value;
+    let templi = []
+    otemp.split("\n").forEach(l=>{
+        if (!l.startsWith("//")){
+            templi.push(l)
+        }
+    })
+    let temp = templi
     let labelstack = ""
     let labeldata = []
     for (let i = 0; i < temp.length; i++) {
@@ -862,8 +877,8 @@ function plainreload() {
             let idd = []
             if (d.startsWith("blocker_")){
                 i[d].split("\n").forEach(l=>{
-                    if (![...settings_now["outputs"]["glo"]["indentex"]].includes(l.charAt(0))){
-                        idd.push(settings_now["outputs"]["glo"]["indentstr"]+l)
+                    if (![...settings_now["outputs"]["plain"]["indentex"]].includes(l.charAt(0))){
+                        idd.push(settings_now["outputs"]["plain"]["indentstr"]+l)
                     }else{
                         idd.push(l)
                     }
@@ -889,8 +904,8 @@ function plainreload() {
             Object.keys(all_data).some(k=>{
                 if (Number(all_data[k]["dataset_adder"]) != 0){
                     if (Number(lists["messages"]["deal_list"][c][k])-Number(i[k]) != Number(all_data[k]["dataset_adder"])){
-                        if (settings_now["outputs"]["glo"]["skip"] != ""){
-                            alll.push(settings_now["outputs"]["glo"]["skip"])
+                        if (settings_now["outputs"]["plain"]["skip"] != ""){
+                            alll.push(settings_now["outputs"]["plain"]["skip"])
                             return true
                         }
                     }
@@ -898,57 +913,60 @@ function plainreload() {
             })
         }
     })
-    c = 0
-    let reptree = []
-    lists["messages"]["deal_list"].forEach(i=>{
-        c++
-        let conf_data = templates[lists["messages"]["deal_sets"][c-1]["use_temp"]]["conf_data"]
-        let mexaflag = false
-        if (c != 1){
-            let cc = 0
-            reptree.slice().reverse().some(m=>{
-                conf_data.forEach(k=>{
-                    if (!mexaflag){
-                        if (all_data[k]["dataset_anchor?"]){
-                            if (all_data[k]["dataset_anchor"] != ""){
-                                conf_data.forEach(d=>{
-                                    if (d.startsWith("blocker_")){
-                                        if (i[d].indexOf(all_data[k]["dataset_anchor"] + m[k])+1){
-                                            mexaflag = true
+    if (!settings_now["outputs"]["plain"]["specialindent"]){
+        
+        c = 0
+        let reptree = []
+        lists["messages"]["deal_list"].forEach(i=>{
+            c++
+            let conf_data = templates[lists["messages"]["deal_sets"][c-1]["use_temp"]]["conf_data"]
+            let mexaflag = false
+            if (c != 1){
+                let cc = 0
+                reptree.slice().reverse().some(m=>{
+                    conf_data.forEach(k=>{
+                        if (!mexaflag){
+                            if (all_data[k]["dataset_anchor?"]){
+                                if (all_data[k]["dataset_anchor"] != ""){
+                                    conf_data.forEach(d=>{
+                                        if (d.startsWith("blocker_")){
+                                            if (i[d].indexOf(all_data[k]["dataset_anchor"] + m[k])+1){
+                                                mexaflag = true
+                                            }
                                         }
-                                    }
-                                })
+                                    })
+                                }
                             }
                         }
+                    })
+                    if (mexaflag) {
+                        for (let iii = 0; iii < cc; iii++) {
+                            reptree.pop()
+                        }
+                        alll[c - 1] = alll[c - 1].replace(/^/gm, settings_now["outputs"]["plain"]["replyindent"].repeat (reptree.length))
+                        reptree.push(i)
+                        return true
                     }
+                    cc++
                 })
-                if (mexaflag) {
-                    for (let iii = 0; iii < cc; iii++) {
-                        reptree.pop()
-                    }
-                    alll[c - 1] = alll[c - 1].replace(/^/gm, settings_now["outputs"]["glo"]["replyindent"].repeat(reptree.length))
-                    reptree.push(i)
-                    return true
-                }
-                cc++
-            })
-        }
-        if (!mexaflag){
-            reptree = [i]
-        }
-    })
-    let str = unescapeHtml(alll.join(settings_now["outputs"]["glo"]["span"]))
-    if (settings_now["outputs"]["glo"]["zenkaku"]["zenkakunumber"]){
+            }
+            if (!mexaflag){
+                reptree = [i]
+            }
+        })
+    }
+    let str = unescapeHtml(alll.join(settings_now["outputs"]["plain"]["span"]))
+    if (settings_now["outputs"]["plain"]["zenkaku"]["zenkakunumber"]){
         str = str.replace(/[0-9]/g, function (s) {
             return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
         });
     }
-    if (settings_now["outputs"]["glo"]["zenkaku"]["zenkakualphabet"]){
+    if (settings_now["outputs"]["plain"]["zenkaku"]["zenkakualphabet"]){
         str = str.replace(/[a-zA-Z]/g, function (s) {
             return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
         });
     }
-    if (settings_now["outputs"]["glo"]["zenkaku"]["zenkakusymbol"]) {
+    if (settings_now["outputs"]["plain"]["zenkaku"]["zenkakusymbol"]) {
         str = str.replace(/[!-/:-@\[-`{-~\ ]/g, function (s) {
             return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
         });
