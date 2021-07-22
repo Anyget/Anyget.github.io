@@ -187,9 +187,10 @@ const SUBFUNCTIONNAMES = [
     "テキストメモ",
     "変数特定値メモ",
     "メッセージ仮置き場",
-    "ラベルの詳細設定"
+    "ラベルの詳細設定",
+    "画像・アイコン"
 ]
-let selectedsubfunction = [0,1,2,3,4,5,6,7]
+let selectedsubfunction = [0,1,2,3,4,5,6,7,8]
 let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}

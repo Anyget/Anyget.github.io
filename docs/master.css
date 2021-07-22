@@ -1262,3 +1262,22 @@ mark{
 #contextmenu_additionalload_inp{
     display: none;
 }
+
+#imagelist{
+    width: 100%;
+    overflow-y: scroll;
+    display: flex;
+    height: 50%;
+    flex-wrap: wrap;
+}
+#imagelist>div{
+    width: 20%;
+    background-color: #DD0000;
+}
+#imagelist>div:before{
+    content: "";
+    display: block;
+    height: 0;
+    width: 100%;
+    padding-top: 100%;
+}
