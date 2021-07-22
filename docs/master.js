@@ -1,3 +1,25 @@
+function storageAvailable(type) {
+    try {
+        var storage = window[type],
+            x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            storage.length !== 0;
+    }
+}
 const theme_list = [
     "VSCode_Dark",
     "VSCode_Light",
@@ -327,6 +349,9 @@ window.onload = function () {
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
     event.returnValue = ''
+    if (storageAvailable("localStorage")){
+        localStorage.setItem("Anyget_Last_Session_Save_Data",saver())
+    }
 })
 window.addEventListener("resize",e=>{
     Array.from(document.getElementById("box").children).forEach(i=>{
@@ -1211,35 +1236,7 @@ function datgen() {
     a.click();
 }
 function save() {
-    Object.keys(lists).forEach(k => {
-        let sl = lists[k]["style_list"]
-        let dl = lists[k]["deal_list"]
-        let ds = lists[k]["deal_sets"]
-        while (sl.length < dl.length) {
-            sl.push({})
-        }
-        let n = 0;
-        ds.forEach(d => {
-            templates[now_temp]["conf_data"].forEach(c => {
-                sl[n][c] = []
-                Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd => {
-                    if (cd.classList.contains("|")) {
-                        sl[n][c].push(cd.style.cssText);
-                    } else {
-                        sl[n][c].push(cd.parentNode.style.cssText);
-                    }
-                })
-            })
-            n++;
-        })
-    })
-    let j = JSON.stringify(
-        { "lists":lists,
-        "all_data": all_data, 
-        "templates": templates,
-        "inputing": inputing,
-        "now_temp":now_temp,
-        "all_label":all_label})
+    let j = saver()
     let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "UNKNOWN"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
@@ -1266,6 +1263,37 @@ function tempsave() {
     a.target = '_blank';
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
+}
+function saver(){
+    Object.keys(lists).forEach(k => {
+        let sl = lists[k]["style_list"]
+        let dl = lists[k]["deal_list"]
+        let ds = lists[k]["deal_sets"]
+        while (sl.length < dl.length) {
+            sl.push({})
+        }
+        let n = 0;
+        ds.forEach(d => {
+            templates[now_temp]["conf_data"].forEach(c => {
+                sl[n][c] = []
+                Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd => {
+                    if (cd.classList.contains("|")) {
+                        sl[n][c].push(cd.style.cssText);
+                    } else {
+                        sl[n][c].push(cd.parentNode.style.cssText);
+                    }
+                })
+            })
+            n++;
+        })
+    })
+    return JSON.stringify(
+        { "lists":lists,
+        "all_data": all_data, 
+        "templates": templates,
+        "inputing": inputing,
+        "now_temp":now_temp,
+        "all_label":all_label})
 }
 function loadrap(f) {
     f.text().then(t => {
@@ -1779,6 +1807,14 @@ function loadbybutton3(){
             })
         })
     })
+}
+function sessionload(){
+    if (storageAvailable("localStorage")){
+        if (localStorage.getItem("Anyget_Last_Session_Save_Data") != null){
+            load(JSON.parse(localStorage.getItem("Anyget_Last_Session_Save_Data")))
+            startmenukill()
+        }
+    }
 }
 function lockreload(){
     Object.keys(lists).forEach(k => {

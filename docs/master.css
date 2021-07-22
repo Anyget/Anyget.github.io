@@ -1057,9 +1057,10 @@ button:active{
 #startmenu_load_inp{
     display: none;
 }
-#startmenu_l label{
+#startmenu_l label,#startmenu_l span{
     width: 100%;
     display: block;
+    cursor: pointer;
 }
 .messelectcheck{
     display: block;
