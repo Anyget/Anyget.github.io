@@ -1259,7 +1259,8 @@ function tempsave() {
             "templates": templates,
             "inputing":inputing,
             "now_temp":now_temp,
-            "all_label":all_label
+            "all_label":all_label,
+            "settings_now":settings_now
         }
     )
     let name = `${document.getElementById("tempsave_inp").value != "" ? document.getElementById("tempsave_inp").value : "UNKNOWN"}.json`
@@ -1319,6 +1320,10 @@ function load(n){
     now_temp=n["now_temp"]
     all_label=n["all_label"]
     settings_now=n["settings_now"]
+    document.getElementsByClassName("settings").innerHTML = ""
+    Object.keys(settings).forEach(cc=>{
+        settings_r(settings[cc],1,cc)
+    })
     document.getElementById("messages").innerHTML = "";
     let x = 0;
     Object.keys(lists).forEach(kd => {
