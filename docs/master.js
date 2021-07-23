@@ -269,6 +269,12 @@ function zenkakuall(){
     plainreload()
 }
 function settings_r(v,d,kk){
+    console.log(settings_now)
+    let ssss = settings_now
+    kk.split("_").forEach(kkk=>{
+        ssss = ssss[kkk]
+    })
+    console.log(ssss)
     if (v.type == "head"){
         document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
         let t = document.getElementById("settingtab")
@@ -284,21 +290,21 @@ function settings_r(v,d,kk){
         let te = document.getElementById("settings").lastElementChild
         switch (v.type){
             case "checkbox":
-                te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${v.init ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.label}</label>`)
+                te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${ssss ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.label}</label>`)
                 break
             case "select":
                 te.insertAdjacentHTML("beforeend", `<select id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.selectedIndex;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)"></select>`)
                 Object.keys(v.options).forEach(i=>{
                     te.lastElementChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
                 })
-                te.lastElementChild.children[v.init].selected = true
+                te.lastElementChild.children[ssss].selected = true
 
                 break
             case "textarea":
-                te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.init}</textarea>`)
+                te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${ssss}</textarea>`)
                 break
             case "text":
-                te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${v.init}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">`)
+                te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${ssss}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">`)
                 break
         }
     }
@@ -320,15 +326,15 @@ function settingsnow_r(sv,nv){
 let easypreviewobserver = new IntersectionObserver(epo_function,{root:document.getElementById("easy_preview")})
 window.onload = function () {
     Object.keys(settings).forEach(cc=>{
-        settings_r(settings[cc],1,cc)
-    })
-    Object.keys(settings).forEach(cc=>{
         if (settings[cc].type == "head"){
             settings_now[cc] = {}
         }else{
             settings_now[cc] = settings[cc].init
         }
         settingsnow_r(settings[cc], settings_now[cc])
+    })
+    Object.keys(settings).forEach(cc=>{
+        settings_r(settings[cc],1,cc)
     })
     let cc = 0
     for (let i of document.getElementsByClassName("functionselect")){
@@ -1288,12 +1294,17 @@ function saver(){
         })
     })
     return JSON.stringify(
-        { "lists":lists,
-        "all_data": all_data, 
-        "templates": templates,
-        "inputing": inputing,
-        "now_temp":now_temp,
-        "all_label":all_label})
+
+        {
+            "lists":lists,
+            "all_data": all_data, 
+            "templates": templates,
+            "inputing": inputing,
+            "now_temp":now_temp,
+            "all_label":all_label,
+            "settings_now":settings_now
+        }
+    )
 }
 function loadrap(f) {
     f.text().then(t => {
@@ -1307,6 +1318,7 @@ function load(n){
     inputing = n["inputing"]
     now_temp=n["now_temp"]
     all_label=n["all_label"]
+    settings_now=n["settings_now"]
     document.getElementById("messages").innerHTML = "";
     let x = 0;
     Object.keys(lists).forEach(kd => {
@@ -2494,7 +2506,10 @@ function contextcommand_checkedsave() {
     a.href = window.webkitURL.createObjectURL(blob);
     a.click();
 }
+function contextcommand_checkedcopy(){
+    if (!storageAvailable("localStorage")){return false}
 
+}
 function asetyc(e){
     nowsetchange(e.target.dataset.tarid,e.target.value)
 }
