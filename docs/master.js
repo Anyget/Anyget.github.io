@@ -1231,7 +1231,7 @@ function datgen() {
             strs[n - 1] += "<>"
         })
     })
-    title = title != "" ? title : "UNKNOWN";
+    title = title != "" ? title : "Untitled";
     strs[0] += title;
     let name = `${title}.dat`
     let blob = new Blob([strs.join("\n")], { type: "application/octet-stream" });
@@ -1243,7 +1243,7 @@ function datgen() {
 }
 function save() {
     let j = saver()
-    let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "UNKNOWN"}.json`
+    let name = `${document.getElementById("save_inp").value != "" ? document.getElementById("save_inp").value : "Untitled"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
     a.download = name;
@@ -1263,7 +1263,27 @@ function tempsave() {
             "settings_now":settings_now
         }
     )
-    let name = `${document.getElementById("tempsave_inp").value != "" ? document.getElementById("tempsave_inp").value : "UNKNOWN"}.json`
+    let name = `${document.getElementById("tempsave_inp").value != "" ? document.getElementById("tempsave_inp").value : "Untitled"}.json`
+    let blob = new Blob([j], { type: "application/json" });
+    let a = document.createElement('a');
+    a.download = name;
+    a.target = '_blank';
+    a.href = window.webkitURL.createObjectURL(blob);
+    a.click();
+}
+function setsave() {
+    let j = JSON.stringify(
+        { 
+            "lists":{"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"putmessagediv":{"deal_list":[],"style_list":[],"deal_sets":[]}},
+            "all_data": {}, 
+            "templates": [],
+            "inputing":{},
+            "now_temp":0,
+            "all_label":{},
+            "settings_now":settings_now
+        }
+    )
+    let name = `${document.getElementById("setsave_inp").value != "" ? document.getElementById("setave_inp").value : "Untitled"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
     a.download = name;
