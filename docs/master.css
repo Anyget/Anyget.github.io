@@ -412,7 +412,7 @@ h1,h2{
     border-radius: 5px;
     padding: 5px;
 }
-#save_button,#tempsave_button{
+#save_button,#tempsave_button,#setsave_button{
     background-color: #00AA00;
     border: none;
 }

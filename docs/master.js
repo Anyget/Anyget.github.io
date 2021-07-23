@@ -1276,14 +1276,21 @@ function setsave() {
         { 
             "lists":{"messages":{"deal_list":[],"style_list":[],"deal_sets":[]},"putmessagediv":{"deal_list":[],"style_list":[],"deal_sets":[]}},
             "all_data": {}, 
-            "templates": [],
+            "templates": [
+                {
+                    "template" : "",
+                    "conf_htm" : "",
+                    "conf_col" : "",
+                    "conf_data" : []
+                }
+            ],
             "inputing":{},
             "now_temp":0,
             "all_label":{},
             "settings_now":settings_now
         }
     )
-    let name = `${document.getElementById("setsave_inp").value != "" ? document.getElementById("setave_inp").value : "Untitled"}.json`
+    let name = `${document.getElementById("setsave_inp").value != "" ? document.getElementById("setsave_inp").value : "Untitled"}.json`
     let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
     a.download = name;
