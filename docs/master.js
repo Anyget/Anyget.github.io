@@ -158,14 +158,6 @@ const settings = {
                         name: "全角化",
                         type: "head",
                         list:{
-                            "zenkakuall":{
-                                name:"すべて",
-                                type:"checkbox",
-                                info:"",
-                                init:false,
-                                label:"すべての全角化",
-                                f:zenkakuall
-                            },
                             "zenkakunumber":{
                                 name:"数字",
                                 type:"checkbox",
@@ -260,13 +252,6 @@ function kilec(id){
     Array.from(document.querySelectorAll(`[data-tarid='${id}']`)).forEach(e=>{
         e.value = document.getElementById(id).value
     })
-}
-function zenkakuall(){
-    const tf = settings_now["outputs"]["plain"]["zenkaku"]["zenkakuall"]
-    nowsetchange("settings_outputs_plain_zenkaku_zenkakualphabet",tf)
-    nowsetchange("settings_outputs_plain_zenkaku_zenkakunumber", tf)
-    nowsetchange("settings_outputs_plain_zenkaku_zenkakusymbol", tf)
-    plainreload()
 }
 function settings_r(v,d,kk){
     console.log(settings_now)
