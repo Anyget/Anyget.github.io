@@ -274,7 +274,6 @@ function settings_r(v,d,kk){
     kk.split("_").forEach(kkk=>{
         ssss = ssss[kkk]
     })
-    console.log(ssss)
     if (v.type == "head"){
         document.getElementById("settings").insertAdjacentHTML("beforeend",`<h1 id="settings_${kk}" style="font-size:${2/Math.sqrt(d)}rem">${v.name}</h1>`)
         let t = document.getElementById("settingtab")
@@ -291,6 +290,7 @@ function settings_r(v,d,kk){
         switch (v.type){
             case "checkbox":
                 te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${ssss ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.label}</label>`)
+                
                 break
             case "select":
                 te.insertAdjacentHTML("beforeend", `<select id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.selectedIndex;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)"></select>`)
@@ -298,13 +298,15 @@ function settings_r(v,d,kk){
                     te.lastElementChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
                 })
                 te.lastElementChild.children[ssss].selected = true
-
+                
                 break
             case "textarea":
                 te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${ssss}</textarea>`)
+                
                 break
             case "text":
                 te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${ssss}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">`)
+                
                 break
         }
     }
