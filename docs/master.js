@@ -275,7 +275,7 @@ function settings_r(v,d,kk){
         switch (v.type){
             case "checkbox":
                 te.insertAdjacentHTML("beforeend", `<label><input type="checkbox" ${ssss ? "checked" : ""} id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.checked;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${v.label}</label>`)
-                
+                v.f()
                 break
             case "select":
                 te.insertAdjacentHTML("beforeend", `<select id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.selectedIndex;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)"></select>`)
@@ -283,15 +283,15 @@ function settings_r(v,d,kk){
                     te.lastElementChild.insertAdjacentHTML("beforeend",`<option value="${v.options[i]}">${i}</option>`)
                 })
                 te.lastElementChild.children[ssss].selected = true
-                
+                v.f()
                 break
             case "textarea":
                 te.insertAdjacentHTML("beforeend", `<textarea id="settings_${kk}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">${ssss}</textarea>`)
-                
+                v.f()
                 break
             case "text":
                 te.insertAdjacentHTML("beforeend", `<input type="text" id="settings_${kk}" value="${ssss}" onchange="settings_now.${kk.split("_").join(".")}=event.target.value;settings.${kk.split("_").join(".list.")}.f();kilec(event.target.id)">`)
-                
+                v.f()
                 break
         }
     }
