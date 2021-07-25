@@ -614,7 +614,7 @@ header{
 .messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option,.checked_md .tempselect,.checked_md .tempselect option{
     display: inline-block;
 }
-textarea,input[type="text"],input[type="number"],input[type="search"],select{
+textarea,input[type="text"],input[type="number"],input[type="search"],select:not(.functionselect),option{
     background-color: var(--textinput_color) !important;
     color: var(--textinput_font_color);
     border: none;
@@ -731,9 +731,6 @@ button:active{
     content: "";
     background-color: transparent;
 }
-.functionselectdiv{
-    display: flex;
-}
 .margdiv{
     height: 1%;
 }
@@ -741,21 +738,18 @@ button:active{
     height: 2%;
 }
 .functionselect{
+    background-color: inherit;
     padding: 0;
     color: inherit;
     height: calc(1em + 2px);
     max-height: 100%;
     width: 100%;
-    background-color: transparent;
     border:1px transparent solid;
     font-weight: bolder;
     line-height: 1em;
-    vertical-align:top;
 }
 .functionselect option{
     font-size: medium;
-    background-color: transparent;
-    vertical-align:top;
 }
 #datapul_sets,#labelpul_sets{
     width: 100%;
