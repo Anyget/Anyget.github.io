@@ -1334,8 +1334,8 @@ function load(n){
     now_temp=n["now_temp"]
     all_label=n["all_label"]
     settings_now=n["settings_now"]
-    document.getElementsByClassName("settings").innerHTML = ""
-    document.getElementsByClassName("settingtab").innerHTML = ""
+    document.getElementById("settings").innerHTML = ""
+    document.getElementById("settingtab").innerHTML = ""
     Object.keys(settings).forEach(cc=>{
         settings_r(settings[cc],1,cc)
     })
