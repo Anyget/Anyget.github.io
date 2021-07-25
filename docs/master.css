@@ -614,7 +614,7 @@ header{
 .messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option,.checked_md .tempselect,.checked_md .tempselect option{
     display: inline-block;
 }
-textarea,input[type="text"],input[type="number"],input[type="search"]{
+textarea,input[type="text"],input[type="number"],input[type="search"],select{
     background-color: var(--textinput_color) !important;
     color: var(--textinput_font_color);
     border: none;
