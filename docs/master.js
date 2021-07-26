@@ -1045,28 +1045,33 @@ function radiochange(e) {
         }
     })
     document.getElementById(e.target.id.replace("radio_","")).classList.add("radised");
-    switch (e.target.id) {
-        case ("radio_preview"):
-            document.getElementById("normalp").innerHTML = ""
-            let anchorok = {}
-            let dm = lists["messages"]["deal_list"].map(xx => Object.values(xx).join("")).join("")
-            Object.keys(all_data).forEach(a => {
-                if (!all_data[a]["dataset_anchor?"]) { return };
-                if (all_data[a]["dataset_anchor"] === "") { return };
-                let dms = dm.split(all_data[a]["dataset_anchor"])
-                if (dms.length>10000 || dms.length<0) { return };
-                if (Object.values(anchorok).includes(all_data[a]["dataset_anchor"])) { return };
-                anchorok[a] = escapeHtml(all_data[a]["dataset_anchor"]);
-            })
-            let s = 0;
-            lists["messages"]["deal_list"].forEach(i => {
-                s++;
-                previewunimessage(s,anchorok)
-            })
-            break;
-        case ("radio_plaintext"):
-            plainreload();
-            break;
+    switch (e.target.name){
+        case ("tab_item"):
+            switch (e.target.id) {
+                case ("radio_preview"):
+                    document.getElementById("normalp").innerHTML = ""
+                    let anchorok = {}
+                    let dm = lists["messages"]["deal_list"].map(xx => Object.values(xx).join("")).join("")
+                    Object.keys(all_data).forEach(a => {
+                        if (!all_data[a]["dataset_anchor?"]) { return };
+                        if (all_data[a]["dataset_anchor"] === "") { return };
+                        let dms = dm.split(all_data[a]["dataset_anchor"])
+                        if (dms.length>10000 || dms.length<0) { return };
+                        if (Object.values(anchorok).includes(all_data[a]["dataset_anchor"])) { return };
+                        anchorok[a] = escapeHtml(all_data[a]["dataset_anchor"]);
+                    })
+                    let s = 0;
+                    lists["messages"]["deal_list"].forEach(i => {
+                        s++;
+                        previewunimessage(s,anchorok)
+                    })
+                    break;
+                case ("radio_plaintext"):
+                    plainreload();
+                    break;
+            }
+            break
+
     }
 }
 function previewunimessage(s,anchorok){
@@ -1730,10 +1735,6 @@ function tab_start_scroll(e){
 }
 function plaincopy(){
     navigator.clipboard.writeText(document.getElementById("previewplain").value)
-}
-function setradiochange(e) {
-    document.getElementsByClassName("setradised")[0].classList.remove("setradised");
-    document.getElementById(e.target.id.replace("setradio_","")).classList.add("setradised");
 }
 
 function lockmes(e){
