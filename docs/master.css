@@ -159,7 +159,7 @@ h1,h2{
 .\$text{
     color: var(--liner_font_color) !important
 }
-.\| {
+.\|text {
     color: var(--blocker_font_color) !important;
     display: block;
     font-size: 15px;
@@ -171,7 +171,7 @@ h1,h2{
     width: 100%;
     box-sizing: border-box;
 }
-.\|:empty:before{
+.\|text:empty:before{
     color: var(--textinput_placeholder_color);
     content: attr(placeholder);
     pointer-events: none;

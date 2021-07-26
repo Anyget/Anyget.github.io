@@ -397,7 +397,7 @@ function changetemp() {
                         case ("|"):
                             mode = "blocker";
                             col += '<span style="color:#0000FF;">|';
-                            htm += '<textarea class="| blocker_';
+                            htm += '<div class="|"><textarea class="|text blocker_';
                             data.push("blocker_");
                             break;
                         case ("%"):
@@ -433,7 +433,7 @@ function changetemp() {
                         case ("|"):
                             mode = "normal";
                             col += "|</span>";
-                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea>`;
+                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -660,27 +660,19 @@ document.addEventListener("input", (e) => {
     let inp;
     if (target.matches(".message textarea,.message input")) {
         let clas = target.className.replace(/^[^ ]* /, "");
-        if (target.matches("textarea")) {
-            num = nbym(target.parentNode.parentNode);
-            inp = target.value;
-            lists[target.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
-            Array.from(intersectobjects).forEach(i => {
-                
-                unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
-            })
-        } else {
-            num = nbym(target.parentNode.parentNode.parentNode);
-            inp = target.value;
-            lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
-            Array.from(intersectobjects).forEach(i => {
-                
-                unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
-            })
+        num = nbym(target.parentNode.parentNode.parentNode);
+        inp = target.value;
+        lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas] = inp;
+        Array.from(intersectobjects).forEach(i => {
+            
+            unieasypreviewreloader(Array.from(document.getElementById("easy_preview").children).indexOf(i))
+        })
+        if (target.tagName != "TEXTAREA"){
             labelreload(target.parentNode.parentNode.parentNode.parentNode.id, num)
-            //mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num][clas]] -= 1
+            //mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num[clas]]   -= 1
             //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
             //datamemodivreload()
-        };
+        }
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
         taras(target)
@@ -691,7 +683,7 @@ document.addEventListener("input", (e) => {
     }
 });
 function taras(target){
-    let tp = target.matches("textarea") ? target.parentNode : target.parentNode.parentNode
+    let tp = target.parentNode.parentNode
     Array.from(tp.getElementsByClassName(target.classList[1])).filter(n => n != target).forEach(k => {
         k.value = target.value
     })
@@ -1302,11 +1294,7 @@ function saver(){
             templates[now_temp]["conf_data"].forEach(c => {
                 sl[n][c] = []
                 Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd => {
-                    if (cd.classList.contains("|")) {
-                        sl[n][c].push(cd.style.cssText);
-                    } else {
-                        sl[n][c].push(cd.parentNode.style.cssText);
-                    }
+                    sl[n][c].push(cd.parentNode.style.cssText);
                 })
             })
             n++;
@@ -1359,11 +1347,7 @@ function load(n){
                 let z = 0
                 Array.from(now.getElementsByClassName(c)).forEach(m => {
                     m.value = d[c]
-                    if (m.classList.contains("|")) {
-                        m.style = sl[x - 1][c][z]
-                    } else {
-                        m.parentNode.style = sl[x - 1][c][z]
-                    }
+                    m.parentNode.style = sl[x - 1][c][z]
                     z++
                 })
             })
@@ -1406,12 +1390,12 @@ function subs() {
     }
 }
 document.addEventListener("keydown", e => {
-    if (e.target.matches(".\\$text,.\\|")) {
+    if (e.target.matches(".\\$text,.\\|text")) {
         if (e.code === "ArrowRight" || (e.code === "ArrowDown" && e.target.classList.contains("|"))) {
             if ((e.target.selectionStart === e.target.selectionEnd) && (e.target.selectionStart === e.target.value.length)) {
                 e.target.id = "sd"
                 let nekoflag = false;
-                for (let i of document.querySelectorAll(".\\$text,.\\|")) {
+                for (let i of document.querySelectorAll(".\\$text,.\\|text")) {
                     if (nekoflag) {
                         i.focus()
                         i.setSelectionRange(0, 0)
@@ -1429,7 +1413,7 @@ document.addEventListener("keydown", e => {
             if ((e.target.selectionStart === 0) && (e.target.selectionEnd === 0)) {
                 e.target.id = "sd";
                 let nekoflag = false;
-                for (let i of [].slice.call(document.querySelectorAll(".\\$text,.\\|"), 0).reverse()) {
+                for (let i of [].slice.call(document.querySelectorAll(".\\$text,.\\|text"), 0).reverse()) {
                     if (nekoflag) {
                         i.focus();
                         i.setSelectionRange(i.value.length, i.value.length);
@@ -1462,16 +1446,16 @@ document.addEventListener("keydown", e => {
                 let sflag = false;
                 [...document.querySelectorAll(".message>*")].some(i => {
                     if (sflag) {
-                        if (i.matches("textarea")) {
+                        if (i.classList.contains("|")) {
                             i.focus()
-                            let a = i.value.includes("\n") ? Math.min(i.value.indexOf("\n"), s) : s
-                            i.setSelectionRange(a, a)
+                            let a = i.firstChild.value.includes("\n") ? Math.min(i.value.indexOf("\n"), s) : s
+                            i.firstChild.setSelectionRange(a, a)
                             return true;
                         }
-                        if (i.matches("br") && !i.nextSibling.matches("textarea") || (i.matches(".\\$") && i.parentNode != e.target.parentNode.parentNode)) {
+                        if (i.tagName == "BR" && !i.nextSibling.classList.contains("|") || (i.matches(".\\$") && i.parentNode != e.target.parentNode.parentNode)) {
                             let nn = i
-                            let ss = i.matches(".\\$") ? i.firstChild.value.length : 0;
-                            while (nn.nextSibling.matches("br")) {
+                            let ss = i.classList.contains("$") ? i.firstChild.value.length : 0;
+                            while (nn.nextSibling.tagName == "BR") {
                                 nn = nn.nextSibling
                             }
                             while (nn.nextSibling) {
@@ -1690,10 +1674,10 @@ function tempselected(e){
         l = [e.target.parentNode.parentNode.parentNode]
     }
     l.forEach(t=>{
-        let dl = lists[t.parentNode.id][lists["messages"]["deal_list"]]
-        let ds = lists[t.parentNode.id][lists["messages"]["deal_sets"]]
+        let dl = lists[t.parentNode.id]["deal_list"]
+        let ds = lists[t.parentNode.id]["deal_sets"]
         let el = t.lastElementChild
-        let s = nbym(el.parentNode)
+        let s = nbym(t)
         ds[s]["use_temp"] = e.target.selectedIndex
         el.innerHTML = templates[e.target.selectedIndex]["conf_htm"]
         templates[e.target.selectedIndex]["conf_data"].forEach(d=>{
@@ -1826,11 +1810,7 @@ function loadbybutton3(){
                     let z = 0
                     Array.from(now.getElementsByClassName(c)).forEach(m => {
                         m.value = d[c]
-                        if (m.classList.contains("|")) {
-                            m.style = sl[x - 1][c][z]
-                        } else {
-                            m.parentNode.style = sl[x - 1][c][z]
-                        }
+                        m.parentNode.style = sl[x - 1][c][z]
                         z++
                     })
                 })
@@ -2488,11 +2468,7 @@ function contextcommand_checkedsave() {
             templates[now_temp]["conf_data"].forEach(c => {
                 sl[n][c] = []
                 Array.from(mbyn(n).lastElementChild.getElementsByClassName(c)).forEach(cd => {
-                    if (cd.classList.contains("|")) {
-                        sl[n][c].push(cd.style.cssText);
-                    } else {
-                        sl[n][c].push(cd.parentNode.style.cssText);
-                    }
+                    sl[n][c].push(cd.parentNode.style.cssText)
                 })
             })
             n++;
