@@ -254,7 +254,6 @@ function kilec(id){
     })
 }
 function settings_r(v,d,kk){
-    console.log(settings_now)
     let ssss = settings_now
     kk.split("_").forEach(kkk=>{
         ssss = ssss[kkk]
