@@ -2512,3 +2512,11 @@ function asetyc(e){
 function setsc(e){
     document.getElementById("settings").scrollTop = document.getElementById(e.target.dataset.dhref).offsetTop
 }
+
+function searchtest(s){
+    if (s != ""){
+        lists["messages"]["deal_list"].forEach(d=>{
+            
+        })
+    }
+}
