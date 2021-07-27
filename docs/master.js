@@ -2515,8 +2515,13 @@ function setsc(e){
 
 function searchtest(s){
     if (s != ""){
+        let count = 0
         lists["messages"]["deal_list"].forEach(d=>{
-            
+            templates[lists["messages"]["deal_sets"][c]["use_temp"]]["conf_data"].forEach(c=>{
+                let m = mbyn(count)
+                let o = escapeHtml(d[c]).split(escapeHtml(s)).join(`<mark>${escapeHtml(s)}</mark>`)
+            })
+            count++
         })
     }
 }

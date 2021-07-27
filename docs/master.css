@@ -1296,6 +1296,7 @@ mark{
     z-index: 1;
     background: transparent;
     pointer-events: none;
+    color: transparent;
 }
 .s_\|text{
     width: 100%;
