@@ -169,14 +169,11 @@ h1,h2{
 .\|text {
     width: 100%;
     height: 100%;
-    border: none;
-    color: var(--blocker_font_color) !important;
     display: block;
     font-size: 15px;
     overflow-y: scroll;
     font-family: sans-serif;
     box-sizing: border-box;
-    background: transparent !important;
     resize: vertical;
 }
 .\|text:empty:before{
@@ -622,7 +619,7 @@ header{
 .messagediv:hover .tempselect,.tempselect:focus,.messagediv:hover .tempselect option,.tempselect:focus option,.checked_md .tempselect,.checked_md .tempselect option{
     display: inline-block;
 }
-textarea:not(.\|text),input[type="text"],input[type="number"],input[type="search"],select:not(.functionselect),option{
+textarea:not(.\|text),input[type="text"]:not(.\$text),input[type="number"],input[type="search"],select:not(.functionselect),option{
     background-color: var(--textinput_color) !important;
     color: var(--textinput_font_color);
     border: none;
@@ -1285,20 +1282,23 @@ mark{
     padding-top: 100%;
 }
 .\|,.\${
+    background-color: var(--textinput_color) !important;
     position: relative;
 }
 .\|text,.\$text{
+    color: var(--textinput_font_color);
+    border: none;
     position: absolute;
     z-index: 5;
     line-height: 1.2em;
     letter-spacing:normal;
-    padding: 0;
+    padding: none;
+    background: transparent !important;
 }
 .s_\|text,.s_\$text{
-    padding: 0;
     position: absolute;
-    z-index: 1;
-    background: transparent;
+    z-index: 4;
+    background: transparent !important;
     pointer-events: none;
     color: transparent;
     line-height: 1.2em;
@@ -1312,7 +1312,6 @@ mark{
     overflow-y: scroll;
     font-family: sans-serif;
     box-sizing: border-box;
-    background: transparent !important;
 }
 .s_\$text{
     font-family: sans-serif;
@@ -1325,6 +1324,6 @@ mark{
 .s_\$text span,.s_\|text span{
     padding: 0;
     margin: 0;
-    color: transparent;
-    background-color: var(--color_1);
+    color: transparent !important;
+    background-color: var(--color_1) !important;
 }
