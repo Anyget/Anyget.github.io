@@ -1296,7 +1296,7 @@ mark{
     padding: 0;
     background: transparent !important;
 }
-.s_\|text,.s_\$text{
+.s_text{
     position: absolute;
     z-index: 4;
     background: transparent !important;
@@ -1322,22 +1322,26 @@ mark{
     width: 100%;
     vertical-align: top;
 }
-.s_\$text span,.s_\|text span{
+.s_text span{
     padding: 0;
     margin: 0;
     color: transparent !important;
     background-color: var(--color_1) !important;
 }
-#messagesearcher{
+#messagesearcherdiv{
     display: none;
     position: absolute;
     right: 0.5em;
     top: 0;
-    height: 100px;
-    width: 500px;
     background-color: var(--color_5);
     box-shadow: 0.2em 0.2em 0.44em 0.1em rgba(0, 0, 0, 0.8);
+    padding: 0.3em;
 }
-#messagesearcher[data-searching="true"]{
+#messagesearcherdiv[data-searching="true"]{
     display: block;
+}
+#messagesearcher{
+    display: block;
+    height: 1.4em;
+    line-height: 1.4em;
 }

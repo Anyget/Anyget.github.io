@@ -424,7 +424,7 @@ function changetemp() {
                             mode = "normal";
                             col += "$</span>";
                             let t = escapeHtml(data[data.length - 1]).replace("liner_", "")
-                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""><div class="s_$text"></div></div>`;
+                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""><div class="s_$text s_text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -438,7 +438,7 @@ function changetemp() {
                         case ("|"):
                             mode = "normal";
                             col += "|</span>";
-                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea><div class="s_|text"></div></div>`;
+                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea><div class="s_|text s_text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -2525,6 +2525,8 @@ function searchtest(s){
             searchunimessage(count,s)
             count++
         })
+    }else{
+
     }
 }
 
@@ -2548,6 +2550,14 @@ function searchunimessage(n,s){
 document.addEventListener("keydown",e=>{
     if ((e.ctrlKey || e.metaKey) && e.code == "KeyF"){
         e.preventDefault()
-        document.getElementById("messagesearcher").dataset.searching = "true"
+        if (!document.body.classList.contains("nonono_startmenu")){
+            if (document.getElementById("mesandform").classList.contains("radised")){
+                document.getElementById("messagesearcherdiv").dataset.searching = "true"
+                document.getElementById("messagesearcher").focus()
+            }
+        }
     }
 })
+function messagesearch(e){
+    searchtest(e.target.value)
+}
