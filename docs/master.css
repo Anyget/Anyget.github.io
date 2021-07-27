@@ -1292,7 +1292,7 @@ mark{
     z-index: 5;
     line-height: 1.2em;
     letter-spacing:normal;
-    padding: none;
+    padding: 0;
     background: transparent !important;
 }
 .s_\|text,.s_\$text{
