@@ -2526,7 +2526,9 @@ function searchtest(s){
             count++
         })
     }else{
-
+        Array.from(document.getElementsByClassName("s_span")).forEach(st=>{
+            st.outerHTML = st.innerHTML
+        })
     }
 }
 
@@ -2534,7 +2536,7 @@ function searchunimessage(n,s){
     let d = lists["messages"]["deal_list"][n]
     templates[lists["messages"]["deal_sets"][n]["use_temp"]]["conf_data"].forEach(c => {
         let m = mbyn(n)
-        let o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span>${escapeHtmlSp(s)}</span>`)
+        let o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span class="s_span">${escapeHtmlSp(s)}</span>`)
         Array.from(m.getElementsByClassName(c)).forEach(mm => {
             let t = mm.nextElementSibling
             t.innerHTML = o

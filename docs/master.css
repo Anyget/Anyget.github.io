@@ -1322,7 +1322,7 @@ mark{
     width: 100%;
     vertical-align: top;
 }
-.s_text span{
+.s_span{
     padding: 0;
     margin: 0;
     color: transparent !important;
@@ -1338,6 +1338,7 @@ mark{
     padding: 0.3em;
 }
 #messagesearcherdiv[data-searching="true"]{
+    z-index: 50;
     display: block;
 }
 #messagesearcher{
