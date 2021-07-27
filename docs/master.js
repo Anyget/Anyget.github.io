@@ -1394,7 +1394,7 @@ function subs() {
         }  
     }
 }
-document.addEventListener("keydown", e => {
+/*document.addEventListener("keydown", e => {
     if (e.target.matches(".\\$text,.\\|text")) {
         if (e.code === "ArrowRight" || (e.code === "ArrowDown" && e.target.classList.contains("|"))) {
             if ((e.target.selectionStart === e.target.selectionEnd) && (e.target.selectionStart === e.target.value.length)) {
@@ -1493,7 +1493,7 @@ document.addEventListener("keydown", e => {
             }
         }
     }
-})
+})*/
 /*https://qiita.com/Sinraptor@github/items/1b3802db80eadf864633 のパクリ*/
 function strWidth(str) {
     let canvas = document.getElementById('canvas');
@@ -2544,3 +2544,10 @@ function searchunimessage(n,s){
         })
     })
 }
+
+document.addEventListener("keydown",e=>{
+    if ((e.ctrlKey || e.metaKey) && e.code == "KeyF"){
+        e.preventDefault()
+        document.getElementById("messagesearcher").dataset.searching = "true"
+    }
+})
