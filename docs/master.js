@@ -424,7 +424,7 @@ function changetemp() {
                             mode = "normal";
                             col += "$</span>";
                             let t = escapeHtml(data[data.length - 1]).replace("liner_", "")
-                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""></input>div class="s_$text"></div></div>`;
+                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""><div class="s_$text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);

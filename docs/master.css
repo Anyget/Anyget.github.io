@@ -430,7 +430,7 @@ h1,h2{
 #saveload>*{
     text-align: left;
 }
-#load_button{
+.load_button{
     background-color: #DD0000;
     border: none;
 }

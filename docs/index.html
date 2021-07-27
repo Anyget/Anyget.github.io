@@ -275,7 +275,10 @@
                     <h2>設定のみセーブ</h2>
                     タイトル：<input type="text" id="setsave_inp"> <button id="setsave_button" onclick="setsave()">セーブ</button>
                     <h1>ロード</h1>
-                    ファイル：<input type="file" id="load_inp" accept=".json"> <button id="load_button" onclick="loadbybutton2()">ロード</button>
+                    <h2>ファイルからロード</h2>
+                    ファイル：<input type="file" id="load_inp" accept=".json"> <button class="load_button" onclick="loadbybutton2()">ロード</button>
+                    <h2>最後のセッションからロード</h2>
+                    <button class="load_button" onclick="if (!window.confirm(`最後のセッションの編集データをロードします。\n編集中のデータは消滅しますが、本当によろしいですか？`)) { return false; };sessionload()">最後のセッションからロード</button>
                 </div>
                 <div id="replace">
                     <h1>対象変数の選択</h1>
