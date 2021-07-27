@@ -419,7 +419,7 @@ function changetemp() {
                             mode = "normal";
                             col += "$</span>";
                             let t = escapeHtml(data[data.length - 1]).replace("liner_", "")
-                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""></input></div>`;
+                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""></input>div class="s_$text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -433,7 +433,7 @@ function changetemp() {
                         case ("|"):
                             mode = "normal";
                             col += "|</span>";
-                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea></div>`;
+                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea><div class="s_|text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
