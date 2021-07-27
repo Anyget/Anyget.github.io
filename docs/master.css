@@ -1290,13 +1290,19 @@ mark{
 .\|text,.\$text{
     position: absolute;
     z-index: 5;
+    line-height: 1.2em;
+    letter-spacing:normal;
+    padding: 0;
 }
 .s_\|text,.s_\$text{
+    padding: 0;
     position: absolute;
     z-index: 1;
     background: transparent;
     pointer-events: none;
     color: transparent;
+    line-height: 1.2em;
+    letter-spacing:normal;
 }
 .s_\|text{
     width: 100%;
@@ -1315,4 +1321,10 @@ mark{
     height: 100%;
     width: 100%;
     vertical-align: top;
+}
+.s_\$text span,.s_\|text span{
+    padding: 0;
+    margin: 0;
+    color: transparent;
+    background-color: var(--color_1);
 }

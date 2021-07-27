@@ -367,6 +367,11 @@ function escapeHtml(str) {
     div.innerText = str;
     return div.innerHTML.split("<br>").join("\n").split('"').join("&quot;");
 };
+function escapeHtmlSp(str) {
+    let div = document.createElement('div');
+    div.innerText = str;
+    return div.innerHTML.split('"').join("&quot;");
+};
 function changetemp() {
     let col = "";
     let htm = "";
@@ -2517,9 +2522,18 @@ function searchtest(s){
     if (s != ""){
         let count = 0
         lists["messages"]["deal_list"].forEach(d=>{
-            templates[lists["messages"]["deal_sets"][c]["use_temp"]]["conf_data"].forEach(c=>{
+            templates[lists["messages"]["deal_sets"][count]["use_temp"]]["conf_data"].forEach(c=>{
                 let m = mbyn(count)
-                let o = escapeHtml(d[c]).split(escapeHtml(s)).join(`<mark>${escapeHtml(s)}</mark>`)
+                let o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span>${escapeHtmlSp(s)}</span>`)
+                Array.from(m.getElementsByClassName(c)).forEach(mm=>{
+                    let t = mm.nextElementSibling
+                    t.innerHTML = o
+                    if (c.startsWith("liner_")){
+                        t.scrollLeft = mm.scrollLeft
+                    }else{
+                        t.scrollTop = mm.scrollTop
+                    }
+                })
             })
             count++
         })
