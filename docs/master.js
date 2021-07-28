@@ -2641,50 +2641,52 @@ function blockerscr(e){
 function replacerpress(e){
     if (e.code == "Enter") {
         e.preventDefault()
-        if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
-            searcherpress(e)
-        }else{
-            let r = document.getElementById("search_regcheck").checked
-            let v = document.getElementById("messagesearcher").value
-            let ff = false
-            if (r) {
-                try {
-                    new RegExp(v);
-                } catch (ee) {
-                    ff = true
-                }
-            }
-            if (ff){return false}
-
-            let searchlevelback = searchlevel+0
-            let t = document.getElementsByClassName("s_span_special")[0]
-            let n = nbym(t.parentNode.parentNode.parentNode.parentNode)
-            let tn = nbym(t)
-            if (r){
-                let o = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]]
-                let ma = [...o.matchAll(new RegExp(v,"gm"))]
-                let reger = new RegExp(v, "ym")
-                reger.lastIndex = ma[tn]["index"]
-                o = o.replace(reger, document.getElementById("messagereplacer").value)
-                lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+        if (!e.shiftKey){
+            if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
+                document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", { code:"Enter", shiftKey: false }))
             }else{
-                let c = 0
-                let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].split (v)
-                let o = l.shift()
-                l.forEach(s=>{
-                    if (c == tn){
-                        o += document.getElementById("messagereplacer").value
-                    }else{
-                        o += v
+                let r = document.getElementById("search_regcheck").checked
+                let v = document.getElementById("messagesearcher").value
+                let ff = false
+                if (r) {
+                    try {
+                        new RegExp(v);
+                    } catch (ee) {
+                        ff = true
                     }
-                    o += s
-                    c++
-                })
-                lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+                }
+                if (ff){return false}
+
+                let searchlevelback = searchlevel+0
+                let t = document.getElementsByClassName("s_span_special")[0]
+                let n = nbym(t.parentNode.parentNode.parentNode.parentNode)
+                let tn = nbym(t)
+                if (r){
+                    let o = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]]
+                    let ma = [...o.matchAll(new RegExp(v,"gm"))]
+                    let reger = new RegExp(v, "ym")
+                    reger.lastIndex = ma[tn]["index"]
+                    o = o.replace(reger, document.getElementById("messagereplacer").value)
+                    lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+                }else{
+                    let c = 0
+                    let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].  split (v)
+                    let o = l.shift()
+                    l.forEach(s=>{
+                        if (c == tn){
+                            o += document.getElementById("messagereplacer").value
+                        }else{
+                            o += v
+                        }
+                        o += s
+                        c++
+                    })
+                    lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+                }
+                searchunimessage(n,v,r)
+                searchlevel = searchlevelback-(e.shiftKey?-1:1)
+                document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", { code: "Enter", shiftKey: false }))
             }
-            searchunimessage(n,v,r)
-            searchlevel = searchlevelback-(e.shiftKey?-1:1)
-            searcherpress(e)
         }
     }
 }
