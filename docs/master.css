@@ -1408,7 +1408,12 @@ mark{
     cursor: pointer;
     user-select: none;
 }
-
+#messagereplacerdiv span{
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid var(--button_border_color);
+    margin-left: 0.2em;
+}
 #search_regcheck{
     display: none;
 }
