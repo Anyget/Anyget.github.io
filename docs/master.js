@@ -1581,7 +1581,7 @@ function replacing(){
     let flag = document.getElementById("replace_s?").checked ? "s" : ""
     flag += document.getElementById("replace_m?").checked ? "m" : ""
     flag += document.getElementById("replace_i?").checked ? "i" : ""
-    flag += g ? "g" : ""
+    flag += g ? "gm" : ""
     let reg = new RegExp(document.getElementById("replace_a").value, flag)
     let n = 0;
     let rr_list = []
@@ -2554,7 +2554,7 @@ function searchunimessage(n,s,r){
         let m = mbyn(n)
         let o = ""
         if (r){
-            o = escapeHtmlSp(d[c]).replace(new RegExp("("+escapeHtmlSp(s)+")","g"),'<span class="s_span">$1</span>')
+            o = escapeHtmlSp(d[c]).replace(new RegExp("("+escapeHtmlSp(s)+")","gm"),'<span class="s_span">$1</span>')
         }else{
             o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span class="s_span">${escapeHtmlSp(s)}</span>`)
         }
@@ -2619,7 +2619,7 @@ function searcherpress(e){
                 
             }else{
                 searchlevel = 0
-                e.target.nextElementSibling.innerHTML = ` 0 / 0`
+                document.getElementById("searchcounter").innerHTML = ` 0 / 0`
             }
         }
     }
@@ -2644,26 +2644,45 @@ function replacerpress(e){
         if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
             searcherpress(e)
         }else{
+            let r = document.getElementById("search_regcheck").checked
+            let v = document.getElementById("messagesearcher").value
+            let ff = false
+            if (r) {
+                try {
+                    new RegExp(v);
+                } catch (ee) {
+                    ff = true
+                }
+            }
+            if (ff){return false}
+
             let searchlevelback = searchlevel+0
             let t = document.getElementsByClassName("s_span_special")[0]
             let n = nbym(t.parentNode.parentNode.parentNode.parentNode)
             let tn = nbym(t)
-            let c = 0
-            let v = document.getElementById("messagesearcher").value
-            console.log(t.parentNode.parentNode.firstElementChild)
-            let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].split(v)
-            let o = l.shift()
-            l.forEach(s=>{
-                if (c == tn){
-                    o += document.getElementById("messagereplacer").value
-                }else{
-                    o += v
-                }
-                o += s
-                c++
-            })
-            lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
-            searchunimessage(n,v,document.getElementById("search_regcheck").checked)
+            if (r){
+                let o = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]]
+                let ma = [...o.matchAll(new RegExp(v,"gm"))]
+                let reger = new RegExp(v, "ym")
+                reger.lastIndex = ma[tn]["index"]
+                o = o.replace(reger, document.getElementById("messagereplacer").value)
+                lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+            }else{
+                let c = 0
+                let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].split (v)
+                let o = l.shift()
+                l.forEach(s=>{
+                    if (c == tn){
+                        o += document.getElementById("messagereplacer").value
+                    }else{
+                        o += v
+                    }
+                    o += s
+                    c++
+                })
+                lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+            }
+            searchunimessage(n,v,r)
             searchlevel = searchlevelback-(e.shiftKey?-1:1)
             searcherpress(e)
         }
