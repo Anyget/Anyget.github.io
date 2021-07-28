@@ -1341,7 +1341,7 @@ mark{
     top: 0;
     background-color: var(--color_5);
     box-shadow: 0.2em 0.2em 0.44em 0.1em rgba(0, 0, 0, 0.8);
-    width: 20em;
+    width: 25em;
     padding: 0.3em;
 }
 #messagesearcherdiv[data-searching="true"]{
@@ -1352,6 +1352,10 @@ mark{
     display: block;
     height: 1.4em;
     line-height: 1.4em;
+    width: 14.4em;
+}
+#messagereplacerdiv{
+    width: 16em;
 }
 #searchfolddiv{
     margin-right: 0.5em;
@@ -1394,4 +1398,26 @@ mark{
     font-size: 1.4em;
     cursor: pointer;
     user-select: none;
+}
+
+#search_regcheck{
+    display: none;
+}
+#search_regcheck+label{
+    display: block;
+    cursor: pointer;
+    font-family: monospace;
+    background-color: var(--textinput_color);
+    font-size: 1.4em;
+    user-select: none;
+}
+#search_regcheck:checked+label{
+    color: var(--color_1);
+}
+#searchcounter{
+    display:inline;
+    line-height: 1.4em;
+    font-size: 0.9em !important;
+    white-space: pre;
+    vertical-align: middle;
 }

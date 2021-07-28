@@ -2595,19 +2595,19 @@ function searcherpress(e){
                 tt.parentNode.scrollTop = tt.offsetTop
                 tt.parentNode.previousElementSibling.scrollTop = tt.parentNode.scrollTop
                 document.getElementById("messages").scrollTop = tt.parentNode.parentNode.offsetTop
-                document.getElementById("searchcounter").innerHTML = `${searchlevel + 1}/${Array.from(document.getElementsByClassName("s_span")).length}`
+                document.getElementById("searchcounter").innerHTML = ` ${searchlevel + 1} / ${Array.from(document.getElementsByClassName("s_span")).length}`
                 
                 
             }else{
                 searchlevel = 0
-                e.target.nextElementSibling.innerHTML = `0/0`
+                e.target.nextElementSibling.innerHTML = ` 0 / 0`
             }
         }
     }
 }
 function messagesearch(e){
     searchtest(e.target.value)
-    document.getElementById("searchcounter").innerHTML = `?/${Array.from(document.getElementsByClassName("s_span")).length}`
+    document.getElementById("searchcounter").innerHTML = ` ? / ${Array.from(document.getElementsByClassName("s_span")).length}`
     searchlevel = "?"
 }
 

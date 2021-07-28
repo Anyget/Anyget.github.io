@@ -149,10 +149,13 @@
                             <label for="searchfold">&gt;</label>
                         </div>
                         <div id="searchandreplacediv">
-                            <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeypress="searcherpress(event)">
+                            <div style="display: flex;">
+                                <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeypress="searcherpress(event)"><input type="checkbox" id="search_regcheck">
+                                <label for="search_regcheck">.*</label>
+                            </div>
                             <input type="text" id="messagereplacer" onkeypress="replacerpress(event)">
                         </div>
-                        <div id="searchcounter">0/0</div>
+                        <div id="searchcounter"> 0 / 0</div>
                         <div style="margin-left: auto;">
                             <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress",{code:"Enter",shiftKey:true}))'>↑</span>
                             <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress",{code:"Enter",shiftKey:false}))'>↓</span>
