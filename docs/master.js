@@ -1036,7 +1036,6 @@ function previewanchor(s, ok) {
     return out;
 }
 function radiochange(e) {
-    console.log(document.getElementById(e.target.parentNode.dataset.radioto))
     Array.from(document.getElementById(e.target.parentNode.dataset.radioto).getElementsByClassName("radised")).forEach(n=>{
         if (n.parentNode.id == e.target.parentNode.dataset.radioto){
             n.classList.remove("radised")
@@ -2624,7 +2623,7 @@ function searcherpress(e){
         }
     }
 }
-function messagesearch(e){
+function messagesearch(){
     searchtest(document.getElementById("messagesearcher").value,document.getElementById("search_regcheck").checked)
     document.getElementById("searchcounter").innerHTML = ` ? / ${Array.from(document.getElementsByClassName("s_span")).length}`
     searchlevel = "?"
@@ -2639,12 +2638,11 @@ function blockerscr(e){
 }
 
 function replacerpress(e){
+    console.log(e.code)
     if (e.code == "Enter") {
         e.preventDefault()
         if (!e.shiftKey){
-            if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
-                document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", { code:"Enter", shiftKey: false }))
-            }else{
+            if (e.ctrlKey){
                 let r = document.getElementById("search_regcheck").checked
                 let v = document.getElementById("messagesearcher").value
                 let ff = false
@@ -2655,37 +2653,65 @@ function replacerpress(e){
                         ff = true
                     }
                 }
-                if (ff){return false}
-
-                let searchlevelback = searchlevel+0
-                let t = document.getElementsByClassName("s_span_special")[0]
-                let n = nbym(t.parentNode.parentNode.parentNode.parentNode)
-                let tn = nbym(t)
-                if (r){
-                    let o = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]]
-                    let ma = [...o.matchAll(new RegExp(v,"gm"))]
-                    let reger = new RegExp(v, "ym")
-                    reger.lastIndex = ma[tn]["index"]
-                    o = o.replace(reger, document.getElementById("messagereplacer").value)
-                    lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
-                }else{
-                    let c = 0
-                    let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].  split (v)
-                    let o = l.shift()
-                    l.forEach(s=>{
-                        if (c == tn){
-                            o += document.getElementById("messagereplacer").value
+                if (ff) { return false }
+                let n = 0
+                lists["messages"]["deal_list"].forEach(d=>{
+                    templates[lists["messages"]["deal_sets"][n]["use_temp"]]["conf_data"].forEach(c=>{
+                        if (r){
+                            d[c] = d[c].replace(new RegExp(v,"gm"),document.getElementById("messagereplacer").value)
                         }else{
-                            o += v
+                            d[c] = d[c].split(v).join(document.getElementById("messagereplacer").value)
                         }
-                        o += s
-                        c++
                     })
-                    lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+                    n++
+                })
+                messagesearch()
+            } else {
+                if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
+                    document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", {code:"Enter", shiftKey: false }))
+                }else{
+                    let r = document.getElementById("search_regcheck").checked
+                    let v = document.getElementById("messagesearcher").value
+                    let ff = false
+                    if (r) {
+                        try {
+                            new RegExp(v);
+                        } catch (ee) {
+                            ff = true
+                        }
+                    }
+                    if (ff){return false}
+                
+                    let searchlevelback = searchlevel+0
+                    let t = document.getElementsByClassName("s_span_special")[0]
+                    let n = nbym(t.parentNode.parentNode.parentNode.parentNode)
+                    let tn = nbym(t)
+                    if (r){
+                        let o = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]]
+                        let ma = [...o.matchAll(new RegExp(v,"gm"))]
+                        let reger = new RegExp(v, "ym")
+                        reger.lastIndex = ma[tn]["index"]
+                        o = o.replace(reger, document.getElementById("messagereplacer").value)
+                        lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+                    }else{
+                        let c = 0
+                        let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].split(v)
+                        let o = l.shift()
+                        l.forEach(s=>{
+                            if (c == tn){
+                                o += document.getElementById("messagereplacer").value
+                            }else{
+                                o += v
+                            }
+                            o += s
+                            c++
+                        })
+                        lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+                    }
+                    searchunimessage(n,v,r)
+                    searchlevel = searchlevelback-(e.shiftKey?-1:1)
+                    document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", {code:  "Enter", shiftKey: false }))
                 }
-                searchunimessage(n,v,r)
-                searchlevel = searchlevelback-(e.shiftKey?-1:1)
-                document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", { code: "Enter", shiftKey: false }))
             }
         }
     }

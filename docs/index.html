@@ -150,12 +150,16 @@
                         </div>
                         <div id="searchandreplacediv">
                             <div style="display: flex;">
-                                <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeypress="searcherpress(event)"><input type="checkbox" id="search_regcheck" onchange="messagesearch(event)">
+                                <input type="text" id="messagesearcher" oninput="messagesearch()" onkeypress="searcherpress(event)"><input type="checkbox" id="search_regcheck" onchange="messagesearch()" placeholder="検索…">
                                 <label for="search_regcheck">.*</label>
+                                <div id="searchcounter"> 0 / 0</div>
                             </div>
-                            <input type="text" id="messagereplacer" onkeypress="replacerpress(event)">
+                            <div id="messagereplacerdiv">
+                                <input type="text" id="messagereplacer" onkeypress="replacerpress(event)" placeholder="置換…">
+                                <span>単</span>
+                                <span>全</span>
+                            </div>
                         </div>
-                        <div id="searchcounter"> 0 / 0</div>
                         <div style="margin-left: auto;">
                             <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress",{code:"Enter",shiftKey:true}))'>↑</span>
                             <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress",{code:"Enter",shiftKey:false}))'>↓</span>

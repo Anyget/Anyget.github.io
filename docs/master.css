@@ -1352,31 +1352,35 @@ mark{
     display: block;
     height: 1.4em;
     line-height: 1.4em;
-    width: 14.4em;
-}
-#messagereplacerdiv{
-    width: 16em;
+    width: 14.6em;
 }
 #searchfolddiv{
     margin-right: 0.5em;
     font-family: monospace;
     height: 1.4em;
-    width: 1.4em;
+    width: 0.7em;
     line-height: 1.4em;
-    font-size: 1.4em;
+}
+#searchfold:checked+#searchfolddiv{
+    height: 2.8em;
 }
 #searchfold{
     display: none;
 }
 #searchfold+div>label{
+    transform-origin:left center 0;
     display: block;
     cursor: pointer;
     height: 100%;
     width: 100%;
     user-select: none;
     text-align: right;
+    font-size: 1.4em;
 }
 #searchfold:checked+div>label{
+    line-height: 0.5em;
+    height: 0.5em;
+    width: 2em;
     transform: rotate(90deg);
     text-align: center;
 }
@@ -1384,16 +1388,21 @@ mark{
     display: flex;
     flex-direction: column;
 }
-#messagereplacer{
-    margin-top: 0.3em;
+#messagereplacerdiv{
     display: none;
 }
 
-#searchfold:checked~div #messagereplacer{
-    display: block;
+#searchfold:checked~div #messagereplacerdiv{
+    margin-top: 0.3em;
+    display: flex !important;
 }
-
-#messagesearcherdiv span{
+#messagereplacer{
+    display: block;
+    height: 1.4em;
+    line-height: 1.4em;
+    width: 16em;
+}
+#messagesearcherdiv span,#messagereplacerdiv span{
     font-family: monospace;
     font-size: 1.4em;
     cursor: pointer;
@@ -1409,7 +1418,6 @@ mark{
     font-family: monospace;
     background-color: var(--textinput_color);
     font-size: 1.4em;
-    user-select: none;
 }
 #search_regcheck:checked+label{
     color: var(--color_1);
