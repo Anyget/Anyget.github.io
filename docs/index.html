@@ -150,7 +150,7 @@
                         </div>
                         <div id="searchandreplacediv">
                             <div style="display: flex;">
-                                <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeypress="searcherpress(event)"><input type="checkbox" id="search_regcheck">
+                                <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeypress="searcherpress(event)"><input type="checkbox" id="search_regcheck" onchange="messagesearch(event)">
                                 <label for="search_regcheck">.*</label>
                             </div>
                             <input type="text" id="messagereplacer" onkeypress="replacerpress(event)">

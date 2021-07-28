@@ -679,7 +679,7 @@ document.addEventListener("input", (e) => {
             //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
             //datamemodivreload()
         }
-        searchunimessage(num,document.getElementById("messagesearcher").value)
+        searchunimessage(num,document.getElementById("messagesearcher").value,document.getElementById("search_regcheck").checked)
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
         taras(target)
@@ -2520,11 +2520,18 @@ function setsc(e){
     document.getElementById("settings").scrollTop = document.getElementById(e.target.dataset.dhref).offsetTop
 }
 
-function searchtest(s){
+function searchtest(s,r){
+    if (r){
+        try {
+            new RegExp(s);
+        } catch (e) {
+            s = ""
+        }
+    }
     if (s != ""){
         let count = 0
         lists["messages"]["deal_list"].forEach(d=>{
-            searchunimessage(count,s)
+            searchunimessage(count,s,r)
             count++
         })
     }else{
@@ -2534,11 +2541,23 @@ function searchtest(s){
     }
 }
 
-function searchunimessage(n,s){
+function searchunimessage(n,s,r){
+    if (r){
+        try {
+            new RegExp(s);
+        } catch (e) {
+            return false
+        }
+    }
     let d = lists["messages"]["deal_list"][n]
     templates[lists["messages"]["deal_sets"][n]["use_temp"]]["conf_data"].forEach(c => {
         let m = mbyn(n)
-        let o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span class="s_span">${escapeHtmlSp(s)}</span>`)
+        let o = ""
+        if (r){
+            o = escapeHtmlSp(d[c]).replace(new RegExp("("+escapeHtmlSp(s)+")","g"),'<span class="s_span">$1</span>')
+        }else{
+            o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span class="s_span">${escapeHtmlSp(s)}</span>`)
+        }
         Array.from(m.getElementsByClassName(c)).forEach(mm => {
             let t = mm.nextElementSibling
             mm.value = d[c]
@@ -2606,7 +2625,7 @@ function searcherpress(e){
     }
 }
 function messagesearch(e){
-    searchtest(e.target.value)
+    searchtest(document.getElementById("messagesearcher").value,document.getElementById("search_regcheck").checked)
     document.getElementById("searchcounter").innerHTML = ` ? / ${Array.from(document.getElementsByClassName("s_span")).length}`
     searchlevel = "?"
 }
@@ -2644,7 +2663,7 @@ function replacerpress(e){
                 c++
             })
             lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
-            searchunimessage(n,v)
+            searchunimessage(n,v,document.getElementById("search_regcheck").checked)
             searchlevel = searchlevelback-(e.shiftKey?-1:1)
             searcherpress(e)
         }
