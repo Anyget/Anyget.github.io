@@ -2595,8 +2595,8 @@ function searcherpress(e){
                 tt.classList.add("s_span_special")
                 tt.parentNode.scrollTop = tt.offsetTop
                 tt.parentNode.previousElementSibling.scrollTop = tt.parentNode.scrollTop
-                document.getElementById("message").scrollTop = tt.parentNode.parentNode.offsetTop
-                e.target.nextElementSibling.innerHTML = `${searchlevel + 1}/${Array.from(document.getElementsByClassName("s_span")).length}`
+                document.getElementById("messages").scrollTop = tt.parentNode.parentNode.offsetTop
+                document.getElementById("searchcounter").innerHTML = `${searchlevel + 1}/${Array.from(document.getElementsByClassName("s_span")).length}`
                 
                 
             }else{
