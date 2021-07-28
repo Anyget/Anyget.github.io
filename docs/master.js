@@ -2541,6 +2541,7 @@ function searchunimessage(n,s){
         let o = escapeHtmlSp(d[c]).split(escapeHtmlSp(s)).join(`<span class="s_span">${escapeHtmlSp(s)}</span>`)
         Array.from(m.getElementsByClassName(c)).forEach(mm => {
             let t = mm.nextElementSibling
+            mm.value = d[c]
             t.innerHTML = o
             if (c.startsWith("liner_")) {
                 t.scrollLeft = mm.scrollLeft
@@ -2561,8 +2562,6 @@ document.addEventListener("keydown",e=>{
             }
         }
     }
-})
-function searcherdown(e){
     if (e.code == "Escape"){
         e.preventDefault()
         if (!document.body.classList.contains("nonono_startmenu")){
@@ -2571,7 +2570,7 @@ function searcherdown(e){
             }
         }
     }
-}
+})
 function searcherpress(e){
     if (e.code == "Enter") {
         e.preventDefault()
@@ -2618,4 +2617,36 @@ function linerscr(e){
 
 function blockerscr(e){
     e.target.nextElementSibling.scrollTop = e.target.scrollTop
+}
+
+function replacerpress(e){
+    if (e.code == "Enter") {
+        e.preventDefault()
+        if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
+            searcherpress(e)
+        }else{
+            let searchlevelback = searchlevel+0
+            let t = document.getElementsByClassName("s_span_special")[0]
+            let n = nbym(t.parentNode.parentNode.parentNode.parentNode)
+            let tn = nbym(t)
+            let c = 0
+            let v = document.getElementById("messagesearcher").value
+            console.log(t.parentNode.parentNode.firstElementChild)
+            let l = lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]].split(v)
+            let o = l.shift()
+            l.forEach(s=>{
+                if (c == tn){
+                    o += document.getElementById("messagereplacer").value
+                }else{
+                    o += v
+                }
+                o += s
+                c++
+            })
+            lists["messages"]["deal_list"][n][t.parentNode.parentNode.firstElementChild.classList[1]] = o
+            searchunimessage(n,v)
+            searchlevel = searchlevelback-(e.shiftKey?-1:1)
+            searcherpress(e)
+        }
+    }
 }
