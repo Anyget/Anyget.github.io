@@ -1326,7 +1326,13 @@ mark{
     padding: 0;
     margin: 0;
     color: transparent !important;
-    background-color: var(--color_1) !important;
+    background-color: var(--color_1);
+}
+.s_span_special{
+    filter: hue-rotate(180deg);
+}
+#messagesearcherdiv[data-searching="false"]~* .s_span{
+    background: transparent;
 }
 #messagesearcherdiv{
     display: none;
@@ -1339,7 +1345,7 @@ mark{
 }
 #messagesearcherdiv[data-searching="true"]{
     z-index: 50;
-    display: block;
+    display: flex;
 }
 #messagesearcher{
     display: block;

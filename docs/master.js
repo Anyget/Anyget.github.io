@@ -35,6 +35,7 @@ let put_deal_sets = []
 let all_data = {};
 let all_label = {}
 let dragging = null;
+let searchlevel = 0
 let templates = [
     {
         "template" : "",
@@ -424,7 +425,7 @@ function changetemp() {
                             mode = "normal";
                             col += "$</span>";
                             let t = escapeHtml(data[data.length - 1]).replace("liner_", "")
-                            htm += `" placeholder="${t}" list="list_liner_${t}" value=""><div class="s_$text s_text"></div></div>`;
+                            htm += `" placeholder="${t}" list="list_liner_${t}" value="" onscroll="linerscr(event)"><div class="s_$text s_text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -438,7 +439,7 @@ function changetemp() {
                         case ("|"):
                             mode = "normal";
                             col += "|</span>";
-                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"></textarea><div class="s_|text s_text"></div></div>`;
+                            htm += `" placeholder="${escapeHtml(data[data.length - 1]).replace("blocker_", "")}"onscroll="blockerscr(event)"></textarea><div class="s_|text s_text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -678,6 +679,7 @@ document.addEventListener("input", (e) => {
             //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
             //datamemodivreload()
         }
+        searchunimessage(num,document.getElementById("messagesearcher").value)
     };
     if (target.matches(".message textarea,.message input,#form_inp textarea,#form_inp input")){
         taras(target)
@@ -2560,6 +2562,60 @@ document.addEventListener("keydown",e=>{
         }
     }
 })
+function searcherdown(e){
+    if (e.code == "Escape"){
+        e.preventDefault()
+        if (!document.body.classList.contains("nonono_startmenu")){
+            if (document.getElementById("mesandform").classList.contains("radised")){
+                document.getElementById("messagesearcherdiv").dataset.searching = "false"
+            }
+        }
+    }
+}
+function searcherpress(e){
+    if (e.code == "Enter") {
+        e.preventDefault()
+        if (document.getElementsByClassName("s_span_special").length > 0){
+            document.getElementsByClassName("s_span_special")[0].classList.remove("s_span_special")
+        }
+        if (!document.body.classList.contains("nonono_startmenu")) {
+            if (Array.from(document.getElementsByClassName("s_span")).length>0){
+                if (searchlevel == "?"){
+                    searchlevel = 0
+                }else{
+                    if (e.shiftKey){
+                        searchlevel -= 1
+                        searchlevel += Array.from(document.getElementsByClassName("s_span")).length
+                    }else{
+                        searchlevel += 1
+                    }
+                }
+                searchlevel = searchlevel % Array.from(document.getElementsByClassName("s_span")).length
+                let tt = document.getElementsByClassName("s_span")[searchlevel]
+                tt.classList.add("s_span_special")
+                tt.parentNode.scrollTop = tt.offsetTop
+                tt.parentNode.previousElementSibling.scrollTop = tt.parentNode.scrollTop
+                document.getElementById("message").scrollTop = tt.parentNode.parentNode.offsetTop
+                e.target.nextElementSibling.innerHTML = `${searchlevel + 1}/${Array.from(document.getElementsByClassName("s_span")).length}`
+                
+                
+            }else{
+                searchlevel = 0
+                e.target.nextElementSibling.innerHTML = `0/0`
+            }
+        }
+    }
+}
 function messagesearch(e){
     searchtest(e.target.value)
+    e.target.nextElementSibling.innerHTML = `?/${Array.from(document.getElementsByClassName("s_span")).length}`
+    searchlevel = "?"
+}
+
+function linerscr(e){
+    e.target.nextElementSibling.scrollLeft = e.target.scrollLeft
+}
+
+function blockerscr(e){
+    e.target.nextElementSibling.scrollTop = e.target.scrollTop
 }
