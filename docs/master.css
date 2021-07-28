@@ -1341,6 +1341,7 @@ mark{
     top: 0;
     background-color: var(--color_5);
     box-shadow: 0.2em 0.2em 0.44em 0.1em rgba(0, 0, 0, 0.8);
+    width: 25em;
     padding: 0.3em;
 }
 #messagesearcherdiv[data-searching="true"]{
