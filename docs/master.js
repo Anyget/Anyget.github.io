@@ -2608,7 +2608,7 @@ function searcherpress(e){
 }
 function messagesearch(e){
     searchtest(e.target.value)
-    e.target.nextElementSibling.innerHTML = `?/${Array.from(document.getElementsByClassName("s_span")).length}`
+    document.getElementById("searchcounter").innerHTML = `?/${Array.from(document.getElementsByClassName("s_span")).length}`
     searchlevel = "?"
 }
 

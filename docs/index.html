@@ -144,7 +144,14 @@
             <div id="tab_cont" class="tabconter">
                 <div id="mesandform" class="radised">
                     <div id="messagesearcherdiv" data-searching="false">
-                        <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeydown="searcherdown(event)" onkeypress="searcherpress(event)">
+                        <input type="checkbox" id="searchfold">
+                        <div id="searchfolddiv">
+                            <label for="searchfold">&gt;</label>
+                        </div>
+                        <div id="searchandreplacediv">
+                            <input type="text" id="messagesearcher" oninput="messagesearch(event)" onkeydown="searcherdown(event)" onkeypress="searcherpress(event)">
+                            <input type="text" id="messagereplacer">
+                        </div>
                         <div id="searchcounter">0/0</div>
                     </div>
                     <div id="messages">
