@@ -153,6 +153,11 @@
                             <input type="text" id="messagereplacer" onkeypress="replacerpress(event)">
                         </div>
                         <div id="searchcounter">0/0</div>
+                        <div style="margin-left: auto;">
+                            <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress",{code:"Enter",shiftKey:true}))'>↑</span>
+                            <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress",{code:"Enter",shiftKey:false}))'>↓</span>
+                            <span onclick='document.dispatchEvent(new KeyboardEvent("keydown",{code:"Escape"}))'>×</span>
+                        </div>
                     </div>
                     <div id="messages">
 
