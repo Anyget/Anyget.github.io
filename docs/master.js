@@ -338,6 +338,8 @@ window.onload = function () {
         cc++
     }
     randgen()
+    template_valuereload()
+    template_scrollreload()
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -1394,6 +1396,8 @@ function subs() {
             }
         }  
     }
+    template_valuereload()
+    template_scrollreload()
 }
 /*document.addEventListener("keydown", e => {
     if (e.target.matches(".\\$text,.\\|text")) {
@@ -2721,6 +2725,7 @@ function template_valuereload(){
     let t = document.getElementById("template")
     let h = document.getElementById("template_highlighter")
     let o = ""
+    console.log(t.value)
     t.value.split("\n").forEach(l=>{
         if (l.startsWith("//")){
             o += `<span class="highlight_comment">${escapeHtmlSp(l)}</span>`
