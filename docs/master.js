@@ -2716,3 +2716,16 @@ function replacerpress(e){
         }
     }
 }
+
+function template_valuereload(){
+    let t = document.getElementById("template")
+    let h = document.getElementById("template_highlighter")
+    let o = ""
+    t.value.split("\n").forEach(l=>{
+        if (l.startsWith("//")){
+            o += `<span class="highlight_comment">${escapeHtmlSp(l)}</span>`
+        }else{
+            
+        }
+    })
+}
