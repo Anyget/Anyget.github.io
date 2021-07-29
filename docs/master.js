@@ -2725,7 +2725,15 @@ function template_valuereload(){
         if (l.startsWith("//")){
             o += `<span class="highlight_comment">${escapeHtmlSp(l)}</span>`
         }else{
-            
+            o += escapeHtmlSp(l)
         }
+        o += "<br>"
     })
+    h.innerHTML = o
+}
+
+function template_scrollreload(){
+    let t = document.getElementById("template")
+    let h = document.getElementById("template_highlighter")
+    h.scrollTop = t.scrollTop
 }
