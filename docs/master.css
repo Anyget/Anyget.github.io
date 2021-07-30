@@ -88,11 +88,11 @@ li{
     background: transparent !important;
     text-align: left;
     font-size: 16px;
-    line-height: 1.2em !important;
+    line-height: 1.5em !important;
     font-family: sans-serif;
     display: block;
     box-sizing: border-box;
-    letter-spacing:normal;
+    letter-spacing: 0;
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;
 }
