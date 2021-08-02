@@ -477,7 +477,7 @@ function changetemp() {
             };
         };
     };
-    htm = htm.split("</textarea>\n").join("</textarea>")
+    htm = htm.split('</textarea><div class="s_|text s_text"></div></div>\n').join('</textarea><div class="s_|text s_text"></div></div>')
     htm = htm.split("\n").join("<br>")
     if (mode == "normal") {
         let backupconfdata = templates[now_temp]["conf_data"];

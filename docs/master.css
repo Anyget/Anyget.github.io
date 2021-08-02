@@ -196,6 +196,7 @@ h1,h2{
     font-family: sans-serif;
     box-sizing: border-box;
     resize: vertical;
+    margin: 0;
 }
 .\|text:empty:before{
     color: var(--textinput_placeholder_color);
