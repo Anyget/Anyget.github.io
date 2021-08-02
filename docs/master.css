@@ -1480,3 +1480,6 @@ mark{
 label{
     user-select: none;
 }
+li{
+    list-style:inside;
+}
