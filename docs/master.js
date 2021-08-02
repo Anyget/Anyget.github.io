@@ -489,7 +489,7 @@ function changetemp() {
         templates[now_temp]["conf_data"] = Array.from(new Set(data))
         templates[now_temp]["conf_data"].forEach(i => {
             if (!Object.keys(all_data).includes(i)) {
-                all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor?": false, "dataset_anchor":  "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
+                all_data[i] = ({"dataset_adder": 0,"dataset_adderm":false, "dataset_anchor":  "", "dataset_fix?": false, "dataset_datalist?": false,"memo":{}});
                 Array.from(document.getElementsByClassName("dataman")).forEach(s=>{
                     s.insertAdjacentHTML("beforeend", `<option name="${escapeHtml(i)}">${(escapeHtml(i) + "a").replace(/^[^_]*_|.$/g, i.startsWith("blocker_") ? "|" : "$")}</option>`)
                     if (s.id == "datamemopul" && i.startsWith("blocker_")){
@@ -640,15 +640,12 @@ function datapulchange(e) {
         document.getElementById("dataset_fix?").disabled = false;
         document.getElementById("dataset_fix?").checked = all_data[selecting]["dataset_fix?"];
         if (e.target.value.startsWith("$")) {
-            document.getElementById("dataset_anchor?").disabled = false;
-            document.getElementById("dataset_anchor?").checked = all_data[selecting]["dataset_anchor?"];
-            document.getElementById("dataset_anchor").disabled = !all_data[selecting]["dataset_anchor?"]
+            document.getElementById("dataset_anchor").disabled = false
             document.getElementById("dataset_anchor").value = all_data[selecting]["dataset_anchor"];
             document.getElementById("dataset_datalist?").disabled = false;
             document.getElementById("dataset_datalist?").checked = all_data[selecting]["dataset_datalist?"];
         } else {
-            document.getElementById("dataset_anchor?").disabled = true;
-            document.getElementById("dataset_anchor?").checked = false;
+            document.getElementById("dataset_anchor").disabled = true
             document.getElementById("dataset_anchor").value = "";
             document.getElementById("dataset_datalist?").disabled = true;
             document.getElementById("dataset_datalist?").checked = false;
@@ -869,11 +866,6 @@ function dragend(e) {
     }
     document.querySelector("body").classList.remove("nonono");
 }
-function anchorcheck() {
-    let c = document.getElementById("dataset_anchor?").checked
-    document.getElementById("dataset_anchor").disabled = !c;
-    all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["dataset_anchor?"] = c;
-}
 function anchorchange(e){
     all_data[Object.keys(all_data)[(document.getElementById("datapul").selectedIndex) - 1]]["dataset_anchor"] = e.target.value;
 }
@@ -945,16 +937,14 @@ function plainreload() {
                 reptree.slice().reverse().some(m=>{
                     conf_data.forEach(k=>{
                         if (!mexaflag){
-                            if (all_data[k]["dataset_anchor?"]){
-                                if (all_data[k]["dataset_anchor"] != ""){
-                                    conf_data.forEach(d=>{
-                                        if (d.startsWith("blocker_")){
-                                            if (i[d].indexOf(all_data[k]["dataset_anchor"] + m[k])+1){
-                                                mexaflag = true
-                                            }
+                            if (all_data[k]["dataset_anchor"] != ""){
+                                conf_data.forEach(d=>{
+                                    if (d.startsWith("blocker_")){
+                                        if (i[d].indexOf(all_data[k]["dataset_anchor"] + m[k])+1){
+                                            mexaflag = true
                                         }
-                                    })
-                                }
+                                    }
+                                })
                             }
                         }
                     })
@@ -1052,8 +1042,7 @@ function radiochange(e) {
                     let anchorok = {}
                     let dm = lists["messages"]["deal_list"].map(xx => Object.values(xx).join("")).join("")
                     Object.keys(all_data).forEach(a => {
-                        if (!all_data[a]["dataset_anchor?"]) { return };
-                        if (all_data[a]["dataset_anchor"] === "") { return };
+                        if (all_data[a]["dataset_anchor"] == "") { return };
                         let dms = dm.split(all_data[a]["dataset_anchor"])
                         if (dms.length>10000 || dms.length<0) { return };
                         if (Object.values(anchorok).includes(all_data[a]["dataset_anchor"])) { return };
@@ -2037,7 +2026,6 @@ function unieasypreviewreloader(n){
         if (intersectobjects.has(document.getElementById("easy_preview").children[n])) {
             let anchorok = {}
             Object.keys(all_data).forEach(a => {
-                if (!all_data[a]["dataset_anchor?"]) { return };
                 if (all_data[a]["dataset_anchor"] == "") { return };
                 if (Object.values(anchorok).includes(all_data[a]["dataset_anchor"])) { return };
                 anchorok[a] = escapeHtml(all_data[a]["dataset_anchor"]);
