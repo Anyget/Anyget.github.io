@@ -261,6 +261,16 @@ h1,h2{
     font-size: 20px;
     border-radius: 10px;
     visibility: hidden;
+    cursor: pointer;
+    padding: 0;
+}
+.closebtn:hover{
+    background-color: var(--color_1);
+}
+.closebtn:before{
+    display: inline;
+    content:"×";
+    vertical-align:text-top;
 }
 .messagediv:hover .closebtn,.checked_md .closebtn{
     visibility: visible;
