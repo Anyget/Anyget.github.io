@@ -340,12 +340,38 @@ window.onload = function () {
     randgen()
     template_valuereload()
     template_scrollreload()
+    if (storageAvailable("localStorage")) {
+        let eu = []
+        if (localStorage.getItem("Anyget_Last_Session_Save_Data") != null) {
+            eu = JSON.parse(localStorage.getItem("Anyget_Last_Session_Save_Data"))
+        }
+        if (!Array.isArray(eu)) {
+            eu = []
+        }
+        let c = 0
+        eu.forEach(euu=>{
+            document.getElementById("backup_list").insertAdjacentHTML("beforeend",`<li onclick="sessionload(${c})">⌚${euu.date}</li>`)
+            c++
+        })
+    }
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
     event.returnValue = ''
     if (storageAvailable("localStorage")){
-        localStorage.setItem("Anyget_Last_Session_Save_Data",saver())
+        let eu = []
+        if (localStorage.getItem("Anyget_Last_Session_Save_Data") != null){
+            eu = JSON.parse(localStorage.getItem("Anyget_Last_Session_Save_Data"))
+        }
+        if (!Array.isArray(eu)){
+            eu = []
+        }
+
+        eu.unshift({"data":saver(),"date":`${getMMDDHHSSMM()}`})
+        if (eu.length > 5){
+            eu.pop()
+        }
+        localStorage.setItem("Anyget_Last_Session_Save_Data",JSON.stringify(eu))
     }
 })
 window.addEventListener("resize",e=>{
@@ -1369,6 +1395,8 @@ function load(n){
     })
     lockreload()
     datamemodivreload()
+    template_valuereload()
+    template_scrollreload()
 }
 function subs() {
     let sel = document.getElementById("subssel");
@@ -1819,11 +1847,17 @@ function loadbybutton3(){
         })
     })
 }
-function sessionload(){
+function sessionload(n){
     if (storageAvailable("localStorage")){
-        if (localStorage.getItem("Anyget_Last_Session_Save_Data") != null){
-            load(JSON.parse(localStorage.getItem("Anyget_Last_Session_Save_Data")))
-            startmenukill()
+        let m = localStorage.getItem("Anyget_Last_Session_Save_Data")
+        if (m != null){
+            let a = JSON.parse(m)
+            if (Array.isArray(a)){
+                if (a.length > n){
+                    load(JSON.parse(a[n]["data"]))
+                    startmenukill()
+                }
+            }
         }
     }
 }
@@ -2630,7 +2664,6 @@ function blockerscr(e){
 }
 
 function replacerpress(e){
-    console.log(e.code)
     if (e.code == "Enter") {
         e.preventDefault()
         if (!e.shiftKey){
@@ -2713,7 +2746,6 @@ function template_valuereload(){
     let t = document.getElementById("template")
     let h = document.getElementById("template_highlighter")
     let o = ""
-    console.log(t.value)
     t.value.split("\n").forEach(l=>{
         if (l.startsWith("//")){
             o += `<span class="highlight_comment">${escapeHtmlSp(l)}</span>`
@@ -2729,4 +2761,16 @@ function template_scrollreload(){
     let t = document.getElementById("template")
     let h = document.getElementById("template_highlighter")
     h.scrollTop = t.scrollTop
+}
+function getMMDDHHSSMM()
+{
+    var dt = new Date() ;
+    var month = dt.getMonth() + 1 ;
+    var date = dt.getDate() ;
+    var hours = dt.getHours() ;
+    var minutes = dt.getMinutes() ;
+    var seconds = dt.getSeconds();
+    var ymdhms = ( "00" + new String( month )).slice( -2 ) + "/" + ( "00" + new String(  date )).slice( -2 ) ;
+    ymdhms += " " + ( "00" + new String( hours )).slice( -2 ) + ":" + ( "00" + new String( minutes )).slice( -2 ) +     ":" + ( "00" + new String( seconds )).slice( -2 ) ;
+    return ymdhms ;
 }

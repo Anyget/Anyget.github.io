@@ -96,6 +96,7 @@ li{
     letter-spacing: 0;
     white-space: pre-wrap !important;
     overflow-wrap: anywhere !important;
+    overflow-y: scroll;
 }
 #template{
     padding: 1px;
@@ -119,9 +120,12 @@ li{
     border: solid 1px var(--border_color);
     margin: 0 auto;
     line-height: 1.2;
-    overflow : auto;
     font-family: sans-serif;
     font-size: 16px;
+    letter-spacing: 0;
+    white-space: pre-wrap !important;
+    overflow-wrap: anywhere !important;
+    overflow-y: scroll;
 }
 h1,h2{
     margin: 0.2em 0;
@@ -1064,7 +1068,7 @@ button:active{
     filter:brightness(0.6);
     font-size: 1em;
 }
-#startmenu_l>div>div{
+#startmenu_l>div>div:not(#startmenu_loadmenu *){
     user-select: none;
     cursor: pointer;
     margin: 0;
@@ -1085,7 +1089,7 @@ button:active{
     width: 100%;
     fill: var(--color_1);
 }
-#startmenu_l>div>div:hover{
+#startmenu_l>div>div:hover:not(#startmenu_loadmenu *){
     filter: invert(1);
 }
 #startmenu_l li{
@@ -1101,10 +1105,9 @@ button:active{
 #startmenu_load_inp{
     display: none;
 }
-#startmenu_l label,#startmenu_l span{
-    width: 100%;
-    display: block;
+#startmenu_loadmenu li,#startmenu_loadmenu li *{
     cursor: pointer;
+    user-select: none;
 }
 .messelectcheck{
     display: block;
@@ -1492,4 +1495,10 @@ label{
 }
 li{
     list-style:inside;
+}
+#startmenu_loadmenu{
+    display: flex;
+}
+#startmenu_loadmenu>*{
+    width: 50%;
 }
