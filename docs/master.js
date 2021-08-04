@@ -1788,9 +1788,7 @@ function loadbybutton3(){
     })
 }
 function additionalloader(t){
-    Array.from(document.getElementsByClassName("checked_md")).forEach(cm=>{
-        cm.classList.remove("checked_md")
-    })
+    checkedremove()
     let n = JSON.parse(t)
     let conlist = {}
     let medt = templates.map(t=>t["template"])
@@ -2130,6 +2128,7 @@ function mescheck(e){
     }
 }
 function md_click(e){
+    e.stopPropagation()
     if (e.target.tagName!="DIV"){return false}
     if (!(e.ctrlKey || e.metaKey) && e.shiftKey) {
         e.currentTarget.id="telstro"
@@ -2645,6 +2644,24 @@ document.addEventListener("keydown",e=>{
             }
         }
     }
+    if ((e.ctrlKey || e.metaKey) && e.code == "KeyX" && document.querySelector(":focus")==null){
+        if (!document.body.classList.contains("nonono_startmenu")){
+            if (document.getElementById("mesandform").classList.contains("radised")){
+                contextcommand_checkedcut()
+            }
+        }
+    }
+    if ((e.ctrlKey || e.metaKey) && e.code == "KeyV" && document.querySelector(":focus") == null) {
+        if (!document.body.classList.contains("nonono_startmenu")) {
+            if (document.getElementById("mesandform").classList.contains("radised")) {
+                if (document.getElementsByClassName("checked_md").length > 0){
+                
+                }else{
+                    contextcommand_flatpaste()
+                }
+            }
+        }
+    }
 })
 function searcherpress(e){
     if (e.code == "Enter") {
@@ -2804,4 +2821,10 @@ function getMMDDHHSSMM()
     var ymdhms = ( "00" + new String( month )).slice( -2 ) + "/" + ( "00" + new String(  date )).slice( -2 ) ;
     ymdhms += " " + ( "00" + new String( hours )).slice( -2 ) + ":" + ( "00" + new String( minutes )).slice( -2 ) +     ":" + ( "00" + new String( seconds )).slice( -2 ) ;
     return ymdhms ;
+}
+function checkedremove(){
+    Array.from(document.getElementsByClassName("checked_md")).forEach(cm => {
+        cm.classList.remove("checked_md")
+        mcheckr(cm)
+    })
 }
