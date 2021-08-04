@@ -2686,7 +2686,7 @@ function replacerpress(e){
     if (e.code == "Enter") {
         e.preventDefault()
         if (!e.shiftKey){
-            if (e.ctrlKey){
+            if (e.ctrlKey && e.altKey){
                 let r = document.getElementById("search_regcheck").checked
                 let v = document.getElementById("messagesearcher").value
                 let ff = false
@@ -2712,7 +2712,7 @@ function replacerpress(e){
                 messagesearch()
             } else {
                 if (searchlevel == "?" || document.getElementsByClassName("s_span_special").length < 1){
-                    document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", {code:"Enter", shiftKey: false }))
+                    document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keydown", {code:"Enter", shiftKey: false }))
                 }else{
                     let r = document.getElementById("search_regcheck").checked
                     let v = document.getElementById("messagesearcher").value
@@ -2754,7 +2754,7 @@ function replacerpress(e){
                     }
                     searchunimessage(n,v,r)
                     searchlevel = searchlevelback-(e.shiftKey?-1:1)
-                    document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keypress", {code:  "Enter", shiftKey: false }))
+                    document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keydown", {code:  "Enter", shiftKey: false }))
                 }
             }
         }
