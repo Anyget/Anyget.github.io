@@ -1788,6 +1788,9 @@ function loadbybutton3(){
     })
 }
 function additionalloader(t){
+    Array.from(document.getElementsByClassName("checked_md")).forEach(cm=>{
+        cm.classList.remove("checked_md")
+    })
     let n = JSON.parse(t)
     let conlist = {}
     let medt = templates.map(t=>t["template"])
@@ -1837,6 +1840,8 @@ function additionalloader(t){
                 messtemper(ds[x - 1]["use_temp"] + 1, templates[ds[x - 1]["use_temp"]]["conf_htm"]))
             let now = document.getElementById("cd")
             now.id = ""
+            now.parentNode.classList.add("checked_md")
+            mcheckr(now.parentNode)
             templates[ds[x - 1]["use_temp"]]["conf_data"].forEach(c => {
                 let z = 0
                 Array.from(now.getElementsByClassName(c)).forEach(m => {
@@ -2126,7 +2131,7 @@ function mescheck(e){
 }
 function md_click(e){
     if (e.target.tagName!="DIV"){return false}
-    if (!e.ctrlKey && e.shiftKey) {
+    if (!(e.ctrlKey || e.metaKey) && e.shiftKey) {
         e.currentTarget.id="telstro"
         if (e.currentTarget.matches(".checked_md~div:not(.checked_md)")){
             let now = e.currentTarget
@@ -2145,10 +2150,10 @@ function md_click(e){
             }
         }
         e.currentTarget.id = ""
-    } else if (e.ctrlKey && e.shiftKey) {
+    } else if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
         e.currentTarget.classList.add("checked_md")
         mcheckr(e.currentTarget)
-    }else if (e.ctrlKey){
+    }else if ((e.ctrlKey || e.metaKey)){
         if (e.currentTarget.classList.contains("checked_md")){
             e.currentTarget.classList.remove("checked_md")
         }else{
@@ -2633,6 +2638,13 @@ document.addEventListener("keydown",e=>{
             }
         }
     }
+    if ((e.ctrlKey || e.metaKey) && e.code == "KeyC" && document.querySelector(":focus")==null){
+        if (!document.body.classList.contains("nonono_startmenu")){
+            if (document.getElementById("mesandform").classList.contains("radised")){
+                contextcommand_checkedcopy()
+            }
+        }
+    }
 })
 function searcherpress(e){
     if (e.code == "Enter") {
@@ -2686,7 +2698,7 @@ function replacerpress(e){
     if (e.code == "Enter") {
         e.preventDefault()
         if (!e.shiftKey){
-            if (e.ctrlKey && e.altKey){
+            if ((e.ctrlKey || e.metaKey) && e.altKey){
                 let r = document.getElementById("search_regcheck").checked
                 let v = document.getElementById("messagesearcher").value
                 let ff = false
