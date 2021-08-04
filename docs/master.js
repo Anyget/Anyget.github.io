@@ -1784,66 +1784,69 @@ function loadbybutton3(){
     if (document.getElementById("contextmenu_additionalload_inp").files.length === 0) return false;
     let f = document.getElementById("contextmenu_additionalload_inp").files[0];
     f.text().then(t => {
-        let n = JSON.parse(t)
-        let conlist = {}
-        let medt = templates.map(t=>t["template"])
-        let c = 0
-        n["templates"].forEach(k=>{
-            if (medt.includes(k["template"])){
-                conlist[c] = medt.indexOf(k["template"])
-            }else{
-                templates.push(k)
-                conlist[c] = templates.length-1
-            }
-            c++
+        additionalloader(t)
+    })
+}
+function additionalloader(t){
+    let n = JSON.parse(t)
+    let conlist = {}
+    let medt = templates.map(t=>t["template"])
+    let c = 0
+    n["templates"].forEach(k=>{
+        if (medt.includes(k["template"])){
+            conlist[c] = medt.indexOf(k["template"])
+        }else{
+            templates.push(k)
+            conlist[c] = templates.length-1
+        }
+        c++
+    })
+    Object.keys(n["all_data"]).forEach(d=>{
+        if (!Object.keys(all_data).includes(d)){
+            all_data[d] = n["all_data"][d]
+            Object.keys(lists).forEach(k=>{
+                lists[k]["deal_list"].forEach(dd=>{
+                    dd[d] = ""
+                })
+            })
+        }
+    })
+    Object.keys(n["all_label"]).forEach(d=>{
+        if (!Object.keys(all_label).includes(d)){
+            all_label[d] = n["all_label"][d]
+        }
+    })
+    Object.keys(n["lists"]).forEach(k=>{
+        let dl = n["lists"][k]["deal_list"]
+        let ds = n["lists"][k]["deal_sets"]
+        let sl = n["lists"][k]["style_list"]
+        ds.forEach(dss=>{
+            dss["use_temp"] = conlist[dss["use_temp"]]
         })
-        Object.keys(n["all_data"]).forEach(d=>{
-            if (!Object.keys(all_data).includes(d)){
-                all_data[d] = n["all_data"][d]
-                Object.keys(lists).forEach(k=>{
-                    lists[k]["deal_list"].forEach(dd=>{
-                        dd[d] = ""
-                    })
+        Object.keys(all_data).forEach(db => {
+            if (!Object.keys(n["all_data"]).includes(db)) {
+                dl.forEach(dd=>{
+                    dd[db] = ""
                 })
             }
         })
-        Object.keys(n["all_label"]).forEach(d=>{
-            if (!Object.keys(all_label).includes(d)){
-                all_label[d] = n["all_label"][d]
-            }
-        })
-        Object.keys(n["lists"]).forEach(k=>{
-            let dl = n["lists"][k]["deal_list"]
-            let ds = n["lists"][k]["deal_sets"]
-            let sl = n["lists"][k]["style_list"]
-            ds.forEach(dss=>{
-                dss["use_temp"] = conlist[dss["use_temp"]]
-            })
-            Object.keys(all_data).forEach(db => {
-                if (!Object.keys(n["all_data"]).includes(db)) {
-                    dl.forEach(dd=>{
-                        dd[db] = ""
-                    })
-                }
-            })
-            let x = 0
-            dl.forEach(d => {
-                x++;
-                document.getElementById(k).insertAdjacentHTML("beforeend",
-                    messtemper(ds[x - 1]["use_temp"] + 1, templates[ds[x - 1]["use_temp"]]["conf_htm"]))
-                let now = document.getElementById("cd")
-                now.id = ""
-                templates[ds[x - 1]["use_temp"]]["conf_data"].forEach(c => {
-                    let z = 0
-                    Array.from(now.getElementsByClassName(c)).forEach(m => {
-                        m.value = d[c]
-                        m.parentNode.style = sl[x - 1][c][z]
-                        z++
-                    })
+        let x = 0
+        dl.forEach(d => {
+            x++;
+            document.getElementById(k).insertAdjacentHTML("beforeend",
+                messtemper(ds[x - 1]["use_temp"] + 1, templates[ds[x - 1]["use_temp"]]["conf_htm"]))
+            let now = document.getElementById("cd")
+            now.id = ""
+            templates[ds[x - 1]["use_temp"]]["conf_data"].forEach(c => {
+                let z = 0
+                Array.from(now.getElementsByClassName(c)).forEach(m => {
+                    m.value = d[c]
+                    m.parentNode.style = sl[x - 1][c][z]
+                    z++
                 })
-                lists[k]["deal_list"].push(d)
-                lists[k]["deal_sets"].push(ds[x-1])
             })
+            lists[k]["deal_list"].push(d)
+            lists[k]["deal_sets"].push(ds[x-1])
         })
     })
 }
@@ -2487,7 +2490,7 @@ document.addEventListener("click",e=>{
         cm.style.display = "none"
     })
 })
-function contextcommand_checkedsave() {
+function checkedtosavedata(){
     Object.keys(lists).forEach(k => {
         let sl = lists[k]["style_list"]
         let dl = lists[k]["deal_list"]
@@ -2517,17 +2520,20 @@ function contextcommand_checkedsave() {
             })
         })
     })
-    let j = JSON.stringify(
+    return JSON.stringify(
         {
             "lists": mellists,
             "all_data": all_data,
             "templates": templates,
             "inputing": inputing,
             "now_temp": now_temp,
-            "all_label": all_label
+            "all_label": all_label,
+            "settings_now": settings_now
         })
+}
+function contextcommand_checkedsave() {
+    let blob = new Blob([checkedtosavedata()], { type: "application/json" });
     let name = `${prompt("ファイル名を入力")}.json`
-    let blob = new Blob([j], { type: "application/json" });
     let a = document.createElement('a');
     a.download = name;
     a.target = '_blank';
@@ -2536,7 +2542,16 @@ function contextcommand_checkedsave() {
 }
 function contextcommand_checkedcopy(){
     if (!storageAvailable("localStorage")){return false}
+    let j = checkedtosavedata()
+    localStorage.setItem("Anyget_clipboard_data",j)
 
+}
+function contextcommand_flatpaste(){
+    if (!storageAvailable("localStorage")) { return false }
+    let t = localStorage.getItem("Anyget_clipboard_data")
+    if (t != null){
+        additionalloader(t)
+    }
 }
 function asetyc(e){
     nowsetchange(e.target.dataset.tarid,e.target.value)

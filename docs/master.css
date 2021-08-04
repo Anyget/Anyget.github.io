@@ -142,6 +142,7 @@ h1,h2{
     height: 70%;
     overflow:auto;
     pointer-events: auto;
+    padding-bottom: 2em;
 }
 #form_inp{
     vertical-align: top;
