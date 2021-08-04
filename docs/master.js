@@ -2292,6 +2292,7 @@ function markloop(k,o){
     }
 }
 function nbym(m){
+    if (m == null || m.parentNode==null){return false}
     return Array.from(m.parentNode.children).indexOf(m)
 }
 function mbyn(n){
@@ -2655,7 +2656,7 @@ document.addEventListener("keydown",e=>{
         if (!document.body.classList.contains("nonono_startmenu")) {
             if (document.getElementById("mesandform").classList.contains("radised")) {
                 if (document.getElementsByClassName("checked_md").length > 0){
-                
+                    contextcommand_checkedpaste()
                 }else{
                     contextcommand_flatpaste()
                 }
@@ -2827,4 +2828,20 @@ function checkedremove(){
         cm.classList.remove("checked_md")
         mcheckr(cm)
     })
+}
+
+function contextcommand_checkedpaste(){
+    if (document.getElementsByClassName("checked_md").length==0){return false}
+    let tm = document.getElementsByClassName("checked_md")[document.getElementsByClassName("checked_md").length-1]
+    if (tm.nextElementSibling == null){
+        contextcommand_flatpaste()
+    }else{
+        let tmn = tm.nextElementSibling
+        contextcommand_flatpaste()
+        if (document.getElementsByClassName("checked_md").length==0){return false}
+        let dm = document.getElementsByClassName("checked_md")[0]
+        dm.dispatchEvent(new DragEvent("dragstart",{"dataTransfer":new DataTransfer()}))
+        tmn.dispatchEvent(new DragEvent("drop"))
+    }
+
 }
