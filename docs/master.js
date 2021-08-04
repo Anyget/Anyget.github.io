@@ -2546,6 +2546,10 @@ function contextcommand_checkedcopy(){
     localStorage.setItem("Anyget_clipboard_data",j)
 
 }
+function contextcommand_checkedcut(){
+    contextcommand_checkedcopy()
+    document.getElementsByClassName("checked_md")[0].getElementsByClassName("closebtn")[0].click()
+}
 function contextcommand_flatpaste(){
     if (!storageAvailable("localStorage")) { return false }
     let t = localStorage.getItem("Anyget_clipboard_data")
