@@ -398,7 +398,7 @@ h1,h2{
     display: flex;
     flex-direction: column;
     padding-left: 10px;
-    width:35%
+    width:35%;
 }
 #previewplaindiv{
     width: 65%;
@@ -418,10 +418,9 @@ h1,h2{
     margin-left: 1.2em;
     border: solid 2px var(--border_color);
     display: block;
-    resize: none;
     overflow-y: scroll;
     font-size: 1rem;
-    height: 15vh;
+    height: 5rem;
     width: calc(100% - 1em);
     box-sizing: border-box;
 }
@@ -1502,4 +1501,8 @@ li{
 }
 #startmenu_loadmenu>*{
     width: 50%;
+}
+#tab_cont>*{
+    overflow-y:scroll;
+    height: 100%;
 }
