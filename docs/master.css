@@ -1502,7 +1502,7 @@ li{
 #startmenu_loadmenu>*{
     width: 50%;
 }
-#tab_cont>*{
+#tab_cont>*:not(#mesandform){
     overflow-y:scroll;
     height: 100%;
 }
