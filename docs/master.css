@@ -299,14 +299,14 @@ h1,h2{
 }
 #mesandform{
     padding-top: 3px;
-    height: 97vh;
+    height: calc(100vh - 1rem);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
 }
 .tab{
-    height: 3vh;
+    height: 1rem;
     display: flex;
 }
 .tab_header{
@@ -324,10 +324,10 @@ h1,h2{
     user-select: none;
     box-sizing: border-box;
     border: var(--border_color) solid 1px;
-    height: 3vh;
+    height: 1rem;
     width: 1rem;
     color: var(--tabbutton_font_color);
-    line-height: 3vh;
+    line-height: 1rem;
     background-color: var(--tabbutton_color);
 }
 .tab_controller:hover{
@@ -342,13 +342,13 @@ h1,h2{
     display: block;
     padding: 1px;
     padding-top: 0;
-    font-size: 2.5vh;
-    line-height: 3vh;
-    height: 3vh;
+    font-size: 1rem;
+    line-height: 1rem;
+    height: 1rem;
     text-align: center;
     background-color: var(--unselected_tab_color);
     margin: 0;
-    margin-bottom: 1vh;
+    margin-bottom: 0.3rem;
     box-sizing: border-box;
     border-right: solid 2px var(--border_color);
 }
@@ -367,7 +367,7 @@ h1,h2{
     filter: none;
 }
 #tab_cont{
-    height: calc(100% - 3vh);
+    height: calc(100% - 1rem);
     width: 100%;
 }
 .tabconter>*:not(.radised){
@@ -479,7 +479,7 @@ h1,h2{
     color: var(--box2_font_color);
     display: block;
     overflow-y: scroll;
-    height: 97vh;
+    height: calc(100vh - 1rem);
 }
 #easy_preview{
     color: var(--box2_font_color);
@@ -532,7 +532,7 @@ h1,h2{
     height: 20vh;
     resize: none;
     margin: auto;
-    margin-top: 3vh;
+    margin-top: 1rem;
 }
 header{
     overflow-y: hidden;
