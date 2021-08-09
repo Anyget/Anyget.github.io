@@ -624,7 +624,7 @@ function addmess() {
             let n = 0
             Array.from(now.getElementsByClassName(i)).forEach(o=>{
                 let nnnnn = formi_c.getElementsByClassName(i)[n];
-                (i.startsWith("blocker_")?o:o.parentNode).style = (i.startsWith("blocker_")?nnnnn:nnnnn.parentNode).style.cssText;
+                o.parentNode.style = nnnnn.parentNode.style.cssText;
                 lists["messages"]["deal_list"][num][i] = o.value = nnnnn.value
                 n++
             })
