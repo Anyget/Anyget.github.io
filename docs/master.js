@@ -354,6 +354,7 @@ window.onload = function () {
             c++
         })
     }
+    resizen()
 };
 window.addEventListener('beforeunload', function (event) {
     event.preventDefault()
@@ -374,7 +375,8 @@ window.addEventListener('beforeunload', function (event) {
         localStorage.setItem("Anyget_Last_Session_Save_Data",JSON.stringify(eu))
     }
 })
-window.addEventListener("resize",e=>{
+window.addEventListener("resize",resizen)
+function resizen(){
     Array.from(document.getElementById("box").children).forEach(i=>{
         if (i.style.width) {
             i.style.width = window.innerWidth/windowsizelog["w"]*Number(i.style.width.replace("px",""))  + "px"
@@ -390,7 +392,7 @@ window.addEventListener("resize",e=>{
     }
     windowsizelog["w"] = window.innerWidth
     windowsizelog["h"] = window.innerHeight
-})
+}
 function escapeHtml(str) {
     let div = document.createElement('div');
     div.innerText = str;
