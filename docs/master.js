@@ -2456,6 +2456,7 @@ function labelerclick(e){
                 b.value = lists[pid]["deal_list"][n][Object.keys(all_data)[at]]
             })
         }
+        labelreload(e.target.parentNode.parentNode.parentNode.id,n)
     }else{
         let v = inputing[Object.keys(all_data)[at]]
         if ((/^\-?[0-9]+(\.[0-9]+)?$/.test(v) || v == "") && e.target.value != 0) {
@@ -2464,6 +2465,7 @@ function labelerclick(e){
                 b.value = inputing[Object.keys(all_data)[at]]
             })
         }
+        formlabelreload()
     }
 
 }
