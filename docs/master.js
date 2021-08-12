@@ -126,14 +126,6 @@ const settings = {
                         init:"",
                         f:plainreload
                     },
-                    "specialindent":{
-                        name:"位置合わせインデント",
-                        info:"",
-                        type:"checkbox",
-                        init:false,
-                        label:"複数行変数の行頭を位置合わせ(他の字下げ・インデント設定を無視)",
-                        f:plainreload
-                    },
                     "indentex":{
                         name:"字下げの例外文字",
                         info:"行頭にある文字が含まれるとき、字下げの対象から除外されます",
@@ -952,7 +944,7 @@ function plainreload() {
             })
         }
     })
-    if (!settings_now["outputs"]["plain"]["specialindent"]){
+    if (true){
         
         c = 0
         let reptree = []
