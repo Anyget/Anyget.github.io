@@ -250,6 +250,9 @@ h1,h2{
 .\%{
     cursor: pointer;
 }
+.\%:active{
+    user-select: none;
+}
 .closebtn{
     user-select: none;
     margin: 0;
