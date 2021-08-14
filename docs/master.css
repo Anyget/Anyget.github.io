@@ -1346,6 +1346,9 @@ mark{
     padding: 0;
     background: transparent !important;
 }
+.\|:not(*:focus-within) *,.\$:not(*:focus-within) *{
+    user-select: none !important;
+}
 .s_text{
     position: absolute;
     z-index: 4;
