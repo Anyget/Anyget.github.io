@@ -932,7 +932,7 @@ function plainreload() {
                         s = settings_now["outputs"]["plain"]["indentstr"]+s
                     }
                     if (![...settings_now["outputs"]["plain"]["revindentex"]].includes(l.charAt(l.length-1))){
-                        s = settings_now["outputs"]["plain"]["revindentstr"]
+                        s = s + settings_now["outputs"]["plain"]["revindentstr"]
                     }
                     idd.push(s)
                 })
