@@ -857,10 +857,10 @@ function drop(e) {
                 }else{
                     document.getElementById("easy_preview").appendChild(el)
                 }
-                relolist.add(document.getElementById("easy_preview").children[to])
             }
             if (fromid == "messages"){
                 document.getElementById("easy_preview").children[dragging_num].outerHTML = ""
+                relolist.add(from)
             }
         }else{
             fromdl = moveAt(fromdl, dragging_num, to)
@@ -2862,12 +2862,3 @@ function contextcommand_checkedpaste(){
     }
 
 }
-document.addEventListener("touchstart",e=>{
-    touchX = e.touches[0].pageX
-    touchY = e.touches[0].paseY
-    touchar = [
-        document.getElementById("box2").getBoundingClientRect(),
-        document.getElementById("box3").getBoundingClientRect(),
-        document.getElementById("box4").getBoundingClientRect()
-]
-})
