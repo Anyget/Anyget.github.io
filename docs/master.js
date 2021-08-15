@@ -46,6 +46,9 @@ let templates = [
     }
 ]
 let boxes_sort = [0,1,2]
+let touchar = []
+let touchX = 0
+let touchY = 0
 const settings = {
     "views":{
         name:"表示",
@@ -136,6 +139,20 @@ const settings = {
                     "indentstr": {
                         name: "字下げ内容",
                         info: "複数行変数の行頭を指定した文字列で字下げします",
+                        type: "text",
+                        init: "",
+                        f:plainreload
+                    },
+                    "revindentex":{
+                        name:"行末記号の例外文字",
+                        info:"行頭にある文字が含まれるとき、行末記号の対象から除外されます",
+                        type:"text",
+                        init:"",
+                        f:plainreload
+                    },
+                    "revindentstr": {
+                        name: "行末記号",
+                        info: "複数行変数の行末に指定した文字列を挿入します",
                         type: "text",
                         init: "",
                         f:plainreload
@@ -910,11 +927,14 @@ function plainreload() {
             let idd = []
             if (d.startsWith("blocker_")){
                 i[d].split("\n").forEach(l=>{
+                    let s = l+""
                     if (![...settings_now["outputs"]["plain"]["indentex"]].includes(l.charAt(0))){
-                        idd.push(settings_now["outputs"]["plain"]["indentstr"]+l)
-                    }else{
-                        idd.push(l)
+                        s = settings_now["outputs"]["plain"]["indentstr"]+s
                     }
+                    if (![...settings_now["outputs"]["plain"]["revindentex"]].includes(l.charAt(l.length-1))){
+                        s = settings_now["outputs"]["plain"]["revindentstr"]
+                    }
+                    idd.push(s)
                 })
                 idd = idd.join("\n")
             }else{
@@ -2843,3 +2863,12 @@ function contextcommand_checkedpaste(){
     }
 
 }
+document.addEventListener("touchstart",e=>{
+    touchX = e.touches[0].pageX
+    touchY = e.touches[0].paseY
+    touchar = [
+        document.getElementById("box2").getBoundingClientRect(),
+        document.getElementById("box3").getBoundingClientRect(),
+        document.getElementById("box4").getBoundingClientRect()
+]
+})

@@ -41,14 +41,12 @@ li{
 #box2, #box3,#box4{
     color:white;
     border: solid 1px var(--border_color); 
-    min-width: 9rem;
     box-sizing: border-box;
     overflow: hidden !important;
 }
 #box2{
     display: flex;
     flex-direction: column;
-    min-width: 9rem;
     border-right: none;
     overflow: auto;
     width : calc(25% - 1px);
