@@ -384,6 +384,8 @@ function resizen(){
     }
     windowsizelog["w"] = window.innerWidth
     windowsizelog["h"] = window.innerHeight
+    document.setProperty("--vh",(window.innerHeight*0.01) + "px")
+    document.setProperty("--vw",(window.innerWidth*0.01) + "px")
 }
 function escapeHtml(str) {
     let div = document.createElement('div');
