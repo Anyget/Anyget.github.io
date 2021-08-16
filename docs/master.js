@@ -218,6 +218,7 @@ let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
 let mexsets = {}
+let interids = {}
 const PRE_TEMPLETES={
     "5ch": {
         "deal_list":[],"deal_sets":[],"all_data":{"liner_num":{"dataset_adder":"1","dataset_adderm":true,"dataset_anchor?":true,"dataset_anchor":">>","dataset_fix?":true,"dataset_datalist?":false},"liner_name":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"liner_mail":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false},"blocker_message":{"dataset_adder":0,"dataset_adderm":false,"dataset_anchor?":false,"dataset_anchor":"","dataset_fix?":false,"dataset_datalist?":false}},"style_list":[],"templates":[{"template":"$num$：$name$ [$mail$]\n|message|","conf_htm":"<div class=\"$\"><input type=\"text\" class=\"$text liner_num\" placeholder=\"num\" list=\"list_liner_num\" value=\"\"></input></div>：<div class=\"$\"><input type=\"text\" class=\"$text liner_name\" placeholder=\"name\" list=\"list_liner_name\" value=\"\"></input></div> [<div class=\"$\"><input type=\"text\" class=\"$text liner_mail\" placeholder=\"mail\" list=\"list_liner_mail\" value=\"\"></input></div>]<br><textarea class=\"| blocker_message\" placeholder=\"message\"></textarea>","conf_col":"<span style=\"color:#FF0000;\">$num$</span>：<span style=\"color:#FF0000;\">$name$</span> [<span style=\"color:#FF0000;\">$mail$</span>]\n<span style=\"color:#0000FF;\">|message|</span>","conf_data":["liner_num","liner_name","liner_mail","blocker_message"]}],"inputing":{"liner_num":"1","liner_name":"名無し","liner_mail":"sage","blocker_message":""},"now_temp":0
@@ -385,8 +386,6 @@ window.addEventListener('beforeunload', function (event) {
 })
 window.addEventListener("resize",resizen)
 function resizen() {
-    windowsizelog["w"] = window.innerWidth
-    windowsizelog["h"] = window.innerHeight
     document.body.parentElement.style.setProperty("--vh",(window.innerHeight*0.01) + "px")
     document.body.parentElement.style.setProperty("--vw", (window.innerWidth * 0.01) + "px")
     let snw = 0
@@ -412,9 +411,17 @@ function resizen() {
             i.style.height = Number(i.style.height.replace("px","")) + (snh - boxr2.height)/2 + "px"
         }
     })
+    if (window.innerHeight > window.innerWidth && windowsizelog["h"] <= windowsizelog["w"]){
+        cmoving()
+    }
     for (let i of document.getElementsByClassName("functionselect")) {
         fitselector(i)
     }
+    windowsizelog["w"] = window.innerWidth
+    windowsizelog["h"] = window.innerHeight
+}
+function cmoving(){
+    document.getElementById("box2").style.marginLeft = ((0 - window.innerWidth * Number(document.getElementById("cmover").value) / 100) + "px")
 }
 function escapeHtml(str) {
     let div = document.createElement('div');
@@ -2874,4 +2881,37 @@ function contextcommand_checkedpaste(){
         tmn.dispatchEvent(new DragEvent("drop"))
     }
 
+}
+function cmoveinput(e){
+    cmoving()
+}
+function cmovechange(e){
+    let v = Number(e.target.value)
+    let o = 0
+    if (v <= 50){
+        o = 0
+    }else if (v <= 150){
+        o = 100
+    }else{
+        o = 200
+    }
+    cmoving()
+    window.clearInterval(interids["cmove"])
+    interids["cmove"] = window.setInterval(cmoveanime,10,o)
+}
+
+function cmoveanime(o){
+    console.log(o)
+    let v = Number(document.getElementById("cmover").value)
+    if (v != o){
+        if (v > o){
+            document.getElementById("cmover").value = v-5
+        }else{
+            document.getElementById("cmover").value = v+5
+        }
+    }else{
+        window.clearInterval(interids["cmove"])
+    }
+    document.getElementById("cmover").value = Math.floor(Number(document.getElementById("cmover").value)/5)*5
+    cmoving()
 }

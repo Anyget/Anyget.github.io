@@ -1507,9 +1507,19 @@ li{
     #undermenu{
         display: block;
         height: calc(var(--vh) * 5);
-        width: 100%;
+        width: calc(var(--vw) * 100);
+        background-color: var(--color_5);
     }
     #box{
         height: calc(var(--vh) * 95);
+        overflow-x: hidden;
+    }
+    #box2,#box3,#box4{
+        min-width: calc(var(--vw) * 100);
+    }
+    #cmover{
+        display: block;
+        height: 100%;
+        width: 100%;
     }
 }
