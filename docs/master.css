@@ -135,7 +135,6 @@ h1,h2{
 #temp_change{
     display: block;
     margin: 0 auto;
-    width: 3rem;
     height: 5%;
 }
 #messages{
