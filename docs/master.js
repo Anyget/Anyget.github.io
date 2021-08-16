@@ -2974,7 +2974,8 @@ document.addEventListener("focusout",e => {
     document.getElementById("inputpanel_message").style.display = "none"
 })
 
-function narouruby(){
+function narouruby(e){
+    e.preventDefault()
     let inp = document.querySelector(":focus")
     if (inp.selectionStart != inp.selectionEnd){
         inp.value = inp.value.substr(0, inp.selectionStart) + inp.value.substr(inp.selectionStart,inp.selectionEnd-inp.selectionStart).replace(/(.)/g,"|$1《・》") + inp.value.substr(inp.selectionEnd)
