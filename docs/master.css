@@ -1527,3 +1527,18 @@ li{
         --remer:2rem;
     }
 }
+
+#inputpanel_temp{
+    position: absolute;
+    bottom:calc(var(--vh) * 5);
+    background-color: transparent;
+    width: 100%;
+}
+#inputpanel_temp>*{
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 2rem;
+    margin-right: 5px;
+    display: block;
+    height: 100%;
+}

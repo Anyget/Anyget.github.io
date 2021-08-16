@@ -2935,3 +2935,33 @@ function cmoveanime(o){
     document.getElementById("cmover").value = Math.floor(Number(document.getElementById("cmover").value)/5)*5
     cmoving()
 }
+
+function tempfocus(){
+    if (!window.matchMedia("screen and (max-width:500px)").matches){return false}
+    document.getElementById("inputpanel_temp").style.display = "flex"
+}
+function tempblur(){
+    document.getElementById("inputpanel_temp").style.display = "none"
+}
+function inputinserter(s,e){
+    e.preventDefault()
+    let inp = document.querySelector(":focus")
+    if (s.indexOf("...") > -1){
+        let bef = s.split("...")[0]
+        let aft = s.split("...")[1]
+        if (inp.selectionStart == inp.selectionEnd){
+            let sl = inp.selectionStart+bef.length
+            inp.value = inp.value.substr(0, inp.selectionStart) + bef + aft + inp.value.substr(inp.selectionStart)
+            inp.setSelectionRange(sl, sl)
+        }else{
+            let sl = inp.selectionEnd + +bef.length+aft.length
+            inp.value = inp.value.substr(0, inp.selectionStart) + bef + inp.value.substr(inp.selectionStart,inp.selectionEnd-inp.selectionStart) + aft + inp.value.substr(inp.selectionEnd)
+            inp.setSelectionRange(sl, sl)
+        }
+    }else{
+        let sl = inp.selectionStart+s.length
+        inp.value = inp.value.substr(0, inp.selectionStart) + s + inp.value.substr(inp.selectionEnd)
+        inp.setSelectionRange(sl,sl)
+    }
+    inp.dispatchEvent(new Event("input"))
+}
