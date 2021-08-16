@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>&gt;&gt;anyget（仮）</title>
     <link rel="icon" href="images/Anyget_Logo2_output.svg" type="image/svg+xml">
-    <style>@import url(themes/01.css);</style>
+    <style>
+        @import url(themes/01.css);
+    </style>
     <style></style>
     <link rel="stylesheet" type="text/css" href="master.css">
 </head>
+
 <body class="nonono_startmenu">
     <div id="messagediv_contextmenu" class="contextmenu">
         <div onclick="contextcommand_checkedsave()">選択中のみセーブ</div>
@@ -16,21 +21,30 @@
         <div onclick="contextcommand_checkedpaste()">ペースト</div>
     </div>
     <div id="messages_contextmenu" class="contextmenu">
-        <div><label for="contextmenu_additionalload_inp">追加でロード</label><input type="file" id="contextmenu_additionalload_inp" accept=".json" oninput="loadbybutton3()"></div>
+        <div><label for="contextmenu_additionalload_inp">追加でロード</label><input type="file"
+                id="contextmenu_additionalload_inp" accept=".json" oninput="loadbybutton3()"></div>
         <div onclick="contextcommand_flatpaste()">ペースト</div>
     </div>
     <div id="startmenu_back" onclick="startmenukill()">
     </div>
     <div id="startmenu">
         <div id="startmenu_c">
-            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div class="scb" id="startmenu_c_title">&gt;&gt;Anyget</div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="scb" id="startmenu_c_title">&gt;&gt;Anyget</div>
             <div id="startmenu_c_prev" class="scb" onclick="themeprev()">
                 <div>
                 </div>
             </div>
             <div id="startmenu_c_next" class="scb" onclick="themenext()">
                 <div>
-            
+
                 </div>
             </div>
         </div>
@@ -47,18 +61,26 @@
                     5ch
                 </div>
                 <div onclick="loadtwitter()" style="pointer-events: none;filter: grayscale(2);">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.041666 37.041668"><path d="M 43.75 0 L 35 35 L 0 35 L 0 52.5 L 30.625 52.5 L 21.875 87.5 L 0 87.5 L 0 105 L 17.5 105 L 8.75 140 L 26.25 140 L 35 105 L 87.5 105 L 78.75 140 L 96.25 140 L 105 105 L 140 105 L 140 87.5 L 109.375 87.5 L 118.125 52.5 L 140 52.5 L 140 35 L 122.5 35 L 131.25 0 L 113.75 0 L 105 35 L 52.5 35 L 61.25 0 L 43.75 0 z M 48.125 52.5 L 100.625 52.5 L 91.875 87.5 L 39.375 87.5 L 48.125 52.5 z " transform="scale(0.26458333)" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.041666 37.041668">
+                        <path
+                            d="M 43.75 0 L 35 35 L 0 35 L 0 52.5 L 30.625 52.5 L 21.875 87.5 L 0 87.5 L 0 105 L 17.5 105 L 8.75 140 L 26.25 140 L 35 105 L 87.5 105 L 78.75 140 L 96.25 140 L 105 105 L 140 105 L 140 87.5 L 109.375 87.5 L 118.125 52.5 L 140 52.5 L 140 35 L 122.5 35 L 131.25 0 L 113.75 0 L 105 35 L 52.5 35 L 61.25 0 L 43.75 0 z M 48.125 52.5 L 100.625 52.5 L 91.875 87.5 L 39.375 87.5 L 48.125 52.5 z "
+                            transform="scale(0.26458333)" />
+                    </svg>
                     Twitter
                 </div>
                 <div onclick="loadline()" style="pointer-events: none;filter: grayscale(2);">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140">
-                        <path id="path855" d="M 0.0469362,139.95306 34.621177,105.37882 V -1.0101525 L 140,0 140.91628,105.37882 H 70 l -35.378823,36.04254 z" />
+                        <path id="path855"
+                            d="M 0.0469362,139.95306 34.621177,105.37882 V -1.0101525 L 140,0 140.91628,105.37882 H 70 l -35.378823,36.04254 z" />
                     </svg>
                     LINE
                 </div>
                 <div onclick="startmenukill()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.041666 37.041668">
-                        <path transform="scale(0.26458333)" d="M 35 0 C 15.610003 -4.7369516e-15 0 15.610003 0 35 L 0 105 C -4.7369516e-15 124.39 15.610003 140 35 140 L 105 140 C 124.39 140 140 124.39 140 105 L 140 35 C 140 15.610003 124.39 0 105 0 L 35 0 z M 45.228516 10.228516 L 94.771484 10.228516 C 114.16148 10.228516 129.77148 25.83852 129.77148 45.228516 L 129.77148 94.771484 C 129.77148 114.16148 114.16148 129.77148 94.771484 129.77148 L 45.228516 129.77148 C 25.83852 129.77148 10.228516 114.16148 10.228516 94.771484 L 10.228516 45.228516 C 10.228516 25.83852 25.83852 10.228516 45.228516 10.228516 z "/><path transform="scale(0.26458333)" d="M 69 35 C 65.676 35 63 37.787495 63 41.25 L 63 63 L 41.25 63 C 37.787495 63 35 65.676 35 69 L 35 71 C 35 74.324 37.787495 77 41.25 77 L 63 77 L 63 98.75 C 63 102.2125 65.676 105 69 105 L 71 105 C 74.324 105 77 102.2125 77 98.75 L 77 77 L 98.75 77 C 102.2125 77 105 74.324 
+                        <path transform="scale(0.26458333)"
+                            d="M 35 0 C 15.610003 -4.7369516e-15 0 15.610003 0 35 L 0 105 C -4.7369516e-15 124.39 15.610003 140 35 140 L 105 140 C 124.39 140 140 124.39 140 105 L 140 35 C 140 15.610003 124.39 0 105 0 L 35 0 z M 45.228516 10.228516 L 94.771484 10.228516 C 114.16148 10.228516 129.77148 25.83852 129.77148 45.228516 L 129.77148 94.771484 C 129.77148 114.16148 114.16148 129.77148 94.771484 129.77148 L 45.228516 129.77148 C 25.83852 129.77148 10.228516 114.16148 10.228516 94.771484 L 10.228516 45.228516 C 10.228516 25.83852 25.83852 10.228516 45.228516 10.228516 z " />
+                        <path transform="scale(0.26458333)"
+                            d="M 69 35 C 65.676 35 63 37.787495 63 41.25 L 63 63 L 41.25 63 C 37.787495 63 35 65.676 35 69 L 35 71 C 35 74.324 37.787495 77 41.25 77 L 63 77 L 63 98.75 C 63 102.2125 65.676 105 69 105 L 71 105 C 74.324 105 77 102.2125 77 98.75 L 77 77 L 98.75 77 C 102.2125 77 105 74.324 
                         105 71 L 105 69 C 105 65.676 102.2125 63 98.75 63 L 77 63 L 77 41.25 C 77 37.787495 74.324 35 71 35 L 69 35 z " />
                     </svg>
                     カスタム
@@ -68,7 +90,8 @@
                 <div>
                     <h3>開く</h3>
                     <div style="display:flex;flex-direction: column;">
-                        <li><label for="startmenu_load_inp">📜アップロード</label><input type="file" id="startmenu_load_inp" accept=".json" oninput="loadbybutton1()"></li>
+                        <li><label for="startmenu_load_inp">📜アップロード</label><input type="file" id="startmenu_load_inp"
+                                accept=".json" oninput="loadbybutton1()"></li>
                     </div>
                 </div>
                 <div>
@@ -82,16 +105,18 @@
     </div>
     <div id="abss" data-per="p"></div>
     <canvas id="canvas" width="0" height="0" style="visibility:hidden;position:absolute"></canvas>
-    <div id="box">
-        <div id="box2" style="order:0" class="subbox" data-subboxindex="0">
-            <div class="functionselectdiv">
-                <select class="functionselect" oninput="subfunctionchange(event)">
-                </select>
-            </div>
-            <div class="mainer" data-mainub="0">
-                <div class="margdiv2"></div>
-                <div id="templatep">
-                    <textarea id="template" oninput="template_valuereload()" onscroll="template_scrollreload()" placeholder="//$...$：一行変数宣言
+    <div id="box0">
+        <div id="box">
+            <div id="box2" style="order:0" class="subbox" data-subboxindex="0">
+                <div class="functionselectdiv">
+                    <select class="functionselect" oninput="subfunctionchange(event)">
+                    </select>
+                </div>
+                <div class="mainer" data-mainub="0">
+                    <div class="margdiv2"></div>
+                    <div id="templatep">
+                        <textarea id="template" oninput="template_valuereload()" onscroll="template_scrollreload()"
+                            placeholder="//$...$：一行変数宣言
 //|...|：複数行変数宣言
 //%...%：ラベル
 //\...：エスケープ
@@ -106,307 +131,387 @@
 //例：
 //$番号$：$名前$ [$メール$] $id$
 //|本文|</textarea>
-                    <div id="template_highlighter">
+                        <div id="template_highlighter">
 
+                        </div>
                     </div>
+                    <div class="margdiv2"></div>
+                    <button id="temp_change" onclick="changetemp()">
+                        ↓変更
+                    </button>
+                    <div class="margdiv2"></div>
+                    <div id="edited" class="textbox_like"></div>
+                    <div class="margdiv2"></div>
+                    <div id="temp_select">
+                        <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
+                        <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
+                        <input type="number" id="temp_select_number" class="no-spin" value="1" min="1"
+                            onchange="temp_number_change()">
+                        <button id="temp_select_next" onclick="temp_select_next_click()">&gt;</button>
+                        <button id="temp_select_end" onclick="temp_select_end_click()">≫</button>
+                    </div>
+                    <br>
                 </div>
-                <div class="margdiv2"></div>
-                <button id="temp_change" onclick="changetemp()">
-                    ↓変更
-                </button>
-                <div class="margdiv2"></div>
-                <div id="edited" class="textbox_like"></div>
-                <div class="margdiv2"></div>
-                <div id="temp_select">
-                    <button id="temp_select_start" onclick="temp_select_start_click()">≪</button>
-                    <button id="temp_select_prev" onclick="temp_select_prev_click()">&lt;</button>
-                    <input type="number" id="temp_select_number" class="no-spin" value="1" min="1" onchange="temp_number_change()">
-                    <button id="temp_select_next" onclick="temp_select_next_click()">&gt;</button>
-                    <button id="temp_select_end" onclick="temp_select_end_click()">≫</button>
-                </div>
-                <br>
             </div>
-        </div>
-        <div class="hresizer resizer" onmousedown="resizermousedown(event)" style="order: 1;" data-order="1">
+            <div class="hresizer resizer" onmousedown="resizermousedown(event)" style="order: 1;" data-order="1">
 
-        </div>
-        <div id="box3" style="order:2">
-            <div class="tab">
-                <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
-                <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
-                <div class="tab_header">
-                    <div class="tab_header_in" data-martop="0" data-radioto="tab_cont">
-                        <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);" checked><!--
-                        --><label class="tab_item" for="radio_mesandform">レスの追加</label><!--
-                        --><input type="radio" name="tab_item" id="radio_preview" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_preview">プレビュー</label><!--
-                        --><input type="radio" name="tab_item" id="radio_plaintext" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_plaintext">プレーンテキスト</label><!--
-                        --><input type="radio" name="tab_item" id="radio_saveload" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_saveload">セーブ/ロード</label><!--
-                        --><input type="radio" name="tab_item" id="radio_settings_div" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_settings_div">設定</label><!--
-                        --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_replace">置換する</label><!--
-                        --><input type="radio" name="tab_item" id="radio_export" onchange="radiochange(event);"><!--
-                        --><label class="tab_item" for="radio_export">エクスポート</label><!--
-                        --><input type="radio" name="tab_item" id="radio_import" onchange="radiochange(event);"><!--
+            </div>
+            <div id="box3" style="order:2">
+                <div class="tab">
+                    <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
+                    <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
+                    <div class="tab_header">
+                        <div class="tab_header_in" data-martop="0" data-radioto="tab_cont">
+                            <input type="radio" name="tab_item" id="radio_mesandform" onchange="radiochange(event);"
+                                checked>
+                            <!--
+                        --><label class="tab_item" for="radio_mesandform">レスの追加</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_preview" onchange="radiochange(event);">
+                            <!--
+                        --><label class="tab_item" for="radio_preview">プレビュー</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_plaintext" onchange="radiochange(event);">
+                            <!--
+                        --><label class="tab_item" for="radio_plaintext">プレーンテキスト</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_saveload" onchange="radiochange(event);">
+                            <!--
+                        --><label class="tab_item" for="radio_saveload">セーブ/ロード</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_settings_div" onchange="radiochange(event);">
+                            <!--
+                        --><label class="tab_item" for="radio_settings_div">設定</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_replace" onchange="radiochange(event);">
+                            <!--
+                        --><label class="tab_item" for="radio_replace">置換する</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_export" onchange="radiochange(event);">
+                            <!--
+                        --><label class="tab_item" for="radio_export">エクスポート</label>
+                            <!--
+                        --><input type="radio" name="tab_item" id="radio_import" onchange="radiochange(event);">
+                            <!--
                         --><label class="tab_item" for="radio_import">インポート</label>
+                        </div>
                     </div>
+                    <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
+                    <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
                 </div>
-                <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
-                <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
-            </div>
-            <div id="tab_cont" class="tabconter">
-                <div id="mesandform" class="radised">
-                    <div id="messagesearcherdiv" data-searching="false">
-                        <input type="checkbox" id="searchfold">
-                        <div id="searchfolddiv">
-                            <label for="searchfold">&gt;</label>
-                        </div>
-                        <div id="searchandreplacediv">
-                            <div style="display: flex;">
-                                <input type="text" id="messagesearcher" oninput="messagesearch()" onkeydown="searcherpress(event)" placeholder="検索…"><input type="checkbox" id="search_regcheck" onchange="messagesearch()">
-                                <label for="search_regcheck">.*</label>
-                                <div id="searchcounter"> 0 / 0</div>
+                <div id="tab_cont" class="tabconter">
+                    <div id="mesandform" class="radised">
+                        <div id="messagesearcherdiv" data-searching="false">
+                            <input type="checkbox" id="searchfold">
+                            <div id="searchfolddiv">
+                                <label for="searchfold">&gt;</label>
                             </div>
-                            <div id="messagereplacerdiv">
-                                <input type="text" id="messagereplacer" onkeydown="replacerpress(event)" placeholder="置換…">
-                                <span onclick='document.getElementById("messagereplacer").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:false,ctrlKey:false,altKey:false}))'>単</span>
-                                <span onclick='document.getElementById("messagereplacer").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:false,ctrlKey:true,altKey:true}))'>全</span>
-                            </div>
-                        </div>
-                        <div style="margin-left: auto;">
-                            <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:true}))'>↑</span>
-                            <span onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:false}))'>↓</span>
-                            <span onclick='document.dispatchEvent(new KeyboardEvent("keydown",{code:"Escape"}))'>×</span>
-                        </div>
-                    </div>
-                    <div id="messages" onclick="checkedremove()">
-
-                    </div>
-                    <div class="vresizer resizer" onmousedown="resizermousedown(event)"></div>
-                    <div id="form_inp"></div>
-                    <div id="addmesssetts">
-                        <div id="messvdiv">
-                            <input type="number" id="messv" value="1" min="1">
-                        </div>
-                        <div id="mess_adddiv">
-        
-                            <button id="mess_add" onclick="addmess()">
-                                投稿を追加
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="preview">
-                    <div class="tab">
-                        <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
-                        <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
-                        <div class="tab_header">
-                            <div class="tab_header_in" data-martop="0" data-radioto="previewtab_cont">
-                                <input type="radio" name="previewtab_item" id="radio_normalp" onchange="radiochange(event);" checked><!--
-                                --><label class="tab_item" for="radio_normalp">通常</label>
-                            </div>
-                        </div>
-                        <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
-                        <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
-                    </div>
-                    <div id="previewtab_cont">
-                        <div id="normalp" class="radised">
-
-                        </div>
-                    </div>
-                </div>
-                <div id="plaintext">
-                    <div id="previewplaindiv"><textarea id="previewplain" oninput="previewplaininput()"></textarea></div>
-                    <div id="plainsidemenu">
-                        <h3>レス間文字列の設定</h3>
-                        <textarea oninput="asetyc(event)" data-tarid="settings_outputs_plain_span">
-
-</textarea>
-                        <div style="text-align: right;">
-                            <span id="plainsize">0</span>文字
-                        </div>
-                        <div>
-                            <h3>省略文字列の設定</h3>
-                            <textarea oninput="asetyc(event)" data-tarid="settings_outputs_plain_skip"></textarea>
-                        </div>
-                        <div>
-                            <h3>字下げ</h3>
-                            <div class="plainddd">
-                                <div class="indent"></div><input type="text" data-tarid="settings_outputs_plain_indentex" oninput="asetyc(event)" placeholder="例外文字">
-                            </div>
-                            <div class="plainddd">
-                                <div class="indent"></div><input type="text" oninput="asetyc(event)" data-tarid="settings_outputs_plain_indentstr" placeholder="字下げ内容">
-                            </div>
-                        </div><div>
-                            <h3>行末記号</h3>
-                            <div class="plainddd">
-                                <div class="indent"></div><input type="text" data-tarid="settings_outputs_plain_revindentex"
-                                    oninput="asetyc(event)" placeholder="例外文字">
-                            </div>
-                            <div class="plainddd">
-                                <div class="indent"></div><input type="text" oninput="asetyc(event)"
-                                    data-tarid="settings_outputs_plain_revindentstr" placeholder="挿入内容">
-                            </div>
-                        </div>
-                        <div>
-                            <h3>置換</h3>
-                            <div class="plainddd"><div class="indent"></div>
-                                <input type="text" id="plainsearch" placeholder="from">
-                                <div id="ps_reg"><input type="checkbox" id="ps_reg_cb">
-                                <label id="ps_reg_label" for="ps_reg_cb">.*</label></div>
-                            </div>
-                            <div style="width:100%;display:flex">
-                                <div class="plainddd">
-                                    <div class="indent">→</div>
-                                    <input type="text" id="plainreplace" placeholder="to">
-                                    <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
+                            <div id="searchandreplacediv">
+                                <div style="display: flex;">
+                                    <input type="text" id="messagesearcher" oninput="messagesearch()"
+                                        onkeydown="searcherpress(event)" placeholder="検索…"><input type="checkbox"
+                                        id="search_regcheck" onchange="messagesearch()">
+                                    <label for="search_regcheck">.*</label>
+                                    <div id="searchcounter"> 0 / 0</div>
+                                </div>
+                                <div id="messagereplacerdiv">
+                                    <input type="text" id="messagereplacer" onkeydown="replacerpress(event)"
+                                        placeholder="置換…">
+                                    <span
+                                        onclick='document.getElementById("messagereplacer").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:false,ctrlKey:false,altKey:false}))'>単</span>
+                                    <span
+                                        onclick='document.getElementById("messagereplacer").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:false,ctrlKey:true,altKey:true}))'>全</span>
                                 </div>
                             </div>
+                            <div style="margin-left: auto;">
+                                <span
+                                    onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:true}))'>↑</span>
+                                <span
+                                    onclick='document.getElementById("messagesearcher").dispatchEvent(new KeyboardEvent("keydown",{code:"Enter",shiftKey:false}))'>↓</span>
+                                <span
+                                    onclick='document.dispatchEvent(new KeyboardEvent("keydown",{code:"Escape"}))'>×</span>
+                            </div>
                         </div>
-                        <div>
-                            <button onclick="plaincopy()" id="plaincopybutton">
-                                コピー
-                            </button>
+                        <div id="messages" onclick="checkedremove()">
+
+                        </div>
+                        <div class="vresizer resizer" onmousedown="resizermousedown(event)"></div>
+                        <div id="form_inp"></div>
+                        <div id="addmesssetts">
+                            <div id="messvdiv">
+                                <input type="number" id="messv" value="1" min="1">
+                            </div>
+                            <div id="mess_adddiv">
+
+                                <button id="mess_add" onclick="addmess()">
+                                    投稿を追加
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="export">
-                    <div class="tab">
-                        <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
-                        <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
-                        <div class="tab_header">
-                            <div class="tab_header_in" data-martop="0" data-radioto="exporttab_cont">
-                                <input type="radio" name="exporttab_item" id="radio_datgen" onchange="radiochange(event);" checked><!--
-                                --><label class="tab_item" for="radio_datgen">.dat(2ch)</label><!--
-                                --><input type="radio" name="exporttab_item" id="radio_csvgen" onchange="radiochange(event);"><!--
-                                --><label class="tab_item" for="radio_csvgen">.csv(plain)</label><!--
-                                --><input type="radio" name="exporttab_item" id="radio_jsongen" onchange="radiochange(event);"><!--
+                    <div id="preview">
+                        <div class="tab">
+                            <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
+                            <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
+                            <div class="tab_header">
+                                <div class="tab_header_in" data-martop="0" data-radioto="previewtab_cont">
+                                    <input type="radio" name="previewtab_item" id="radio_normalp"
+                                        onchange="radiochange(event);" checked>
+                                    <!--
+                                --><label class="tab_item" for="radio_normalp">通常</label>
+                                </div>
+                            </div>
+                            <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
+                            <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
+                        </div>
+                        <div id="previewtab_cont">
+                            <div id="normalp" class="radised">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="plaintext">
+                        <div id="previewplaindiv"><textarea id="previewplain" oninput="previewplaininput()"></textarea>
+                        </div>
+                        <div id="plainsidemenu">
+                            <h3>レス間文字列の設定</h3>
+                            <textarea oninput="asetyc(event)" data-tarid="settings_outputs_plain_span">
+
+</textarea>
+                            <div style="text-align: right;">
+                                <span id="plainsize">0</span>文字
+                            </div>
+                            <div>
+                                <h3>省略文字列の設定</h3>
+                                <textarea oninput="asetyc(event)" data-tarid="settings_outputs_plain_skip"></textarea>
+                            </div>
+                            <div>
+                                <h3>字下げ</h3>
+                                <div class="plainddd">
+                                    <div class="indent"></div><input type="text"
+                                        data-tarid="settings_outputs_plain_indentex" oninput="asetyc(event)"
+                                        placeholder="例外文字">
+                                </div>
+                                <div class="plainddd">
+                                    <div class="indent"></div><input type="text" oninput="asetyc(event)"
+                                        data-tarid="settings_outputs_plain_indentstr" placeholder="字下げ内容">
+                                </div>
+                            </div>
+                            <div>
+                                <h3>行末記号</h3>
+                                <div class="plainddd">
+                                    <div class="indent"></div><input type="text"
+                                        data-tarid="settings_outputs_plain_revindentex" oninput="asetyc(event)"
+                                        placeholder="例外文字">
+                                </div>
+                                <div class="plainddd">
+                                    <div class="indent"></div><input type="text" oninput="asetyc(event)"
+                                        data-tarid="settings_outputs_plain_revindentstr" placeholder="挿入内容">
+                                </div>
+                            </div>
+                            <div>
+                                <h3>置換</h3>
+                                <div class="plainddd">
+                                    <div class="indent"></div>
+                                    <input type="text" id="plainsearch" placeholder="from">
+                                    <div id="ps_reg"><input type="checkbox" id="ps_reg_cb">
+                                        <label id="ps_reg_label" for="ps_reg_cb">.*</label>
+                                    </div>
+                                </div>
+                                <div style="width:100%;display:flex">
+                                    <div class="plainddd">
+                                        <div class="indent">→</div>
+                                        <input type="text" id="plainreplace" placeholder="to">
+                                        <button id="plainreplacebutton" onclick="plainreplace()">置換</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button onclick="plaincopy()" id="plaincopybutton">
+                                    コピー
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="export">
+                        <div class="tab">
+                            <div class="tab_controller" onclick="tab_start_scroll(event)">≪</div>
+                            <div class="tab_controller" onclick="tab_prev_scroll(event)">&lt;</div>
+                            <div class="tab_header">
+                                <div class="tab_header_in" data-martop="0" data-radioto="exporttab_cont">
+                                    <input type="radio" name="exporttab_item" id="radio_datgen"
+                                        onchange="radiochange(event);" checked>
+                                    <!--
+                                --><label class="tab_item" for="radio_datgen">.dat(2ch)</label>
+                                    <!--
+                                --><input type="radio" name="exporttab_item" id="radio_csvgen"
+                                        onchange="radiochange(event);">
+                                    <!--
+                                --><label class="tab_item" for="radio_csvgen">.csv(plain)</label>
+                                    <!--
+                                --><input type="radio" name="exporttab_item" id="radio_jsongen"
+                                        onchange="radiochange(event);">
+                                    <!--
                                 --><label class="tab_item" for="radio_jsongen">.json(plain)</label>
+                                </div>
+                            </div>
+                            <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
+                            <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
+                        </div>
+                        <div id="exporttab_cont" class="tabconter">
+                            <div id="datgen" class="radised">
+                                <h1>対応する変数/文字列を選択/入力</h1>
+                                <div id="datgen_list">
+                                    <li>スレッドタイトル：
+                                        <div class="datgen_div"><input type="text" id="dat_title"
+                                                placeholder="プレーンテキストで入力"></div>
+                                    </li>
+                                    <li>名前：
+                                        <div class="datgen_div"><input type="text" id="dat_name"
+                                                placeholder="テンプレート記法で入力"></div>
+                                    </li>
+                                    <li>メールアドレス：
+                                        <div class="datgen_div"><input type="text" id="dat_mail"
+                                                placeholder="テンプレート記法で入力"></div>
+                                    </li>
+                                    <li>日付・IDなど：
+                                        <div class="datgen_div"><input type="text" id="dat_date"
+                                                placeholder="テンプレート記法で入力"></div>
+                                    </li>
+                                    <li>本文：
+                                        <div class="datgen_div"><input type="text" id="dat_main"
+                                                placeholder="テンプレート記法で入力"></div>
+                                    </li>
+                                </div>
+                                <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
+                            </div>
+                            <div id="csvgen">
+                                工事中
+                            </div>
+                            <div id="jsongen">
+                                工事中
                             </div>
                         </div>
-                        <div class="tab_controller" onclick="tab_next_scroll(event)">&gt;</div>
-                        <div class="tab_controller" onclick="tab_end_scroll(event)">≫</div>
                     </div>
-                    <div id="exporttab_cont" class="tabconter">
-                        <div id="datgen" class="radised">
-                            <h1>対応する変数/文字列を選択/入力</h1>
-                            <div id="datgen_list">
-                                <li>スレッドタイトル：
-                                    <div class="datgen_div"><input type="text" id="dat_title" placeholder="プレーンテキストで入力"></div></li>
-                                <li>名前：
-                                    <div class="datgen_div"><input type="text" id="dat_name" placeholder="テンプレート記法で入力"></div></li>
-                                <li>メールアドレス：
-                                    <div class="datgen_div"><input type="text" id="dat_mail" placeholder="テンプレート記法で入力"></div></li>
-                                <li>日付・IDなど：
-                                    <div class="datgen_div"><input type="text" id="dat_date" placeholder="テンプレート記法で入力"></div></li>
-                                <li>本文：
-                                    <div class="datgen_div"><input type="text" id="dat_main" placeholder="テンプレート記法で入力"></div></li>
+                    <div id="saveload">
+                        <h1>セーブ</h1>
+                        <h2>普通にセーブ</h2>
+                        タイトル：<input type="text" id="save_inp"> <button id="save_button" onclick="save()">セーブ</button>
+                        <h2>テンプレートのみセーブ</h2>
+                        タイトル：<input type="text" id="tempsave_inp"> <button id="tempsave_button"
+                            onclick="tempsave()">セーブ</button>
+                        <h2>設定のみセーブ</h2>
+                        タイトル：<input type="text" id="setsave_inp"> <button id="setsave_button"
+                            onclick="setsave()">セーブ</button>
+                        <h1>ロード</h1>
+                        <h2>ファイルからロード</h2>
+                        ファイル：<input type="file" id="load_inp" accept=".json"> <button class="load_button"
+                            onclick="loadbybutton2()">ロード</button>
+                        <h2>最後のセッションからロード</h2>
+                        <button class="load_button"
+                            onclick="if (!window.confirm(`最後のセッションの編集データをロードします。\n編集中のデータは消滅しますが、本当によろしいですか？`)) { return false; };sessionload(0)">最後のセッションからロード</button>
+                    </div>
+                    <div id="replace">
+                        <h1>対象変数の選択</h1>
+                        <div id="replace_div">
+                            <div id="replace_list" class="textbox_like"></div>
+                            <div><button id="replace_allselect" onclick="replace_allselect()">全選択</button><button
+                                    onclick="replace_reflect()">反転</button></div>
+                            <li><input type="checkbox" id="replace_s?" checked><label
+                                    for="replace_s?"><code>.</code>に改行をマッチ</label></li>
+                            <li><input type="checkbox" id="replace_m?" checked><label for="replace_m?">マルチライン</label>
+                            </li>
+                            <li><input type="checkbox" id="replace_i?" checked><label for="replace_i?">大文字・小文字無視</label>
+                            </li>
+                            <li><input type="checkbox" id="replace_g?" checked><label for="replace_g?">全置換</label></li>
+                            <li><input type="text" id="replace_a" placeholder="検索対象"></li>
+                            <li><input type="text" id="replace_b" placeholder="置換文字列"></li>
+                            <li><button onclick="replacing()">置換実行</button></li>
+                        </div>
+                    </div>
+                    <div id="settings_div">
+                        <input type="search" id="settingsearch" placeholder="設定の検索" oninput="settingsearcher()">
+                        <div id="settingflex">
+                            <div id="settingtab">
                             </div>
-                            <button id="datbutton" onclick="datgen()"> datファイルを生成</button>
-                        </div>
-                        <div id="csvgen">
-                            工事中
-                        </div>
-                        <div id="jsongen">
-                            工事中
+                            <div id="settings">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="saveload">
-                    <h1>セーブ</h1>
-                    <h2>普通にセーブ</h2>
-                    タイトル：<input type="text" id="save_inp"> <button id="save_button" onclick="save()">セーブ</button>
-                    <h2>テンプレートのみセーブ</h2>
-                    タイトル：<input type="text" id="tempsave_inp"> <button id="tempsave_button" onclick="tempsave()">セーブ</button>
-                    <h2>設定のみセーブ</h2>
-                    タイトル：<input type="text" id="setsave_inp"> <button id="setsave_button" onclick="setsave()">セーブ</button>
-                    <h1>ロード</h1>
-                    <h2>ファイルからロード</h2>
-                    ファイル：<input type="file" id="load_inp" accept=".json"> <button class="load_button" onclick="loadbybutton2()">ロード</button>
-                    <h2>最後のセッションからロード</h2>
-                    <button class="load_button" onclick="if (!window.confirm(`最後のセッションの編集データをロードします。\n編集中のデータは消滅しますが、本当によろしいですか？`)) { return false; };sessionload(0)">最後のセッションからロード</button>
-                </div>
-                <div id="replace">
-                    <h1>対象変数の選択</h1>
-                    <div id="replace_div">
-                        <div id="replace_list" class="textbox_like"></div>
-                        <div><button id="replace_allselect" onclick="replace_allselect()">全選択</button><button onclick="replace_reflect()">反転</button></div>
-                        <li><input type="checkbox" id="replace_s?" checked><label for="replace_s?"><code>.</code>に改行をマッチ</label></li>
-                        <li><input type="checkbox" id="replace_m?" checked><label for="replace_m?">マルチライン</label></li>
-                        <li><input type="checkbox" id="replace_i?" checked><label for="replace_i?">大文字・小文字無視</label></li>
-                        <li><input type="checkbox" id="replace_g?" checked><label for="replace_g?">全置換</label></li>
-                        <li><input type="text" id="replace_a" placeholder="検索対象"></li>
-                        <li><input type="text" id="replace_b" placeholder="置換文字列"></li>
-                        <li><button onclick="replacing()">置換実行</button></li>
-                    </div>
-                </div>
-                <div id="settings_div">
-                    <input type="search" id="settingsearch" placeholder="設定の検索" oninput="settingsearcher()">
-                    <div id="settingflex">
-                        <div id="settingtab">
-                        </div>
-                        <div id="settings">
-                        </div>
-                    </div>
-                </div>
-                <div id="import">
+                    <div id="import">
 
+                    </div>
+                </div>
+            </div>
+            <div class="hresizer resizer" onmousedown="resizermousedown(event)" style="order: 3;" data-order="3">
+            </div>
+            <div id="box4" style="order:4;">
+                <div id="box4_1" class="subbox" data-subboxindex="1">
+                    <div class="functionselectdiv">
+                        <select class="functionselect" oninput="subfunctionchange(event)">
+                        </select>
+                    </div>
+                    <div class="mainer" data-mainub="1">
+                        <select id="datapul" title="設定する変数を選択" class="dataman" size="5" class="textbox_like"
+                            onchange="datapulchange(event)">
+                            <option hidden selected="true">設定変更する変数を選択</option>
+                        </select>
+                        <div id="datapul_sets">
+                            <div id="datapul_sets_in">
+                                <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="dataset_adder"
+                                        disabled="true" onchange="dataset_adderchange(event)"></li>
+                                <li title="レスを削除するたびに変数内の文字列から増加幅を自動的に減算します"><label><input type="checkbox"
+                                            id="dataset_adderm" disabled="true" onchange="changeadderm()">巻き戻し</label>
+                                </li>
+                                <li title="プレビュー時のアンカーの設定（&gt;&gt;など）"><label>アンカー：<input type="text"
+                                            id="dataset_anchor" disabled="true" onchange="anchorchange(event)"></label>
+                                </li>
+                                <li title="固定された変数は削除や並び替えの影響を受けません"><label><input type="checkbox" id="dataset_fix?"
+                                            disabled="true" onchange="changefix()">固定する</label></li>
+                                <li title="変数の入力候補機能を有効化します。"><label><input type="checkbox" id="dataset_datalist?"
+                                            disabled="true" onchange="flapdatalist()">入力候補</label></li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vresizer resizer" onmousedown="resizermousedown(event)">
+
+                </div>
+                <div id="box4_2" class="subbox" data-subboxindex="2">
+                    <div class="functionselectdiv">
+                        <select class="functionselect" oninput="subfunctionchange(event)">
+                        </select>
+                    </div>
+                    <div class="mainer">
+                        対象文字を選択：<br>
+                        <input type="checkbox" id="check_uaz" checked oninput="randgen()"><label
+                            for="check_uaz">A-Z</label>
+                        <input type="checkbox" id="check_daz" checked oninput="randgen()"><label
+                            for="check_daz">a-z</label>
+                        <input type="checkbox" id="check_num" checked oninput="randgen()"><label
+                            for="check_num">0-9</label>
+                        <input type="checkbox" id="check_sim" oninput="randgen()"><label for="check_sim">記号</label>
+                        <input type="checkbox" id="check_sp" oninput="randgen()"><label for="check_sp">半角空白</label>
+                        <input type="checkbox" id="check_inp" onchange="checkinpchange()" oninput="randgen()"><label
+                            for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
+                        <br>
+                        <div style="text-align: right;" oninput="randgen()"><input type="number" id="randlen" value="8"
+                                min="1" oninput="randgen()">文字<input type="number" id="randman" value="8" min="1"
+                                oninput="randgen()">個</div>
+                        <textarea id="randgenopt"></textarea>
+                        <input type="number" id="subsnum" value="1" min="1">
+                        番目以降の
+                        <select id="subssel" size="1" class="dataman">
+                            <option hidden selected>変数を選択</option>
+                        </select>
+                        に
+                        <button onclick="subs()">代入</button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="hresizer resizer" onmousedown="resizermousedown(event)" style="order: 3;" data-order="3">
-        </div>
-        <div id="box4" style="order:4;">
-            <div id="box4_1" class="subbox" data-subboxindex="1">
-                <div class="functionselectdiv">
-                    <select class="functionselect" oninput="subfunctionchange(event)">
-                    </select>
-                </div> 
-                <div class="mainer" data-mainub="1">
-                    <select id="datapul" title="設定する変数を選択" class="dataman" size="5" class="textbox_like" onchange="datapulchange(event)">
-                        <option hidden selected="true">設定変更する変数を選択</option>
-                    </select>
-                    <div id="datapul_sets">
-                        <div id="datapul_sets_in">
-                            <li title="レスを送るたびに変数内の文字列に自動的に加算されます">増加幅：<input type="number" id="dataset_adder" disabled="true" onchange="dataset_adderchange(event)"></li>
-                            <li title="レスを削除するたびに変数内の文字列から増加幅を自動的に減算します"><label><input type="checkbox" id="dataset_adderm" disabled="true" onchange="changeadderm()">巻き戻し</label></li>
-                            <li title="プレビュー時のアンカーの設定（&gt;&gt;など）"><label>アンカー：<input type="text" id="dataset_anchor" disabled="true" onchange="anchorchange(event)"></label></li>
-                            <li title="固定された変数は削除や並び替えの影響を受けません"><label><input type="checkbox" id="dataset_fix?" disabled="true" onchange="changefix()">固定する</label></li>
-                            <li title="変数の入力候補機能を有効化します。"><label><input type="checkbox" id="dataset_datalist?" disabled="true" onchange="flapdatalist()">入力候補</label></li>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="vresizer resizer" onmousedown="resizermousedown(event)">
+        <div id="undermenu">
 
-            </div>
-            <div id="box4_2" class="subbox" data-subboxindex="2">
-                <div class="functionselectdiv">
-                    <select class="functionselect" oninput="subfunctionchange(event)">
-                    </select>
-                </div>
-                <div class="mainer">
-                    対象文字を選択：<br>
-                    <input type="checkbox" id="check_uaz" checked oninput="randgen()"><label for="check_uaz">A-Z</label>
-                    <input type="checkbox" id="check_daz" checked oninput="randgen()"><label for="check_daz">a-z</label>
-                    <input type="checkbox" id="check_num" checked oninput="randgen()"><label for="check_num">0-9</label>
-                    <input type="checkbox" id="check_sim" oninput="randgen()"><label for="check_sim">記号</label>
-                    <input type="checkbox" id="check_sp" oninput="randgen()"><label for="check_sp">半角空白</label>
-                    <input type="checkbox" id="check_inp" onchange="checkinpchange()" oninput="randgen()"><label for="check_inp">自由入力：</label><input type="text" id="randinp" disabled>
-                    <br><div style="text-align: right;" oninput="randgen()"><input type="number" id="randlen" value="8" min="1" oninput="randgen()">文字<input type="number" id="randman" value="8" min="1" oninput="randgen()">個</div>
-                    <textarea id="randgenopt"></textarea>
-                    <input type="number" id="subsnum" value="1" min="1">
-                    番目以降の
-                    <select id="subssel" size="1" class="dataman">
-                        <option hidden selected>変数を選択</option>
-                    </select>
-                    に
-                    <button onclick="subs()">代入</button>
-                </div>
-            </div>
         </div>
     </div>
     <div id="datalists">
@@ -420,7 +525,7 @@
             </div>
             <div class="mainer">
                 <div id="easy_preview">
-                    
+
                 </div>
             </div>
         </div>
@@ -442,11 +547,12 @@
                 <select class="functionselect" oninput="subfunctionchange(event)"></select>
             </div>
             <div class="mainer">
-                <select id="datamemopul" title="変数を選択" class="dataman" class="textbox_like"   onchange="datamemoreload()">
+                <select id="datamemopul" title="変数を選択" class="dataman" class="textbox_like" onchange="datamemoreload()">
                     <option hidden selected="true">変数を選択</option>
                 </select>
                 <div id="datamemopuldiv">
-                    <select id="datamemoselpul" title="変数値を選択" size="5" class="textbox_like" onchange="datamemoselpulchange()">
+                    <select id="datamemoselpul" title="変数値を選択" size="5" class="textbox_like"
+                        onchange="datamemoselpulchange()">
                         <option hidden selected="true">変数値を選択</option>
                     </select>
                     <textarea id="datamemo" onchange="datamemochange()" placeholder="特定値にメモを付ける"></textarea>
@@ -462,7 +568,8 @@
                 </select>
             </div>
             <div class="mainer">
-                <div id="putmessagediv" ondragover="put_dragover(event)" ondragleave="put_dragleave(event)" ondrop="put_drop(event)" class="droppable"></div>
+                <div id="putmessagediv" ondragover="put_dragover(event)" ondragleave="put_dragleave(event)"
+                    ondrop="put_drop(event)" class="droppable"></div>
             </div>
         </div>
         <div class="subbox" data-subboxindex="7">
@@ -477,11 +584,18 @@
                 </select>
                 <div id="labelpul_sets">
                     <div id="labelpul_sets_in">
-                        <li title="ラベルの対象となる変数を選択します"><select disabled class="dataman" id="labelset_calctarget" onchange="labelset_calctargetchange(event)"><option hidden selected="true">監視対象とする変数を選択</option></select></li>
-                        <li><label>もし<input disabled type="text" id="labelset_calcstr" onchange="labelset_textchange(event)">なら</label></li>
-                        <li><input type="text" disabled id="labelset_calcthen" onchange="labelset_textchange(event)"></li>
-                        <li><label>でなければ<input disabled type="text" id="labelset_calcelse" onchange="labelset_textchange(event)"></label></li>
-                        <li><label>クリックで増加：<input disabled type="number" id="labelset_adder" onchange="labelset_textchange(event)"></label></li>
+                        <li title="ラベルの対象となる変数を選択します"><select disabled class="dataman" id="labelset_calctarget"
+                                onchange="labelset_calctargetchange(event)">
+                                <option hidden selected="true">監視対象とする変数を選択</option>
+                            </select></li>
+                        <li><label>もし<input disabled type="text" id="labelset_calcstr"
+                                    onchange="labelset_textchange(event)">なら</label></li>
+                        <li><input type="text" disabled id="labelset_calcthen" onchange="labelset_textchange(event)">
+                        </li>
+                        <li><label>でなければ<input disabled type="text" id="labelset_calcelse"
+                                    onchange="labelset_textchange(event)"></label></li>
+                        <li><label>クリックで増加：<input disabled type="number" id="labelset_adder"
+                                    onchange="labelset_textchange(event)"></label></li>
                     </div>
                 </div>
             </div>

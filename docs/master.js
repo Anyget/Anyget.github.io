@@ -384,24 +384,37 @@ window.addEventListener('beforeunload', function (event) {
     }
 })
 window.addEventListener("resize",resizen)
-function resizen(){
-    Array.from(document.getElementById("box").children).forEach(i=>{
-        if (i.style.width) {
-            i.style.width = window.innerWidth/windowsizelog["w"]*Number(i.style.width.replace("px",""))  + "px"
+function resizen() {
+    windowsizelog["w"] = window.innerWidth
+    windowsizelog["h"] = window.innerHeight
+    document.body.parentElement.style.setProperty("--vh",(window.innerHeight*0.01) + "px")
+    document.body.parentElement.style.setProperty("--vw", (window.innerWidth * 0.01) + "px")
+    let snw = 0
+    let snh = 0
+    Array.from(document.getElementById("box").children).forEach(i => {
+        if (!i.classList.contains("resizer")) {
+            snw += i.getBoundingClientRect().width
         }
     })
-    Array.from(document.getElementById("box4").children).forEach(i=>{
-        if (i.style.height) {
-            i.style.height = window.innerHeight/windowsizelog["h"]*Number(i.style.height.replace("px",""))  + "px"
+    Array.from(document.getElementById("box4").children).forEach(i => {
+        if (!i.classList.contains("resizer")) {
+            snh += i.getBoundingClientRect().height
+        }
+    })
+    let boxr2 = document.getElementById("box").getBoundingClientRect()
+    Array.from(document.getElementById("box").children).forEach(i => {
+        if (!i.classList.contains("resizer")){
+            i.style.width = Number(i.style.width.replace("px","")) + (snw - boxr2.width)/3 + "px"
+        }
+    })
+    Array.from(document.getElementById("box4").children).forEach(i => {
+        if (!i.classList.contains("resizer")){
+            i.style.height = Number(i.style.height.replace("px","")) + (snh - boxr2.height)/2 + "px"
         }
     })
     for (let i of document.getElementsByClassName("functionselect")) {
         fitselector(i)
     }
-    windowsizelog["w"] = window.innerWidth
-    windowsizelog["h"] = window.innerHeight
-    document.body.parentElement.style.setProperty("--vh",(window.innerHeight*0.01) + "px")
-    document.body.parentElement.style.setProperty("--vw",(window.innerWidth*0.01) + "px")
 }
 function escapeHtml(str) {
     let div = document.createElement('div');

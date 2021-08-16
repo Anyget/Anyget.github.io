@@ -35,7 +35,7 @@ li{
 }
 #box{
     display: flex;
-    width: 100%;
+    width: calc(var(--vw) * 100);
     height: calc(var(--vh) * 100);
 }
 #box2, #box3,#box4{
@@ -43,6 +43,7 @@ li{
     border: solid 1px var(--border_color); 
     box-sizing: border-box;
     overflow: hidden !important;
+    height: 100%;
 }
 #box2{
     display: flex;
@@ -302,7 +303,7 @@ h1,h2{
 }
 #mesandform{
     padding-top: 3px;
-    height: calc(calc(var(--vh) * 100) - 1rem);
+    height: calc(100% - 1rem);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -482,7 +483,7 @@ h1,h2{
     color: var(--box2_font_color);
     display: block;
     overflow-y: scroll;
-    height: calc(calc(var(--vh) * 100) - 1rem);
+    height: calc(100% - 1rem);
 }
 #easy_preview{
     color: var(--box2_font_color);
@@ -1493,4 +1494,22 @@ li{
 #tab_cont>*:not(#mesandform){
     overflow-y:scroll;
     height: 100%;
+}
+#box0{
+    display: flex;
+    flex-direction: column;
+}
+#undermenu{
+    display: none;
+}
+
+@media screen and (orientation: portrait){
+    #undermenu{
+        display: block;
+        height: calc(var(--vh) * 5);
+        width: 100%;
+    }
+    #box{
+        height: calc(var(--vh) * 95);
+    }
 }
