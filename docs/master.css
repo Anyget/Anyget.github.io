@@ -1528,14 +1528,16 @@ li{
     }
 }
 
-#inputpanel_temp{
+#inputpanel_temp,#inputpanel_message{
+    z-index: 30;
     position: absolute;
     bottom:calc(var(--vh) * 5);
     background-color: transparent;
     width: 100%;
     justify-content: space-around;
 }
-#inputpanel_temp>*{
+#inputpanel_temp>*,#inputpanel_message>*{
+    line-height: 1.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     font-size: 1.5rem;

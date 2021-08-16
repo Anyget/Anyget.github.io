@@ -116,6 +116,14 @@
         <button onmousedown="inputinserter('\\',event)">\</button>
         <button onmousedown="inputinserter('\/\/',event)">//</button>
     </div>
+    <div id="inputpanel_message" style="display:none;">
+        <button onmousedown="inputinserter('|',event)">|</button>
+        <button onmousedown="inputinserter('《',event)">《</button>
+        <button onmousedown="inputinserter('》',event)">》</button>
+        <button onmousedown="inputinserter('《...》',event)">《...》</button>
+        <button onmousedown="inputinserter('/',event)">/</button>
+        <button onmousedown="narouruby()">なろう傍点</button>
+    </div>
     <div id="box0">
         <div id="box">
             <div id="box2" style="order:0" class="subbox" data-subboxindex="0">
@@ -127,7 +135,7 @@
                     <div class="margdiv2"></div>
                     <div id="templatep">
                         <textarea id="template" oninput="template_valuereload()" onscroll="template_scrollreload()"
-                            onfocus="tempfocus()" onblur="tempblur()" placeholder="//$...$：一行変数宣言
+                            onfocusin="tempfocus()" placeholder="//$...$：一行変数宣言
 //|...|：複数行変数宣言
 //%...%：ラベル
 //\...：エスケープ

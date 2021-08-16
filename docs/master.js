@@ -2940,9 +2940,6 @@ function tempfocus(){
     if (!window.matchMedia("screen and (max-width:500px)").matches){return false}
     document.getElementById("inputpanel_temp").style.display = "flex"
 }
-function tempblur(){
-    document.getElementById("inputpanel_temp").style.display = "none"
-}
 function inputinserter(s,e){
     e.preventDefault()
     let inp = document.querySelector(":focus")
@@ -2964,4 +2961,22 @@ function inputinserter(s,e){
         inp.setSelectionRange(sl,sl)
     }
     inp.dispatchEvent(new Event("input"))
+}
+
+document.addEventListener("focusin",e => {
+    if (!window.matchMedia("screen and (max-width:500px)").matches) { return false }
+    if (e.target.classList.contains("|text") || e.target.classList.contains("$text")){
+        document.getElementById("inputpanel_message").style.display = "flex"
+    }
+})
+document.addEventListener("focusout",e => {
+    document.getElementById("inputpanel_temp").style.display = "none"
+    document.getElementById("inputpanel_message").style.display = "none"
+})
+
+function narouruby(){
+    let inp = document.querySelector(":focus")
+    if (inp.selectionStart != inp.selectionEnd){
+        inp.value = inp.value.substr(0, inp.selectionStart) + inp.value.substr(inp.selectionStart,inp.selectionEnd-inp.selectionStart).replace(/(.)/g,"|$1《・》") + inp.value.substr(inp.selectionEnd)
+    }
 }
