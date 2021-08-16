@@ -1101,6 +1101,7 @@ button:active{
     line-height: 1.4em;
     display: block;
     height: 1.4em;
+    overflow: hidden;
 }
 #startmenu_l li:hover{
     background-color: var(--color_1);
