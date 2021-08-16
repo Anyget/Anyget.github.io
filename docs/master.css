@@ -345,7 +345,7 @@ h1,h2{
     flex-grow: 1;
     display: block;
     padding-top: 0;
-    font-size: var(--remer);
+    font-size: 1rem;
     line-height: var(--remer);
     height: var(--remer);
     text-align: center;
