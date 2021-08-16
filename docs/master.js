@@ -425,7 +425,7 @@ function resizen() {
             i.style.height = Number(i.style.height.replace("px","")) + (snh - boxr2.height)/2 + "px"
         }
     })
-    if (window.innerHeight > window.innerWidth){
+    if (window.matchMedia("screen and (max-width:500px)").matches){
         cmoving()
     }else{
         document.getElementById("box2").style.marginLeft = "0px";
@@ -437,7 +437,7 @@ function resizen() {
     windowsizelog["h"] = window.innerHeight
 }
 function cmoving(){
-    if (window.innerHeight <= window.innerWidth){return false}
+    if (!window.matchMedia("screen and (max-width:500px)").matches){return false}
     if (settings_now["views"]["interface"]["cmoverreverse"]){
         document.getElementById("box2").style.marginLeft = ((window.innerWidth * (Number(document.getElementById("cmover").value)-200) / 100) + "px")
     }else{

@@ -1503,7 +1503,7 @@ li{
     display: none;
 }
 
-@media screen and (orientation: portrait){
+@media screen and (max-width:500px){
     #undermenu{
         display: block;
         height: calc(var(--vh) * 5);
