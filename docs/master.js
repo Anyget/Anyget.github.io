@@ -411,8 +411,10 @@ function resizen() {
             i.style.height = Number(i.style.height.replace("px","")) + (snh - boxr2.height)/2 + "px"
         }
     })
-    if (window.innerHeight > window.innerWidth && windowsizelog["h"] <= windowsizelog["w"]){
+    if (window.innerHeight > window.innerWidth){
         cmoving()
+    }else{
+        document.getElementById("box2").style.marginLeft = "0px";
     }
     for (let i of document.getElementsByClassName("functionselect")) {
         fitselector(i)
