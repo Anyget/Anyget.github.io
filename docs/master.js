@@ -2901,7 +2901,6 @@ function cmovechange(e){
 }
 
 function cmoveanime(o){
-    console.log(o)
     let v = Number(document.getElementById("cmover").value)
     if (v != o){
         if (v > o){
