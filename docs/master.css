@@ -1533,12 +1533,12 @@ li{
     bottom:calc(var(--vh) * 5);
     background-color: transparent;
     width: 100%;
+    justify-content: space-around;
 }
 #inputpanel_temp>*{
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    font-size: 2rem;
-    margin-right: 5px;
+    font-size: 1.5rem;
     display: block;
     height: 100%;
 }
