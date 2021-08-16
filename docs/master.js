@@ -104,6 +104,20 @@ const settings = {
                         f:sortboxes
                     }
                 }
+            },
+            "interface":{
+                name:"インターフェース",
+                type:"head",
+                list:{
+                    "cmoverreverse":{
+                        name:"カラム遷移バーの反転",
+                        type:"checkbox",
+                        info:"",
+                        init:false,
+                        label:"左にスワイプすると右にスクロール",
+                        f:cmoving
+                    }
+                }
             }
         }
     },
@@ -423,7 +437,12 @@ function resizen() {
     windowsizelog["h"] = window.innerHeight
 }
 function cmoving(){
-    document.getElementById("box2").style.marginLeft = ((0 - window.innerWidth * Number(document.getElementById("cmover").value) / 100) + "px")
+    if (window.innerHeight <= window.innerWidth){return false}
+    if (settings_now["views"]["interface"]["cmoverreverse"]){
+        document.getElementById("box2").style.marginLeft = ((window.innerWidth * (Number(document.getElementById("cmover").value)-200) / 100) + "px")
+    }else{
+        document.getElementById("box2").style.marginLeft = ((0 - window.innerWidth * Number(document.getElementById("cmover").value) / 100) + "px")
+    }
 }
 function escapeHtml(str) {
     let div = document.createElement('div');
