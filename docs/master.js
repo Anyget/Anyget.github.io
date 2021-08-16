@@ -1779,20 +1779,20 @@ function tab_next_scroll(e){
     let inh = t.getBoundingClientRect().height
     if (Math.floor((Number(t.dataset.martop) - 1) * basevh) < Math.floor(inh) * -1) { return false }
     t.dataset.martop = String(Number(t.dataset.martop)-1)
-    t.style.marginTop = `${Number(t.dataset.martop)*1.3}rem`
+    t.style.marginTop = `calc(${Number(t.dataset.martop*1.3)} * var(--remer))`
 }
 function tab_end_scroll(e){
-    let basevh = e.target.parentNode.getElementsByClassName("tab_header")[0].getBoundingClientRect().height*4/3
+    let basevh = e.target.parentNode.getElementsByClassName("tab_header")[0].getBoundingClientRect().height*1.3
     let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
     let inh = t.getBoundingClientRect().height
     t.dataset.martop = Math.floor(inh/Math.floor(basevh))*-1+1
-    t.style.marginTop = `${Number(t.dataset.martop)*1.3}rem`
+    t.style.marginTop = `calc(${Number(t.dataset.martop*1.3)} * var(--remer))`
 }
 function tab_prev_scroll(e){
     let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
     if (t.dataset.martop=="0") { return false }
     t.dataset.martop = String(Number(t.dataset.martop)+1)
-    t.style.marginTop = `${Number(t.dataset.martop)*1.3}rem`
+    t.style.marginTop = `calc(${Number(t.dataset.martop * 1.3)} * var(--remer))`
 }
 function tab_start_scroll(e){
     let t = e.target.parentNode.getElementsByClassName("tab_header_in")[0]
