@@ -124,7 +124,7 @@ const settings = {
                         f:cmoving
                     },
                     "harmelnsptag":{
-                        name:"ハーメルンの特殊タグ",
+                        name:"<a href='https://syosetu.org/'>ハーメルン</a>の特殊タグ",
                         type:"head",
                         list:{
                             "tags":{
