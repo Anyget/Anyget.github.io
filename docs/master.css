@@ -1543,8 +1543,7 @@ li{
 }
 #inputpanel_temp>*,#inputpanel_message>*{
     line-height: 1.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    min-width: 2rem;
     font-size: 1.5rem;
     display: block;
     height: 100%;
