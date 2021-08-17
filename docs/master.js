@@ -105,6 +105,12 @@ const settings = {
                     }
                 }
             },
+        }
+    },
+    "editor":{
+        name:"エディタ",
+        type:"head",
+        list:{
             "interface":{
                 name:"インターフェース",
                 type:"head",
@@ -116,6 +122,34 @@ const settings = {
                         init:false,
                         label:"左にスワイプすると右にスクロール",
                         f:cmoving
+                    },
+                    "harmelnsptag":{
+                        name:"ハーメルンの特殊タグ",
+                        type:"head",
+                        list:{
+                            "tags":{
+                                name:"タグのリスト",
+                                type:"textarea",
+                                info:"カンマ(,)区切りで入力",
+                                init:"b,i,s,u,ruby,rt,small,big,xsmall,xbig,center,right,left,link,id,ref,sup,sub,hr,font,bgcolor,boxbgcolor,bordercolor,boxbordercolor,edge,opacity,blur,snake,vib,box,text,table,marquee,blink,fade,telop,speak,transparent,white,gray,darkgray,black,brown,darkbrown,red,darkred,gold,orange,darkorange,green,darkgreen,blue,darkblue,purple,pink,color",
+                                f:passer
+                            },
+                            "unclosetags":{
+                                name:"閉じないタグ",
+                                type:"textarea",
+                                info:"カンマ(,)区切りで入力",
+                                init:"id,hr",
+                                f:passer
+                            },
+                            "autoclose":{
+                                name:"自動で閉じる",
+                                type:"checkbox",
+                                info:"",
+                                init:false,
+                                label:"入力完了時にタグを自動で閉じる",
+                                f:passer
+                            }
+                        }
                     }
                 }
             }
@@ -2980,4 +3014,7 @@ function narouruby(e){
     if (inp.selectionStart != inp.selectionEnd){
         inp.value = inp.value.substr(0, inp.selectionStart) + inp.value.substr(inp.selectionStart,inp.selectionEnd-inp.selectionStart).replace(/(.)/g,"|$1《・》") + inp.value.substr(inp.selectionEnd)
     }
+}
+function passer(){
+    void(0)
 }
