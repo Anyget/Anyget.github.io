@@ -472,7 +472,7 @@ function resizen() {
 }
 function cmoving(){
     if (!window.matchMedia("screen and (max-width:500px)").matches){return false}
-    if (settings_now["views"]["interface"]["cmoverreverse"]){
+    if (settings_now["editor"]["interface"]["cmoverreverse"]){
         document.getElementById("box2").style.marginLeft = ((window.innerWidth * (Number(document.getElementById("cmover").value)-200) / 100) + "px")
     }else{
         document.getElementById("box2").style.marginLeft = ((0 - window.innerWidth * Number(document.getElementById("cmover").value) / 100) + "px")
@@ -3018,3 +3018,16 @@ function narouruby(e){
 function passer(){
     void(0)
 }
+
+document.addEventListener("compositionend",e=>{
+    if (!settings_now["editor"]["interface"]["harmelnsptag"]["autoclose"]){return false}
+    let t = e.target
+    if (!(t.classList.contains("|text") || t.classList.contains("$text"))){return false}
+    if (!e.data.endsWith("》")){return false}
+    let cs = t.selectionStart
+    if (cs != t.selectionEnd){return false}
+    let bstr = t.value.substr(0,cs)
+    let r = bstr.match(/(?<!(\|[^《]*|《))《[^《》]*》$/)
+    if (r == null){return false}
+    console.log(r)
+})
