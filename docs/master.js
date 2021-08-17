@@ -49,6 +49,7 @@ let boxes_sort = [0,1,2]
 let touchar = []
 let touchX = 0
 let touchY = 0
+let mexsets = {}
 const settings = {
     "views":{
         name:"表示",
@@ -265,7 +266,6 @@ let selectedsubfunction = [0,1,2,3,4,5,6,7]
 let subfunctionelements = []
 let intersectobjects = new Set()
 let windowsizelog = {w:window.innerWidth+0,h:window.innerHeight+0}
-let mexsets = {}
 let interids = {}
 const PRE_TEMPLETES={
     "5ch": {
@@ -699,7 +699,6 @@ function addmess() {
         now.id = ""
         let num = lists["messages"]["deal_list"].length
         lists["messages"]["deal_list"].push({})
-        datamemodivreload()
         Object.keys(all_data).forEach(k=>{
             lists["messages"]["deal_list"][num][k] = ""
         })
@@ -729,18 +728,8 @@ function addmess() {
         });
         labelreload("messages",lists["messages"]["deal_list"].length-1)
     }
-    let nnn = getn()
-    mexsets[nnn] = {};
-    lists["messages"]["deal_list"].forEach(d => {
-        if (Object.keys(mexsets[nnn]).includes(d[nnn])) {
-            mexsets[nnn][d[nnn]] = mexsets[nnn][d[nnn]] + 1
-        } else {
-            mexsets[nnn][d[nnn]] = 1
-        }
-    })
     let obj = document.getElementById("messages");
     obj.scrollTop = obj.scrollHeight;
-    datamemodivreload()
 };
 
 function datapulchange(e) {
@@ -787,9 +776,6 @@ document.addEventListener("input", (e) => {
         })
         if (target.tagName != "TEXTAREA"){
             labelreload(target.parentNode.parentNode.parentNode.parentNode.id, num)
-            //mexsets[clas][lists[target.parentNode.parentNode.parentNode.parentNode.id]["deal_list"][num[clas]]   -= 1
-            //mexsets[clas][inp] = typeof mexsets[clas][inp] == "undefined"?1:mexsets[clas][inp]+1
-            //datamemodivreload()
         }
         searchunimessage(num,document.getElementById("messagesearcher").value,document.getElementById("search_regcheck").checked)
     };
@@ -1484,7 +1470,6 @@ function load(n){
         document.getElementById("replace_list").insertAdjacentHTML("beforeend", `<li><input type="checkbox" id="replacecheck_${escapeHtml(c)}"></input><label for="replacecheck_${escapeHtml(c)}">${(escapeHtml(c) + "a").replace(/^[^_]*_|.$/g, c.startsWith("blocker_") ? "|" : "$")}</label></li>`)
     })
     lockreload()
-    datamemodivreload()
     template_valuereload()
     template_scrollreload()
 }
@@ -2341,18 +2326,6 @@ function mesdel(target){
             }
         });
     }
-    
-    let n =getn()
-    mexsets[n] = {};
-    dl.forEach(d=>{
-        if (Object.keys(mexsets[n]).includes(d[n])){
-            mexsets[n][d[n]] = mexsets[n][d[n]]+1
-        }else{
-            mexsets[n][d[n]] = 1
-        }
-    })
-    
-    datamemodivreload()
 
 }
 function settingsearcher(){
@@ -2413,22 +2386,46 @@ function datamemoreload(){
     let i = t.selectedIndex-1
     if (i == -1){return false}
     let n = Object.keys(all_data)[i];
-    mexsets[n] = {};
+    let mexs = {}
     lists["messages"]["deal_list"].forEach(d=>{
-        if (Object.keys(mexsets[n]).includes(d[n])){
-            mexsets[n][d[n]] = mexsets[n][d[n]]+1
+        if (Object.keys(mexs).includes(d[n])){
+            mexs[d[n]] = mexs[d[n]]+1
         }else{
-            mexsets[n][d[n]] = 1
+            mexs[d[n]] = 1
         }
     })
-    document.getElementById("datamemoselpul").innerHTML = '<option hidden>変数値を選択</option>'
-    if (Object.keys(mexsets[n]).length > 0) {
-        Object.keys(mexsets[n]).forEach(d => {
-            document.getElementById("datamemoselpul").insertAdjacentHTML("beforeend", `<option>${escapeHtml(d)}<span class="pulg">(${mexsets[n][d]})</span></option>`)
-            if (typeof all_data[n]["memo"][d] === "undefined") {
-                all_data[n]["memo"][d] = ""
+    let newmexs = {}
+    Object.keys(mexs).forEach(d=>{
+        if (mexs[d] == 0){
+            if (typeof all_data[n]["memo"][d] !== "undefined"){
+                if (all_data[n]["memo"][d] != ""){
+                    newmexs[d] = 0
+                }
+            } 
+        }else{
+            newmexs[d] = mexs[d]-0
+        }
+    })
+    if (Object.keys(mexsets).includes(n)){
+        Object.keys(mexsets[n]).forEach(d=>{
+            if (!Object.keys(mexs).includes(d)){
+                if (typeof all_data[n]["memo"][d] !== "undefined") {
+                    if (all_data[n]["memo"][d] != "") {
+                        newmexs[d] = 0
+                    }
+                }
             }
         })
+    }
+    mexsets[n] = newmexs
+    document.getElementById("datamemoselpul").innerHTML = '<option hidden>変数値を選択</option>'
+    Object.keys(mexsets[n]).forEach(d => {
+            document.getElementById("datamemoselpul").insertAdjacentHTML("beforeend", `<option>${escapeHtml(d)}<span class="pulg">(${mexsets[n][d]})</span></option>`)
+        if (typeof all_data[n]["memo"][d] === "undefined") {
+            all_data[n]["memo"][d] = ""
+        }
+    })
+    if (document.getElementById("datamemoselpul").children.length > 1){
         document.getElementById("datamemoselpul").children[1].selected = true
         document.getElementById("datamemo").value = all_data[n]["memo"][Object.keys(mexsets[n])[0]]
     }
@@ -2438,6 +2435,7 @@ function datamemochange(){
     let i = t.selectedIndex-1
     if (i == -1){return false}
     let n = Object.keys(all_data)[i]
+
     let tt = document.getElementById("datamemo")
     all_data[n]["memo"][Object.keys(mexsets[n])[document.getElementById("datamemoselpul").selectedIndex-1]] = tt.value
 }
@@ -2451,26 +2449,6 @@ function datamemoselpulchange(){
         all_data[n]["memo"][mexsets[n]] = ""
     }
     tt.value = all_data[n]["memo"][Object.keys(mexsets[n])[document.getElementById("datamemoselpul").selectedIndex-1]]
-}
-function datamemodivreload(){
-    let t = document.getElementById("datamemopul")
-    let i = t.selectedIndex - 1
-    if (i == -1) { return false }
-    let n = Object.keys(all_data)[i];
-    document.getElementById("datamemoselpul").innerHTML = '<option hidden>変数値を選択</option>'
-    if (Object.keys(mexsets[n]).length > 0) {
-        Object.keys(mexsets[n]).forEach(d => {
-            document.getElementById("datamemoselpul").insertAdjacentHTML("beforeend", `<option>${escapeHtml(d)}<span class="pulg">(${mexsets[n][d]})</span></option>`)
-            if (typeof all_data[n]["memo"][d] === "undefined") {
-                all_data[n]["memo"][d] = ""
-            }
-            if (mexsets[n][d]==0){
-                document.getElementById("datamemoselpul").lastChild.hidden = true
-            }
-        })
-        document.getElementById("datamemoselpul").children[i+1].selected = true
-        document.getElementById("datamemo").value = all_data[n]["memo"][Object.keys(mexsets[n])[0]]
-    }
 }
 function getn(){
     let t = document.getElementById("datamemopul")
