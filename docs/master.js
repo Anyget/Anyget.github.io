@@ -3029,5 +3029,13 @@ document.addEventListener("compositionend",e=>{
     let bstr = t.value.substr(0,cs)
     let r = bstr.match(/(?<!(\|[^《]*|《))《[^《》]*》$/)
     if (r == null){return false}
-    console.log(r)
+    let s = r[0].replace("《","").replace("》","").replace(/:.*$/,"")
+    if (!cmtar(settings_now["editor"]["interface"]["harmelnsptag"]["tags"]).includes(s)){return false}
+    if (cmtar(settings_now["editor"]["interface"]["harmelnsptag"]["unclosetags"]).includes(s)){return false}
+    t.value = bstr + "《/" + s + "》" + t.value.substr(cs)
+    t.setSelectionRange(cs,cs)
 })
+
+function cmtar(v){
+    return v.split("\n").join("").split(",")
+}
