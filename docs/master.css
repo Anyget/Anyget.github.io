@@ -1542,6 +1542,7 @@ li{
     justify-content: space-around;
 }
 #inputpanel_temp>*,#inputpanel_message>*{
+    filter: invert(100%);
     line-height: 1.5rem;
     min-width: 2rem;
     font-size: 1.5rem;
