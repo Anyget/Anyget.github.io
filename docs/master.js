@@ -540,7 +540,7 @@ function changetemp() {
                             mode = "normal";
                             col += "$</span>";
                             let t = escapeHtml(data[data.length - 1]).replace("liner_", "")
-                            htm += `" placeholder="${t}" list="list_liner_${t}" value="" onscroll="linerscr(event)"><div class="s_$text s_text"></div></div>`;
+                            htm += `" placeholder="${t}" value="" list="list_liner_${t}" onscroll="linerscr(event)"><div class="s_$text s_text"></div></div>`;
                             break;
                         default:
                             col += escapeHtml(char);
@@ -752,7 +752,6 @@ function datapulchange(e) {
             document.getElementById("dataset_datalist?").disabled = true;
             document.getElementById("dataset_datalist?").checked = false;
         }
-        document.getElementById("dataset_datalist?").disabled = true;
 
     };
 }
@@ -806,15 +805,6 @@ function closebtnclick(e){
 function changefix() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
     all_data[selecting]["dataset_fix?"] = document.getElementById("dataset_fix?").checked;
-}
-function flapdatalist() {
-    let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
-    all_data[selecting]["dataset_datalist?"] = document.getElementById("dataset_datalist?").checked;
-    if (!document.getElementById("dataset_datalist?").checked) {
-        document.getElementById(`list_${selecting}`).id = `n_list_${selecting}`
-    } else {
-        document.getElementById(`n_list_${selecting}`).id = `list_${selecting}`
-    }
 }
 function dragstart(e) {
     if (!e.currentTarget.classList.contains("checked_md")){return false}
@@ -2155,6 +2145,15 @@ function changeadderm() {
     let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
     all_data[selecting]["dataset_adderm"] = document.getElementById("dataset_adderm").checked
 }
+function changedatalist() {
+    let selecting = Object.keys(all_data)[document.getElementById("datapul").selectedIndex - 1];
+    all_data[selecting]["dataset_datalist?"] = document.getElementById("dataset_datalist?").checked
+    if (all_data[selecting]["dataset_datalist?"]){
+        document.getElementById(`nlist_${selecting}`).id = `list_${selecting}`
+    }else{
+        document.getElementById(`list_${selecting}`).id = `nlist_${selecting}`
+    }
+}
 function addmemo(e){
     e.target.insertAdjacentHTML("afterend","<div><div><button onclick='memoup(event)'>^</button><button onclick='memodown(event)'>v</button><button onclick='memofontzoomout(event)'>-</button><button onclick='memofontzoom(event)'>+</button></div><textarea data-fontsizer='1.5' style='font-size:1.5em;'></textarea></div>")
 }
@@ -2428,6 +2427,18 @@ function datamemoreload(){
     if (document.getElementById("datamemoselpul").children.length > 1){
         document.getElementById("datamemoselpul").children[1].selected = true
         document.getElementById("datamemo").value = all_data[n]["memo"][Object.keys(mexsets[n])[0]]
+    }
+    let str = ""
+    let array = Object.keys(mexsets[n]).map((k) => ({ key: k, value: mexsets[n][k] }));
+    array.sort((a, b) => b.value - a.value);
+    array.forEach(v=>{
+        str += `<option value="${escapeHtml(v.key)}">`
+    })
+    let dls = document.getElementById("datalists")
+    if (document.getElementById((all_data[n]["dataset_datalist?"]?"":"n")+`list_${n}`) == null){
+        dls.insertAdjacentHTML("beforeend",`<datalist id="${(all_data[n]["dataset_datalist?"]?"":"n")}list_${n}">${str}</datalist>`)
+    }else{
+        document.getElementById(`${(all_data[n]["dataset_datalist?"] ? "" : "n")}list_${n}`).innerHTML = str
     }
 }
 function datamemochange(){
@@ -2976,9 +2987,10 @@ function inputinserter(s,e){
 }
 
 document.addEventListener("focusin",e => {
-    if (!window.matchMedia("screen and (max-width:500px)").matches) { return false }
-    if (e.target.classList.contains("|text") || e.target.classList.contains("$text")){
-        document.getElementById("inputpanel_message").style.display = "flex"
+    if (window.matchMedia("screen and (max-width:500px)").matches) {
+        if (e.target.classList.contains("|text") || e.target.classList.contains("$text")){
+            document.getElementById("inputpanel_message").style.display = "flex"
+        }
     }
 })
 document.addEventListener("focusout",e => {
