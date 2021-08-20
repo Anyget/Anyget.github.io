@@ -1460,6 +1460,16 @@ function load(n){
     lockreload()
     template_valuereload()
     template_scrollreload()
+    Array.from(document.getElementsByClassName("asetycer")).forEach(el=>{
+        let me = settings_now
+        let ar = el.dataset.tarid.split("_")
+        ar.splice(0,1)
+        ar.forEach(k=>{
+            me = me[k]
+        })
+        el.value = me
+
+    })
 }
 function subs() {
     let sel = document.getElementById("subssel");
