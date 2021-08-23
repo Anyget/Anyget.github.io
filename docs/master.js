@@ -2567,16 +2567,17 @@ function labelerclick(e){
 
 }
 document.addEventListener("contextmenu",e=>{
-    e.preventDefault()
     Array.from(document.getElementsByClassName("contextmenu")).forEach(cm => {
         cm.style.display = "none"
     })
     if (e.target.matches(".checked_md div,.checked_md")){
+        e.preventDefault()
         const cm = document.getElementById("messagediv_contextmenu")
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
         cm.style.display = "flex"
     } else if (e.target.id == "messages" || e.target.matches(".messagediv div,.messagediv")){
+        e.preventDefault()
         const cm = document.getElementById("messages_contextmenu")
         cm.style.left = String(e.clientX) + "px"
         cm.style.top = String(e.clientY) + "px"
