@@ -2757,6 +2757,11 @@ document.addEventListener("keydown",e=>{
             }
         }
     }
+    if ((e.ctrlKey || e.metaKey) && e.code == "Enter"){
+        if (e.target.parentNode.parentNode.id == "form_inp"){
+            addmess()
+        }
+    }
 })
 function searcherpress(e){
     if (e.code == "Enter") {
