@@ -2589,6 +2589,11 @@ document.addEventListener("click",e=>{
         cm.style.display = "none"
     })
 })
+document.addEventListener("focusin",e=>{
+    Array.from(document.getElementsByClassName("contextmenu")).forEach(cm=>{
+        cm.style.display = "none"
+    })
+})
 function checkedtosavedata(){
     Object.keys(lists).forEach(k => {
         let sl = lists[k]["style_list"]
