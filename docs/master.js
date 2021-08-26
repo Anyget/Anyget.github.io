@@ -151,7 +151,16 @@ const settings = {
                                 f:passer
                             }
                         }
+                    },
+                    "autoclear":{
+                        name:"投稿時クリア",
+                        type:"checkbox",
+                        info:"",
+                        init:false,
+                        label:"投稿追加時に複数行変数をクリア",
+                        f:passer
                     }
+
                 }
             }
         }
@@ -728,6 +737,17 @@ function addmess() {
     }
     let obj = document.getElementById("messages");
     obj.scrollTop = obj.scrollHeight;
+    if (settings_now["editor"]["interface"]["autoclear"]){
+        templates[now_temp]["conf_data"].forEach(d=>{
+            if (d.startsWith("blocker_")){
+                inputing[d] = ""
+                Array.from(document.getElementById("form_inp").getElementsByClassName(d)).forEach(el=>{
+                    el.value = ""
+                })
+            }
+        })
+        formlabelreload()
+    }
 };
 
 function datapulchange(e) {
