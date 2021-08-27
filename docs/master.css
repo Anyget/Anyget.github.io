@@ -935,6 +935,11 @@ button:active{
     background-color: var(--color_5);
     color: var(--color_3);
 }
+#startmenu_loadmenu *{
+    color: var(--color_3) !important;
+    text-decoration: none;
+}
+
 #startmenu{
     display: grid;
     grid-template-rows:30% 70%;
