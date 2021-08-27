@@ -1,6 +1,6 @@
 
 
-**Anygetの関連ドキュメントは[こちら](https://qwegat.github.io/Anyget_Help/)に移行しました**
+**Anygetの関連ドキュメントは[こちら](https://anyget/.github.io/Help/)に移行しました**
 
 ***この文書の記述は一部最新版に準じない可能性があります***
 # &gt;&gt;Anyget（仮） ReadMe  
