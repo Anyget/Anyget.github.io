@@ -469,7 +469,9 @@ function resizen() {
     if (window.matchMedia("screen and (max-width:500px)").matches){
         cmoving()
     }else{
-        document.getElementById("box2").style.marginLeft = "0px";
+        ["box2", "box3", "box4"].forEach(b => {
+            document.getElementById(b).style.marginLeft = "0px"
+        })
     }
     for (let i of document.getElementsByClassName("functionselect")) {
         fitselector(i)
@@ -480,9 +482,9 @@ function resizen() {
 function cmoving(){
     if (!window.matchMedia("screen and (max-width:500px)").matches){return false}
     if (settings_now["editor"]["interface"]["cmoverreverse"]){
-        document.getElementById("box2").style.marginLeft = ((window.innerWidth * (Number(document.getElementById("cmover").value)-200) / 100) + "px")
+        document.getElementById(["box2","box3","box4"][boxes_sort[0]]).style.marginLeft = ((window.innerWidth * (Number(document.getElementById("cmover").value)-200) / 100) + "px")
     }else{
-        document.getElementById("box2").style.marginLeft = ((0 - window.innerWidth * Number(document.getElementById("cmover").value) / 100) + "px")
+        document.getElementById(["box2","box3","box4"][boxes_sort[0]]).style.marginLeft = ((0 - window.innerWidth * Number(document.getElementById("cmover").value) / 100) + "px")
     }
 }
 function escapeHtml(str) {
@@ -2068,6 +2070,10 @@ function sortboxes(){
     boxes_sort.forEach(i=>{
         document.getElementById("box").children[i*2].style.order = c
         c+=2
+    });
+    ["box2","box3","box4"].forEach(b=>{
+        console.log(document.getElementById(b))
+        document.getElementById(b).style.marginLeft = "0px"
     })
 }
 function subfunctionchange(e) {
