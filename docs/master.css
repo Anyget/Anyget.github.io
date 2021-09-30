@@ -141,7 +141,7 @@ h1,h2{
 #messages{
     background-color: var(--messages_color);
     height: 70%;
-    overflow:auto;
+    overflow-y:scroll;
     pointer-events: auto;
     padding-bottom: 2em;
 }
