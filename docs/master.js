@@ -2072,7 +2072,6 @@ function sortboxes(){
         c+=2
     });
     ["box2","box3","box4"].forEach(b=>{
-        console.log(document.getElementById(b))
         document.getElementById(b).style.marginLeft = "0px"
     })
 }
