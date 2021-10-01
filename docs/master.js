@@ -463,7 +463,7 @@ function resizen() {
     })
     Array.from(document.getElementById("box4").children).forEach(i => {
         if (!i.classList.contains("resizer")){
-            i.style.height = Number(i.style.height.replace("px","")) + (snh - boxr2.height)/2 + "px"
+            i.style.height = Number(i.style.height.replace("px","")) + (snh - boxr2.height - 2)/2 + "px"
         }
     })
     if (window.matchMedia("screen and (max-width:500px)").matches){
