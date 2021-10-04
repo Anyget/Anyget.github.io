@@ -734,6 +734,7 @@ function addmess() {
             Array.from(document.getElementById("form_inp").getElementsByClassName(k)).forEach(i=>{
                 i.value = inputing[k]
             })
+            formlabelreload()
         });
         labelreload("messages",lists["messages"]["deal_list"].length-1)
     }
@@ -2684,6 +2685,39 @@ function contextcommand_flatpaste(){
     let t = localStorage.getItem("Anyget_clipboard_data")
     if (t != null){
         additionalloader(t)
+    }
+}
+function contextcommand_checkedreply(){
+    let out = []
+    Array.from(document.getElementsByClassName("checked_md")).forEach(cm => {
+        let n = nbym(cm)
+        let t = lists[cm.parentNode.id]["deal_sets"][n]["use_temp"]
+        let f = false
+        let tc = ""
+        templates[t]["conf_data"].forEach(cd=>{
+            if (cd.startsWith("liner_") && all_data[cd]["dataset_anchor"] != "" && !f){
+                f = true
+                tc = cd
+            }
+        })
+        if (f){
+            out.push(all_data[tc]["dataset_anchor"] + lists[cm.parentNode.id]["deal_list"][n][tc])
+        }
+    })
+    let f = false
+    let tc = ""
+    templates[now_temp]["conf_data"].forEach(cd => {
+        if (cd.startsWith("blocker_") && !f) {
+            f = true
+            tc = cd
+        }
+    })
+    if (f){
+        inputing[tc] += out.join(" ")
+        Array.from(document.getElementById("form_inp").getElementsByClassName(tc)).forEach(i => {
+            i.value = inputing[tc]
+        })
+        formlabelreload()
     }
 }
 function asetyc(e){
